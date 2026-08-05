@@ -1,0 +1,159 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+include '../include/config.php';
+
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysql_query($query_setup);   //run the query.
+$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysql_fetch_array($rs_setup);
+//----------------------------------------------------
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $data_setup["title_desc"]; ?></title>
+ 
+</head>
+
+<body>
+
+<?php
+
+//if(isset($_POST['download'])) 
+//{ // handle the form.
+date_default_timezone_set('Asia/Kuala_Lumpur');
+$date_tdy = date('d-m-Y H:i:s');
+set_time_limit(0);
+
+$dateF = $_GET["date1"];
+$dateT = $_GET["date2"];
+
+$namaFile = "Backflush Report.xls";
+
+//-------Count all results------------------------//
+
+//********* CONDITION *************
+
+// 1. dateF
+if ($dateF == "0000-00-00" ){
+	$wheresql_01 = ""; }
+else {
+	$wheresql_01 = " AND posting_date >= '$dateF'"; }      
+								
+// 2. dateT
+if ($dateT == "0000-00-00" ){
+	$wheresql_02 = ""; }
+else {
+	$wheresql_02 = " AND posting_date <= '$dateT' "; }          
+				
+
+$where_sql =  $wheresql_01 .$wheresql_02 ;
+
+//********** END CONDITION **************
+
+ 
+//------------------------------------count-------------------\\
+
+$query8 = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_bflush_detail WHERE status_ftp = 'Y' " .$where_sql;
+$result8 = mysql_query($query8) or die(mysql_error());
+$num_rows = mysql_num_rows($result8);
+
+
+//---------------------------end count
+
+//header("Content-type: application/octet-stream"); 
+header('Content-type: application/excel');                                  
+header('Content-Disposition: attachment; filename='.$namaFile.'');
+header('Content-Type: image/jpeg');
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$content = "";
+$data = "";	
+
+//Create report header 
+
+$content .= "<p><font size='12px'><strong>".$data_setup["title_desc"] . "</strong></font></p>";
+$content .= "<font size='12px'><strong>BACKFLUSH REPORT</strong></font> ";
+$content .= "<br>";
+$content .= "<font size='12px'><strong>FROM : ".date('d-m-Y',strtotime($dateF))." </strong></font>&nbsp;&nbsp;&nbsp; ";
+$content .= "<font size='12px'><strong>TO : ".date('d-m-Y',strtotime($dateT))."</strong></font> ";
+$content .= "<br>";
+$content .= "<br>";
+$content .= "Date : " .$date_tdy."&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ";
+$content .= "Record Count : ".$num_rows;
+$content .= "<br>";
+
+echo $content;
+echo '<br>';
+echo "<br>";  
+ //-------Count all results------------------------//
+	
+echo '<table border="1" width="100%">';
+echo '<tr height="35">';
+echo '<th width="5" bgcolor="#E9F58D">FILENAME</th>';
+echo '<th width="5" bgcolor="#E9F58D">BACKFLUSH NO.</th>';
+echo '<th width="10" bgcolor="#E9F58D">PLAN NO.</th>';
+echo '<th width="5" bgcolor="#E9F58D">MATERIAL NO.</th>';
+echo '<th width="5" bgcolor="#E9F58D">MATERIAL DESCRIPTION</th>';
+echo '<th width="5" bgcolor="#E9F58D">QUANTITY</th>';
+echo '<th width="5" bgcolor="#E9F58D">UOM</th>';
+echo '<th width="5" bgcolor="#E9F58D">POSTING DATE</th>';
+echo '<th width="5" bgcolor="#E9F58D">POSTING TIME</th>'; 
+echo '</tr>';
+echo '</table>';
+
+ 
+//Display table
+// query menampilkan semua data
+$query = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_bflush_detail WHERE status_ftp = 'Y' " .$where_sql;
+$rs = mysql_query($query);   //run the query.
+
+//count how many data
+$counter = 1;
+$no = 1;
+$i = 1;
+  
+
+while ($row2 = mysql_fetch_array($rs))
+{
+
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
+	$result_u = mysql_query($query_u);   //run the query.
+	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+
+
+	//Display data
+	echo '<table border="1" width="100%">';
+	echo '<tr height="35">';
+	echo '<td>'. $row2["file_name"].'</td>';
+	echo '<td>'. $row2["bflush_no"].'</td>';
+	echo '<td>&nbsp;'. $row2["plan_no"].'</td>';
+	echo '<td>'. $row2["material_no"].'</td>';
+	echo '<td>'. strtoupper($row2["material_desc"]).'</td>';
+	echo '<td align="center">'. $row2["qty_ftp"].'</td>';
+	echo '<td align="center">'. $row2["uom"].'</td>';
+	echo '<td align="center">'. $row2["R2"].'</td>';
+	echo '<td align="center">'. $row2["posting_time"].'</td>';
+	
+	echo '</tr>';
+    echo '</table>';  
+	
+	$no ++;
+    $counter++; 
+		
+}  // end while loop
+ mysql_free_result($rs); 
+?>
+
+<?php
+
+echo iconv('utf-8', 'cp1251', "$data"); 
+?>
+</body>
+</html>
+
+

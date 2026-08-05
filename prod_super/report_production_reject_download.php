@@ -1,0 +1,201 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+include '../include/config.php';
+
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysql_query($query_setup);   //run the query.
+$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysql_fetch_array($rs_setup);
+//----------------------------------------------------
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $data_setup["title_desc"]; ?></title>
+ 
+</head>
+
+<body>
+
+<?php
+
+//if(isset($_POST['download'])) 
+//{ // handle the form.
+date_default_timezone_set('Asia/Kuala_Lumpur');
+$date_tdy = date('d-m-Y H:i:s');
+set_time_limit(0);
+
+$namaFile = "Production Reject Report.xls";
+
+              //-------Count all results------------------------//
+            $dateF = $_GET["date1"];
+			$dateT = $_GET["date2"];
+           	$factory = $_GET["factory"];
+			$work_center = $_GET["work_center"];
+			
+			 //convert 
+			
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$result_convert = mysql_query($query_convert); 
+			$row_convert = mysql_fetch_array($result_convert);
+			
+		  
+		
+			//-------Count all results------------------------//
+			
+				 $where_sql = '';
+		 
+		 // 1. DateF
+                if($dateF == "0000-00-00") {
+                     $wheresql_01 = ""; }
+                else {
+                     $wheresql_01 = " AND (MR.date_posting >= '$dateF% 00:00:00' )"; }
+					  
+		 // 2. DateT
+				if($dateT == "0000-00-00") {
+					 $wheresql_02 = ""; }
+				else {
+		 			 $wheresql_02 = " AND (MR.date_posting <= '$dateT 00:00:00' )"; }
+							 
+		 //3. Factory 
+                if ($factory == "NULL"){ 
+                    $wheresql_03 = ""; }
+                else {
+                    $wheresql_03 = " AND SR.id_factory = '".$row_convert["id_factory"]."'"; } 
+					
+          //4. Work Center
+                if ($work_center == "NULL" ){
+                    $wheresql_04 = ""; }
+                else {
+					$wheresql_04 = " AND MR.work_center = '$work_center'"; }
+   
+				
+					$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04;	
+	
+	//********** END CONDITION **************
+
+
+  $query8 = "SELECT COUNT(*) FROM reject_detail_disposal AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_part = 'PR' AND MR.qty_NG != '' AND MR.doc_disposal_no != '' ".$where_sql;
+   $result8 = mysql_query($query8) or die(mysql_error());
+   $num_rows = mysql_fetch_row($result8);
+
+
+//---------------------------end count
+
+//header("Content-type: application/octet-stream"); 
+header('Content-type: application/excel');                                  
+header('Content-Disposition: attachment; filename='.$namaFile.'');
+header('Content-Type: image/jpeg');
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$content = "";
+$data = "";	
+
+//Create report header 
+
+$content .= "<p><font size='12px'><strong>".$data_setup["title_desc"] . "</strong></font></p>";
+$content .= "<font size='12px'><strong>PRODUCTION REJECT REPORT</strong></font> ";
+$content .= "<br>";
+$content .= "Date : " .$date_tdy."&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ";
+$content .= "Record Count : ".$num_rows[0];
+$content .= "<br>";
+
+echo $content;
+echo "<br>";
+echo "<br>";  
+
+ //-------Count all results------------------------//
+	
+echo '<table border="1" width="100%">';
+echo '<tr height="35">';
+echo '<th width="5" bgcolor="#E9F58D">NO.</th>';
+echo '<th width="5" bgcolor="#E9F58D">MODEL</th>';
+echo '<th width="5" bgcolor="#E9F58D">DISPOSAL DOC. NO.</th>'; 
+echo '<th width="10" bgcolor="#E9F58D">DOCUMENT NO.</th>';
+echo '<th width="5" bgcolor="#E9F58D">PLANNED ORDER NO.</th>';
+echo '<th width="5" bgcolor="#E9F58D">PART NO.</th>';
+echo '<th width="5" bgcolor="#E9F58D">PART DESCRIPTION</th>';
+echo '<th width="5" bgcolor="#E9F58D">POSTING DATE</th>';
+echo '<th width="5" bgcolor="#E9F58D">QUANTITY</th>';
+echo '<th width="5" bgcolor="#E9F58D">UOM</th>';
+echo '<th width="5" bgcolor="#E9F58D">FROM LOCATION</th>';
+echo '<th width="5" bgcolor="#E9F58D">WORK CENTER</th>'; 
+echo '<th width="5" bgcolor="#E9F58D">TYPE OF REJECT</th>';
+echo '<th width="5" bgcolor="#E9F58D">REASON</th>';
+echo '<th width="5" bgcolor="#E9F58D">REMARKS</th>';
+echo '<th width="5" bgcolor="#E9F58D">REJECT BY</th>'; 
+echo '<th width="5" bgcolor="#E9F58D">REJECT DATE</th>'; 
+echo '</tr>';
+echo '</table>';
+ 
+//Display table
+// query menampilkan semua data
+  
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_reject,'%d-%m-%Y %H:%i:%s') as R3 FROM reject_detail_disposal AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_part = 'PR' AND MR.qty_NG != '' AND MR.doc_disposal_no != ''".$where_sql." ORDER BY MR.plan_no ASC";
+$rs = mysql_query($query);   //run the query.
+//$num = mysql_num_rows($rs);   //how many material are there?
+
+//count how many data
+$counter = 1;
+$no = 1;
+$i = 1;
+  
+
+while ($row2 = mysql_fetch_array($rs))
+{
+
+	$query_u = "SELECT * FROM user_detail WHERE username = '".$row2["user_reject"]."'";
+	$result_u = mysql_query($query_u);   //run the query.
+	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	
+		$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row2['type_reject']."' ORDER BY id_type ASC";
+    $result_type = mysql_query($query_type);
+    $row_type = mysql_fetch_array($result_type); 
+	
+	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row2['reason_reject']."' ORDER BY id_reject ASC";
+    $result_reason = mysql_query($query_reason);
+    $row_reason = mysql_fetch_array($result_reason);
+	
+
+	//Display data
+	echo '<table border="1" width="100%">';
+	echo '<tr height="35">';
+    echo '<td>'. $no.'</td>';
+	echo '<td width="80">'. $row2["model_code"].'</td>';
+	echo '<td>&nbsp;'. $row2["doc_disposal_no"].'</td>';
+	echo '<td>&nbsp;'. $row2["bflush_qqc_no"].'</td>';
+	echo '<td>&nbsp;'. $row2["plan_no"].'</td>';
+	echo '<td>'. $row2["material_no"].'</td>';
+	echo '<td>'. strtoupper($row2["material_desc"]).'</td>';
+	echo '<td>'. $row2["R2"].'</td>';
+	echo '<td align="center">'. intval($row2["qty_NG"]).'</td>';
+	echo '<td align="center">'. $row2["UOM_unit"].'</td>';
+	echo '<td width="60">'. $row2["ploc_prod_reject"]. '</td>';
+    echo '<td width="60">'. $row2["work_center"]. '</td>'; 
+	echo '<td width="80">'. $row_type["type_desc"].'</td>';
+    echo '<td width="80">'. $row_reason["reject_desc"].'</td>';
+    echo '<td width="140">'. $row2["remarks"].'</td>';
+	 echo '<td width="140">'. $data_u["user_fullname"].'</td>';
+	  echo '<td width="140">'. $row2["R3"].'</td>';
+	echo '</tr>';
+    echo '</table>';  
+	
+	$no ++;
+    $counter++; 
+		
+}  // end while loop
+ mysql_free_result($rs); 
+?>
+
+<?php
+
+echo iconv('utf-8', 'cp1251', "$data"); 
+?>
+</body>
+</html>
+
+

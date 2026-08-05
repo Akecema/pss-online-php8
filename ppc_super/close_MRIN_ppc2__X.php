@@ -1,0 +1,743 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+include '../include/config.php';
+include_once ('../classes/paginator.class2.php');
+require_once("../calendar/classes/tc_calendar.php");
+
+//$Cdate = date ("l, j F Y ");
+date_default_timezone_set('Asia/Bangkok');
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+
+ /* $today = getdate();
+  $hours = $today['hours']; 
+  $minutes = $today['minutes'];
+  $seconds = $today['seconds'];
+  $month = $today['mon']; 
+  $mday = $today['mday']; 
+  $year = $today['year'];   */
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Ingress Autoventures Co., Ltd.</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="../scripts/pagination3.css" type="text/css" />
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>	
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>
+	
+<style type="text/css">
+<!--
+.style3 {color: #000000}
+-->
+</style>
+</head>
+<?php
+
+function encode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_encode($ss);
+    }
+return $ss;
+}
+
+
+function decode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_decode($ss);
+    }
+return $ss;
+}
+
+
+//- First page:
+$url = 'material_request_listProc.php';
+$url2 = 'display_request.php';
+$url3 = 'posting_request.php';
+
+
+$warnaGenap = "#F4FBCA";   // warna blue grey
+$warnaGanjil = "#f8f8f8";  // warna putih
+
+?>
+<script type="text/javascript">
+//SYNTAX: ddtabmenu.definemenu("tab_menu_id", integer OR "auto")
+ddtabmenu.definemenu("ddtabs1", 0) //initialize Tab Menu #1 with 1st tab selected
+ddtabmenu.definemenu("ddtabs2", 1) //initialize Tab Menu #2 with 2nd tab selected
+ddtabmenu.definemenu("ddtabs3", 1) //initialize Tab Menu #3 with 2nd tab selected
+ddtabmenu.definemenu("ddtabs4", 2) //initialize Tab Menu #4 with 3rd tab selected
+ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs selected (-1)
+</script>
+<script type="text/javascript">
+function printPage(iFid){
+iFid.focus();
+iFid.print();
+}
+</script>
+<style>
+#iframe1{
+visibility:hidden;
+}
+</style>
+
+<body>
+<!-- Header -->
+<!-- End Header -->
+<!-- Container -->
+<div id="container">
+   <div class="small-nav">Material Request Maintenance<span>&nbsp;</span>Initial Screen</div>
+<div class="shell">
+  <!-- Small Nav --> 
+  
+    <!-- End Small Nav -->
+   
+<!-- Message OK --><!-- End Message OK -->
+    <!-- Message Error -->
+    <!-- End Message Error -->
+    <br />
+    <!-- Main -->
+    <div id="main">
+      <table width="750">
+        <tr>
+          <td width="2%" height="45"></td>
+          <td width="98%"><table width="800">
+              <tr>
+                <td width="2%" height="45"></td>
+                <td width="98%"><form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="frmSearch" id="frmSearch">
+                    <table width="880" style="border:solid 1px #d5d5d5;">
+                      <tr>
+                        <th height="25"><div align="right">Posting Date From :</div></th>
+                        <td height="25"><?php
+   
+	//instantiate class and set properties
+	
+	            $dd1 = substr($_GET["date1"],8,2);
+				$mm1 = substr($_GET["date1"],5,2);
+				$yy1 = substr($_GET["date1"],0,4);
+	
+	
+                    $myCalendar = new tc_calendar("date1", true);
+					  $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					  $myCalendar->setDate($dd1, $mm1, $yy1);
+					 $myCalendar->setPath("/calendar/");
+					  $myCalendar->setYearInterval(2001, 2030);
+					  //$myCalendar->dateAllow('2010-01-01', '2015-03-01');
+					  //$myCalendar->setHeight(350);
+					  //$myCalendar->autoSubmit(true, "form1");
+					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-13", "2011-04-25"), 0, 'month');
+					  // $myCalendar->setOnChange("myChanged('test')");
+					  //$myCalendar->disabledDay("Sat");
+					 // $myCalendar->disabledDay("sun");
+					  //$myCalendar->rtl = true;
+					  $myCalendar->writeScript();
+
+?></td>
+                        <th height="25"><div align="right">Posting Date To :</div></th>
+                        <td height="25" colspan="2"><?php
+    
+	//instantiate class and set properties
+	
+	
+	            $dd2 = substr($_GET['date2'],8,2);
+				$mm2 = substr($_GET['date2'],5,2);
+				$yy2 = substr($_GET['date2'],0,4);
+				
+                    $myCalendar = new tc_calendar("date2", true);
+					  $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					  $myCalendar->setDate($dd2, $mm2, $yy2);
+					 $myCalendar->setPath("/calendar/");
+					  $myCalendar->setYearInterval(2001, 2030);
+					  //$myCalendar->dateAllow('2010-01-01', '2015-03-01');
+					  //$myCalendar->setHeight(350);
+					  //$myCalendar->autoSubmit(true, "form1");
+					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-13", "2011-04-25"), 0, 'month');
+					  // $myCalendar->setOnChange("myChanged('test')");
+					  //$myCalendar->disabledDay("Sat");
+					 // $myCalendar->disabledDay("sun");
+					  //$myCalendar->rtl = true;
+					  $myCalendar->writeScript();
+?></td>
+                      </tr>
+                      <tr>
+                        <th width="132" height="25"><div align="right">MRIN No : </div></th>
+                        <td width="286" height="25"><input name="temp_mrin" type="text" id="temp_mrin" size="25" style="background:#FFFF97" value="<?php echo $_GET["temp_mrin"]; ?>"/>
+                            <img src="../images/search.png" width="20" height="20" /></td>
+                        <th width="124" height="25"><div align="right">Production Order :</div></th>
+                        <td height="25" colspan="2"><input name="prod_order" type="text" id="prod_order" size="25" style="background:#FFFF97" value="<?php echo $_GET["prod_order"]; ?>" />
+                            <img src="../images/search.png" width="20" height="20" /></td>
+                      </tr>
+                      <tr>
+                        <th height="25"><div align="right">Factory :</div></th>
+                        <td height="25"><select name="factory" id="factory">
+                            <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
+                            <?php
+	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
+                   $result3 = mysql_query($query3);
+  
+                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+			      {
+				  
+				  
+				  ?>
+                            <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                            <?php
+                  }
+				?>
+                        </select></td>
+                        <th height="25"><div align="right">Work Center :</div></th>
+                        <td height="25" colspan="2"><select name="work_center" id="work_center">
+                            <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
+                            <?php
+	       $query5 = "SELECT * FROM work_center_detail ORDER BY id_work ASC";
+                   $result5 = mysql_query($query5);
+  
+                   while($row5=mysql_fetch_array($result5)) 
+				    { 
+				   
+				   ?>
+                            <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"]; ?></option>
+                            <?php
+                  }
+				?>
+                        </select></td>
+                      </tr>
+                      <tr>
+                        <th height="25">&nbsp;</th>
+                        <th height="25">&nbsp;</th>
+                        <th height="25">&nbsp;</th>
+                        <th width="197" height="25">&nbsp;</th>
+                        <th width="117"><input name="Submit" type="submit" class="button" id="button" value="SEARCH" /></th>
+                      </tr>
+                      <tr>
+                        <th height="41" colspan="5">&nbsp;</th>
+                      </tr>
+                    </table>
+                </form></td>
+              </tr>
+          </table></td>
+        </tr>
+      </table>
+      <p>
+     
+        <!-- Content -->
+      </p>
+      <p>&nbsp; </p>
+      <div id="content">
+        <!-- Box -->
+        <div class="box">
+          <!-- Box Head -->
+          <div class="box-head">
+            <h2 class="left">Material Request Maintenance</h2>
+            <div class="right">
+              <label></label>
+            </div>
+          </div>
+          <!-- End Box Head -->
+    <?php
+
+            $temp_mrin = $_GET["temp_mrin"];
+			$prod_order = $_GET["prod_order"];
+            $dateF = $_GET["date1"];
+            $dateT = $_GET["date2"];
+			$work_center = $_GET["work_center"];
+			$factory = $_GET["factory"];
+			
+				//convert material no kpd id_hdr
+			
+			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
+			$result_convert = mysql_query($query_convert); 
+			
+			while ($row_convert = mysql_fetch_array($result_convert))
+			{
+			
+			echo $row_convert["id_fac"];
+			
+			}
+			
+//-------Count all results------------------------//
+	
+	//30. all 
+	$where_sql = '';
+	
+					
+	//********* CONDITION *************
+	
+	
+	// 1. Date T
+	if($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting <= '$dateT')"; 	
+	}	
+	// 2. Date F
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting >= '$dateF')";
+	}
+	//3. temp_mrin 
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin'";
+	}	
+	//4. work center
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.work_center = '$work_center'";
+	}	
+	// 5. prod order
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order'";
+	}
+	// 6. factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.factory = '$factory'";
+	}
+	// 7. prod_order &&  factory
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.factory = '$factory'";
+	}
+	// 8. work_center && factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 9. date to && factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting <= '$dateT') AND SD.factory = '$factory'";
+	}
+	// 10. temp_mrin && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND SD.factory = '$factory'";
+	}
+	// 11. temp_mrin && dateF && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.factory = '$factory'";
+	}
+	// 12.  temp_mrin && work_center && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 13. date to && work_center && factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 14. temp_mrin && date to && factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.factory = '$factory'";
+	}
+	// 15. dateF && dateT && factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting between '$dateF' and '$dateT') AND SD.factory = '$factory'";
+	}
+	// 16. prod_order && work_center && factory
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 17. prod_order && temp_mrin && factory
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND SD.factory = '$factory'";
+	}
+	// 18. prod_order && temp_mrin && date to && factory
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.factory = '$factory'";
+	}
+	// 19. prod_order && temp_mrin && dateF && factory
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.factory = '$factory'";
+	}
+	// 20. temp_mrin && dateF && dateT && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.factory = '$factory'";
+	}
+	// 21. temp_mrin && dateT && work_center && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 22. prod_order && dateT && work_center && factory
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 23. temp_mrin && dateF && work_center && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 24 dateF && dateT && work_center && factory
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 25. prod_order && temp_mrin && work_center && factory
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 26. temp_mrin && dateF && dateT && work_center && factory
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	// 27. prod_order && temp_mrin && dateF && dateT && factory
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.factory = '$factory'";
+	}
+	// 28. prod_order  && dateF && dateT && work_center && factory
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+	//29. work_center & date F & date to
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{	
+		$where_sql .= "AND SD.work_center = '$work_center' AND (MR.date_posting between '$dateF' and '$dateT')";
+	}	
+	
+	//30. temp_mrin  & date F & date to
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{	
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT')";
+	}
+	//31. temp_mrin  & date F & date to & work_center
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{	
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center'";
+	}
+	//32. Date F & Date T	
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting between '$dateF' and '$dateT')";
+	}
+	//33. temp_mrin  & date T
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{	
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT')";
+	}
+	
+	//34. temp_mrin  & date F
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{	
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF')";
+	}
+		
+	//35.prod_order  && temp_mrin  
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin'";
+	}	
+	//36. prod_order & date F & date T
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting between '$dateF' and '$dateT')";
+	}
+	//37. prod_order & date T
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting <= '$dateT')";
+	}
+	//38. prod_order & date F
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting >= '$dateF')";
+	}
+	
+	//39. date T & work_center
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center'";
+	}
+	//40. prod_order  & date to & work_center
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center'";
+	}
+	//41. prod_order  & work_center
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.work_center = '$work_center'";
+	}
+	//42. prod_order  & temp_mrin  & work_center
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center'";
+	}
+	//43. temp_mrin  & date T & work_center
+	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center'";
+	}
+	//44. prod_order & temp_mrin  & date T
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT')";
+	}
+	//45. prod_order & temp_mrin  & date F
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF')";
+	}
+	//46. prod order & work center & date F
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.work_center = '$work_center' AND (MR.date_posting >= '$dateF')";
+	}
+	//47. prod_order & date F & date T & work_center
+	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center'";
+	}
+	//48. prod_order  & temp_mrin  & date F & work_center
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.work_center = '$work_center'";
+	}
+	//49. prod_order & temp_mrin  & date F & date T
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT')";
+	}
+	
+	//50. prod_order  & temp_mrin  & date F & date T & work_center
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center'";
+	}
+	
+	//51. prod_order  & temp_mrin & date F & date T & work_center & factory
+	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
+	{
+		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+	}
+		
+	//52. x select apa2
+	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
+	{
+		$where_sql .= "";
+	}
+	
+	
+	//********** END CONDITION **************
+ 
+
+								 
+    $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')".$where_sql."GROUP BY MR.temp_mrin";
+	   $result8 = mysql_query($query8) or trigger_error("SQL", E_USER_ERROR);
+     //$num_8 = mysql_fetch_row($result8);
+     $num_rows = mysql_num_rows($result8);
+
+   $pages = new Paginator;
+   $pages->items_total = $num_rows;
+   $pages->mid_range = 5; // Number of pages to display. Must be odd and > 3
+   $pages->paginate(); 
+   
+$query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')".$where_sql."GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC, MR.temp_mrin ASC $pages->limit";
+$rs = mysql_query($query);   //run the query.
+//$num = mysql_num_rows($rs);   //how many material are there?
+
+	echo '<br>';
+	echo '<br>';
+	
+	 	if($num_rows > 0) {
+		
+	 echo '<div align="center">There are currently  '. $num_rows.' record(s).</div>';
+
+?>
+
+<table width="92%">
+<tr>
+            <td width="48%" height="15">&nbsp;</td>
+        <td width="51%"><div align="right"><?php echo "<span class=\"\">".$pages->display_jump_menu().$pages->display_items_per_page()."</span>" ;?></div>              </td>
+        <td width="1%">&nbsp;</td>
+          </tr>
+</table>  
+<br>
+          <!-- Table 
+          <div class="table">-->
+           
+<br />
+   
+       
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:solid 1px #d5d5d5;">
+              <tr>
+                <th width="143" height="28" bgcolor="#E9F58D"><span class="style3">MRIN No.</span></th>
+                <th width="50" height="28" bgcolor="#E9F58D"><span class="style3">Factory</span></th>
+                <th width="50" height="28" bgcolor="#E9F58D"><span class="style3">Line</span></th>
+                <th width="120" height="28" bgcolor="#E9F58D"><span class="style3">Request Date</span></th>
+                <th height="28" bgcolor="#E9F58D" class="ac style3"><div align="left">Request Time</div></th>
+                <th width="120" bgcolor="#E9F58D" class="ac style3"><div align="left">Requestor</div></th>
+                <th width="50" bgcolor="#E9F58D" class="ac style3">Close</th>
+                <th width="50" bgcolor="#E9F58D" class="ac style3">View</th>
+                <th width="50" bgcolor="#E9F58D" class="ac style3">Print</th>
+          </tr>
+          </table>
+    <?php
+	  
+   $counter = 1;
+   $no = 1;
+ 
+   
+   while ($row2 = mysql_fetch_array($rs))
+   {
+
+		//if($row_req["total"] !=  $row_tp["total2"])
+		
+		//{
+
+		
+		if ($counter % 2 == 0)
+		{ $warna = $warnaGenap;}
+		else { $warna = $warnaGanjil; }	
+   
+   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
+   	$result_scan = mysql_query($query_scan);
+   	$row_scan = mysql_fetch_array($result_scan);
+	
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
+    $rs_again = mysql_query($query_again);   //run the query.
+    $row = mysql_fetch_array($rs_again);
+	
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$result_u = mysql_query($query_u);   //run the query.
+	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+    $result3 = mysql_query($query3);
+	$row3 = mysql_fetch_array($result3);
+	
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
+  	$result4_p = mysql_query($query4_p);
+ 	$row4_p = mysql_fetch_array($result4_p); 
+  
+ 
+		  ?>        
+          <table width="100%" border="0" cellpadding="0" cellspacing="0"  style="border:solid 1px #d5d5d5;">
+  <tr>
+    <td width="143">&nbsp;<?php echo $row2["temp_mrin"]; ?><?php if($row2["status_urgent"] == "Y") 
+	{
+	?>
+	<img src="../images/icon-urgent.gif" title="URGENT" />
+	<?php
+     }  ?></td>
+    <td width="50"><?php echo $row_scan["factory"]; ?></td>
+     <td width="50" height="28"><?php echo $row_scan["work_center"]; ?></td>
+              <td width="120"><div align="center"><?php echo $row2["R"]; ?></div></td>
+              <td><div align="center"><?php echo $row2["time_mrin"]; ?></div></td>
+              <td width="120"><?php echo $data_u["user_fullname"]; ?></td>
+              <td width="50"><a value="Details" href="close_MRIN_manual.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=1000" class="thickbox" target="_self"><img src="../images/exclamation.png" width="16" height="16" alt="View" />Close</a></td>
+         
+            <td width="50"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../images/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+                <td width="50"><a href="detail_material_request_printing.php?mrin_no=<?php echo $row["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../images/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+  </tr>
+</table>    
+  <?php 
+		 
+		 $no ++;
+		  
+		  $counter++; // menambah counter 
+		   
+		   //}// end if
+		
+		    
+		  } ?>
+<p>&nbsp;</p>
+  </center>
+ 
+  <?php
+  mysql_free_result($rs); 
+  ?>
+ <table width="700" height="25" border="0" align="center" >
+<tr>
+				<td width="10%">&nbsp;</td>
+	      <td width="90%"><div align="left"><?php 
+					//Display pagination
+					echo $pages->display_pages();
+					echo '<font class="Verdana">';
+					echo '<p>&nbsp; </p>';
+					echo "<p class=\"paginate\">Page: $pages->current_page of $pages->num_pages</p>\n";
+					echo '</font>';  ?></div></td>
+	    </tr>
+			  <tr>
+				<td colspan="2"></td>
+			  </tr>
+		  </table>  
+  <?php
+	}   // free up the resources 
+else
+{
+?><center>
+<table width="800" cellspacing="0" class="textboxred">
+  <tr> 
+    <td><div align="center"><font color="#FF0000"><strong>There are currently no material request.</strong></font></div></td>
+  </tr>
+</table></center>
+        <?php
+		   } 
+mysql_close()
+
+?>
+
+ 
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Legend :</p>
+<table width="70%" border="1">
+  <tr>
+    <td width="10%"><div align="center"><img src="../images/red_icon2.jpg" alt="" width="20" height="20" /></div></td>
+    <td width="90%">Request has not been attended for more than 30 minutes.</td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="../images/yellow_icon2.jpg" alt="" width="20" height="20" /></div></td>
+    <td>Request has not been attended for more than 20 minutes.</td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="../images/green_icon2.jpg" alt="" width="20" height="20" /></div></td>
+    <td>Request has been posted not more than 19 minutes.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+     
+          
+          <!-- Table 
+        </div>-->
+        <!-- End Box -->
+       
+      </div>
+      <!-- End Content -->
+      <!-- Sidebar -->
+      <!-- End Sidebar -->
+      <div class="cl">&nbsp;</div>
+    </div>
+    <!-- Main -->
+  </div>
+</div>
+<!-- End Container -->
+
+</body>
+</html>

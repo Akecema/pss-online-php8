@@ -1,0 +1,230 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+include '../include/config.php';
+include_once ('../classes/paginator.class2.php');
+require_once("../calendar/classes/tc_calendar.php");
+$Cdate = date ("l, j F Y ");
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+
+    $url = 'type_wastage_edit.php';
+
+    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $result2 = mysql_query($query2) or die (mysql_error());
+    $res = mysql_fetch_array($result2);
+	
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysql_query($query_setup);   //run the query.
+$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysql_fetch_array($rs_setup);
+//----------------------------------------------------			
+	
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo $data_setup["title_desc"]; ?></title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
+<link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+body,td,th {
+	font-family: "Open Sans", sans-serif;
+}
+body {
+	background-color: #EEEEEE;
+}
+</style>
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Begin
+function printWindow() {
+bV = parseInt(navigator.appVersion);
+if (bV >= 4) window.print();
+}
+//  End -->
+</script>
+<?php
+
+function encode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_encode($ss);
+    }
+return $ss;
+}
+
+
+function decode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_decode($ss);
+    }
+return $ss;
+}
+
+
+?>
+
+<body>
+<div id="content">
+  <h4>Edit Type of Wastage</h4> 
+
+    <?php
+
+$id_wastage = $_GET['id_wastage'];
+
+$queryu = "SELECT * FROM type_wastage_detail WHERE id_wastage = '$id_wastage'";
+$resultu = mysql_query($queryu);   //run the query.
+$row = mysql_fetch_row($resultu);   //how many records are there?
+
+
+if (isset($_POST['submit']))
+{
+
+$id_wastage = $_POST['id_wastage'];
+$status_wastage = $_POST['status_wastage'];
+$wastage_desc = $_POST['wastage_desc'];
+
+//--------------------function escape data from form ------------------------
+function escape_data ($data) {
+global $dbc;   // need the connection.
+if (ini_get('magic_quotes_gpc')) 
+{
+    $data = stripslashes($data);
+	}
+	return mysql_real_escape_string($data,$dbc);
+	}   // end function.
+$message = NULL; // create an empty new variable.
+
+
+ //$size = count($_POST["id_dtl"]) + 1;
+ 
+  $i = 1;
+
+//------------------------------end function --------------------------------
+// check for a wastage_desc.
+if (empty($_POST['wastage_desc']))
+{ $wastage_desc = FALSE;
+  $message.= '<p>You are required to enter Type Wastage Description.!</p>';
+  }else
+  { $wastage_desc = escape_data($_POST['wastage_desc']);
+  }
+  
+// check for a status
+if (empty($_POST['status_wastage'])) 
+{ 
+  $status_wastage = FALSE;
+  $message.= '<p> You are required to select Status Wastage!</p>';
+  }
+    else
+  { $status_wastage = escape_data($_POST['status_wastage']);
+  }
+
+   
+ if($wastage_desc && $status_wastage) //everything ok
+{     	
+		  	  $query_search = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$id_wastage."'";
+              $result_search = mysql_query($query_search);   //run the query.
+              $num_search = mysql_num_rows($result_search);   //how many suppliers are there?
+			  
+			  if($num_search == 1) {
+			  //echo $num_search; 
+			    $row = mysql_fetch_array($result_search,MYSQL_NUM);
+				// make the update query
+	
+		$query_upd = "UPDATE type_wastage_detail SET wastage_desc = '".$wastage_desc."', status_wastage = '".$status_wastage."' WHERE id_wastage = '$id_wastage'"; 
+		$result_upd = mysql_query($query_upd); 
+								
+			if($result_upd)
+			{
+			 echo "<script>";
+		     echo "alert('Type Wastage is successfully update.');";
+			 echo "parent.location.reload(1);";
+             echo "parent.$.fancybox.close();";
+		     echo "</script>"; 
+		     exit(); //quit the script
+			
+							
+  } else { echo 'Cannot update record'; 
+  }
+}
+//print the message if there is one.
+	  
+} 
+//---------------------------function message------------------------------ 
+if (isset($message))
+{ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $message, '</font></div>';
+}
+} 
+ ?> 
+
+     
+          <!-- End Box Head -->
+          <form name="form1" method="post" action="type_wastage_edit.php?id_wastage=<?php echo $id_wastage; ?>" >
+              <table class="table table-bordered">
+               <tr>
+                 <td>ID Wastage *</td>
+                 <td>:</td>
+                 <td>
+                   <input name="id_wastage" type="text" id="id_wastage" size="20" maxlength="8" readonly value="<?php echo $row[0]; ?>" /></td>
+               </tr>
+               <tr>
+                 <td>Reason Wastage Desc *</td>
+                 <td>:</td>
+                 <td>
+                   <input name="wastage_desc" type="text" class="span11" id="wastage_desc" size="55" maxlength="100" value="<?php echo $row[1]; ?>" />
+               </td>
+               </tr>
+                        <tr>
+                 <td>Status *</td>
+                 <td>:</td>
+                 <td>
+         <select name="status_wastage"  class="textbox">
+      <option value="NULL" placeholder="Select Status"> -- Select Status --</option>
+	  <option value="Y" class="title" <?php if($row[2] == 'Y') echo "selected"; ?>>Y - Active</option>
+	  <option value="N" class="title" <?php if($row[2] == 'N') echo "selected"; ?>>N - Inactive</option>
+	      </select></td>
+               </tr>
+               <tr>
+                 <td>&nbsp;</td>
+                 <td>&nbsp;</td>
+                 <td>&nbsp;</td>
+               </tr>
+               <tr>
+                 <td>* Compulsory field</td>
+                 <td>&nbsp;</td>
+                 <td>&nbsp;</td>
+               </tr>
+            </table>
+                  
+            <!-- Form Buttons -->
+
+           <input name="submit" type="submit" class="btn btn-success" id="submit" value="UPDATE">
+           <input name="Reset" type="reset" id="Reset" value="CLEAR" class="btn btn-danger">
+        
+            <!-- End Form Buttons -->
+          </form>
+        
+</div>
+<!--Footer-part-->
+<?php include "footer.php";   ?>
+<!--end-Footer-part-->
+ </body>
+</html>

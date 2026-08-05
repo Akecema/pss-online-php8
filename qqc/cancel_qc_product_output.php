@@ -1,0 +1,426 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+include '../include/config.php';
+include_once ("../classes/paginator.class2.php");
+require_once("../calendar/classes/tc_calendar.php");
+$Cdate = date ("l, j F Y ");
+
+set_time_limit(0);
+// include 2D barcode class (search for installation path)
+require_once('/tcpdf_barcodes_2d.php');
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+
+$url = "rework_output_list_tran.php";
+
+
+    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $result2 = mysql_query($query2) or die (mysql_error());
+    $res = mysql_fetch_array($result2);
+	
+$today = getdate();
+$hours = $today['hours']; 
+$minutes = $today['minutes'];
+$seconds = $today['seconds'];
+$month = $today['mon']; 
+$mday = $today['mday']; 
+$year = $today['year']; 	
+
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysql_query($query_setup);   //run the query.
+$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysql_fetch_array($rs_setup);
+//----------------------------------------------------	
+//CR status (New)
+
+$sta = "SELECT * from request_status WHERE status_id = '1'";
+$sta_res = mysql_query($sta);
+$rst_sta = mysql_fetch_array($sta_res);
+
+//CR status (Released)
+$sta2 = "SELECT * from request_status WHERE status_id = '2'";
+$sta_res2 = mysql_query($sta2);
+$rst_sta2 = mysql_fetch_array($sta_res2);	
+
+//CR status (Cancel)
+$sta4 = "SELECT * from request_status WHERE status_id = '4'";
+$sta_res4 = mysql_query($sta4);
+$rst_sta4 = mysql_fetch_array($sta_res4);	
+
+//CR status (InProgress)
+$sta7 = "SELECT * from request_status WHERE status_id = '7'";
+$sta_res7 = mysql_query($sta7);
+$rst_sta7 = mysql_fetch_array($sta_res7);	
+
+//CR status (Pending)
+$sta8 = "SELECT * from request_status WHERE status_id = '8'";
+$sta_res8 = mysql_query($sta8);
+$rst_sta8 = mysql_fetch_array($sta_res8);	
+
+//CR status (Delete)
+$sta16 = "SELECT * from request_status WHERE status_id = '16'";
+$sta_res16 = mysql_query($sta16);
+$rst_sta16 = mysql_fetch_array($sta_res16);
+
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo $data_setup["title_desc"]; ?></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+<!----------------->
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>	
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>
+<style type="text/css">
+<!--
+.style3 {color: #000000}
+@media print{
+  body{  margin-top: -2.2cm;  font-family: Arial, Helvetica, sans-serif; font-size:12px; }
+  #ad{ display:none;}
+  #leftbar{ display:none;}
+  #contentarea{ width:100%;}
+  .header, .hide { visibility: hidden }
+  .tfoot { display: table-footer-group; }
+    @page {size: landscape}
+}
+.style4 {
+	font-size: 14px;
+	font-weight: bold;
+}
+-->
+</style>
+<SCRIPT LANGUAGE="JavaScript">
+<!-- 
+
+<!-- Begin
+function Check(chk)
+{
+if(document.myform.Check_ctr.checked==true){
+for (i = 0; i < chk.length; i++)
+chk[i].checked = true ;
+}else{
+
+for (i = 0; i < chk.length; i++)
+chk[i].checked = false ;
+}
+}
+
+// End -->
+</script>
+<?php
+//echo "the following values have been checked: ";
+$checked="";
+$amount ="";
+
+$a = array();
+if(isset($_POST["cancel"])) {
+	foreach($_POST["cancel"] as $j=>$i) {
+	   	$checked .= ($checked==""?"":",") . "checkbox" . $i;
+		
+		array_push($a, $i);
+	//	 array_push($amount, $i);
+	}
+}
+//echo $checked;
+//echo $amount;
+
+function was_checked($i,$a) {
+if(in_array($i, $a)===true) {
+return "checked='checked'";
+return "";
+}
+}
+
+?>
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Begin
+function printWindow() {
+bV = parseInt(navigator.appVersion);
+if (bV >= 4) window.print();
+}
+//  End -->
+</script>
+</head>
+<body>
+<div class="widget-box">
+  <!-- Header -->
+  <!-- End Header -->
+  <?php
+
+ $uid = $_GET["uid"];
+ 
+ 
+  if(isset($_POST["cancel_btn"])) 
+  
+   { // handle the form.
+
+// create a function for escaping the data.
+function escape_data ($data) {
+global $dbc;   // need the connection.
+if(ini_get('magic_quotes_gpc')) {
+    $data = stripslashes($data);
+	}
+	return mysql_real_escape_string($data,$dbc);
+	}   // end function.
+$message = NULL; // create an empty new variable.
+   
+    $uid = $_POST["uid"];
+   
+    $cancel = $_POST["cancel"]; 
+    $how_many = count($cancel); 
+	$sta_out = "";
+	$data = "";
+	$data2 = "";
+	
+						
+		   for ($i=0; $i<$how_many; $i++) { 
+		   
+		   
+		    //------generate QC Backflush No. [Prod Output Cancellation List]---------------------------------
+	
+ 
+	$query_id = "SELECT count_max FROM run_count_no WHERE uid = '32'";
+	$result_id = mysql_query($query_id);
+	
+	if ($result_id) 
+{
+	$nrows = mysql_num_rows($result_id);
+	$row_id = mysql_fetch_array($result_id);
+	
+	$dht = 0000000; 
+	$dht_OK = "22412";
+	$dg2 = 0;
+
+  	if($row_id["count_max"] <= 0)
+  	{ 
+   
+    	$lastID = ($row_id["count_max"] + 1);
+    	$dg = ($dht + ($lastID));
+   }
+   else
+   {
+      $lastID = ($row_id["count_max"] + 1);
+      $dg =  $lastID;
+	
+    }
+	$number = $dg; // Length of running no
+    $number = sprintf('%07d', $number);  
+	
+	 
+	  $ref = ($dht_OK.($number));
+	
+	
+	} // end if $result_id
+	 
+	
+
+
+		   			
+  // echo ($i+1).'-'.$cancel[$i]; //echo $string[$i];
+  
+		
+	
+		
+  $query_upd_detail = "UPDATE qqc_detail_transaction SET status_QC = '".$rst_sta4["status_desc"]."', qqc_doc_no_ref = '".$ref."', user_cancel = '".$username."', date_cancel = NOW() WHERE id_qqc = '".$cancel[$i]."'";
+  $result_upd_detail = mysql_query($query_upd_detail) or die (mysql_error());
+  
+  
+  	
+		
+  
+  		$query_ftp = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_cancel,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_cancel,'%H:%i:%s') as J3 FROM qqc_detail_transaction AS M WHERE M.id_qqc = '".$cancel[$i]."'";
+		$result_ftp = mysql_query($query_ftp);   //run the query.
+		$data_ftp = mysql_fetch_array($result_ftp);
+		
+		$query_q2 = "SELECT * FROM table_material WHERE material_no = '".$data_ftp["material_no"]."'";
+        $result_q2 = mysql_query($query_q2) or die (mysql_error());
+        $ans3 = mysql_fetch_array($result_q2);
+		
+		
+		//---------update table qqc_transaction_cancel
+		
+	
+$query_data_my = "INSERT INTO qqc_transaction_cancel(id_qqc, id_tran, qqc_doc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, qqc_doc_no_ref, user_cancel, date_cancel) VALUES('".$data_ftp["id_qqc"]."','".$data_ftp["id_tran"]."','".$data_ftp["qqc_doc_no"]."','".$data_ftp["bflush_no"]."','".$data_ftp["plan_no"]."','".$data_ftp["material_no"]."','".$data_ftp["material_desc"]."','".$data_ftp["material_type"]."','".$data_ftp["qty_plan"]."','".$data_ftp["qty_actual"]."','".$data_ftp["qty_balance"]."','".$data_ftp["qty_NG"]."','".$data_ftp["qty_qc"]."','".$data_ftp["qty_qc_ok"]."','".$data_ftp["qty_qc_NG"]."','".$rst_sta8["status_desc"]."','".$data_ftp["comp_code"]."','".$data_ftp["work_center"]."','".$data_ftp["shift_day"]."','".$data_ftp["date_plan"]."', '".$data_ftp["user_create"]."','".$data_ftp["date_create"]."','','','$username',NOW(),NOW(),'".$data_ftp["ploc_qc"]."','".$data_ftp["ploc"]."','".$data_ftp["delivery_loc"]."','".$data_ftp["type_qc_reject"]."','".$data_ftp["reason_qc_reject"]."','".$data_ftp["user_qc_reject"]."','".$data_ftp["date_qc_reject"]."','".$data_ftp["time_qc_reject"]."','Y','".$data_ftp["qqc_doc_no_ref"]."','".$username."',NOW())";
+$result_data_my = mysql_query($query_data_my) or die (mysql_error());
+
+
+  //------ftp text file for cancel from FromPortal2 to SAP ------- //
+  
+  
+	
+	 $data .= $data_ftp["qqc_doc_no_ref"].";".$data_ftp["qqc_doc_no"].";".$data_ftp["comp_code"].";".$data_ftp["work_center"].";".$data_ftp['material_no'].";312;".$data_ftp['qty_balance'].";".$ans3['BUn'].";".$data_ftp['ploc_qc'].";".$data_ftp['ploc'].";".$data_ftp['J2'].";".$data_ftp['user_cancel']."\r\n";
+	 
+	 	$filen = "TP4".$ref;
+
+$file = "../FromPortal2/GT9/".$filen.".csv";
+file_put_contents($file,$data);	
+
+//----------update table ftp_goodtran_detail------------
+   
+    $query_ftp_info = "INSERT INTO ftp_goodtran_detail(id, file_name, qqc_no, bflush_no, id_tran, plan_no, material_no, material_desc, qty_ftp, uom, status_ftp, posting_date, posting_time, user_create, date_create) VALUES('','".$filen."','".$data_ftp["qqc_doc_no_ref"]."',".$data_ftp["bflush_no"].",'".$data_ftp["id_tran"]."','".$data_ftp["plan_no"]."','".$data_ftp["material_no"]."','".$data_ftp["material_desc"]."','".$data_ftp["qty_qc_ok"]."','".$ans3['BUn']."','Y','".$data_ftp["J2"]."','".$data_ftp["J3"]."','".$username."',NOW())"; 
+     $rst_ftp_info = mysql_query($query_ftp_info);
+
+
+
+	//---------------delete data---------------------------------
+	
+	$query_delete = "DELETE FROM qqc_detail_transaction WHERE id_qqc = '".$cancel[$i]."'";
+	$result_delete = mysql_query($query_delete) or die (mysql_error());
+  
+  	
+		
+  
+		
+     } // end for loop
+	 
+	  //update count_max----------------------------------------
+		
+	
+       $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '32'";
+	   $result_max_a = mysql_query($query_max_a);
+	 
+      //end update count_max ---------------------------------	
+	  
+		   echo "<script>";
+		   echo "alert('Cancellation has been updated');";
+		   echo "parent.tb_remove(); parent.location.reload(1)";
+		   echo "</script>"; 
+		   exit(); //quit the script
+	
+
+
+   }// end submit
+?>
+<table class="table">
+<tr>
+  <td>&nbsp;</td>
+  <td colspan="2"><div align="center"><span class="style4">Production Output Cancellation</span></div></td>
+  </tr>
+</table>
+<p>&nbsp;</p> 
+   <form action="cancel_qc_product_output.php?uid=<?php echo $uid; ?>" method="post" name="myform" id="myform">     
+  <table class="table table-bordered data-table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th width="140">Model</th>
+        <th width="81">Document No.</th>
+        <th>Part No.</th>
+        <th>Storage Location</th>
+        <th>Shift Day</th>
+        <th>Date</th>
+        <th>Production Output Qty</th>
+        <th>QC Received Qty</th>
+        <th>Pending Qty</th>
+        <th>UOM</th>
+        <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+      <?php
+   
+   $counter = 1;
+   $no = 1;
+   $sta_out = "";
+   $qty_final = 0.000;
+   
+$query_display = "SELECT *, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2 FROM qqc_detail_transaction AS MR WHERE MR.id_tran = '".$uid."'";
+$result_display = mysql_query($query_display);   //run the query.
+   
+   while($row2 = mysql_fetch_array($result_display))
+   {
+		
+     $query_model =  "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row2["plan_no"]."' ORDER BY plan_no ASC";		
+	 $result_model = mysql_query($query_model);
+     $row_model = mysql_fetch_array($result_model); 	
+	 
+	//query material 
+	 $query_mat =  "SELECT * FROM mat_master_header WHERE material_no = '".$row2["material_no"]."'";		
+	 $result_mat = mysql_query($query_mat);
+     $row_mat = mysql_fetch_array($result_mat); 
+	 
+	//query reason reject
+	 $query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row2["reason_qc_reject"]."'";
+     $result_reason = mysql_query($query_reason);
+	 $row_reason = mysql_fetch_array($result_reason);	
+	 
+	 
+	 //quantity output
+	 if($row2["qty_qc_ok"] != "0.000")
+	 {
+		$qty_final = $row2["qty_qc_ok"]; 
+	 }elseif($row2["qty_qc_NG"] != "0.000")
+	 {
+		$qty_final = $row2["qty_qc_NG"];  
+	 }else{
+		$qty_final == ""; 
+	 }
+	 
+	 	 
+	 
+      ?>
+      <tr class="gradeX">
+        <td width="44"><?php echo $no; ?></td>
+        <td><?php echo $row_model["model_code"]; ?></td>
+        <td><?php echo $row2["qqc_doc_no"]; ?></td>
+        <td width="59"><font color="#0000CC"><?php echo $row2["material_no"]; ?></font></td>
+        <td width="81"><?php echo $row2["ploc"]; ?></td>
+        <td width="50"><?php  echo $row2["shift_day"]; ?></td>
+        <td width="90"><?php echo $row2["R2"]; ?></td>
+        <td width="70"><?php echo intval($row2["qty_actual"]); ?></td>
+        <td width="70"><?php echo intval($row2["qty_qc"]); ?></td>
+        <td width="70"><?php echo intval($row2["qty_balance"]); ?></td>
+        <td width="80"><?php  echo $row_mat["BUn"]; ?></td>
+        <input name="uid" type="hidden" value="<?php echo $row2["id_qqc"]; ?> ">
+         <td width="50"><div align="center"><?php if(($row2["qqc_doc_no_ref"]) == "") {  ?><input type="checkbox" name="cancel[]" value="<?php echo $row2["id_qqc"]; ?>" <?=was_checked($row2["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)"> <?php }  ?></div></td>
+      </tr> 
+      
+      <?php 
+		  
+		  $no ++;
+		  $counter++; // menambah counter
+		  } 
+		  ?>
+        
+      </tr>  
+     
+    </tbody>
+  </table> 
+  <table>
+    <tr><td>&nbsp;<input name="cancel_btn" type="submit"  class="btn btn-danger" id="button" value="CANCELLATION" onClick="return confirm('Are you sure want to perform this activity?');"/></td>
+</tr>
+       </table>
+  </form>
+  <p>&nbsp;</p>
+  <p><br> 
+    
+    <!--Footer-part-->
+  </p>
+  <?php include "footer.php";   ?>
+<!--end-Footer-part--> 
+</div>
+</body>
+</html>

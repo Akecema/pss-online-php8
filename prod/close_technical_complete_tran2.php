@@ -1,0 +1,507 @@
+<?php
+error_reporting(E_ALL);
+session_start();
+$username = $_SESSION['username'];
+include '../include/config.php';
+include_once ("../classes/paginator.class2.php");
+require_once("../calendar/classes/tc_calendar.php");
+
+
+$Cdate = date ("l, j F Y ");
+set_time_limit(0);
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+$url = "close_technical_complete_tran.php";
+
+    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $result2 = mysql_query($query2) or die (mysql_error());
+    $res = mysql_fetch_array($result2);
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysql_query($query_setup);   //run the query.
+$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysql_fetch_array($rs_setup);
+//----------------------------------------------------			
+
+$today = getdate();
+$hours = $today['hours']; 
+$minutes = $today['minutes'];
+$seconds = $today['seconds'];
+$month = $today['mon']; 
+$mday = $today['mday']; 
+$year = $today['year']; 	
+
+//CR status (New)
+
+$sta = "SELECT * from request_status WHERE status_id = '1' ";
+$sta_res = mysql_query($sta);
+$rst_sta = mysql_fetch_array($sta_res);
+
+//CR status (Released)
+$sta2 = "SELECT * from request_status WHERE status_id = '2' ";
+$sta_res2 = mysql_query($sta2);
+$rst_sta2 = mysql_fetch_array($sta_res2);	
+
+//CR status (InProgress)
+$sta7 = "SELECT * from request_status WHERE status_id = '7' ";
+$sta_res7 = mysql_query($sta7);
+$rst_sta7 = mysql_fetch_array($sta_res7);	
+
+//CR status (Closed)
+$sta13 = "SELECT * from request_status WHERE status_id = '13' ";
+$sta_res13 = mysql_query($sta13);
+$rst_sta13 = mysql_fetch_array($sta_res13);
+
+//CR status (Completed)
+$sta14 = "SELECT * from request_status WHERE status_id = '14' ";
+$sta_res14 = mysql_query($sta14);
+$rst_sta14 = mysql_fetch_array($sta_res14);
+	
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo $data_setup["title_desc"]; ?></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+<!----------------->
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>	
+
+<script language="javascript" type="text/javascript">
+
+function getXMLHTTP() { //fuction to return the xml http object
+		var xmlhttp=false;	
+		try{
+			xmlhttp=new XMLHttpRequest();
+		}
+		catch(e)	{		
+			try{			
+				xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch(e){
+				try{
+				xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+				}
+				catch(e1){
+					xmlhttp=false;
+				}
+			}
+		}
+		 	
+		return xmlhttp;
+    }
+	
+	function getFactory(factory) {		
+		
+		var strURL="findWorkcenter2.php?factory="+factory;
+		var req = getXMLHTTP();
+		
+		if (req) {
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					// only if "OK"
+					if (req.status == 200) {						
+						document.getElementById('work_centerdiv').innerHTML=req.responseText;						
+					} else {
+						alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+					}
+				}				
+			}			
+			req.open("GET", strURL, true);
+			req.send(null);
+		}		
+	}
+	
+</script>
+<SCRIPT LANGUAGE="JavaScript">
+<!-- 
+
+<!-- Begin
+function Check(chk)
+{
+if(document.myform.Check_ctr.checked==true){
+for (i = 0; i < chk.length; i++)
+chk[i].checked = true ;
+}else{
+
+for (i = 0; i < chk.length; i++)
+chk[i].checked = false ;
+}
+}
+
+// End -->
+</script>
+<?php
+//echo "the following values have been checked: ";
+$checked="";
+$amount ="";
+
+$a = array();
+if(isset($_POST["cancel"])) {
+	foreach($_POST["cancel"] as $j=>$i) {
+	   // $amount .= $_POST["comp_quantity"][$i]."|";
+		$checked .= ($checked==""?"":",") . "checkbox" . $i;
+		
+		array_push($a, $i);
+	//	 array_push($amount, $i);
+	}
+}
+//echo $checked;
+//echo $amount;
+
+function was_checked($i,$a) {
+if(in_array($i, $a)===true) {
+return "checked='checked'";
+return "";
+}
+}
+
+?>
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h1>&nbsp;</h1>
+</div>
+<?php  include "top_modal_menu.php";   ?>
+<!--close-Header-part--> 
+
+<!--sidebar-menu-->
+<?php include "left_production_menu.php";  ?>
+<!--sidebar-menu-->
+
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="index_production.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a><a href="#" class="#">Production</a> <a href="#" class="current">PPS Close</a></div>
+  <h1>PPS Close</h1>
+</div>
+
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+    <!--  <div class="span12">-->
+        <!--<div class="widget-box">
+          <div class="widget-title">
+             <ul class="nav nav-tabs" role="tablist" id="templatemo-tabs">
+              <li><a  role="tab" href="upload_pps_month.php">New Request</a></li>
+              <li class="active"><a role="tab" href="display_pps_month_reprint.php">Searching Record</a></li>
+             </ul>
+          </div>
+          </div>-->
+          
+          
+      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="frmSearch" id="frmSearch">
+            <table class="table table-bordered table-striped">
+            <tr>
+              <th>Planned Start Date :</th>
+              <td><?php
+    
+				 	  $dd1 = substr($_GET["date1"],8,2);
+					  $mm1 = substr($_GET["date1"],5,2);
+					  $yy1 = substr($_GET["date1"],0,4);
+	
+	
+                      $myCalendar = new tc_calendar("date1", true, false);
+					  $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					  $myCalendar->setDate($dd1, $mm1, $yy1);
+					  $myCalendar->setPath("/calendar/");
+					  $myCalendar->setYearInterval(date('Y') - 1, date('Y') + 10);
+					  // $myCalendar->setOnChange("myChanged('test')");
+		    		  $myCalendar->writeScript();
+					  
+			 ?></td>
+              <th>Planned End Date :</th>
+              <td><?php
+                
+             
+                      $dd2 = substr($_GET['date2'],8,2);
+				      $mm2 = substr($_GET['date2'],5,2);
+				      $yy2 = substr($_GET['date2'],0,4);
+				
+                      $myCalendar = new tc_calendar("date2", true, false);
+					  $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					  $myCalendar->setDate($dd2, $mm2, $yy2);
+					  $myCalendar->setPath("/calendar/");
+					  $myCalendar->setYearInterval(date('Y') - 1, date('Y') + 10);
+					  // $myCalendar->setOnChange("myChanged('test')");
+					  $myCalendar->writeScript();
+                
+                ?></td>
+            </tr>
+          
+            <tr>
+              <th>Factory : </th>
+              <td><select name="factory" id="factory" onChange="getFactory(this.value)">
+                  <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
+                  <?php
+	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
+                   $result3 = mysql_query($query3);
+  
+                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+			      {
+				  
+				  
+				  ?>
+                  <option value="<?php echo $row3["factory_desc2"]; ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3["factory_desc"]; ?></option>
+                  <?php
+                  }
+				?>
+              </select></td>
+              <th>Work Center :</th>
+              <td><div id="work_centerdiv"> 
+               <select name="work_center" id="work_center" class="span11">
+                <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
+                 <?php
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+                   $result5 = mysql_query($query5);
+  
+                   while($row5=mysql_fetch_array($result5)) 
+				    { 
+				   
+				   ?>
+                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <?php
+                  }
+				?>
+                </select></div></td>
+            </tr>
+              <tr>
+              <th>Planned Order No. :</th>
+              <td><select name="plan_no" id="plan_no" class="span11">
+                  <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
+                  <?php
+	        $query9 = "SELECT * FROM pps_detail_close WHERE status_pps = '".$rst_sta13["status_desc"]."' ORDER BY plan_no ASC";
+            $result9 = mysql_query($query9);
+  
+                   while($row9=mysql_fetch_array($result9)) 
+			      {
+				   ?>
+                  <option value="<?php echo $row9["plan_no"]; ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo $row9["plan_no"]; ?></option>
+                  <?php
+                  }
+				?>
+              </select></td>
+              <th>Shift :</th>
+              <td><select name="shift_ops" id="shift_ops" class="span11">
+                  <option value="NULL" placeholder="Select Shift"> -- Select Shift --</option>
+                  <option value="D/S" <?php if($_GET["shift_ops"] == "D/S") { ?> selected="selected"<?php } ?>>D/S</option>
+                  <option value="N/S" <?php if($_GET["shift_ops"] == "N/S") { ?> selected="selected"<?php } ?>>N/S</option>
+                  </select></td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th><input name="Submit2" type="submit"  class="btn btn-info" id="button" value="SEARCH" /></th>
+            </tr>
+            </table>
+        </form>
+<?php
+            $dateF = $_GET["date1"];
+            $dateT = $_GET["date2"];
+			$factory = $_GET["factory"];
+			$work_center = $_GET["work_center"];
+			$plan_no = $_GET["plan_no"];
+			$shift_ops = $_GET["shift_ops"];
+	      	
+			
+			 //convert 
+			
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$result_convert = mysql_query($query_convert); 
+			$row_convert = mysql_fetch_array($result_convert);
+			
+		  
+		
+			//-------Count all results------------------------//
+			
+				 $where_sql = '';
+		 
+		 // 1. DateT
+                if($dateT == "0000-00-00") {
+                     $wheresql_01 = ""; }
+                else {
+                      $wheresql_01 = " AND (MR.date_plan <= '$dateT')"; }
+		  //2. DateF 
+                if ($dateF  == "0000-00-00" ){
+                     $wheresql_02 = "";}
+                else {
+                     $wheresql_02 = " AND (MR.date_plan >= '$dateF')";}  
+					 
+		 //3. Factory 
+                if ($factory == "NULL"){ 
+                    $wheresql_03 = ""; }
+                else {
+                    $wheresql_03 = " AND SR.id_factory = '$factory'"; } 
+					
+          //4. Work Center
+                if ($work_center == "NULL" ){
+                    $wheresql_04 = ""; }
+                else {
+					$wheresql_04 = " AND MR.work_center = '$work_center'"; }
+   
+	       //5. Planned Order No.
+                if ($plan_no == "NULL"){ 
+                    $wheresql_05 = ""; }
+                else {
+                    $wheresql_05 = " AND MR.plan_no = '$plan_no'"; }  	
+					
+		 
+		  //6. Shift
+                if ($shift_ops == "NULL"){ 
+                    $wheresql_06 = ""; }
+                else {
+					// $wheresql_06 = ""; }
+					
+                    $wheresql_06 = " AND ((MR.shift_pps1 = '$shift_ops') OR (MR.shift_pps2 = '$shift_ops')) "; }  		 			
+				
+				$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05 .$wheresql_06;	
+	
+	//********** END CONDITION **************
+								 
+   $query8 = "SELECT * FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".$rst_sta13["status_desc"]."' AND MR.status = 'Y'".$where_sql."GROUP BY MR.plan_no";
+   $result8 = mysql_query($query8) or die(mysql_error());
+  //$num_rows = mysql_fetch_row($result8);
+   $num_rows = mysql_num_rows($result8);
+
+   $pages = new Paginator;
+   $pages->items_total = $num_rows;
+   $pages->mid_range = 5; // Number of pages to display. Must be odd and > 3
+   $pages->paginate();
+ 
+ 
+  
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".$rst_sta13["status_desc"]."' AND MR.status = 'Y' ".$where_sql." GROUP BY MR.plan_no order by MR.plan_no ASC";
+$rs = mysql_query($query);   //run the query.
+$num = mysql_num_rows($rs);   //how many material are there?
+
+	
+	 if ($num > 0) {
+	 
+	 echo '<div align="center">There are currently  '. $num.' record(s).</div>';
+	 }
+	
+
+?>
+ <table class="table">
+<tr>
+    <td width="1%">&nbsp;</td> 
+    <td width="85%"> <div class="small-nav"></div></td> 
+      <td width="7%"><a href="report_pps_close_download_selected.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
+     <td width="7%"><img src="../img/print2.jpg" width="48" height="48" onClick="window.print()" title="Print"/></td>
+   
+  </tr>
+</table>          
+          
+      <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Display Request</h5>
+          </div>
+             
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                <th>No.</th>
+                <th>Part No.</th>
+                <th>Planned Order No.</th>
+                <th>Planned Date</th>
+                <th>Work Center</th>
+                <th>Shift</th>
+                <th>Planned Quantity</th>
+                <th>Planned Order Status</th>
+                <th>Action</th>
+                </tr>
+              </thead>   
+              <tbody>
+           <?php
+   
+   $counter = 1;
+   $no = 1;
+   $sta_out = "";
+   
+   while ($row = mysql_fetch_array($rs))
+   {
+ 	   
+		
+	//shift	
+		if($row["shift_pps1"] != "")
+	{
+		$sta = "D/S";
+		
+	}elseif($row["shift_pps2"] != "")
+	 {
+		$sta = "N/S";
+	 }else{
+		 
+		$sta = " ";
+	 }	
+	
+	 
+      ?>
+           
+                <tr class="gradeX">
+                <td width="30"><?php echo $no; ?></td>
+                <td width="48"><?php echo $row["material_no"]; ?></td>
+                <td width="120"><?php echo $row["plan_no"]; ?></td>
+                <td width="80"><?php echo $row["R"]; ?></td>
+                <td width="80"><?php  echo $row["work_center"]; ?></td> 
+                <td width="40"><?php echo $sta; ?></td>
+                <td width="43"><div align="center"><?php echo number_format($row["qty_plan"]); ?></div></td>
+                <td width="80"><div align="center"><?php echo $row["status_pps"]; ?></div></td>
+                <td width="80"><a value="View Details" href="display_plan_order_detail_print.php?uid=<?php echo $row["id"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/folder.png" width="16" height="16" alt="View Details"><br>View Details</a></td>
+                </tr>
+               <!--   <input name="uid" type="hidden" value="<?php echo $row["id"]; ?>">-->
+          <?php 
+		  
+		  $no ++;
+		  $counter++; // menambah counter
+		  } 
+		  ?>
+
+         
+ </tbody>
+</table>
+
+           </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Footer-part-->
+<?php include "footer.php";   ?>
+<!--end-Footer-part--> 
+
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/jquery.ui.custom.js"></script> 
+<script src="../js/bootstrap.min.js"></script> 
+<script src="../js/jquery.uniform.js"></script> 
+<script src="../js/select2.min.js"></script> 
+<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/matrix.js"></script> 
+<script src="../js/matrix.tables.js"></script>
+</body>
+</html>

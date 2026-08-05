@@ -1,5 +1,20 @@
 <?php 
 
+
+/**
+ * index_old.php
+ * Part of: Core / entry-point script
+ * Filename suggests: index old
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST); sends email.
+ * Database tables referenced: sys_setup_maintain, user_detail, failed_login, status_failed.
+ * Includes: config.php, config_mail.php, index_admin.php, backjob_clean.php, index_super.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 include 'include/config.php';
 include 'include/config_mail.php';
 

@@ -1,3 +1,18 @@
+<?php
+/**
+ * admin/top_modal_menu.php
+ * Part of: Admin module
+ * Filename suggests: top modal menu
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: user_detail, company, department, designation, level_detail.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+?>
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
     <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome <?php echo $res['user_fullname']; ?></span><b class="caret"></b></a>

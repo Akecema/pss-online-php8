@@ -1,4 +1,23 @@
 <?php
+
+/**
+ * ckies-aut_frst.php
+ * Part of: Core / entry-point script
+ * Filename suggests: ckies aut frst
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, failed_login.
+ * Includes: rst-mail.php, index_admin.php, backjob_clean.php, index_super.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+// --- "Remember me" auto-login ---
+// If the ID_my_site/Key_my_site cookies (set in ckies-aut_scd.php after a
+// successful login) are present, treat the visitor as already authenticated
+// and log them straight in without re-entering a password.
 //Checks if there is a login cookie
  if(isset($_COOKIE['ID_my_site']))
 
@@ -23,16 +42,30 @@
  
  	$username = $_COOKIE['ID_my_site']; 
  	$pass = $_COOKIE['Key_my_site'];
+ 	// SECURITY: $username is taken straight from the cookie and concatenated
+ 	// directly into the SQL string below with no escaping/parameter binding -
+ 	// this is SQL-injectable by anyone who can set their own cookies (i.e.
+ 	// everyone). See MIGRATION_NOTES/improvement report for the recommended fix
+ 	// (parameterised queries via mysqli prepared statements).
  	 	$check = mysqli_query($dbc, "SELECT * FROM user_detail WHERE username = '$username' AND status = 'AC' AND status_failed = 'N'")or die(mysqli_error($dbc));
  	while($info = mysqli_fetch_array($check)) 	
  		{
  		if ($pass != $info['password']) 
  			{
-				
+				// $pass here is the raw Key_my_site cookie value being compared directly
+				// against the stored password hash - so the cookie itself IS the
+				// long-lived credential (valid for 1 hour per the "$hour = time()+3600"
+				// below, no HttpOnly/Secure flags set when it's created in
+				// ckies-aut_scd.php). Anyone who steals this cookie (XSS, packet
+				// sniffing on non-HTTPS, shared/public computer) can log in as this
+				// user without ever knowing their password.
 	   //-------------additional for checking failed login 5 times ---------------
 		//-------------edit date 16/11/2017
 		
-		$check_log = "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = '".$_POST['username']."' AND FL.ip_address = '".$_SERVER["REMOTE_ADDR"]."'  AND FL.date_failed BETWEEN DATE_SUB(NOW() , INTERVAL 1 DAY) AND NOW()";
+		// SECURITY: $_POST['username'] is concatenated into SQL unescaped here too -
+ 		// same SQL-injection issue as above, just via the POST field instead of
+ 		// the cookie.
+ 		$check_log = "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = '".$_POST['username']."' AND FL.ip_address = '".$_SERVER["REMOTE_ADDR"]."'  AND FL.date_failed BETWEEN DATE_SUB(NOW() , INTERVAL 1 DAY) AND NOW()";
 		$rs_check_log = mysqli_query($dbc, $check_log);   
 	    $num_check_log = mysqli_num_rows($rs_check_log);  
 		$row = mysqli_fetch_array($rs_check_log);
@@ -70,7 +103,14 @@
 				
  			 			
  		}else{
- 			
+ 			// Passwords matched - dispatch to the right module's landing page based
+ 			// on this user's level_id. Note the same 5-line block (session_start,
+ 			// set $_SESSION['username']/['password'], then an if/elseif on browser
+ 			// name that redirects to the *same* URL either way) is repeated once per
+ 			// level_id (1-12) below instead of being driven by a lookup table - see
+ 			// the improvement report for a suggested refactor. Also note the raw
+ 			// password is stored in $_SESSION['password'], which isn't needed here
+ 			// and is unnecessary exposure of the credential server-side.
 			
  			if ($info['level_id']== 1)
 		{

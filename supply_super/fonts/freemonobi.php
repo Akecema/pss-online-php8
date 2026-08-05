@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * supply_super/fonts/freemonobi.php
+ * Part of: Supply Chain module (supervisor/admin tier)
+ * Filename suggests: freemonobi
+ *
+ * Behavior: generates a PDF (TCPDF/FPDF).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 // TCPDF FONT FILE DESCRIPTION
 $type='TrueTypeUnicode';
 $name='FreeMonoBoldOblique';

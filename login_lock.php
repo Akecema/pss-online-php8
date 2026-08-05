@@ -1,5 +1,20 @@
 <?php 
 
+
+/**
+ * login_lock.php
+ * Part of: Core / entry-point script
+ * Filename suggests: login lock
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: sys_setup_maintain.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 include 'include/config.php';
 
 //--------setup website page --------------------------
@@ -36,6 +51,10 @@ $data_setup = mysqli_fetch_array($rs_setup);
  }
 </script>
 </head>
+<!-- Shown after 5 failed login attempts within 24h (see ckies-aut_frst.php /
+     ckies-aut_scd.php, which redirect here instead of back to index.php).
+     Auto-refreshes to the login page after 5 seconds; onload calls
+     logout() (js/index.js) to clear any stale session/cookies first. -->
 <body onLoad="logout()">
 <meta http-equiv="refresh" content="5;URL=index.php"> 
 <div id="loginbox">  

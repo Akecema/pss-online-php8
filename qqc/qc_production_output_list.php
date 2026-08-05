@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * qqc/qc_production_output_list.php
+ * Part of: QQC module (Quality)
+ * Filename suggests: qc production output list
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, pps_detail_transaction, qqc_detail_transaction, run_count_no, ftp_qc_received_detail, qqc_transaction, mat_master_header, ftp_goodtran_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, tcpdf_barcodes_2d.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

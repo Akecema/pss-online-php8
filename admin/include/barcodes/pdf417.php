@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * admin/include/barcodes/pdf417.php
+ * Part of: Admin module
+ * Filename suggests: pdf417
+ *
+ * Behavior: generates a PDF (TCPDF/FPDF).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 //============================================================+
 // File name   : pdf417.php
 // Version     : 1.0.005

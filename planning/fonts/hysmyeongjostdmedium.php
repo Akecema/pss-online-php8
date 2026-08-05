@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * planning/fonts/hysmyeongjostdmedium.php
+ * Part of: Planning module
+ * Filename suggests: hysmyeongjostdmedium
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 $type='cidfont0';
 $name='HYSMyeongJoStd-Medium-Acro'; // AdobeMyungjoStd-Medium-Acro in acrobat 6
 $displayname = 'MyungJo Medium (Korean)';

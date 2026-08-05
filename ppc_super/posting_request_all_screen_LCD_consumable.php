@@ -1,4 +1,20 @@
 <?php
+
+/**
+ * ppc_super/posting_request_all_screen_LCD_consumable.php
+ * Part of: PPC module (supervisor/admin tier)
+ * Filename suggests: posting request all screen LCD consumable
+ *
+ * Behavior: requires an active login session ($_SESSION['username']).
+ * Database tables referenced: user_detail, sys_setup_maintain, consumable_request, scan_detail, factory_detail, mat_master_header, post_consumable_detail_header, cosumable_request, consumable_request_close.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, content2.php, top_modal_menu.php, left_ppc_menu.php, td>
+           <td><?php echo $data_u[, ]..
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

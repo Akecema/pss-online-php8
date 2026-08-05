@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * forgot_password.php
+ * Part of: Core / entry-point script
+ * Filename suggests: forgot password
+ *
+ * Behavior: processes submitted form data ($_POST); sends email.
+ * Database tables referenced: sys_setup_maintain, user_detail, login_detail.
+ * Includes: config.php, config_mail.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 include 'include/config.php';
 include 'include/config_mail.php';
 
@@ -87,13 +102,20 @@ $message = NULL; // create an empty new variable.
 // check for existence of that username
     if($user_name && $email) { 
 	
-	       $query = "SELECT * FROM user_detail WHERE username = '$user_name' and user_email= '$email'";
+	       // $user_name/$email went through escape_data() (mysqli_real_escape_string)
+	       // above, so this is reasonably defended against SQL injection.
+		   $query = "SELECT * FROM user_detail WHERE username = '$user_name' and user_email= '$email'";
 		   $result = mysqli_query($dbc, $query);
 		   $num = mysqli_num_rows($result);
 		   
 				  if($num == 1) {
 				    $row = mysqli_fetch_array($result);
 					
+					 // Generates a random temporary password ($p), stores its MD5 hash
+					 // ($p2) in the DB, and emails the plaintext temp password to the
+					 // user below - better than change_password.php (which emails a
+					 // user-chosen password), but a reset *link* would still be safer
+					 // than emailing any password, even a temporary one.
 					 $p = substr (md5(uniqid(rand(),1)),3,10);
 					 $p2 = md5($p);
 					 	
@@ -104,6 +126,12 @@ $message = NULL; // create an empty new variable.
 				$result_login = mysqli_query($dbc, $query_login) or die (mysqli_error($dbc));
 				  
 			
+			      // NOTE: if this branch runs (no email on file), execution falls
+			      // through (no exit()) into the "username and password do not
+			      // match" message + exit() a few lines below - so the user sees
+			      // both messages in sequence. Looks like a pre-existing logic
+			      // slip rather than intentional; left as-is since behavior wasn't
+			      // otherwise being changed in this pass.
 			      if(($row["user_email"] == "") or ($row["user_email"] == "NULL"))
 				  { 
 				   echo "User don't have the e-mail account. Please create e-mail account for this user.";

@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod/ftp_bflush_SAP.php
+ * Part of: Production module
+ * Filename suggests: ftp bflush SAP
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: pps_detail_transaction, scan_prod_planning, ftp_bflush_detail.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

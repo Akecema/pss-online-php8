@@ -1,5 +1,29 @@
 <?php
 
+
+/**
+ * PSSboard/content2.php
+ * Part of: PSS Board module
+ * Filename suggests: content2
+ *
+ * Behavior: reads parameters from the query string ($_GET).
+ * Database tables referenced: consumable_request.
+ * Includes: config.php,  $rowsperpage);
+$lastpage =  fmod($numrows , $rowsperpage);
+
+ if ($lastpage > 0)
+ {
+	$totalpages = ($totalpages + 1);
+	}
+
+	
+if (isset($_GET[.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 //include 'include/config.php';
 //date_default_timezone_set('Asia/Kuala_Lumpur');
 //$Cdate = date ("l, j F Y ");

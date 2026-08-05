@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod/doc_list_backflush_download_pdf.php
+ * Part of: Production module
+ * Filename suggests: doc list backflush download pdf
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET); generates a PDF (TCPDF/FPDF).
+ * Database tables referenced: sys_setup_maintain, request_status, pps_detail_transaction.
+ * Includes: config.php, tcpdf.php, tcpdf_barcodes_2d_include.php, tcpdf_barcodes_2d.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * admin/detail_consumable_request_printing.php
+ * Part of: Admin module
+ * Filename suggests: detail consumable request printing
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: sys_setup_maintain, consumable_request, factory_detail, user_detail, work_center_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, tcpdf_barcodes_2d.php, tr>
+        <tr>
+          <th height=, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

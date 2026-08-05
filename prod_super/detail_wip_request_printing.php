@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod_super/detail_wip_request_printing.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: detail wip request printing
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: user_detail, sys_setup_maintain, wip_request, factory_detail, scan_detail_wip, mat_master_header, material_request_cancel, reason_req_cancel, material_request_close, reason_req_close.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, tcpdf_barcodes_2d.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

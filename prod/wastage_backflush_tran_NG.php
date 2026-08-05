@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod/wastage_backflush_tran_NG.php
+ * Part of: Production module
+ * Filename suggests: wastage backflush tran NG
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, run_count_no, factory_detail, mat_type_tbl, storage_tbl, model_detail, type_wastage_detail, reason_wastage.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_production_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED);
 session_start();
 $username = $_SESSION['username'];

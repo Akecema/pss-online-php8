@@ -1,6 +1,21 @@
 
 <?php
 
+
+/**
+ * prod/content2.php
+ * Part of: Production module
+ * Filename suggests: content2
+ *
+ * Behavior: reads parameters from the query string ($_GET).
+ * Database tables referenced: consumable_request.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 //include 'include/config.php';
 
 $Cdate = date ("l, j F Y ");

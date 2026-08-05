@@ -1,4 +1,23 @@
 <?php
+
+/**
+ * PSSboard/PSS_board_consumable.php
+ * Part of: PSS Board module
+ * Filename suggests: PSS board consumable
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: sys_setup_maintain, consumable_request, scan_detail, user_detail, factory_detail, consumable_detail, post_consumable_detail_header, consumable_request_close.
+ * Includes: config.php, content2.php, config.inc, ]., ]);
+$date_transfer = (date(, ]);
+
+$min_20 = date(, td>
+    <td width=.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 include 'include/config.php';
 date_default_timezone_set("Asia/Kuala_Lumpur");
 

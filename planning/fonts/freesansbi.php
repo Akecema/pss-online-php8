@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * planning/fonts/freesansbi.php
+ * Part of: Planning module
+ * Filename suggests: freesansbi
+ *
+ * Behavior: generates a PDF (TCPDF/FPDF).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 // TCPDF FONT FILE DESCRIPTION
 $type='TrueTypeUnicode';
 $name='FreeSansBoldOblique';

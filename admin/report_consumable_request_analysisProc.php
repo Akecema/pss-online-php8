@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * admin/report_consumable_request_analysisProc.php
+ * Part of: Admin module
+ * Filename suggests: report consumable request analysisProc
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, consumable_request, user_detail, factory_detail, post_consumable_detail_header, consumable_request_close.
+ * Includes: config.php, ]., $date_transfer = (date(.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

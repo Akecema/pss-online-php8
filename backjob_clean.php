@@ -1,5 +1,27 @@
 <?php
 
+
+/**
+ * backjob_clean.php
+ * Part of: Core / entry-point script
+ * Filename suggests: backjob clean
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: material_request, scan_detail, consumable_request, wip_request, scan_detail_wip, pps_detail.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ *
+ * IMPORTANT: this runs on every successful login for several roles
+ * (production, production-super, planning, planning-super - see the
+ * "include '''backjob_clean.php'''" calls in ckies-aut_frst.php/ckies-aut_scd.php)
+ * and DELETES that user'''s own pending/incomplete material, consumable, and
+ * WIP scan requests (status_request = '''N''' and not yet Closed/Cancelled). It is
+ * effectively "discard whatever this user left half-finished last time" -
+ * not obvious from the filename or from the login flow that includes it.
+ */
 $sql = "SELECT * FROM material_request AS MR, scan_detail AS SD, user_detail AS UD WHERE MR.id_scan = SD.id_scan AND MR.user_create = UD.user_no AND MR.status_request = 'N' AND (MR.status != 'Close' AND MR.status != 'Cancel') AND UD.username = '$username'";
 $result = mysqli_query($dbc, $sql) or trigger_error("SQL", E_USER_ERROR);
 $r = mysqli_num_rows($result);

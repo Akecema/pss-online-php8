@@ -1,5 +1,20 @@
 <?php
 
+
+/**
+ * prod/findMaterialType1.php
+ * Part of: Production module
+ * Filename suggests: findMaterialType1
+ *
+ * Behavior: reads parameters from the query string ($_GET).
+ * Database tables referenced: sys_setup_maintain, table_material.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 $material_type = $_GET['material_type'];
 include '../include/config.php';
 

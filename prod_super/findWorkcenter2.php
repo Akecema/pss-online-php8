@@ -1,5 +1,20 @@
 <?php
 
+
+/**
+ * prod_super/findWorkcenter2.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: findWorkcenter2
+ *
+ * Behavior: reads parameters from the query string ($_GET).
+ * Database tables referenced: sys_setup_maintain, work_center_detail.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 $factory =intval($_GET['factory']);
 include '../include/config.php';
 

@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * planning/process_tran_pps_latest.php
+ * Part of: Planning module
+ * Filename suggests: process tran pps latest
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET); sends email.
+ * Database tables referenced: sys_setup_maintain, request_status, pps_detail, pps_upload, work_center_detail, table_material, login_detail, ftp_pps, BOM.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, config_mail.php, excel_reader2.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION["username"];
 include '../include/config.php';

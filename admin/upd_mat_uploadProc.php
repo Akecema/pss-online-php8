@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * admin/upd_mat_uploadProc.php
+ * Part of: Admin module
+ * Filename suggests: upd mat uploadProc
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET); handles a file upload; generates an Excel export (PHPExcel).
+ * Database tables referenced: sys_setup_maintain, mat_master_header, table_material, mat_master_header_upload.
+ * Includes: config.php, config_mail.php, IOFactory.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 
 $username = $_SESSION['username'];

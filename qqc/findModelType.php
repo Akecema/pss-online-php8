@@ -1,5 +1,20 @@
 <?php
 
+
+/**
+ * qqc/findModelType.php
+ * Part of: QQC module (Quality)
+ * Filename suggests: findModelType
+ *
+ * Behavior: reads parameters from the query string ($_GET).
+ * Database tables referenced: sys_setup_maintain, table_material_qc.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 $model_code = $_GET['model_code'];
 include '../include/config.php';
 

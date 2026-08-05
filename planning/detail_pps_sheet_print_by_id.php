@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * planning/detail_pps_sheet_print_by_id.php
+ * Part of: Planning module
+ * Filename suggests: detail pps sheet print by id
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: sys_setup_maintain, request_status, pps_detail, work_center_detail, ftp_pps, mat_master_header, mat_master_detail.
+ * Includes: config.php, tcpdf_barcodes_2d.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

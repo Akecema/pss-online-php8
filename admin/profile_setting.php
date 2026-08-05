@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * admin/profile_setting.php
+ * Part of: Admin module
+ * Filename suggests: profile setting
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: sys_setup_maintain, user_detail, company, department, designation, level_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

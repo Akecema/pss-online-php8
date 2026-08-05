@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ppc_super/report_material_request_analysisProc.php
+ * Part of: PPC module (supervisor/admin tier)
+ * Filename suggests: report material request analysisProc
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, mat_master_header, material_request, scan_detail, user_detail, factory_detail, post_detail_header, material_request_close.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

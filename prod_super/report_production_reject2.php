@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod_super/report_production_reject2.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: report production reject2
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, factory_detail, work_center_detail, reject_detail_disposal, type_reject_detail, reason_ng_reject, mat_master_header.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_prod_super_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 ini_set("error_reporting", E_ALL & ~E_DEPRECATED);
 session_start();
 $username = $_SESSION['username'];

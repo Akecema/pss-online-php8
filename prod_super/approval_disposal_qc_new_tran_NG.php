@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod_super/approval_disposal_qc_new_tran_NG.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: approval disposal qc new tran NG
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, reject_detail_disposal, type_reject_detail, reason_ng_reject, pps_detail, mat_master_header.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, tcpdf_barcodes_2d.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED);
 session_start();
 $username = $_SESSION['username'];

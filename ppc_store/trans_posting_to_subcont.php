@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ppc_store/trans_posting_to_subcont.php
+ * Part of: PPC Store module
+ * Filename suggests: trans posting to subcont
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, run_count_no, table_material, scan_tp_subcont, tp_subcont_detail, ftp_tp_subcont, vendor_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_ppc_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED);
 session_start();
 $username = $_SESSION['username'];

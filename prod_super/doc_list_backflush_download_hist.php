@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod_super/doc_list_backflush_download_hist.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: doc list backflush download hist
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, request_status, pps_detail_transaction_v1, mat_master_header, qqc_detail_transaction, qqc_transaction.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

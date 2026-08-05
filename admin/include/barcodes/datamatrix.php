@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * admin/include/barcodes/datamatrix.php
+ * Part of: Admin module
+ * Filename suggests: datamatrix
+ *
+ * Behavior: generates a PDF (TCPDF/FPDF).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 //============================================================+
 // File name   : datamatrix.php
 // Version     : 1.0.008

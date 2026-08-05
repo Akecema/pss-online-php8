@@ -1,4 +1,22 @@
 <?php
+
+/**
+ * prod/posting_consumable_request2.php
+ * Part of: Production module
+ * Filename suggests: posting consumable request2
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: user_detail, sys_setup_maintain, factory_detail, consumable_request.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_production_menu.php, td>
+            <td width=, ]., ]);
+
+$min_20 = date(.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

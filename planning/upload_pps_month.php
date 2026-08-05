@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * planning/upload_pps_month.php
+ * Part of: Planning module
+ * Filename suggests: upload pps month
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST); handles a file upload.
+ * Database tables referenced: user_detail, sys_setup_maintain, ftp_pps, plan_cat_pps.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, excel_reader2.php, top_modal_menu.php, left_planning_menu.php, header.inc, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

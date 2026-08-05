@@ -1,3 +1,17 @@
+<?php
+/**
+ * frm-login.php
+ * Part of: Core / entry-point script
+ * Filename suggests: frm login
+ *
+ * Behavior: processes submitted form data ($_POST).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+?>
  <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" id="loginform" class="form-vertical" >
 				 <div class="control-group normal_text"> 
            

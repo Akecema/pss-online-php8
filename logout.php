@@ -1,6 +1,21 @@
 <?php
 
-	require("include/config.php");
+	
+/**
+ * logout.php
+ * Part of: Core / entry-point script
+ * Filename suggests: logout
+ *
+ * Behavior: requires an active login session ($_SESSION['username']).
+ * Database tables referenced: sys_setup_maintain, user_detail, login_detail.
+ * Includes: config.php, status.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+require("include/config.php");
 	require("status.php");
 	
 	session_start();

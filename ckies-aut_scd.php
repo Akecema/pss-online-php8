@@ -1,7 +1,28 @@
 <?php
 
 
- // makes sure they filled it in
+ 
+/**
+ * ckies-aut_scd.php
+ * Part of: Core / entry-point script
+ * Filename suggests: ckies aut scd
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, failed_login, status_failed.
+ * Includes: rst-mail.php, index_admin.php, backjob_clean.php, index_super.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+// This file runs the actual login form submission (index.php includes it when
+// $_POST['submit'] is set). Compare with ckies-aut_frst.php, which is the
+// *cookie-based* auto-login path for returning visitors.
+//
+// makes sure they filled it in
+// Note: "|" here is the bitwise-OR operator, not "||" (logical OR) - it works
+// for this truthy/falsy check by coincidence, but is easy to misread.
  	if(!$_POST['username'] | !$_POST['pass']) {
 	
 	                 echo "<br><br>"; 
@@ -15,6 +36,9 @@
  	// checks it against the database
 
  	
+ 	// SECURITY: $_POST['username'] is concatenated directly into the query
+ 	// string - this is SQL-injectable. Should use a parameterised/prepared
+ 	// mysqli statement instead (see improvement report).
  	$check = mysqli_query($dbc, "SELECT * FROM user_detail WHERE username = '".$_POST['username']."' AND status = 'AC' AND status_failed = 'N'")or die(mysqli_error($dbc));
 
  //Gives error if user dosen't exist
@@ -35,6 +59,10 @@
  {
     $_POST['pass'] = stripslashes($_POST['pass']);
  	$info['password'] = stripslashes($info['password']);
+ 	// Password hashing here is a bare, unsalted MD5 - MD5 is fast and has no
+ 	// per-user salt, so stored hashes are crackable via rainbow tables /
+ 	// brute force. Modern PHP has password_hash()/password_verify() (bcrypt,
+ 	// salted, tunable cost) built in - see improvement report.
  	$_POST['pass'] = md5($_POST['pass']);
 
  //gives error if the password is wrong
@@ -89,6 +117,12 @@
  // if login is ok then we add a cookie 
  	 $_POST['username'] = stripslashes($_POST['username']); 
  	 $hour = time() + 3600; 
+ // These two cookies ARE the "remember me" credential checked in
+ // ckies-aut_frst.php: Key_my_site holds the MD5 password hash in plain
+ // text, readable by any JS on the page (no HttpOnly flag) and sendable over
+ // plain HTTP (no Secure flag, no SameSite). Anyone who can read this cookie
+ // can log in as this user for the next hour without a password. See
+ // improvement report for a session-token-based alternative.
  setcookie('ID_my_site', $_POST['username'], $hour); 
  setcookie('Key_my_site', $_POST['pass'], $hour);	 
  

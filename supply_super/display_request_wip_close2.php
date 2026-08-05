@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * supply_super/display_request_wip_close2.php
+ * Part of: Supply Chain module (supervisor/admin tier)
+ * Filename suggests: display request wip close2
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: user_detail, sys_setup_maintain, factory_detail, work_center_detail, wip_request, scan_detail_wip, mat_master_header.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_supply_super_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

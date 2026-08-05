@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * qqc/cancel_qc_rework_output_QC_ok.php
+ * Part of: QQC module (Quality)
+ * Filename suggests: cancel qc rework output QC ok
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, qqc_transaction, qqc_detail_transaction, table_material, run_count_no, ftp_goodtran_detail, qqc_transaction_cancel2, Cancel.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, tcpdf_barcodes_2d.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

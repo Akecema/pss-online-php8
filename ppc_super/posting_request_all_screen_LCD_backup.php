@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ppc_super/posting_request_all_screen_LCD_backup.php
+ * Part of: PPC module (supervisor/admin tier)
+ * Filename suggests: posting request all screen LCD backup
+ *
+ * Behavior: requires an active login session ($_SESSION['username']).
+ * Database tables referenced: material_request, scan_detail, user_detail, factory_detail, mat_master_header, post_detail_header, material_request_close.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, content.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 
 $username = $_SESSION['username'];

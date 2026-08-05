@@ -1,4 +1,18 @@
-<?php $Cdate = date ("l, j F Y ");  ?>
+<?php 
+/**
+ * qqc/top_modal_menu.php
+ * Part of: QQC module (Quality)
+ * Filename suggests: top modal menu
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: user_detail, company, department, designation, level_detail.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+$Cdate = date ("l, j F Y ");  ?>
 
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">

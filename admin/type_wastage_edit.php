@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * admin/type_wastage_edit.php
+ * Part of: Admin module
+ * Filename suggests: type wastage edit
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, type_wastage_detail, record.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

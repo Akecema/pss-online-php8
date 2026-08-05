@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * calendar/classes/tc_calendar.php
+ * Part of: Calendar module
+ * Filename suggests: tc calendar
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: when, calendar.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 //*********************************************************
 // The php calendar component
 // written by TJ @triconsole

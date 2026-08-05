@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * qqc/backjob_initial_pass.php
+ * Part of: QQC module (Quality)
+ * Filename suggests: backjob initial pass
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST); sends email.
+ * Database tables referenced: sys_setup_maintain, login_detail, user_detail, sys_param.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, config_mail.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

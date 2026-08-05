@@ -1,4 +1,20 @@
 <?php
+
+/**
+ * ppc_super/close_MRIN_consumable_ppc__X.php
+ * Part of: PPC module (supervisor/admin tier)
+ * Filename suggests: close MRIN consumable ppc X
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: factory_detail, consumable_request, material_request, user_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, td>
+              <td width=.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

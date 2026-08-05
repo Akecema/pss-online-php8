@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ppc_store/report_document_list_TP_to_plb_download.php
+ * Part of: PPC Store module
+ * Filename suggests: report document list TP to plb download
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, request_status, tp_plb_detail, tp_plb_cancel.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

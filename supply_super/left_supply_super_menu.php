@@ -1,3 +1,17 @@
+<?php
+/**
+ * supply_super/left_supply_super_menu.php
+ * Part of: Supply Chain module (supervisor/admin tier)
+ * Filename suggests: left supply super menu
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="index_supply_super.php" class="visible-phone"><i class="icon icon-home"></i> Home</a>
   <ul>

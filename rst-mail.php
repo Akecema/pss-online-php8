@@ -1,5 +1,23 @@
 <?php                 
-                  $query_update_fail = "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = '".$row["username"]."', date_update = NOW() where username='".$_POST["username"]."'";
+                  
+/**
+ * rst-mail.php
+ * Part of: Core / entry-point script
+ * Filename suggests: rst mail
+ *
+ * Behavior: processes submitted form data ($_POST); sends email.
+ * Database tables referenced: user_detail.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+// SECURITY: $_POST["username"] and $row["username"] are concatenated
+// directly into SQL here - injectable. Included via ckies-aut_frst.php after
+// 5 failed logins in 24h: locks the account (status_failed='Y') and emails
+// the user's registered address to notify them.
+$query_update_fail = "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = '".$row["username"]."', date_update = NOW() where username='".$_POST["username"]."'";
 				  $result_update_fail = mysqli_query($dbc, $query_update_fail) or die (mysqli_error($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok

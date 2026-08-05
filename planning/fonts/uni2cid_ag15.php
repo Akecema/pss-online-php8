@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * planning/fonts/uni2cid_ag15.php
+ * Part of: Planning module
+ * Filename suggests: uni2cid ag15
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 // unicode to cid conversion table is from
 // ftp://ftp.oreilly.com/pub/examples/nutshell/cjkv/adobe/
 // cid2code.txt in ag15.tar.Z

@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * supply_super/close_WIP_manual.php
+ * Part of: Supply Chain module (supervisor/admin tier)
+ * Filename suggests: close WIP manual
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, wip_request, factory_detail, mat_master_header, post_detail_header_wip, wip_request_close, scan_detail_wip, reason_req_close.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

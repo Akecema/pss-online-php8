@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * prod_super/report_all_planning_module2.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: report all planning module2
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, work_center_detail, factory_detail, pps_detail, mat_master_header, level_detail, table_material, mat_master_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_prod_super_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

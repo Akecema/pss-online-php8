@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * admin/profile_edit_personal.php
+ * Part of: Admin module
+ * Filename suggests: profile edit personal
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, user_detail, record, company, department, designation.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

@@ -1,5 +1,20 @@
 <?php
 
+
+/**
+ * planning/findWorkcenter4.php
+ * Part of: Planning module
+ * Filename suggests: findWorkcenter4
+ *
+ * Behavior: processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, work_center_detail.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 $factory = $_GET['factory'];
 include '../include/config.php';
 

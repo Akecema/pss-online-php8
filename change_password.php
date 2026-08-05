@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * change_password.php
+ * Part of: Core / entry-point script
+ * Filename suggests: change password
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST); sends email.
+ * Database tables referenced: user_detail.
+ * Includes: config.php, header2.php, config_mail.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include 'include/config.php';
@@ -84,6 +99,9 @@ if(isset($_POST['submit']))
 // create a function for escaping the data.
 function escape_data ($data) {
 global $dbc;   // need the connection.
+// magic_quotes_gpc was removed in PHP 5.4 and ini_get() for it always
+// returns "" (falsy) now, so this branch never runs on PHP 8 - harmless
+// dead code, left as-is rather than risk changing behavior.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
@@ -138,9 +156,14 @@ $message = NULL; // create an empty new variable.
 				  	  
                  if($user && $password && $newpass) { // Everything's OK
 				 
+				 // Same bare/unsalted MD5 hashing as the login flow (ckies-aut_scd.php) -
+				 // see improvement report re: password_hash()/password_verify().
 				 $newpass = md5($_POST['newpass']);
 				  $pass = md5($password);
 				 
+				  // $user/$pass were passed through escape_data() (mysqli_real_escape_string)
+				  // above, so this query is reasonably defended against SQL injection -
+				  // unlike several other files in this app, this one does it right.
 				  $query = "SELECT * FROM user_detail WHERE username ='$user' AND password = '$pass'";
 				  $result = mysqli_query($dbc, $query);
 				  $num = mysqli_num_rows($result);
@@ -155,6 +178,11 @@ $message = NULL; // create an empty new variable.
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
+				  // SECURITY: the new password is emailed to the user in plain text below.
+				  // Email is not a secure channel (unencrypted in transit/at rest on most
+				  // mail servers) and this trains users to expect/trust password-in-email,
+				  // which is exactly the pattern phishing attacks exploit. Consider sending
+				  // a time-limited reset *link* instead of the password itself.
 				  //Send an email, if desired
 				$pass_new =  $_POST['newpass'];
 				

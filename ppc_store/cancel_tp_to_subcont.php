@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ppc_store/cancel_tp_to_subcont.php
+ * Part of: PPC Store module
+ * Filename suggests: cancel tp to subcont
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, request_status, tp_subcont_detail, sys_setup_maintain, run_count_no, tp_subcont_cancel, ftp_tp_cancel_subcont.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

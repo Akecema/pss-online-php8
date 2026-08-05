@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * prod_super/fonts/uni2cid_aj16.php
+ * Part of: Production module (supervisor/admin tier)
+ * Filename suggests: uni2cid aj16
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 // unicode to cid conversion table is from
 // ftp://ftp.oreilly.com/pub/examples/nutshell/cjkv/adobe/
 // cid2code.txt in aj16.tar.Z

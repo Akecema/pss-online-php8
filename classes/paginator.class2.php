@@ -1,5 +1,18 @@
 <?php
 
+
+/**
+ * classes/paginator.class2.php
+ * Part of: Shared class library
+ * Filename suggests: paginator.class2
+ *
+ * Behavior: reads parameters from the query string ($_GET).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 class Paginator{
 	var $items_per_page;
 	var $items_total;

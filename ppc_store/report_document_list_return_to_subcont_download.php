@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ppc_store/report_document_list_return_to_subcont_download.php
+ * Part of: PPC Store module
+ * Filename suggests: report document list return to subcont download
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: sys_setup_maintain, request_status, ret_subcont_detail, ret_subcont_cancel.
+ * Includes: config.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';

@@ -453,8 +453,9 @@ class TCPDF_STATIC {
 			$text = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 			return $iv.substr($text, 0, -16);
 		}
-		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_RAND);
-		$text = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $text, MCRYPT_MODE_CBC, $iv);
+		$cipher = 'aes-'.(strlen($key) * 8).'-cbc';
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+		$text = openssl_encrypt($text, $cipher, $key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
 		$text = $iv.$text;
 		return $text;
 	}

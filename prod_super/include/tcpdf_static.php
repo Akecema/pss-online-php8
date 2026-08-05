@@ -1409,8 +1409,9 @@ class TCPDF_STATIC {
 		// padding (RFC 2898, PKCS #5: Password-Based Cryptography Specification Version 2.0)
 		$padding = 16 - (strlen($text) % 16);
 		$text .= str_repeat(chr($padding), $padding);
-		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_RAND);
-		$text = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $text, MCRYPT_MODE_CBC, $iv);
+		$cipher = 'aes-'.(strlen($key) * 8).'-cbc';
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+		$text = openssl_encrypt($text, $cipher, $key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
 		$text = $iv.$text;
 		return $text;
 	}

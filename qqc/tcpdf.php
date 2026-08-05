@@ -10759,8 +10759,8 @@ class TCPDF {
 	 */
 	protected function _UEvalue() {
 		$hashkey = hash('sha256', $this->encryptdata['user_password'].$this->encryptdata['UKS'], true);
-		$iv = str_repeat("\x00", mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
-		return mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $hashkey, $this->encryptdata['key'], MCRYPT_MODE_CBC, $iv);
+		$iv = str_repeat("\x00", openssl_cipher_iv_length('aes-256-cbc'));
+		return openssl_encrypt($this->encryptdata['key'], 'aes-256-cbc', $hashkey, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
 	}
 
 	/**
@@ -10810,8 +10810,8 @@ class TCPDF {
 	 */
 	protected function _OEvalue() {
 		$hashkey = hash('sha256', $this->encryptdata['owner_password'].$this->encryptdata['OKS'].$this->encryptdata['U'], true);
-		$iv = str_repeat("\x00", mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
-		return mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $hashkey, $this->encryptdata['key'], MCRYPT_MODE_CBC, $iv);
+		$iv = str_repeat("\x00", openssl_cipher_iv_length('aes-256-cbc'));
+		return openssl_encrypt($this->encryptdata['key'], 'aes-256-cbc', $hashkey, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
 	}
 
 	/**
@@ -10866,8 +10866,7 @@ class TCPDF {
 				}
 				$perms .= 'adb'; // bytes 9-11
 				$perms .= 'nick'; // bytes 12-15
-				$iv = str_repeat("\x00", mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB));
-				$this->encryptdata['perms'] = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $this->encryptdata['key'], $perms, MCRYPT_MODE_ECB, $iv);
+				$this->encryptdata['perms'] = openssl_encrypt($perms, 'aes-256-ecb', $this->encryptdata['key'], OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING);
 			} else { // RC4-40, RC4-128, AES-128
 				// Pad passwords
 				$this->encryptdata['user_password'] = substr($this->encryptdata['user_password'].TCPDF_STATIC::$enc_padding, 0, 32);
@@ -10990,7 +10989,7 @@ class TCPDF {
 			if (!extension_loaded('mcrypt')) {
 				$this->Error('AES encryption requires mcrypt library (http://www.php.net/manual/en/mcrypt.requirements.php).');
 			}
-			if (mcrypt_get_cipher_name(MCRYPT_RIJNDAEL_128) === false) {
+			if (!in_array('aes-256-cbc', array_map('strtolower', openssl_get_cipher_methods()))) {
 				$this->Error('AES encryption requires MCRYPT_RIJNDAEL_128 cypher.');
 			}
 			if (($mode == 3) AND !function_exists('hash')) {
@@ -12705,7 +12704,7 @@ class TCPDF {
 		$k = $this->k;
 		$this->javascript .= sprintf("f".$name."=this.addField('%s','%s',%u,[%F,%F,%F,%F]);", $name, $type, $this->PageNo()-1, $x*$k, ($this->h-$y)*$k+1, ($x+$w)*$k, ($this->h-$y-$h)*$k+1)."\n";
 		$this->javascript .= 'f'.$name.'.textSize='.$this->FontSizePt.";\n";
-		while (list($key, $val) = each($prop)) {
+		foreach ($prop as $key => $val) {
 			if (strcmp(substr($key, -5), 'Color') == 0) {
 				$val = TCPDF_COLORS::_JScolor($val);
 			} else {
@@ -16668,7 +16667,7 @@ class TCPDF {
 					// get attributes
 					preg_match_all('/([^=\s]*)[\s]*=[\s]*"([^"]*)"/', $element, $attr_array, PREG_PATTERN_ORDER);
 					$dom[$key]['attribute'] = array(); // reset attribute array
-					while (list($id, $name) = each($attr_array[1])) {
+					foreach ($attr_array[1] as $id => $name) {
 						$dom[$key]['attribute'][strtolower($name)] = $attr_array[2][$id];
 					}
 					if (!empty($css)) {
@@ -16681,7 +16680,7 @@ class TCPDF {
 						// get style attributes
 						preg_match_all('/([^;:\s]*):([^;]*)/', $dom[$key]['attribute']['style'], $style_array, PREG_PATTERN_ORDER);
 						$dom[$key]['style'] = array(); // reset style attribute array
-						while (list($id, $name) = each($style_array[1])) {
+						foreach ($style_array[1] as $id => $name) {
 							// in case of duplicate attribute the last replace the previous
 							$dom[$key]['style'][strtolower($name)] = trim($style_array[2][$id]);
 						}

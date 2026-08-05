@@ -1,0 +1,48 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-!ngre55Ee}
+      DB_NAME: ${DB_NAME:-mrin_project_ipsb}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-!ngre55Ee}
+      MYSQL_DATABASE: ${DB_NAME:-mrin_project_ipsb}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD:-!ngre55Ee}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${DB_PASSWORD:-!ngre55Ee}
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db_data:

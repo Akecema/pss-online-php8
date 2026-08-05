@@ -1,8 +1,8 @@
 <?php                 
                   $query_update_fail = "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = '".$row["username"]."', date_update = NOW() where username='".$_POST["username"]."'";
-				  $result_update_fail = mysql_query($query_update_fail) or die (mysql_error());
+				  $result_update_fail = mysqli_query($dbc, $query_update_fail) or die (mysqli_error($dbc));
 				  
-				  if(mysql_affected_rows() == 1) { //If it ran ok
+				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 			
 			$to = $row["user_email"]; 

@@ -5,9 +5,9 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -36,8 +36,8 @@ $namaFile = "FG/SFG_".$date_filename."Download.xls";
 
 
     $query8 = "SELECT * FROM mat_master_header WHERE (material_no LIKE '%".$_GET["txtKeyword"]."%' or bom LIKE '%".$_GET["txtKeyword"]."%' ) ORDER BY material_no ASC";
-    $result8 = mysql_query($query8) or die(mysql_error());
-    $num_rows = mysql_num_rows($result8);
+    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+    $num_rows = mysqli_num_rows($result8);
 
 
 //---------------------------end count
@@ -95,7 +95,7 @@ echo '</table>';
 //Display table
 // query menampilkan semua data
 $query = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') AS R, DATE_FORMAT(date_bom_create,'%d-%m-%Y') AS R2 FROM mat_master_header WHERE (material_no LIKE '%".$_GET["txtKeyword"]."%' or bom LIKE '%".$_GET["txtKeyword"]."%' ) ORDER BY material_no ASC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
    $counter = 1;
@@ -105,7 +105,7 @@ $rs = mysql_query($query);   //run the query.
    $bq = 0;
    $rq = 0;
 
- while ($row2 = mysql_fetch_array($rs))
+ while ($row2 = mysqli_fetch_array($rs))
    {
    
 
@@ -146,7 +146,7 @@ $rs = mysql_query($query);   //run the query.
 		  
 
 }  // end while loop
- mysql_free_result($rs); 
+ mysqli_free_result($rs); 
 ?>
 
 <?php

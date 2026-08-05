@@ -18,14 +18,14 @@ exit();
 $url = "technical_complete_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -39,53 +39,53 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1'";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2'";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7'";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Closed)
 $sta13 = "SELECT * from request_status WHERE status_id = '13'";
-$sta_res13 = mysql_query($sta13);
-$rst_sta13 = mysql_fetch_array($sta_res13);
+$sta_res13 = mysqli_query($dbc, $sta13);
+$rst_sta13 = mysqli_fetch_array($sta_res13);
 
 //CR status (Completed)
 $sta14 = "SELECT * from request_status WHERE status_id = '14'";
-$sta_res14 = mysql_query($sta14);
-$rst_sta14 = mysql_fetch_array($sta_res14);
+$sta_res14 = mysqli_query($dbc, $sta14);
+$rst_sta14 = mysqli_fetch_array($sta_res14);
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16'";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 
 //CR status (Transfer QC)
 $sta18 = "SELECT * from request_status WHERE status_id = '18'";
-$sta_res18 = mysql_query($sta18);
-$rst_sta18 = mysql_fetch_array($sta_res18);	
+$sta_res18 = mysqli_query($dbc, $sta18);
+$rst_sta18 = mysqli_fetch_array($sta_res18);	
 
 //CR status (Approved QC)
 $sta17 = "SELECT * from request_status WHERE status_id = '17'";
-$sta_res17 = mysql_query($sta17);
-$rst_sta17 = mysql_fetch_array($sta_res17);
+$sta_res17 = mysqli_query($dbc, $sta17);
+$rst_sta17 = mysqli_fetch_array($sta_res17);
 	
 	?>
 <!DOCTYPE html>
@@ -282,9 +282,9 @@ return "";
                   <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                   <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -300,9 +300,9 @@ return "";
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -318,9 +318,9 @@ return "";
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
 	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
-            $result9 = mysql_query($query9);
+            $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["plan_no"]; ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo $row9["plan_no"]; ?></option>
@@ -341,9 +341,9 @@ return "";
                   <option value="NULL" placeholder="Select Plan Category"> -- Select Plan Category --</option>
                   <?php
 	               $query29 = "SELECT * FROM plan_cat_pps ORDER BY id_plan ASC";
-                   $result29 = mysql_query($query29);
+                   $result29 = mysqli_query($dbc, $query29);
   
-                   while($row29=mysql_fetch_array($result29)) 
+                   while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
                      <option value="<?php echo $row29["id_plan"]; ?>"> <?php echo $row29["plan_category_desc"]; ?></option>
@@ -387,7 +387,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
  
@@ -419,21 +419,21 @@ $message = NULL; // create an empty new variable.
 		//update table pps_detail
 		
 	$query_close = "UPDATE pps_detail SET status_pps = '".$rst_sta18["status_desc"]."', user_update = '".$username."', date_update = NOW(), user_closed = '".$username."', date_closed = NOW() WHERE id = '".$cancel[$i]."'";
-        $result_close = mysql_query($query_close) or die (mysql_error());
+        $result_close = mysqli_query($dbc, $query_close) or die (mysqli_error($dbc));
 		
 		//update table pps_detail_transaction
 		/*$query_close2 = "UPDATE pps_detail_transaction SET status_pps = '".$rst_sta14["status_desc"]."' WHERE pps_id = '$cancel[$i]'";
-        $result_close2 = mysql_query($query_close2) or die (mysql_error());*/
+        $result_close2 = mysqli_query($dbc, $query_close2) or die (mysqli_error($dbc));*/
 		
 		//insert table pps_detail_close
 		
 		$query_info = "SELECT * FROM pps_detail WHERE id = '".$cancel[$i]."'";
-		$result_info = mysql_query($query_info);
-		$row_info = mysql_fetch_array($result_info);
+		$result_info = mysqli_query($dbc, $query_info);
+		$row_info = mysqli_fetch_array($result_info);
 		
 	   
     $query_pps_closed = "INSERT INTO pps_detail_close(id_closing, id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours, remark_closed, type_closed, remark_closed_plan) VALUES('','".$row_info["id"]."','".$row_info["ref_id"]."','".$row_info['plan_no']."','".$row_info["upload_id"]."','".$row_info["model_code"]."','".$row_info["month_plan"]."','".$row_info["material_no"]."','".$row_info["qty_plan"]."','".$row_info["qty_actual"]."','".$row_info["status_pps"]."','".$row_info["comp_code"]."','".$row_info["work_center"]."','".$row_info["shift_pps1"]."','".$row_info["shift_pps2"]."','".$row_info["date_plan"]."','".$row_info["status"]."','".$row_info["user_upload"]."','".$row_info["date_upload"]."','".$row_info["user_create"]."','".$row_info["date_create"]."','".$row_info["user_update"]."','".$row_info["date_update"]."','".$row_info["user_posting"]."','".$row_info["date_posting"]."','".$row_info["user_closed"]."','".$row_info["date_closed"]."','".$row_info["plan_category"]."','".$row_info["id_factory_pps"]."','".$row_info["rev_pps"]."','".$row_info["seq_pps"]."','".$row_info["man_hours"]."','".$row_info["work_hours"]."','".$string[$i]."','','')"; 
-     $rst_pps_closed = mysql_query($query_pps_closed);
+     $rst_pps_closed = mysqli_query($dbc, $query_pps_closed);
      
 	 		
 		  
@@ -469,8 +469,8 @@ $message = NULL; // create an empty new variable.
 			 //convert 
 			
 			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 			
 		  
 		
@@ -536,8 +536,8 @@ $message = NULL; // create an empty new variable.
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status = 'Y' AND (MR.status_pps != '".$rst_sta13["status_desc"]."' AND MR.status_pps != '".$rst_sta4["status_desc"]."' AND MR.status_pps != '".$rst_sta16["status_desc"]."' AND MR.status_pps != '".$rst_sta18["status_desc"]."')".$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -547,8 +547,8 @@ $message = NULL; // create an empty new variable.
  
   
 $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND (MR.status_pps != '".$rst_sta13["status_desc"]."' AND MR.status_pps != '".$rst_sta4["status_desc"]."' AND MR.status_pps != '".$rst_sta16["status_desc"]."' AND MR.status_pps != '".$rst_sta18["status_desc"]."') AND MR.status = 'Y' ".$where_sql."order by MR.plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -609,7 +609,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $no = 1;
    $sta_out = "";
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
  	   
 		
@@ -637,15 +637,15 @@ $num = mysql_num_rows($rs);   //how many material are there?
    
     //-----checking pps_trans entering output production
 	   $query_plan_tran = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row["plan_no"]."' AND status_pps != '".$rst_sta4["status_desc"]."'";
-	   $result_plan_tran = mysql_query($query_plan_tran);
+	   $result_plan_tran = mysqli_query($dbc, $query_plan_tran);
        
-	   while($data_plan_tran = mysql_fetch_array($result_plan_tran))
+	   while($data_plan_tran = mysqli_fetch_array($result_plan_tran))
     {
 
   	 //-----checking QA/QC entering output production
 	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".$data_plan_tran["bflush_no"]."' AND plan_no = '".$data_plan_tran["plan_no"]."'";
-	   $result_qqc = mysql_query($query_qqc);
-	   $data_qqc = mysql_fetch_array($result_qqc);  
+	   $result_qqc = mysqli_query($dbc, $query_qqc);
+	   $data_qqc = mysqli_fetch_array($result_qqc);  
 	   
 	   $qty_total_ok2 = ($qty_total_ok2 + $data_plan_tran["qty_actual"]);  
 	   $qty_rev_ok2 = ($qty_rev_ok2 + $data_qqc["qty_qc"]);  
@@ -655,10 +655,10 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	   
 	 
 	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND plan_no = '".$data_qqc["plan_no"]."'";
-	   $result_qqc2 = mysql_query($query_qqc2);
+	   $result_qqc2 = mysqli_query($dbc, $query_qqc2);
 	
 	  
-	   while($data_qqc2 = mysql_fetch_array($result_qqc2))
+	   while($data_qqc2 = mysqli_fetch_array($result_qqc2))
 	   {
 		 	  
 		$qty_total_rec = ($qty_total_rec + $data_qqc2["qty_qc"]);  

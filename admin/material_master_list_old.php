@@ -15,14 +15,14 @@ exit();
 $url = "material_master_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -97,8 +97,8 @@ $data_setup = mysql_fetch_array($rs_setup);
            <?php
 
    $query8 = "SELECT COUNT(*) FROM mat_master_header";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8); 
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8); 
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -108,8 +108,8 @@ $data_setup = mysql_fetch_array($rs_setup);
  
   
 $query = "SELECT * FROM mat_master_header ORDER BY material_no ASC";
-$rs = mysql_query($query);   //run the query.
-//$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
 
 	
 	
@@ -146,7 +146,7 @@ $rs = mysql_query($query);   //run the query.
    $no = 1;
     $i = 1;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 	
 		   $no = sprintf('%03d', $no);
@@ -174,7 +174,7 @@ $rs = mysql_query($query);   //run the query.
               </tbody>
             </table>
             <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
    
    ?> <?php
 	}   // free up the resources 
@@ -188,7 +188,7 @@ else
 </table></center>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 ?>
           </div>
         

@@ -16,13 +16,13 @@ exit();
 $url = "display_pps_month_reprint.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -36,23 +36,23 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (Closed)
 $sta13 = "SELECT * from request_status WHERE status_id = '13'";
-$sta_res13 = mysql_query($sta13);
-$rst_sta13 = mysql_fetch_array($sta_res13);	
+$sta_res13 = mysqli_query($dbc, $sta13);
+$rst_sta13 = mysqli_fetch_array($sta_res13);	
 	
 	?>
 <!DOCTYPE html>
@@ -252,9 +252,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -272,9 +272,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
 	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta["status_desc"]."' OR status_pps = '".$rst_sta2["status_desc"]."' ORDER BY plan_no ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
@@ -302,9 +302,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Filename"> -- Select Filename --</option>
                   <?php
 	               $query19 = "SELECT * FROM pps_detail AS DC, ftp_pps AS FP  WHERE FP.upload_id = DC.upload_id AND (DC.status_pps != '".$rst_sta4["status_desc"]."' AND DC.status_pps != '".$rst_sta13["status_desc"]."') GROUP BY FP.file_name ORDER BY FP.file_name ASC";
-                   $result19 = mysql_query($query19);
+                   $result19 = mysqli_query($dbc, $query19);
   
-                   while($row19=mysql_fetch_array($result19)) 
+                   while($row19=mysqli_fetch_array($result19)) 
 			      {
 				   ?>
                      <option value="<?php echo $row19["file_name"]; ?>"> <?php echo $row19["file_name"]; ?></option>
@@ -321,9 +321,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Plan Category"> -- Select Plan Category --</option>
                   <?php
 	               $query29 = "SELECT * FROM plan_cat_pps ORDER BY id_plan ASC";
-                   $result29 = mysql_query($query29);
+                   $result29 = mysqli_query($dbc, $query29);
   
-                   while($row29=mysql_fetch_array($result29)) 
+                   while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
                      <option value="<?php echo $row29["id_plan"]; ?>"> <?php echo $row29["plan_category_desc"]; ?></option>

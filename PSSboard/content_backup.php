@@ -9,8 +9,8 @@ $nextpage = 1;
 <?php
 
 $sql = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')  GROUP BY MR.temp_mrin, SD.work_center ";
-$result = mysql_query($sql);
-$r = mysql_num_rows($result);
+$result = mysqli_query($dbc, $sql);
+$r = mysqli_num_rows($result);
 $numrows = $r;
 
 

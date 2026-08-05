@@ -14,16 +14,16 @@ exit();
 }
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 	$url = "index_supply.php"; 
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 	
 	?>
@@ -60,8 +60,8 @@ $data_setup = mysql_fetch_array($rs_setup);
 <?php
 
   $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
-   $result_sql = mysql_query($query_sql);
-   $info = mysql_fetch_array($result_sql);
+   $result_sql = mysqli_query($dbc, $query_sql);
+   $info = mysqli_fetch_array($result_sql);
     
  
     if(($info['status_pass'] == 'N'))
@@ -127,8 +127,8 @@ jQuery(document).ready(function ($) {
  // ------------------------------  display dashboard ------------------------
  //new wip material request 
 $query_mat_req = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-$rs_mat_req = mysql_query($query_mat_req);   //run the query.
-$num_mat_req = mysql_num_rows($rs_mat_req);   //how many material are there?
+$rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
+$num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
 
 
 
@@ -158,21 +158,21 @@ $num_mat_req = mysql_num_rows($rs_mat_req);   //how many material are there?
 		
 		//1. - open
 	$query_mat_prog_open = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_open = mysql_query($query_mat_prog_open);   
-	$num_mat_prog_open = mysql_num_rows($rs_mat_prog_open);   	
+	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);   
+	$num_mat_prog_open = mysqli_num_rows($rs_mat_prog_open);   	
 		
 		
 		//2.  - close
 	$query_mat_prog_close = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_close = mysql_query($query_mat_prog_close);   
-	$num_mat_prog_close = mysql_num_rows($rs_mat_prog_close);   		
+	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);   
+	$num_mat_prog_close = mysqli_num_rows($rs_mat_prog_close);   		
 		
 		
 		//3. - cancel
 		
 	$query_mat_prog_cancel = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_cancel = mysql_query($query_mat_prog_cancel);   
-	$num_mat_prog_cancel = mysql_num_rows($rs_mat_prog_cancel);  
+	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);   
+	$num_mat_prog_cancel = mysqli_num_rows($rs_mat_prog_cancel);  
 	
 	
 	//-------calculation percentage--------------------------

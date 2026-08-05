@@ -20,8 +20,8 @@ $url = "wip_request_urgent.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,9 +33,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -218,7 +218,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -257,24 +257,24 @@ if($material_no && $factory && $work_center) //everything ok
 
 
 //insert to scan_detail
-$query_db = "INSERT INTO `scan_detail_wip` (id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysql_insert_id()."', '', '$factory', '$work_center', '$prod_order', '$material_no', '', '', '$factory', '', '$user_no', NOW(),'','','Y')";
-$result = mysql_query($query_db) or die (mysql_error());
+$query_db = "INSERT INTO `scan_detail_wip` (id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '', '$factory', '$work_center', '$prod_order', '$material_no', '', '', '$factory', '', '$user_no', NOW(),'','','Y')";
+$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
              if($result)
              {
 			 
-			 $query_sql = "SELECT * FROM `scan_detail_wip` WHERE id_scan = '".mysql_insert_id()."'";
-			 $result_sql = mysql_query($query_sql);
-			 $data_sql = mysql_fetch_array($result_sql);
+			 $query_sql = "SELECT * FROM `scan_detail_wip` WHERE id_scan = '".mysqli_insert_id($dbc)."'";
+			 $result_sql = mysqli_query($dbc, $query_sql);
+			 $data_sql = mysqli_fetch_array($result_sql);
 			 
 			 $query_sql2 = "SELECT * FROM `mat_master_header` WHERE material_no = '".$data_sql["material_no"]."'";
-			 $result_sql2 = mysql_query($query_sql2);
-			 $data_sql2 = mysql_fetch_array($result_sql2);
+			 $result_sql2 = mysqli_query($dbc, $query_sql2);
+			 $data_sql2 = mysqli_fetch_array($result_sql2);
 			 
 			 
 	$query_update = "UPDATE `scan_detail_wip` SET scan_oum = '".$data_sql2["BUn"]."', scan_plant = '".$data_sql2["plant"]."' WHERE id_scan = '".$data_sql["id_scan"]."'";
-	$result_update =  mysql_query($query_update);
+	$result_update =  mysqli_query($dbc, $query_update);
 			 
 			 
 			 
@@ -286,7 +286,7 @@ echo "</script>";
              else 
 			 {
              $message = '<p> Cannot request WIP Request. </p>';
-              mysql_close(); //close db
+              mysqli_close($dbc); //close db
              }   
 }
 //print the message if there is one.
@@ -309,9 +309,9 @@ if (isset($message))
                     <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                     <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -335,9 +335,9 @@ if (isset($message))
                      <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                      <?php
 	       $query2 = "SELECT * FROM mat_master_header ORDER BY material_no ASC";
-                   $result2 = mysql_query($query2);
+                   $result2 = mysqli_query($dbc, $query2);
   
-                   while($row2=mysql_fetch_array($result2, MYSQL_NUM)) 
+                   while($row2=mysqli_fetch_array($result2, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row2[1],'">',stripslashes($row2[1]),' - ',stripslashes($row2[2]),'</option>';
                   }

@@ -24,25 +24,25 @@ $year = $today['year'];
 $url = "document_list_TP_to_store.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 //CR status (Cancelled Posting)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 			 
 //CR status (Transfer Posting)
 $sta19 = "SELECT * from request_status WHERE status_id = '19'";
-$sta_res19 = mysql_query($sta19);
-$rst_sta19 = mysql_fetch_array($sta_res19);	
+$sta_res19 = mysqli_query($dbc, $sta19);
+$rst_sta19 = mysqli_fetch_array($sta_res19);	
 
 //---------------------------------------------------------
 	        
@@ -234,9 +234,9 @@ return "";
    <?php	
   //Retrieve and display the available vendor detail
   $query2a = "SELECT * FROM vendor_detail WHERE status_acc = 'Y' AND status_subcont = 'Y'";
-  $result2a = mysql_query($query2a);
+  $result2a = mysqli_query($dbc, $query2a);
   
-      while($row2a = mysql_fetch_array($result2a)) {
+      while($row2a = mysqli_fetch_array($result2a)) {
 
       ?>
                <!--RETAIN VALUE-->
@@ -323,9 +323,9 @@ return "";
    $count_record = "";
 								 
    $query8 = "SELECT * FROM tp_subcont_detail WHERE status_tran = 'Y' ".$where_sql."GROUP BY doc_tp";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
-   $num = mysql_num_rows($result8);  
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
+   $num = mysqli_num_rows($result8);  
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -333,8 +333,8 @@ return "";
    $pages->paginate();
    
    $query8a = "SELECT * FROM tp_subcont_cancel WHERE status_tran = 'Y' ".$where_sql."GROUP BY doc_tp";
-   $result8a = mysql_query($query8a) or die(mysql_error());
-   $num_rows_8a = mysql_num_rows($result8a);
+   $result8a = mysqli_query($dbc, $query8a) or die(mysqli_error($dbc));
+   $num_rows_8a = mysqli_num_rows($result8a);
 
   //---------------------------end count
    $count_record =  ($num + $num_rows_8a);
@@ -343,8 +343,8 @@ return "";
      $no = 1;
   
 $query_sql2 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R2 FROM tp_subcont_detail WHERE status_tran = 'Y' ".$where_sql. "GROUP BY doc_tp ORDER BY doc_tp DESC";
-$result_sql2 = mysql_query($query_sql2);   //run the query.
-//$num = mysql_num_rows($result_sql2);   //how many material are there?
+$result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
+//$num = mysqli_num_rows($result_sql2);   //how many material are there?
 
 
 	
@@ -398,15 +398,15 @@ $result_sql2 = mysql_query($query_sql2);   //run the query.
 
  <?php
  
-   while ($data_sql2 = mysql_fetch_array($result_sql2))
+   while ($data_sql2 = mysqli_fetch_array($result_sql2))
    {
 	   
 
 	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM tp_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".$data_sql2["doc_tp"]."' ORDER BY posting_date DESC, posting_time DESC";
-     $result_sql3 = mysql_query($query_sql3);   //run the query.
+     $result_sql3 = mysqli_query($dbc, $query_sql3);   //run the query.
 	 
 
-	   while ($data_sql3 = mysql_fetch_array($result_sql3))
+	   while ($data_sql3 = mysqli_fetch_array($result_sql3))
    {
 	 
 	 if($data_sql3["shift_day"] == "D/S")
@@ -420,8 +420,8 @@ $result_sql2 = mysql_query($query_sql2);   //run the query.
 	 
 	  //---- record cancellation ------ //
 		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM tp_subcont_detail WHERE id_tp = '".$data_sql3["id_tp"]."' AND status_tp = '".$rst_sta4["status_desc"]."' ORDER BY posting_date DESC, posting_time DESC";
-		$result_cancel_plb = mysql_query($query_cancel_plb);
-	    $row_cancel = mysql_fetch_array($result_cancel_plb);
+		$result_cancel_plb = mysqli_query($dbc, $query_cancel_plb);
+	    $row_cancel = mysqli_fetch_array($result_cancel_plb);
 		
 	 ?>
      	   
@@ -475,7 +475,7 @@ $result_sql2 = mysql_query($query_sql2);   //run the query.
    }
 
 
-mysql_free_result($result_sql3);   
+mysqli_free_result($result_sql3);   
  }  
   ?></tbody></table> 
  &nbsp;</div>
@@ -483,7 +483,7 @@ mysql_free_result($result_sql3);
 
 <?php
 
-   //mysql_free_result($result_sql2);   
+   //mysqli_free_result($result_sql2);   
 ?>
 
 </div>

@@ -19,8 +19,8 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 $url = "close_MRIN_ppc.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -35,36 +35,36 @@ $temp_mrin = $_GET["mrin_no"];
  
  
 $query_u = "SELECT * FROM user_detail WHERE username = '$username'";
-$result_u = mysql_query($query_u);   //run the query.
-$data_u = mysql_fetch_array($result_u);   //how many records are there? 
+$result_u = mysqli_query($dbc, $query_u);   //run the query.
+$data_u = mysqli_fetch_array($result_u);   //how many records are there? 
 
 
 
 $queryu = "SELECT * from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
 	$query_2 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
-	$result_2 = mysql_query($query_2);   //run the query.
-	$data_2 = mysql_fetch_array($result_2);
+	$result_2 = mysqli_query($dbc, $query_2);   //run the query.
+	$data_2 = mysqli_fetch_array($result_2);
 
    	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
-	$result_k = mysql_query($query_k);
-	$row_k = mysql_fetch_array($result_k);
+	$result_k = mysqli_query($dbc, $query_k);
+	$row_k = mysqli_fetch_array($result_k);
 
 	$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '$username'";
-	$result_k2 = mysql_query($query_k2);
-	$row_k2 = mysql_fetch_array($result_k2);
+	$result_k2 = mysqli_query($dbc, $query_k2);
+	$row_k2 = mysqli_fetch_array($result_k2);
 
 	//--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 
  ?>
@@ -169,7 +169,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -227,30 +227,30 @@ $message = NULL; // create an empty new variable.
 	{
 
 $queryu = "SELECT * from consumable_request WHERE temp_mrin = '$temp_mrin'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
 	$query_2 = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from consumable_request as MR WHERE MR.temp_mrin = '$temp_mrin'";
-	$result_2 = mysql_query($query_2);   //run the query.
-	$data_2 = mysql_fetch_array($result_2);
+	$result_2 = mysqli_query($dbc, $query_2);   //run the query.
+	$data_2 = mysqli_fetch_array($result_2);
 
     $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 
 
 	$query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.temp_mrin = '$temp_mrin' AND MR.status = 'New'";
-	$result_tp  = mysql_query($query_tp); 
+	$result_tp  = mysqli_query($dbc, $query_tp); 
 		
-	   while ($row2 = mysql_fetch_array($result_tp))
+	   while ($row2 = mysqli_fetch_array($result_tp))
 {
 
 
  $query_upd2 = "UPDATE `post_consumable_detail_header` SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '$temp_mrin'";
- $result_upd2 = mysql_query($query_upd2); 
+ $result_upd2 = mysqli_query($dbc, $query_upd2); 
 	      
  $query_upd3 = "UPDATE `consumable_request` SET status = 'Close', user_update = '$user_no', date_update = NOW() WHERE temp_mrin = '$temp_mrin' AND material_no = '".$row2["material_no"]."' ";
- $result_upd3 = mysql_query($query_upd3); 
+ $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
       
 	   //-----------------------------------------------------------------------------------------------------------------------
@@ -258,12 +258,12 @@ $rs = mysql_query($queryu);   //run the query.
 		  //-----------------------------------------------------------------------------------------------------------------------
 		  
 		  	$query_mm3 = "SELECT * FROM `consumable_request` WHERE temp_mrin = '$temp_mrin' AND status = 'Close' AND material_no = '".$row2["material_no"]."'"; 
-        	$result_mm3 = mysql_query($query_mm3) or die (mysql_error());
-			$row_mm3 = mysql_fetch_array($result_mm3); 
+        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
+			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 		
 		$query_mm3_insert =  "INSERT INTO consumable_request_close(id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, reason_close, reason_close2, id_work) VALUES('".$row_mm3["id_req_con"]."','".$row_mm3["mrin_doc"]."','".$row_mm3["mrin_year"]."','".$row_mm3["temp_mrin"]."','".$row_mm3["id_con"]."','".$row_mm3["id_scan"]."','".$row_mm3["material_no"]."','".$row_mm3["con_qty"]."', '".$row_mm3["con_uom"]."','".$row_mm3["status_request"]."','".$row_mm3["status_print"]."','".$row_mm3["status_view"]."','".$row_mm3["factory"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_update"]."','".$row_mm3["date_update"]."','".$row_mm3["date_posting"]."','".$row_mm3["time_posting"]."','".$row_mm3["status"]."','".$row_mm3["date_require"]."','".$row_mm3["time_require"]."','".$_POST["reason_close"]."','".$_POST["reason_close2"]."','".$row_mm3["id_work"]."')";
-$result_mm3_insert = mysql_query($query_mm3_insert) or die (mysql_error());
+$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
 	  
 
 }//end while loop
@@ -351,15 +351,15 @@ if (isset($message))
       $counter = 1;
       $no = 1;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		//$user_no = $row[0]; 
    $no = sprintf('%03d', $no);
 		
   //------------------cost center --------------------//
    $query_cost_center = "SELECT * FROM work_center_detail WHERE id_work = '".$row["id_work"]."'";
-   $result_cost_center = mysql_query($query_cost_center) or die (mysql_error());
-   $row_cost_center = mysql_fetch_array($result_cost_center);
+   $result_cost_center = mysqli_query($dbc, $query_cost_center) or die (mysqli_error($dbc));
+   $row_cost_center = mysqli_fetch_array($result_cost_center);
 		
 		 ?>
 
@@ -376,13 +376,13 @@ if (isset($message))
 	               <?php 
 					
 		$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row["temp_mrin"]."' AND mvt_type = 201 AND material_no = '".$row["material_no"]."' AND status_posting != 'Cancel'";
-	    $result_tp  = mysql_query($query_tp); 
-	    //$row_tp = mysql_fetch_assoc($result_tp); 
+	    $result_tp  = mysqli_query($dbc, $query_tp); 
+	    //$row_tp = mysqli_fetch_assoc($result_tp); 
 		
 					
 		$outs_qty = 0;
 					
-	while($row_tp = mysql_fetch_assoc($result_tp))
+	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
 	echo $row_tp["TOT"]; 
 	
@@ -450,8 +450,8 @@ if (isset($message))
 				 if(isset($_POST["reason_close"])) { 
                   
 				  $query_r_1 = "SELECT * FROM reason_req_close WHERE id_close = '".$_POST["reason_close"]."'";
-                   $result_r_1 = mysql_query($query_r_1);
-				   $row_r_1 = mysql_fetch_array($result_r_1);
+                   $result_r_1 = mysqli_query($dbc, $query_r_1);
+				   $row_r_1 = mysqli_fetch_array($result_r_1);
    
    
    
@@ -468,9 +468,9 @@ if (isset($message))
      }
                     
 	               $query_reason = "SELECT * FROM reason_req_close ORDER BY id_close ASC";
-                   $result_reason = mysql_query($query_reason);
+                   $result_reason = mysqli_query($dbc, $query_reason);
   
-                   while($row_reason = mysql_fetch_array($result_reason, MYSQL_NUM)) 
+                   while($row_reason = mysqli_fetch_array($result_reason, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row_reason[0],'">',stripslashes($row_reason[0]),' - ',stripslashes($row_reason[1]),'</option>';
                   }

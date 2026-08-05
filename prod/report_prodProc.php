@@ -15,8 +15,8 @@ exit();
 $url = "report_prod.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -28,9 +28,9 @@ $year = $today['year'];
 		
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -189,9 +189,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                     <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                     <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3)) 
+                   while($row3=mysqli_fetch_array($result3)) 
 			      {
 			  
 				  ?>
@@ -206,9 +206,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -239,15 +239,15 @@ function getXMLHTTP() { //fuction to return the xml http object
 			//convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 			
 			//convert material no kpd id_hdr
 			
 			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = '".$_GET["factory"]."'";
-			$result_convert2 = mysql_query($query_convert2); 
+			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			
-			while ($row_convert2 = mysql_fetch_array($result_convert2))
+			while ($row_convert2 = mysqli_fetch_array($result_convert2))
 			{
 			
 			echo $row_convert2["id_fac"];
@@ -300,8 +300,8 @@ function getXMLHTTP() { //fuction to return the xml http object
 	//********** END CONDITION **************
 	
   $query8 = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'Cancel'" .$where_sql."GROUP BY MR.id_scan ORDER BY MR.id_req ASC";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_num_rows($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_num_rows($result8);
    
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -311,7 +311,7 @@ function getXMLHTTP() { //fuction to return the xml http object
  
   
 $query = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'Cancel'".$where_sql."GROUP BY MR.id_scan ORDER BY MR.id_req ASC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 
 	 if($num_rows > 0) {
@@ -343,14 +343,14 @@ $rs = mysql_query($query);   //run the query.
    $no = 1;
     $i = 1;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {		
 
   $no = sprintf('%03d', $no);
    
    $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2["id_scan"]."' GROUP BY id_scan";
-   $result_scan = mysql_query($query_scan);
-   $row_scan = mysql_fetch_array($result_scan);
+   $result_scan = mysqli_query($dbc, $query_scan);
+   $row_scan = mysqli_fetch_array($result_scan);
 	
 		  ?>        
     
@@ -368,17 +368,17 @@ $rs = mysql_query($query);   //run the query.
 
          <?php
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2["id_scan"]."' ORDER BY id_req ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-	 while ($row = mysql_fetch_array($rs_again))
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
    $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row2["id_scan"]."' GROUP BY id_scan";
-   $result1_p = mysql_query($query1_p);
-   $row1_p = mysql_fetch_array($result1_p);
+   $result1_p = mysqli_query($dbc, $query1_p);
+   $row1_p = mysqli_fetch_array($result1_p);
 	
   $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row["id_dtl"]."'";
-  $result4_p = mysql_query($query4_p);
-  $row4_p = mysql_fetch_array($result4_p); 
+  $result4_p = mysqli_query($dbc, $query4_p);
+  $row4_p = mysqli_fetch_array($result4_p); 
   
 
 		  	 
@@ -409,7 +409,7 @@ $rs = mysql_query($query);   //run the query.
               </table>            
             
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
 	}   // free up the resources 
 else
 {
@@ -422,7 +422,7 @@ else
 </table></center>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 ?>
        
        

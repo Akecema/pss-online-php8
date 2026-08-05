@@ -16,13 +16,13 @@ exit();
 $url = "disposal_qc_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -36,23 +36,23 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16'";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);	
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);	
 	
 	?>
 <!DOCTYPE html>
@@ -246,9 +246,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Disposal Doc. No.">-Disposal Doc. No.-</option>
                   <?php
 	             $query9 = "SELECT * FROM reject_detail_disposal WHERE (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' AND status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."'  GROUP BY doc_disposal_no";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["doc_disposal_no"]; ?>"> <?php echo $row9["doc_disposal_no"]; ?></option>
@@ -283,9 +283,9 @@ echo "window.location='disposal_approved_qc_tran_NG2.php?date1=$dateF&&date2=$da
    
 								 
    $query8 = "SELECT * FROM reject_detail_disposal WHERE (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' AND status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' GROUP BY doc_disposal_no";
-   $result8 = mysql_query($query8) or die(mysql_error());
-  // $num_rows = mysql_fetch_row($result8);
-   $num_rows = mysql_num_rows($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  // $num_rows = mysqli_fetch_row($result8);
+   $num_rows = mysqli_num_rows($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -295,8 +295,8 @@ echo "window.location='disposal_approved_qc_tran_NG2.php?date1=$dateF&&date2=$da
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' AND status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."'  GROUP BY doc_disposal_no ORDER BY plan_no ASC $pages->limit";
-$rs = mysql_query($query);   //run the query.
-//$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -332,7 +332,7 @@ $rs = mysql_query($query);   //run the query.
    $no = 1;
    $sta_out = "";
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 	 
@@ -390,7 +390,7 @@ $rs = mysql_query($query);   //run the query.
               </tbody>
             </table>
               <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
    ?>
    <br>   	
      <table width="98%" height="25" border="0" align="center" cellspacing="5" >

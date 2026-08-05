@@ -7,9 +7,9 @@ include '../include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -80,22 +80,22 @@ $col12 = trim($allDataInSheet[$i]["L"]);
 
 
   $q = "INSERT INTO mat_master_header_upload(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create) VALUES('','".$col3."','".$col4."','".$col2."','','".$col1."','".$col5."','".$col6."','".$col7."','".$col9."','".$col8."','".$col10."')";
-	$rst = mysql_query($q);	
+	$rst = mysqli_query($dbc, $q);	
 	
 	//----------------------------------------------------------------------------------------	  
 //checking duplicate data transfer from SAP
 //----------------------------------------------------------------------------------------
 
          $query_del = "SELECT * FROM mat_master_header_upload";
-		 $result_del = mysql_query($query_del);
+		 $result_del = mysqli_query($dbc, $query_del);
 		 
 		 
-	     while($rst_del = mysql_fetch_array($result_del))
+	     while($rst_del = mysqli_fetch_array($result_del))
 		 {
 		 
 		$query_check = "SELECT * FROM mat_master_header WHERE material_no = '".$rst_del["material_no"]."' AND bom = '".$rst_del["bom"]."'";
-		$result_check = mysql_query($query_check);		
-		$rst_check = mysql_fetch_array($result_check);
+		$result_check = mysqli_query($dbc, $query_check);		
+		$rst_check = mysqli_fetch_array($result_check);
 		
 		
 		if($rst_check > 0)
@@ -104,14 +104,14 @@ $col12 = trim($allDataInSheet[$i]["L"]);
 		//skip for duplicate data or Update alternative BOM
 		
 		 $query_2_b = "UPDATE mat_master_header SET material_group = '".$rst_del["material_group"]."', material_desc = '".$rst_del["material_desc"]."', bom_usage = '".$rst_del["bom_usage"]."', alternative_bom = '".$rst_del["alternative_bom"]."', BUn = '".$rst_del["BUn"]."', date_create = '".$rst_del["date_create"]."', date_bom_create = '".$rst_del["date_bom_create"]."' WHERE material_no = '".$rst_del["material_no"]."' AND bom = '".$rst_del["bom"]."'";
-	  $result_2_b = mysql_query($query_2_b); 
+	  $result_2_b = mysqli_query($dbc, $query_2_b); 
 		
 	
 		}else{
 	/*if($rst_check < 0) {*/
 			
     $q_header = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create) VALUES('','".$rst_del["material_no"]."','".$rst_del["material_desc"]."','".$rst_del["material_type"]."','".$rst_del["material_group"]."','".$rst_del["plant"]."','".$rst_del["bom_usage"]."','".$rst_del["bom"]."','".$rst_del["alternative_bom"]."','".$rst_del["BUn"]."','".$rst_del["date_create"]."','".$rst_del["date_bom_create"]."')";
-	$rst_header = mysql_query($q_header);		
+	$rst_header = mysqli_query($dbc, $q_header);		
 		
 		
 		}// end else $rst_chceck
@@ -142,7 +142,7 @@ fclose($handle2);
 
       //-------------------------------delete table mat_master_header_upload -------------------------------------
 	  $query_hsekeeping = "DELETE FROM mat_master_header_upload";
-	  $result_hsekeeping =  mysql_query($query_hsekeeping);
+	  $result_hsekeeping =  mysqli_query($dbc, $query_hsekeeping);
 	  
 	  //------------------------end delete upload mat_master_header_upload ---------------------------------						
 	

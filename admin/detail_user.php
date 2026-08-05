@@ -14,14 +14,14 @@ exit();
 $url = "detail_user.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -82,8 +82,8 @@ return $ss;
 $user_no = $_GET["user_no"];
 
 $queryu = "SELECT * from user_detail where user_no = '$user_no'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 //--------------------function escape data from form ------------------------
 function escape_data ($data) {
@@ -92,7 +92,7 @@ if (ini_get('magic_quotes_gpc'))
 {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 //------------------------------end function --------------------------------
@@ -128,8 +128,8 @@ $message = NULL; // create an empty new variable.
  	
   //Retrieve and display the available types
   $query3 = "SELECT * FROM company WHERE comp_code = '$row[8]'";
-  $result3 = mysql_query($query3);
-  $row3 = mysql_fetch_array($result3);
+  $result3 = mysqli_query($dbc, $query3);
+  $row3 = mysqli_fetch_array($result3);
   
 	    echo $row3["comp_name"];
 		
@@ -143,8 +143,8 @@ $message = NULL; // create an empty new variable.
                  <td height="25"><?php		
    //Retrieve and display the available types
   $query2 ="SELECT * from department WHERE id_dept = '$row[6]'";
-  $result2 = mysql_query($query2);
-   $row2 = mysql_fetch_array ($result2);
+  $result2 = mysqli_query($dbc, $query2);
+   $row2 = mysqli_fetch_array($result2);
 	    
 		echo $row2["dept_name"]; 
 	
@@ -157,8 +157,8 @@ $message = NULL; // create an empty new variable.
 
   //Retrieve and display the available types
   $query2b = "SELECT * FROM designation WHERE id_design = '$row[7]'";
-  $result2b = mysql_query($query2b);
-   $row2b =mysql_fetch_array ($result2b);
+  $result2b = mysqli_query($dbc, $query2b);
+   $row2b =mysqli_fetch_array($result2b);
    
   echo $row2b[1];
 
@@ -191,8 +191,8 @@ $message = NULL; // create an empty new variable.
  
   //Retrieve and display the available types
   $query4 = "SELECT * FROM level_detail WHERE status_level = 'Y' AND id_level = '$row[16]'";
-  $result4 = mysql_query($query4);
-  $row4 =mysql_fetch_array ($result4);
+  $result4 = mysqli_query($dbc, $query4);
+  $row4 =mysqli_fetch_array($result4);
 	    echo $row4["desc_level"];
 	
 	?></td>

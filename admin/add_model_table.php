@@ -14,14 +14,14 @@ exit();
 $url = "display_model_table.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -81,7 +81,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -122,7 +122,7 @@ if (empty($_POST['comp_code']))
 
 //register the user in the db.
 $query_db = "INSERT INTO model_detail(code_model,model_name,model_desc,comp_code) VALUES('','".strtoupper($model_name)."','".$model_desc."','".strtoupper($comp_code)."')";
-$result = mysql_query($query_db) or die(mysql_error());
+$result = mysqli_query($dbc, $query_db) or die(mysqli_error($dbc));
 
 
              if($result)
@@ -136,7 +136,7 @@ echo "</script>";
              else 
 			 {
              $message = '<p><strong>Error!</strong> Cannot create Model of Material. </p>';
-              mysql_close(); //close db
+              mysqli_close($dbc); //close db
              }  
 }
 //print the message if there is one.

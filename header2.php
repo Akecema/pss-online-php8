@@ -4,8 +4,8 @@ require("functions2.php");
 $time_start=getmicrotime();
 
 if(isset($username)){
-	$levelArray = mysql_query("select level_id from user_detail where username='$username'");
-	$level_id = mysql_fetch_array($levelArray);
+	$levelArray = mysqli_query($dbc, "select level_id from user_detail where username='$username'");
+	$level_id = mysqli_fetch_array($levelArray);
 	
 	$displayName = "[ $username | <a href='logout.php' class='top' target='_parent'>";
 	$displayName .= "Logout</a>";

@@ -7,9 +7,9 @@ include '../include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -90,7 +90,7 @@ $col18 = trim($allDataInSheet[$i]["R"]);
 
 
 $q = "INSERT INTO mat_master_detail_upload(id_dtl, id_hdr, material, bom_category, bom, alternative_bom, valid_from, plant, sloc, isloc, bill_component, matl_group, bom_item_category, bom_item_no, comp_unit, consumption, material_desc_c, mat_type, usage_c, date_create_bom, bom_status) VALUES('','','".$col3."','4','".$col5."','".$col6."','".$col9."','".$col1."','".$col18."','','".$col10."','','','".$col14."','".$col13."','".$col12."','".$col15."','".$col2."','".$col4."','".$col16."','Y')";
-$rst = mysql_query($q);	
+$rst = mysqli_query($dbc, $q);	
 
 
 //----------------------------------------------------------
@@ -98,14 +98,14 @@ $rst = mysql_query($q);
 //----------------------------------------------------------
 
 $query_find_id = "SELECT * from mat_master_header WHERE material_no = '".$col3."' AND bom = '".$col5."'";
-$result_find_id = mysql_query($query_find_id);
-$db_find_id = mysql_fetch_array($result_find_id);
+$result_find_id = mysqli_query($dbc, $query_find_id);
+$db_find_id = mysqli_fetch_array($result_find_id);
 
 	 
 //--------update-------------
 
 $q2 = "UPDATE mat_master_detail_upload SET id_hdr = '".$db_find_id["id_hdr"]."' WHERE material = '".$col3."' AND bom = '".$col5."'";
-$rst2 = mysql_query($q2);
+$rst2 = mysqli_query($dbc, $q2);
 
 
 //-----------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ $rst2 = mysql_query($q2);
 
 
 $q3 = "UPDATE mat_master_detail SET bom_status = 'N' WHERE material = '".$col3."' AND bom = '".$col5."'";
-$rst3 = mysql_query($q3);
+$rst3 = mysqli_query($dbc, $q3);
 
 
 }// end for loop
@@ -126,23 +126,23 @@ if($rst > 0) {
 //checking duplicate data transfer from SAP
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 $query_del = "SELECT * from mat_master_detail_upload ";
-$result_del = mysql_query($query_del);
+$result_del = mysqli_query($dbc, $query_del);
 
 
-while ($rst_del = mysql_fetch_array($result_del))
+while ($rst_del = mysqli_fetch_array($result_del))
 {
 
 
 $query_check = "SELECT * FROM mat_master_header WHERE material_no = '".$rst_del["material"]."'";
-$result_check = mysql_query($query_check);		
-$rst_check = mysql_fetch_array($result_check);
+$result_check = mysqli_query($dbc, $query_check);		
+$rst_check = mysqli_fetch_array($result_check);
 	
 $q_header = "INSERT INTO mat_master_detail(id_dtl, id_hdr, material, bom_category, bom, alternative_bom, valid_from, plant, sloc, isloc, bill_component, matl_group, bom_item_category, bom_item_no, comp_unit, consumption, material_desc_c, mat_type, usage_c, date_create_bom, bom_status) VALUES('','','".$rst_del["material"]."', '".$rst_del["bom_category"]."', '".$rst_del["bom"]."', '".$rst_del["alternative_bom"]."', '".$rst_del["valid_from"]."','".$rst_del["plant"]."','".$rst_del["sloc"]."', '".$rst_del["isloc"]."','".$rst_del["bill_component"]."','".$rst_del["matl_group"]."','".$rst_del["bom_item_category"]."','".$rst_del["bom_item_no"]."','".$rst_del["comp_unit"]."','".$rst_del["consumption"]."','".$rst_del["material_desc_c"]."','".$rst_del["mat_type"]."','".$rst_del["usage_c"]."','".$rst_del["date_create_bom"]."','".$rst_del["bom_status"]."')";
-$rst_header = mysql_query($q_header) or die (mysql_error());	
+$rst_header = mysqli_query($dbc, $q_header) or die (mysqli_error($dbc));	
 	
 
 $query_2_b = "UPDATE mat_master_detail SET id_hdr = '".$rst_check["id_hdr"]."' WHERE material = '".$rst_check["material_no"]."'";
-$result_2_b = mysql_query($query_2_b); 
+$result_2_b = mysqli_query($dbc, $query_2_b); 
 
 } // end while loop
 
@@ -169,7 +169,7 @@ fclose($handle2);
 
       //-------------------------------delete table mat_master_header_upload -------------------------------------
 	  $query_hsekeeping = "DELETE FROM mat_master_detail_upload";
-	  $result_hsekeeping =  mysql_query($query_hsekeeping);
+	  $result_hsekeeping =  mysqli_query($dbc, $query_hsekeeping);
 	  
 	  //------------------------end delete upload mat_master_header_upload ---------------------------------						
 	

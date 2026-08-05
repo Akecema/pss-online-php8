@@ -16,9 +16,9 @@ $warnaGanjil = "#f8f8f8";  // warna putih
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,8 +88,8 @@ ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs select
 //$id_scan = $_GET["id_scan"];
 
 /*$queryu = "SELECT * from material_request where id_scan = '$id_scan'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 
 */
@@ -100,7 +100,7 @@ if (ini_get('magic_quotes_gpc'))
 {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 //------------------------------end function --------------------------------
@@ -131,7 +131,7 @@ $message = NULL; // create an empty new variable.
           <?php
 		  
     $query = "SELECT * FROM material_request WHERE status_request = 'N' GROUP BY id_scan ORDER BY id_req ASC";
-	$rs = mysql_query($query);   //run the query. 
+	$rs = mysqli_query($dbc, $query);   //run the query. 
 		  
 		  
 		  ?>
@@ -153,7 +153,7 @@ $message = NULL; // create an empty new variable.
       $counter = 1;
    $no = 1;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 		//$user_no = $row[0]; 
  $no = sprintf('%03d', $no);
@@ -163,8 +163,8 @@ $message = NULL; // create an empty new variable.
 		else { $warna = $warnaGanjil; }	
    
    $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
-   $result_scan = mysql_query($query_scan);
-   $row_scan = mysql_fetch_array($result_scan);
+   $result_scan = mysqli_query($dbc, $query_scan);
+   $row_scan = mysqli_fetch_array($result_scan);
 	
 	
 		  
@@ -178,19 +178,19 @@ $message = NULL; // create an empty new variable.
                <?php
 		
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'N' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-	 while ($row = mysql_fetch_array($rs_again))
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
    $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
-   $result1_p = mysql_query($query1_p);
-   $row1_p = mysql_fetch_array($result1_p);
+   $result1_p = mysqli_query($dbc, $query1_p);
+   $row1_p = mysqli_fetch_array($result1_p);
 	
 	
 		 
   $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
-  $result4_p = mysql_query($query4_p);
-  $row4_p = mysql_fetch_array($result4_p); 
+  $result4_p = mysqli_query($dbc, $query4_p);
+  $row4_p = mysqli_fetch_array($result4_p); 
 		  	 
 		 
 		 

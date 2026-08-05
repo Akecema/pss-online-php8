@@ -21,8 +21,8 @@ exit();
 $url = "material_request_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,9 +34,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -138,10 +138,10 @@ $data_setup = mysql_fetch_array($rs_setup);
       //  echo ($i+1) . '- ' . $cancel[$i] . '<br>'; 
 		 
 		  $query_m23 = "DELETE FROM scan_detail WHERE id_scan = '$cancel[$i]'";
-		  $result_m23 = mysql_query($query_m23) or die (mysql_error());
+		  $result_m23 = mysqli_query($dbc, $query_m23) or die (mysqli_error($dbc));
 		 
 		  $query_m24 = "DELETE FROM material_request WHERE id_scan = '$cancel[$i]'";
-		  $result_m24 = mysql_query($query_m24) or die (mysql_error());
+		  $result_m24 = mysqli_query($dbc, $query_m24) or die (mysqli_error($dbc));
 	  
 	    }
 		
@@ -166,7 +166,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -203,7 +203,7 @@ $message = NULL; // create an empty new variable.
 
 $query_update = "UPDATE material_request SET bom_qty = '".$_POST["bom_qty"][$i]."', user_update = '".$res["user_no"]."', date_update = NOW() WHERE id_req = '".$_POST["id_req"][$i]."' ";
 
-$result_update = mysql_query($query_update);
+$result_update = mysqli_query($dbc, $query_update);
 
 	 $i++;
    } // end while loop	
@@ -226,7 +226,7 @@ $result_update = mysql_query($query_update);
              else 
 			 {
              $message = '<p> CANNOT UPDATE MATERIAL REQUEST!!!. </p>';
-            //  mysql_close(); //close db
+            //  mysqli_close($dbc); //close db
              }  
    
 		
@@ -250,7 +250,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -277,11 +277,11 @@ $message = NULL; // create an empty new variable.
 
  //--------------------------------create (temporary MRIN)-----------------------------
 $query_id_2 = "SELECT * FROM material_request WHERE mrin_doc = (SELECT MAX(mrin_doc) FROM material_request) ";
-$result_id_2 = mysql_query($query_id_2);
+$result_id_2 = mysqli_query($dbc, $query_id_2);
 
 if ($result_id_2) {
-$nrows_2 = mysql_num_rows($result_id_2);
-$row_id_2 = mysql_fetch_array($result_id_2);
+$nrows_2 = mysqli_num_rows($result_id_2);
+$row_id_2 = mysqli_fetch_array($result_id_2);
 
  $dht_2 = "0000000";
 
@@ -319,7 +319,7 @@ $row_id_2 = mysql_fetch_array($result_id_2);
   
 $query_update2 = "UPDATE material_request SET mrin_doc = '$number', mrin_year = '$year', temp_mrin = '$ref', bom_qty = '".$_POST["bom_qty"][$i]."', status_request = 'Y', user_update = '".$res["user_no"]."', date_update = NOW(), date_posting = NOW(), time_posting = NOW() WHERE id_req = '".$_POST["id_req"][$i]."' ";
 
-$result_update2 = mysql_query($query_update2);
+$result_update2 = mysqli_query($dbc, $query_update2);
 
 
 	 $i++;
@@ -338,7 +338,7 @@ $result_update2 = mysql_query($query_update2);
              else 
 			 {
              $message = '<p> CANNOT CREATE MATERIAL REQUEST!!!. </p>';
-            //  mysql_close(); //close db
+            //  mysqli_close($dbc); //close db
              }  
 
 		
@@ -359,8 +359,8 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
 
 								 
    $query8 = "SELECT COUNT(*) FROM material_request WHERE status_request = 'N' AND user_create = '".$res["user_no"]."' AND ((date_mrin >= '$current_date') AND (date_mrin <= '$next_date')) ORDER BY id_req ASC";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8); 
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8); 
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -369,8 +369,8 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
  
   
 $query = "SELECT *, DATE_FORMAT(date_mrin,'%d-%m-%Y') AS R FROM material_request WHERE status_request = 'N' AND user_create = '".$res["user_no"]."' AND ((date_mrin >= '$current_date') AND (date_mrin <= '$next_date')) GROUP BY id_scan ORDER BY id_req ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 if ($num > 0) {
 
@@ -405,15 +405,15 @@ if ($num > 0) {
    $no = 1;
     $i = 1;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 		
 		
 		   $no = sprintf('%03d', $no);
    
    $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2["id_scan"]."' GROUP BY id_scan";
-   $result_scan = mysql_query($query_scan);
-   $row_scan = mysql_fetch_array($result_scan);
+   $result_scan = mysqli_query($dbc, $query_scan);
+   $row_scan = mysqli_fetch_array($result_scan);
 	
 		  ?>        
   
@@ -433,17 +433,17 @@ if ($num > 0) {
     <tbody>
          <?php
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'N' and id_scan = '".$row2["id_scan"]."' AND status != 'Cancel' ORDER BY id_req ASC ";
-    $rs_again = mysql_query($query_again);   //run the query.
-	 while ($row = mysql_fetch_array($rs_again))
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
    $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row2["id_scan"]."' GROUP BY id_scan";
-   $result1_p = mysql_query($query1_p);
-   $row1_p = mysql_fetch_array($result1_p);
+   $result1_p = mysqli_query($dbc, $query1_p);
+   $row1_p = mysqli_fetch_array($result1_p);
 	
   $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row["id_dtl"]."'";
-  $result4_p = mysql_query($query4_p);
-  $row4_p = mysql_fetch_array($result4_p); 
+  $result4_p = mysqli_query($dbc, $query4_p);
+  $row4_p = mysqli_fetch_array($result4_p); 
   
 
 		  	 
@@ -479,7 +479,7 @@ if ($num > 0) {
 		  } ?>
 </tbody></table>
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
 	}   // free up the resources 
 else
 {
@@ -492,7 +492,7 @@ else
 </table></center>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 ?>
 <br>
            <input name="confirmT" type="submit" class="btn btn-danger" id="confirmT" value="CONFIRM DELETE">

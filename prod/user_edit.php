@@ -14,9 +14,9 @@ exit();
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -72,8 +72,8 @@ ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs select
 $user_no = $_GET['user_no'];
 
 $queryu = "SELECT * FROM user_detail WHERE user_no = '$user_no'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 //--------------------function escape data from form ------------------------
 function escape_data ($data) {
@@ -82,7 +82,7 @@ if (ini_get('magic_quotes_gpc'))
 {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 //------------------------------end function --------------------------------
@@ -163,17 +163,17 @@ if (empty($_POST['user_telno1']))
 
 
 		  	  $query_search = "select user_no from user_detail where user_no = '$user_no'";
-              $result_search = mysql_query($query_search);   //run the query.
-              $num_search = mysql_num_rows($result_search);   //how many suppliers are there?
+              $result_search = mysqli_query($dbc, $query_search);   //run the query.
+              $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  if($num_search == 1) {
 			  //echo $num_search; 
-			    $row = mysql_fetch_array($result_search,MYSQL_NUM);
+			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 				$query_upd = "UPDATE user_detail SET user_fullname='$user_fullname', department = '$department', designation = '$designation', company = '$company', user_telno1='$user_telno1', user_telno2='$user_telno2', user_fax='$user_fax', user_email='$user_email', 
 							  date_update= NOW(), user_update ='$username', 
 							 status = '$status', level_id = '$level_id' WHERE user_no = '$user_no'";
-				$result_upd = mysql_query($query_upd); 
-				if(mysql_affected_rows() == 1)
+				$result_upd = mysqli_query($dbc, $query_upd); 
+				if(mysqli_affected_rows($dbc) == 1)
 				{
 echo "<script>";
 echo "alert('Profile is successfully updated.');";
@@ -235,8 +235,8 @@ if (isset($message))
                  <td height="25"><?php	
 				 
   $query3_a = "SELECT * FROM company WHERE comp_code = '$row[8]'";
-  $result3_a = mysql_query($query3_a);
-  $row3_a = mysql_fetch_array($result3_a);
+  $result3_a = mysqli_query($dbc, $query3_a);
+  $row3_a = mysqli_fetch_array($result3_a);
 				 
 				 	
  	echo ' <select name="company" class="title">
@@ -244,9 +244,9 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query3 ='Select * from company';
-  $result3 = mysql_query($query3);
+  $result3 = mysqli_query($dbc, $query3);
   
-     while($row3 =mysql_fetch_array ($result3, MYSQL_NUM)) {
+     while($row3 =mysqli_fetch_array($result3, MYSQLI_NUM)) {
 	    echo'<option value="', $row3[0],'">', stripslashes($row3[1]), '</option>';
 		}
 	//complete the form
@@ -261,8 +261,8 @@ if (isset($message))
                  <td height="25">:</td>
                  <td height="25"><?php	
    $query2_a ="SELECT * from department WHERE id_dept = '$row[6]'";
-   $result2_a = mysql_query($query2_a);
-   $row2_a = mysql_fetch_array ($result2_a);
+   $result2_a = mysqli_query($dbc, $query2_a);
+   $row2_a = mysqli_fetch_array($result2_a);
 				 
 				 	
  	echo ' <select name="dept" class="title">
@@ -270,9 +270,9 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query2 ='Select * from department';
-  $result2 = mysql_query($query2);
+  $result2 = mysqli_query($dbc, $query2);
   
-     while($row2 =mysql_fetch_array ($result2, MYSQL_NUM)) {
+     while($row2 =mysqli_fetch_array($result2, MYSQLI_NUM)) {
 	    echo'<option value="', $row2[0],'">', stripslashes($row2[2]), '</option>';
 		}
 	//complete the form
@@ -286,8 +286,8 @@ if (isset($message))
                  <td height="25">:</td>
                  <td height="25"><?php		
 	 $query2b_a = "SELECT * FROM designation WHERE id_design = '$row[7]'";
-     $result2b_a = mysql_query($query2b_a);
-     $row2b_a =mysql_fetch_array ($result2b_a);
+     $result2b_a = mysqli_query($dbc, $query2b_a);
+     $row2b_a =mysqli_fetch_array($result2b_a);
 				 
 				 
  	echo ' <select name="design" class="title">
@@ -295,9 +295,9 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query2b ='Select * from designation';
-  $result2b = mysql_query($query2b);
+  $result2b = mysqli_query($dbc, $query2b);
   
-     while($row2b =mysql_fetch_array ($result2b, MYSQL_NUM)) {
+     while($row2b =mysqli_fetch_array($result2b, MYSQLI_NUM)) {
 	    echo'<option value="', $row2b[0],'">', stripslashes($row2b[1]), '</option>';
 		}
 	//complete the form
@@ -341,8 +341,8 @@ if (isset($message))
 				 <?php
 	   
   $query4_p ='Select * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'';
-  $result4_p = mysql_query($query4_p);
-  $row4_p = mysql_fetch_array($result4_p);
+  $result4_p = mysqli_query($dbc, $query4_p);
+  $row4_p = mysqli_fetch_array($result4_p);
 	   
 	   
 	   		
@@ -351,9 +351,9 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query4 ='Select * from level_detail where status_level = "Y"';
-  $result4 = mysql_query($query4);
+  $result4 = mysqli_query($dbc, $query4);
   
-     while($row4 =mysql_fetch_array ($result4, MYSQL_NUM)) {
+     while($row4 =mysqli_fetch_array($result4, MYSQLI_NUM)) {
 	    echo'<option value="', $row4[0],'">', stripslashes($row4[1]), '</option>';
 		}
 	//complete the form

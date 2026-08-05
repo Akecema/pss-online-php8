@@ -16,13 +16,13 @@ exit();
 $url = "rework_output_list_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -36,43 +36,43 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);		
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);		
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending)
 $sta8 = "SELECT * from request_status WHERE status_id = '8' ";
-$sta_res8 = mysql_query($sta8);
-$rst_sta8 = mysql_fetch_array($sta_res8);	
+$sta_res8 = mysqli_query($dbc, $sta8);
+$rst_sta8 = mysqli_fetch_array($sta_res8);	
 
 //CR status (Completed)
 $sta14 = "SELECT * from request_status WHERE status_id = '14' ";
-$sta_res14 = mysql_query($sta14);
-$rst_sta14 = mysql_fetch_array($sta_res14);
+$sta_res14 = mysqli_query($dbc, $sta14);
+$rst_sta14 = mysqli_fetch_array($sta_res14);
 
 //CR status (Transfer QC)
 $sta18 = "SELECT * from request_status WHERE status_id = '18'";
-$sta_res18 = mysql_query($sta18);
-$rst_sta18 = mysql_fetch_array($sta_res18);	
+$sta_res18 = mysqli_query($dbc, $sta18);
+$rst_sta18 = mysqli_fetch_array($sta_res18);	
 
 //CR status (Approved QC)
 $sta17 = "SELECT * from request_status WHERE status_id = '17'";
-$sta_res17 = mysql_query($sta17);
-$rst_sta17 = mysql_fetch_array($sta_res17);	
+$sta_res17 = mysqli_query($dbc, $sta17);
+$rst_sta17 = mysqli_fetch_array($sta_res17);	
 	
 	?>
 <!DOCTYPE html>
@@ -267,9 +267,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -287,9 +287,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
 	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
@@ -310,9 +310,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Model"> -- Select Model --</option>
                   <?php
 	               $query7 = "SELECT * FROM model_detail ORDER BY code_model ASC";
-                   $result7 = mysql_query($query7);
+                   $result7 = mysqli_query($dbc, $query7);
   
-                   while($row7=mysql_fetch_array($result7)) 
+                   while($row7=mysqli_fetch_array($result7)) 
 			      {
 				   ?>
                   <option value="<?php echo $row7["model_name"]; ?>"> <?php echo $row7["model_name"]; ?></option>
@@ -359,8 +359,8 @@ echo "window.location='rework_output_list_tran2.php?date1=$dateF&&date2=$dateT&&
 
 								 
    $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction AS MR, pps_detail_transaction AS PD WHERE MR.bflush_no = PD.bflush_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND PD.status_pps != '".$rst_sta14["status_desc"]."' AND MR.status_QC != '".$rst_sta4["status_desc"]."' AND MR.qty_balance != '0' AND (MR.date_plan >= '$start_date_check' AND MR.date_plan <= '$end_date_check')";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -370,8 +370,8 @@ echo "window.location='rework_output_list_tran2.php?date1=$dateF&&date2=$dateT&&
  
   
 $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM qqc_detail_transaction AS MR, pps_detail_transaction AS PD WHERE MR.bflush_no = PD.bflush_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND MR.status_QC != '".$rst_sta4["status_desc"]."' AND PD.status_pps != '".$rst_sta14["status_desc"]."' AND MR.qty_balance != '0' AND (MR.date_plan >= '$start_date_check' AND MR.date_plan <= '$end_date_check') ORDER BY MR.plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -428,7 +428,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $qty_total_NG = 0.000;
    $total_qty = 0.000;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 	
@@ -471,15 +471,15 @@ $num = mysql_num_rows($rs);   //how many material are there?
    
     //-----checking pps_trans entering output production
 	/*   $query_plan_tran = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row["plan_no"]."'";
-	   $result_plan_tran = mysql_query($query_plan_tran);
+	   $result_plan_tran = mysqli_query($dbc, $query_plan_tran);
        
-	   while($data_plan_tran = mysql_fetch_array($result_plan_tran))
+	   while($data_plan_tran = mysqli_fetch_array($result_plan_tran))
     {*/
 
   	 //-----checking QA/QC entering output production
 	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".$row["bflush_no"]."' AND plan_no = '".$row["plan_no"]."'";
-	   $result_qqc = mysql_query($query_qqc);
-	   $data_qqc = mysql_fetch_array($result_qqc);  
+	   $result_qqc = mysqli_query($dbc, $query_qqc);
+	   $data_qqc = mysqli_fetch_array($result_qqc);  
 	   
 	   $qty_total_ok2 = ($qty_total_ok2 + $row["qty_actual"]);  
 	   $qty_rev_ok2 = ($qty_rev_ok2 + $data_qqc["qty_qc"]);  
@@ -489,10 +489,10 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	   
 	 
 	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND plan_no = '".$data_qqc["plan_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
-	   $result_qqc2 = mysql_query($query_qqc2);
+	   $result_qqc2 = mysqli_query($dbc, $query_qqc2);
 	
 	  
-	   while($data_qqc2 = mysql_fetch_array($result_qqc2))
+	   while($data_qqc2 = mysqli_fetch_array($result_qqc2))
 	   {
 		 	  
 		$qty_total_rec = ($qty_total_rec + $data_qqc2["qty_qc"]);  
@@ -518,9 +518,9 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	   //--------- qc detail (calculate total qty_qc receive from production) ------------
 	 
 	  /* $query_qqc = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$row["bflush_no"]."' AND plan_no = '".$row["plan_no"]."'";
-	   $result_qqc = mysql_query($query_qqc);
+	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   
-	   while($data_qqc = mysql_fetch_array($result_qqc))
+	   while($data_qqc = mysqli_fetch_array($result_qqc))
 	   {
 		   
 		$qty_total_rec = ($qty_total_rec + $data_qqc["qty_qc"]);  

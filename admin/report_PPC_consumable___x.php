@@ -16,8 +16,8 @@ $url = "report_PPC_consumable.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -164,9 +164,9 @@ $year = $today['year'];
                           <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                           <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }

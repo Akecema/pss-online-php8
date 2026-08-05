@@ -7,9 +7,9 @@ include '../include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
  ?>
 <!DOCTYPE html>
@@ -87,7 +87,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -155,11 +155,11 @@ $message = NULL; // create an empty new variable.
 				  $pass = md5($password);
 				 
 				  $query = "SELECT * FROM login_detail WHERE username ='$user' AND password = '$pass'";
-				  $result = mysql_query($query);
-				  $num = mysql_num_rows($result);
+				  $result = mysqli_query($dbc, $query);
+				  $num = mysqli_num_rows($result);
 				  
 				  if($num == 1 ) {
-				    $row = mysql_fetch_array($result);
+				    $row = mysqli_fetch_array($result);
 					
 						//Make the query
 				//---------------------------update table login_detail & user_detail
@@ -167,13 +167,13 @@ $message = NULL; // create an empty new variable.
 				
 				
 				  $query12 = "UPDATE login_detail SET password = '$newpass', status_pass = 'Y', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
-				  $result12 = mysql_query($query12) or die (mysql_error());
+				  $result12 = mysqli_query($dbc, $query12) or die (mysqli_error($dbc));
 				
 				//----------------------------------------------	
 			       $query2 = "UPDATE user_detail SET password = '$newpass', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
-				  $result2 = mysql_query($query2) or die (mysql_error());
+				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
-				  if(mysql_affected_rows() == 1) { //If it ran ok
+				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 				//Send an email, if desired
 				$pass_new =  $_POST['newpass'];
@@ -204,14 +204,14 @@ $message = NULL; // create an empty new variable.
 			//------------------------get from table sys_param----------------------
 			
 			       $query_param = "SELECT * FROM sys_param WHERE param_name = 'logon_exp_days' ORDER BY id_param ASC";
-                   $result_param = mysql_query($query_param);
-				   $row_param = mysql_fetch_array($result_param);
+                   $result_param = mysqli_query($dbc, $query_param);
+				   $row_param = mysqli_fetch_array($result_param);
 			
 			//---------------calculation date for expiry date after change password-----------------------
 					
 				   $query_dtl = "SELECT * FROM login_detail WHERE username = '".$row["username"]."'";
-                   $result_dtl = mysql_query($query_dtl);
-				   $row_dtl = mysql_fetch_array($result_dtl);
+                   $result_dtl = mysqli_query($dbc, $query_dtl);
+				   $row_dtl = mysqli_fetch_array($result_dtl);
 					
 		    //------range date for new value ----------------------------
  $start_date_check = $row_dtl["date_update"];
@@ -219,7 +219,7 @@ $message = NULL; // create an empty new variable.
  
  
 			  $query_dt = "UPDATE login_detail set expired_pass_date = '$end_date_check' where username='".$row["username"]."'";
-		      $result_dt = mysql_query($query_dt) or die (mysql_error());
+		      $result_dt = mysqli_query($dbc, $query_dt) or die (mysqli_error($dbc));
 			
 			
 
@@ -241,7 +241,7 @@ $message = NULL; // create an empty new variable.
 				  
 				  
 				/*  
-				  $message = '<p>Password cannot be change due to system error. We apologize for any inconvenience.</p><p>'.mysql_error().'</p>';*/
+				  $message = '<p>Password cannot be change due to system error. We apologize for any inconvenience.</p><p>'.mysqli_error($dbc).'</p>';*/
 				  }
 				}else { 
 	
@@ -255,7 +255,7 @@ $message = NULL; // create an empty new variable.
 				   
 				   
 				 }
-				 mysql_close();    //Close the database connection
+				 mysqli_close($dbc);    //Close the database connection
 				 
 			 } else {
 				 

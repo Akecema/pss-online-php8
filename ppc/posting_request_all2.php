@@ -19,8 +19,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 $url = "posting_request_all.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -32,9 +32,9 @@ $year = $today['year'];
 		
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 	?>
 <!DOCTYPE html>
@@ -185,9 +185,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -205,9 +205,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -241,9 +241,9 @@ function getXMLHTTP() { //fuction to return the xml http object
 				//convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
-			$result_convert = mysql_query($query_convert); 
+			$result_convert = mysqli_query($dbc, $query_convert); 
 			
-			while ($row_convert = mysql_fetch_array($result_convert))
+			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
 			echo $row_convert["id_fac"];
@@ -297,9 +297,9 @@ function getXMLHTTP() { //fuction to return the xml http object
 
 								 
      $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')".$where_sql."GROUP BY MR.temp_mrin";
-	   $result8 = mysql_query($query8) or trigger_error("SQL", E_USER_ERROR);
-     //$num_8 = mysql_fetch_row($result8);
-     $num_rows = mysql_num_rows($result8);
+	   $result8 = mysqli_query($dbc, $query8) or trigger_error("SQL", E_USER_ERROR);
+     //$num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -307,7 +307,7 @@ function getXMLHTTP() { //fuction to return the xml http object
    $pages->paginate(); 
    
 $query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND(MR.status != 'Close' AND MR.status != 'Cancel')".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 	
 	
@@ -347,28 +347,28 @@ $rs = mysql_query($query);   //run the query.
    $no = 1;
  
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
    
    	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
-   	$result_scan = mysql_query($query_scan);
-   	$row_scan = mysql_fetch_array($result_scan);
+   	$result_scan = mysqli_query($dbc, $query_scan);
+   	$row_scan = mysqli_fetch_array($result_scan);
 	
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
-  	$result4_p = mysql_query($query4_p);
- 	$row4_p = mysql_fetch_array($result4_p); 
+  	$result4_p = mysqli_query($dbc, $query4_p);
+ 	$row4_p = mysqli_fetch_array($result4_p); 
   
   //--------------------------------------------------------------------------------------------------------------------------------------------
   //Update listing board   - MRIN disappear from listing if all component status_posting = "Close"
@@ -377,10 +377,10 @@ $rs = mysql_query($query);   //run the query.
 	 $outs_qty = 0;
 	 
 	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '$row2[temp_mrin]' AND prod_order = '$row2[prod_order]' AND mvt_type = 311 AND status_posting = 'New' GROUP BY material_no";
-	$result_tp  = mysql_query($query_tp); 
-	//$row_tp = mysql_fetch_assoc($result_tp); 
+	$result_tp  = mysqli_query($dbc, $query_tp); 
+	//$row_tp = mysqli_fetch_assoc($result_tp); 
 	
-	while($row_tp = mysql_fetch_assoc($result_tp))
+	while($row_tp = mysqli_fetch_assoc($result_tp))
 {
     
 	/*echo $row_tp["material_no"]; echo ":";
@@ -396,10 +396,10 @@ $rs = mysql_query($query);   //run the query.
        {  
 	   
  $query_upd2 = "UPDATE post_detail_header SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row_tp["material_no"]."' ";
- $result_upd2 = mysql_query($query_upd2); 
+ $result_upd2 = mysqli_query($dbc, $query_upd2); 
 	      
  $query_upd3 = "UPDATE material_request SET status = 'Close' WHERE temp_mrin = '".$row2["temp_mrin"]."' AND bom_component = '".$row_tp["material_no"]."' ";
- $result_upd3 = mysql_query($query_upd3); 
+ $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
        //--------------------------------------------------------------------
        //copy yg close MRIN masuk dalam MRIN history
@@ -408,18 +408,18 @@ $rs = mysql_query($query);   //run the query.
 		 {
 		 
 		 $query_upd5 = "SELECT * FROM material_request WHERE temp_mrin = '".$row2["temp_mrin"]."'";
-		 $result_upd5 = mysql_query($query_upd5) or trigger_error("SQL", E_USER_ERROR);
-         $r5 = mysql_num_rows($result_upd5);
+		 $result_upd5 = mysqli_query($dbc, $query_upd5) or trigger_error("SQL", E_USER_ERROR);
+         $r5 = mysqli_num_rows($result_upd5);
 		 
 		 $query_upd4 = "SELECT * FROM material_request WHERE temp_mrin = '".$row2["temp_mrin"]."' AND status = 'Close'";
-		 $result_upd4 = mysql_query($query_upd4) or trigger_error("SQL", E_USER_ERROR);
-         $r4 = mysql_num_rows($result_upd4);
+		 $result_upd4 = mysqli_query($dbc, $query_upd4) or trigger_error("SQL", E_USER_ERROR);
+         $r4 = mysqli_num_rows($result_upd4);
 		 
 		   if($r4 == $r5)
 		  {	
 		  
 		  	$query_mm3 = "INSERT INTO material_request_close SELECT * FROM material_request WHERE temp_mrin = '".$row2["temp_mrin"]."'"; 
-        	$result_mm3 = mysql_query($query_mm3) or die (mysql_error());
+        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 		  
 		  
 		    } // if $r4 == $r5
@@ -511,7 +511,7 @@ elseif($curr_time >= $plus_20)
 
  
   <?php
-  mysql_free_result($rs); 
+  mysqli_free_result($rs); 
   ?>
   <?php
 	}   // free up the resources 
@@ -525,7 +525,7 @@ else
 </table></center>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 
 ?>
 

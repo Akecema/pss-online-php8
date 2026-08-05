@@ -5,9 +5,9 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -76,8 +76,8 @@ $namaFile = "Wastage Reject Report.xls";
 	//********** END CONDITION **************
 
   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal AS MR WHERE MR.status_part = 'WQ' AND MR.qty_wastage != '' AND MR.doc_disposal_no != '' ".$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
 
 //---------------------------end count
@@ -131,8 +131,8 @@ echo '</table>';
 
   
 $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_wastage,'%d-%m-%Y %H:%i:%s') as R3 FROM reject_detail_disposal AS MR WHERE MR.status_part = 'WQ' AND MR.qty_wastage != '' AND MR.doc_disposal_no != ''".$where_sql." ORDER BY MR.plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-//$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
 
 //count how many data
 $counter = 1;
@@ -140,20 +140,20 @@ $no = 1;
 $i = 1;
   
 
-while ($row2 = mysql_fetch_array($rs))
+while ($row2 = mysqli_fetch_array($rs))
 {
 
 	$query_u = "SELECT * FROM user_detail WHERE username = '".$row2["user_wastage"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 	
 	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row2['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row2['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 
 	//Display data
@@ -180,7 +180,7 @@ while ($row2 = mysql_fetch_array($rs))
     $counter++; 
 		
 }  // end while loop
- mysql_free_result($rs); 
+ mysqli_free_result($rs); 
 ?>
 
 <?php

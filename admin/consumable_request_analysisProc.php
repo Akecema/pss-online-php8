@@ -16,8 +16,8 @@ $url = "consumable_request_analysis.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -29,9 +29,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -151,9 +151,9 @@ $data_setup = mysql_fetch_array($rs_setup);
                   <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                   <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -176,9 +176,9 @@ $data_setup = mysql_fetch_array($rs_setup);
                   <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                   <?php
 	               $query9 = "SELECT * FROM consumable_detail WHERE con_status = 'Y'";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["material_no"]; ?>" <?php if($row9["material_no"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["material_no"].' -  '.$row9["mat_desc"]; ?></option>
@@ -209,8 +209,8 @@ $data_setup = mysql_fetch_array($rs_setup);
 		    //convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `consumable_detail` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 		
 				
 							
@@ -254,9 +254,9 @@ $data_setup = mysql_fetch_array($rs_setup);
 	//********** END CONDITION **************
 
  $query8 = "SELECT *,DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status != 'Cancel'" .$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_8 = mysql_fetch_row($result8);
-   $num_rows = mysql_num_rows($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_8 = mysqli_fetch_row($result8);
+   $num_rows = mysqli_num_rows($result8);
    
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -266,8 +266,8 @@ $data_setup = mysql_fetch_array($rs_setup);
  
   
 $query = "SELECT *,DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status != 'Cancel'".$where_sql;
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 	
 	 if($num > 0) {
@@ -321,24 +321,24 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $bq = 0;
    $rq = 0;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
   	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row2["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query5 = "SELECT * FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row2["material_no"]."' AND mvt_type = 201";
-    $result5 = mysql_query($query5);
-	$row5 = mysql_fetch_array($result5);
+    $result5 = mysqli_query($dbc, $query5);
+	$row5 = mysqli_fetch_array($result5);
 	
 	$query6 = "SELECT * FROM post_consumable_detail_header AS PD, consumable_request AS MR WHERE PD.mrin_no = MR.temp_mrin AND PD.material_no = MR.material_no AND PD.mrin_no = '".$row2["temp_mrin"]."' AND PD.material_no = '".$row2["material_no"]."' AND PD.mvt_type = 201";
-    $result6 = mysql_query($query6);
-	$row6 = mysql_fetch_array($result6);
+    $result6 = mysqli_query($dbc, $query6);
+	$row6 = mysqli_fetch_array($result6);
 	
 
 //-------------------------------------------------------Transfer Posting [Traffic Light] --------------------------
@@ -364,11 +364,11 @@ echo $since_start->s.' seconds<br>';
 
 					
     $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND mvt_type = 201 AND material_no = '".$row2["material_no"]."'";
-	$result_tp  = mysql_query($query_tp); 
+	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;
 					
-	while($row_tp = mysql_fetch_assoc($result_tp))
+	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
 	
 	$tp_quantity = $row_tp["TOT"]; 
@@ -444,7 +444,7 @@ echo $since_start->s.' seconds<br>';
   
             
   <?php
-  mysql_free_result($rs); 
+  mysqli_free_result($rs); 
 	}   // free up the resources 
 else
 {
@@ -457,7 +457,7 @@ else
 </table></center>
         <?php
 		   } 
- mysql_close();
+ mysqli_close($dbc);
 ?>
 
     

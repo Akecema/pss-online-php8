@@ -10,8 +10,8 @@ $nextpage = 1;
 <?php
 
 $sql = "SELECT * FROM consumable_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin";
-$result = mysql_query($sql) or trigger_error("SQL", E_USER_ERROR);
-$r = mysql_num_rows($result);
+$result = mysqli_query($dbc, $sql) or trigger_error("SQL", E_USER_ERROR);
+$r = mysqli_num_rows($result);
 $numrows = $r;
 
 

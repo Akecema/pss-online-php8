@@ -7,9 +7,9 @@ include '../include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,15 +88,15 @@ $col19 = trim($allDataInSheet[$i]["S"]);
 
 
 $query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".$col2."' ";
-$result_Ms = mysql_query($query_Ms);
-$res_Ms = mysql_fetch_array($result_Ms);
+$result_Ms = mysqli_query($dbc, $query_Ms);
+$res_Ms = mysqli_fetch_array($result_Ms);
 
 
 if($res_Ms > 0)
 {
 	//update current material
 	$query_upMh = "UPDATE mat_master_header SET status_BOM = 'N' WHERE material_no = '".$col2."' ";
-	$result_upMh = mysql_query($query_upMh);	
+	$result_upMh = mysqli_query($dbc, $query_upMh);	
 	
 	if($result_upMh)
 	{
@@ -104,7 +104,7 @@ if($res_Ms > 0)
 		$ist_hd = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create,status_BOM,std_package,type_package,location_deliver,station_deliver,rcv_point,part_side)
 						VALUES('','".$col2."','".$col3."','".$col4."','".$col5."','".$col6."','".$col7."','".$col8."','".$col9."','".$col10."','".$col11."','".$col12."','".$col13."','".$col14."','".$col15."','".$col16."','".$col17."','".$col18."','".$col19."')";
 							
-		$result_hd = mysql_query($ist_hd) or die('Error, failed to add into material_1.');	
+		$result_hd = mysqli_query($dbc, $ist_hd) or die('Error, failed to add into material_1.');	
 	
 	}
 	
@@ -114,7 +114,7 @@ else
 	$ist_hd = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create,status_BOM,std_package,type_package,location_deliver,station_deliver,rcv_point,part_side)
 					VALUES('','".$col2."','".$col3."','".$col4."','".$col5."','".$col6."','".$col7."','".$col8."','".$col9."','".$col10."','".$col11."','".$col12."','".$col13."','".$col14."','".$col15."','".$col16."','".$col17."','".$col18."','".$col19."')";
 						
-	$result_hd = mysql_query($ist_hd) or die('Error, failed to add into material_1.');		
+	$result_hd = mysqli_query($dbc, $ist_hd) or die('Error, failed to add into material_1.');		
 }
 
 }//end for
@@ -146,7 +146,7 @@ echo $mesej2; echo $mesej3;
 
 //-------------------------------delete table mat_master_header_upload -------------------------------------
 /*$query_hsekeeping = "DELETE FROM mat_master_header_upload";
-$result_hsekeeping =  mysql_query($query_hsekeeping);
+$result_hsekeeping =  mysqli_query($dbc, $query_hsekeeping);
 */
 
 //------------------------end delete upload mat_master_header_upload ---------------------------------						

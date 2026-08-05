@@ -20,8 +20,8 @@ $url = "report_all_planning_module.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,35 +33,35 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending)
 $sta8 = "SELECT * from request_status WHERE status_id = '8' ";
-$sta_res8 = mysql_query($sta8);
-$rst_sta8 = mysql_fetch_array($sta_res8);	
+$sta_res8 = mysqli_query($dbc, $sta8);
+$rst_sta8 = mysqli_fetch_array($sta_res8);	
 
 	?>
 <!DOCTYPE html>
@@ -127,8 +127,8 @@ if (bV >= 4) window.print();
   //--------- pps detail ------------
 	 
 	   $query_pps = "SELECT * FROM pps_detail WHERE id = '".$uid."'";
-	   $result_pps = mysql_query($query_pps);
-	   $data_pps = mysql_fetch_array($result_pps);
+	   $result_pps = mysqli_query($dbc, $query_pps);
+	   $data_pps = mysqli_fetch_array($result_pps);
  
 
 ?>
@@ -168,17 +168,17 @@ if (bV >= 4) window.print();
    $sta_out = "";
    
    $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '$uid'";
-   $result_display = mysql_query($query_display);   //run the query.
+   $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
-   while ($row2 = mysql_fetch_array($result_display))
+   while ($row2 = mysqli_fetch_array($result_display))
    {
 	
 	 $query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".$row2["bflush_no"]."'";
-$result_display3 = mysql_query($query_display3);   //run the query. 	
+$result_display3 = mysqli_query($dbc, $query_display3);   //run the query. 	
 	
 	
      $query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".$row2["bflush_no"]."'";
-$result_display2 = mysql_query($query_display2);   //run the query.
+$result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 
 
 	//quantity output
@@ -226,7 +226,7 @@ $result_display2 = mysql_query($query_display2);   //run the query.
         <?php  
 	   $no3 = 1;
 	    
-           while ($row3 = mysql_fetch_array($result_display3))
+           while ($row3 = mysqli_fetch_array($result_display3))
         {
 	   
 	  
@@ -250,7 +250,7 @@ $result_display2 = mysql_query($query_display2);   //run the query.
 		 $no2 = "a"; 
 	     $sta_out2 = "";
 		   
-     while($row_rst_display2 = mysql_fetch_array($result_display2))
+     while($row_rst_display2 = mysqli_fetch_array($result_display2))
    {
 	   
 //quantity output

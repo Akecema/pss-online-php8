@@ -17,13 +17,13 @@ exit();
 $url = "reject_backflush_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -37,23 +37,23 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending Approve)
 $sta15 = "SELECT * from request_status WHERE status_id = '15' ";
-$sta_res15 = mysql_query($sta15);
-$rst_sta15 = mysql_fetch_array($sta_res15);	
+$sta_res15 = mysqli_query($dbc, $sta15);
+$rst_sta15 = mysqli_fetch_array($sta_res15);	
 	
 	?>
 <!DOCTYPE html>
@@ -257,9 +257,9 @@ return "";
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -308,7 +308,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -317,11 +317,11 @@ $message = NULL; // create an empty new variable.
 
     //-------------------generate disposal doc no.---------------
      $query_id_2 = "SELECT MAX(doc_dis) FROM reject_detail_disposal";
-	 $result_id_2 = mysql_query($query_id_2);
+	 $result_id_2 = mysqli_query($dbc, $query_id_2);
 
  if ($result_id_2) {
-	$nrows_2 = mysql_num_rows($result_id_2);
-    $row_id_2 = mysql_fetch_row($result_id_2);
+	$nrows_2 = mysqli_num_rows($result_id_2);
+    $row_id_2 = mysqli_fetch_row($result_id_2);
 
   $dht_2 = "000000";
   $dht_OK = "D";
@@ -374,13 +374,13 @@ $message = NULL; // create an empty new variable.
 		
 		//get data table pps_detail_transaction
 	  $query_info = "SELECT * FROM pps_detail_transaction WHERE id = '".$cancel[$i]."'";
-	  $result_info = mysql_query($query_info);
-	  $data_info = mysql_fetch_array($result_info);
+	  $result_info = mysqli_query($dbc, $query_info);
+	  $data_info = mysqli_fetch_array($result_info);
 	  	  
 	  //get data table mat_master_header
 	  $query_info2 = "SELECT * FROM mat_master_header WHERE material_no = '".$data_info["material_no"]."'";
-	  $result_info2 = mysql_query($query_info2);
-	  $data_info2 = mysql_fetch_array($result_info2);
+	  $result_info2 = mysqli_query($dbc, $query_info2);
+	  $data_info2 = mysqli_fetch_array($result_info2);
 	  
 	  
 	   if($data_info["material_type"] == "Z310")
@@ -414,15 +414,15 @@ $message = NULL; // create an empty new variable.
 		//insert table reject_detail_disposal
 		
 		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center) VALUES('','".$ref_no."','".$ref."','".$data_info["bflush_no"]."','".$data_info["plan_no"]."','".$cancel[$i]."','".$data_info["material_no"]."', '".$data_info["material_desc"]."','".$data_info["material_type"]."','".$data_info["model_code"]."','".$data_info["qty_plan"]."','".$data_info["qty_actual"]."','".$data_info["qty_balance"]."','".$data_info["qty_NG"]."','','','','".$data_info2["BUn"]."','".$data_info["comp_code"]."','".$data_info["work_center"]."','".$sta."','".$data_info["date_plan"]."','".$data_info["user_posting"]."','".$data_info["date_posting"]."','".$data_info["time_posting"]."','".$rst_sta["status_desc"]."','".$ploc."','".$data_info["ploc"]."','','".$data_info["type_reject"]."','".$data_info["reason_reject"]."','".$data_info["user_reject"]."','".$data_info["date_reject"]."','".$data_info["time_reject"]."','','','','','','','".$username."',NOW(),'".$string[$i]."','','','','PR','','','','','','')";
-$result_insert2 = mysql_query($query_insert2) or die (mysql_error());
+$result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc));
 		
 		
 		
 		         //-------checking date posting must be same -------  //
 	  
 	   /* $query_chk_date = "SELECT * FROM reject_detail_disposal WHERE doc_dis = '".$ref_no."' AND uid= '".$cancel[$i]."'";
-	    $result_chk_date = mysql_query($query_chk_date);
-	    $data_chk_date = mysql_fetch_array($result_chk_date);
+	    $result_chk_date = mysqli_query($dbc, $query_chk_date);
+	    $data_chk_date = mysqli_fetch_array($result_chk_date);
           
 		  
 		  if(($string2[$i]) != ($data_chk_date["date_posting"]) )
@@ -451,7 +451,7 @@ $result_insert2 = mysql_query($query_insert2) or die (mysql_error());
 		
 			//update table pps_detail_transaction
 		$query_update2 = "UPDATE pps_detail_transaction SET status = 'Y' WHERE id = '".$cancel[$i]."'";
-        $result_update2 = mysql_query($query_update2) or die (mysql_error());		  
+        $result_update2 = mysqli_query($dbc, $query_update2) or die (mysqli_error($dbc));		  
 		  
 			}// end for loop
 			
@@ -478,8 +478,8 @@ $result_insert2 = mysql_query($query_insert2) or die (mysql_error());
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status = 'N' AND bflush_no_ref = ''";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -489,8 +489,8 @@ $result_insert2 = mysql_query($query_insert2) or die (mysql_error());
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE status = 'N' AND bflush_no_ref = '' ORDER BY plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -534,7 +534,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $sta_out = "";
    $k= 1;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 	//shift	
@@ -578,16 +578,16 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	
 	
 	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row['type_reject']."' ORDER BY id_type ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row['reason_reject']."' ORDER BY id_reject ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
-    $result_scan = mysql_query($query_scan);
-    $row_scan = mysql_fetch_array($result_scan);
+    $result_scan = mysqli_query($dbc, $query_scan);
+    $row_scan = mysqli_fetch_array($result_scan);
 	
 	
 	 

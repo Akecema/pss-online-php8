@@ -15,9 +15,9 @@ header("Pragma: no-cache");
 	
 	//--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 
 
 ?>
@@ -59,10 +59,10 @@ body {
 
 	
     $query = "SELECT * FROM user_detail WHERE username='$username'";
-	$result = mysql_query($query); 
-	$db_rst = mysql_fetch_array($result);
+	$result = mysqli_query($dbc, $query); 
+	$db_rst = mysqli_fetch_array($result);
 	
-	if (mysql_query($query)){
+	if (mysqli_query($dbc, $query)){
 	
 ?><fieldset>
 <table width="50%" >
@@ -94,11 +94,11 @@ body {
 	
    //-------------------upldate last login in table user_detail
 	$query_upd = "UPDATE user_detail SET last_login = NOW() WHERE user_no = '".$db_rst["user_no"]."'";
-	$result_upd = mysql_query($query_upd); 
+	$result_upd = mysqli_query($dbc, $query_upd); 
 	
 	//-------------------upldate last login in table user_detail
 	$query_upd2 = "UPDATE login_detail SET last_login = NOW() WHERE staff_ID = '".$db_rst["staff_ID"]."'";
-	$result_upd2 = mysql_query($query_upd2); 
+	$result_upd2 = mysqli_query($dbc, $query_upd2); 
     //header("Location: index.php"); 
 		
 	}

@@ -21,8 +21,8 @@ $url = "disposal_backflush_tran_NG.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,17 +34,17 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
  $extension = explode ('.', $data_setup["logo_name"]);
  $filename = $data_setup["logo_comp"].'.'.$extension[1];
  
  //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 	?>
 <!DOCTYPE html>
@@ -150,13 +150,13 @@ return "";
  $doc_disposal = $_GET["doc_disposal"];
   
 $queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 //detail info disposal 
 
 $query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
-$result_disposal = mysql_query($query_disposal);   //run the query.
-$row_disposal = mysql_fetch_array($result_disposal);
+$result_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
+$row_disposal = mysqli_fetch_array($result_disposal);
 
 
 //FUNCTION RETAIN TEXTBOX VALUE
@@ -195,7 +195,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
  
@@ -212,12 +212,12 @@ $message = NULL; // create an empty new variable.
 	    //-------------------generate disposal doc no. [Backflush NG Cancellation]---------------
 	 
 	 $query_id = "SELECT count_max FROM run_count_no WHERE uid = ''";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_row($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_row($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "";
@@ -264,14 +264,14 @@ $message = NULL; // create an empty new variable.
    //------------update status reject detail disposal-------------------
       
  $query_upd3 = "UPDATE reject_detail_disposal SET status_disposal = '".$rst_sta4["status_desc"]."', disposal_no_ref = '".$ref."', user_cancel = '".$username."', date_cancel = NOW() WHERE id_disposal = '".$cancel[$i]."' AND doc_disposal_no = '".$doc_disposal."'";
- $result_upd3 = mysql_query($query_upd3); 
+ $result_upd3 = mysqli_query($dbc, $query_upd3); 
 
  
   //----------baca data reject detail disposal -------------------
   
   $query_data_return = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".$cancel[$i]."' AND doc_disposal_no = '".$doc_disposal."'";
-  $result_data_return = mysql_query($query_data_return); 
-  $row_data_return = mysql_fetch_array($result_data_return);
+  $result_data_return = mysqli_query($dbc, $query_data_return); 
+  $row_data_return = mysqli_fetch_array($result_data_return);
   
   
 	  // echo  $row_data_return["bflush_qqc_no"];
@@ -279,12 +279,12 @@ $message = NULL; // create an empty new variable.
 	  //----------update status = "N" pps_detail_transaction -------------
   
  $query_upd4 = "UPDATE pps_detail_transaction SET status = 'N', user_update = '".$username."', date_update = NOW() WHERE id = '".$row_data_return["uid"]."' AND bflush_no = '".$row_data_return["bflush_qqc_no"]."'";
- $result_upd4 = mysql_query($query_upd4); 
+ $result_upd4 = mysqli_query($dbc, $query_upd4); 
  
      //-----insert at table reject_detail_disposal_cancel -------
 	 
 	 		$query_move_tbl = "INSERT INTO reject_detail_disposal_cancel (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center, id_factory, disposal_no_ref, user_cancel, date_cancel) VALUES('','".$row_data_return["doc_dis"]."','".$row_data_return["doc_disposal_no"]."','".$row_data_return["bflush_qqc_no"]."','".$row_data_return["plan_no"]."','".$row_data_return["uid"]."','".$row_data_return["material_no"]."', '".$row_data_return["material_desc"]."','".$row_data_return["material_type"]."','".$row_data_return["model_code"]."','".$row_data_return["qty_plan"]."','".$row_data_return["qty_actual"]."','".$row_data_return["qty_balance"]."','".$row_data_return["qty_NG"]."','".$row_data_return["qty_qc"]."','".$row_data_return["qty_qc_ok"]."','".$row_data_return["qty_qc_NG"]."','".$row_data_return["UOM_unit"]."','".$row_data_return["comp_code"]."','".$row_data_return["work_center"]."','".$row_data_return["shift_day"]."','".$row_data_return["date_plan"]."','".$row_data_return["user_posting"]."','".$row_data_return["date_posting"]."','".$row_data_return["time_posting"]."','".$row_data_return["status_disposal"]."','".$row_data_return["ploc"]."','".$row_data_return["ploc_prod_reject"]."','".$row_data_return["ploc_qc_reject"]."','".$row_data_return["type_reject"]."','".$row_data_return["reason_reject"]."','".$row_data_return["user_reject"]."','".$row_data_return["date_reject"]."','".$row_data_return["time_reject"]."','".$row_data_return["qty_wastage"]."','".$row_data_return["type_wastage"]."','".$row_data_return["reason_wastage"]."','".$row_data_return["user_wastage"]."','".$row_data_return["date_wastage"]."','".$row_data_return["time_wastage"]."','".$row_data_return["user_disposal"]."','".$row_data_return["date_disposal"]."','".$row_data_return["remarks"]."','".$row_data_return["approve_by"]."','".$row_data_return["date_approve"]."','".$row_data_return["remark_approve"]."','".$row_data_return["status_part"]."','".$row_data_return["user_update"]."','".$row_data_return["date_update"]."','".$row_data_return["approve_by2"]."','".$row_data_return["date_approve2"]."','".$row_data_return["remark_approve2"]."','".$row_data_return["cost_center"]."','".$row_data_return["id_factory"]."','".$ref."','".$res["staff_ID"]."',NOW())";
-           $result_move_tbl= mysql_query($query_move_tbl) or die (mysql_error());
+           $result_move_tbl= mysqli_query($dbc, $query_move_tbl) or die (mysqli_error($dbc));
   
        }// end for loop
 	   
@@ -293,7 +293,7 @@ $message = NULL; // create an empty new variable.
 		
 	
        $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '24'";
-	   $result_max_a = mysql_query($query_max_a);
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
 	 
    //end update count_max ---------------------------------	
 
@@ -368,36 +368,36 @@ if (isset($message))
 	  $loc_asal = "";
 	  $k= 1;
 	   
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 		$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row['type_reject']."' ORDER BY id_type ASC";
-		$result_type = mysql_query($query_type);
-		$row_type = mysql_fetch_array($result_type); 
+		$result_type = mysqli_query($dbc, $query_type);
+		$row_type = mysqli_fetch_array($result_type); 
 		
 		$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row['reason_reject']."' ORDER BY id_reject ASC";
-		$result_reason = mysql_query($query_reason);
-		$row_reason = mysql_fetch_array($result_reason);
+		$result_reason = mysqli_query($dbc, $query_reason);
+		$row_reason = mysqli_fetch_array($result_reason);
 		
 		$query_model = "SELECT * FROM pps_detail WHERE plan_no = '".$row['plan_no']."'";
-		$result_model = mysql_query($query_model);
-		$data_model = mysql_fetch_array($result_model);	
+		$result_model = mysqli_query($dbc, $query_model);
+		$data_model = mysqli_fetch_array($result_model);	
 		
 		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
-		$result_mat = mysql_query($query_mat);
-		$data_mat = mysql_fetch_array($result_mat);	
+		$result_mat = mysqli_query($dbc, $query_mat);
+		$data_mat = mysqli_fetch_array($result_mat);	
 		
 		$query_disposal2 = "SELECT * FROM user_detail WHERE username = '".$row["user_disposal"]."'";
-        $result_disposal2 = mysql_query($query_disposal2) or die (mysql_error());
-        $res_disposal2 = mysql_fetch_array($result_disposal2);
+        $result_disposal2 = mysqli_query($dbc, $query_disposal2) or die (mysqli_error($dbc));
+        $res_disposal2 = mysqli_fetch_array($result_disposal2);
 		
 		$query_approve = "SELECT * FROM user_detail WHERE username = '".$row["approve_by"]."'";
-        $result_approve = mysql_query($query_approve) or die (mysql_error());
-        $res_approve = mysql_fetch_array($result_approve);
+        $result_approve = mysqli_query($dbc, $query_approve) or die (mysqli_error($dbc));
+        $res_approve = mysqli_fetch_array($result_approve);
 		
 		$query_approve2 = "SELECT * FROM user_detail WHERE username = '".$row["approve_by2"]."'";
-        $result_approve2 = mysql_query($query_approve2) or die (mysql_error());
-        $res_approve2 = mysql_fetch_array($result_approve2);
+        $result_approve2 = mysqli_query($dbc, $query_approve2) or die (mysqli_error($dbc));
+        $res_approve2 = mysqli_fetch_array($result_approve2);
 		
   //-------get quantity reject ---------
 	if($row["qty_NG"] != "0.000")

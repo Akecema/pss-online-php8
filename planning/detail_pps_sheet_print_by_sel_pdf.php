@@ -5,29 +5,29 @@ include '../include/config.php';
 set_time_limit(0);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 //CR status (New)
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16' ";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 
 $extension = explode('.', $data_setup["logo_name"]);
 $filename = $data_setup["logo_comp"] . '.jpg';
@@ -39,8 +39,8 @@ $bulan_text = "";
  $work_center = $_GET["work_centerA"];
 
 $query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '" . $work_center . "'";
-$result_convert = mysql_query($query_convert);
-$row_convert = mysql_fetch_array($result_convert);
+$result_convert = mysqli_query($dbc, $query_convert);
+$row_convert = mysqli_fetch_array($result_convert);
 
  
 
@@ -163,11 +163,11 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->AddPage();
 
 $queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K FROM pps_detail AS MR WHERE  MR.date_plan = '".$plan_date."' AND MR.work_center = '".$work_center."' AND (MR.status_pps != '" . $rst_sta4["status_desc"] . "' OR MR.status_pps != '" . $rst_sta16["status_desc"] . "') AND MR.status_pps != '" . $rst_sta["status_desc"] . "' GROUP BY MR.work_center";
-$rs = mysql_query($queryu);
-$num_rows = mysql_num_rows($rs);
+$rs = mysqli_query($dbc, $queryu);
+$num_rows = mysqli_num_rows($rs);
 $a = $num_rows;
 
-while ($db_rs = mysql_fetch_array($rs)) {
+while ($db_rs = mysqli_fetch_array($rs)) {
 
    if ($db_rs["month_plan"] == "01") {
       $bulan_text = "January";
@@ -199,8 +199,8 @@ while ($db_rs = mysql_fetch_array($rs)) {
 
    //--------------get filename from table ftp_pps
    $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '" . $db_rs["upload_id"] . "'";
-   $result_ftp_pps = mysql_query($query_ftp_pps);
-   $data_ftp_pps = mysql_fetch_array($result_ftp_pps);
+   $result_ftp_pps = mysqli_query($dbc, $query_ftp_pps);
+   $data_ftp_pps = mysqli_fetch_array($result_ftp_pps);
 
    // set some text to print
    $headerTable = 
@@ -282,13 +282,13 @@ while ($db_rs = mysql_fetch_array($rs)) {
       </thead>';
 
    $query_by_group = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail AS MR WHERE MR.date_plan = '".$plan_date."' AND MR.work_center = '" . $db_rs["work_center"] . "'";
-   $result_by_group = mysql_query($query_by_group);   //run the query.
+   $result_by_group = mysqli_query($dbc, $query_by_group);   //run the query.
 
    $counter = 1;
    $no = 1;
    $i = 1;
 
-   while ($row = mysql_fetch_array($result_by_group)) {
+   while ($row = mysqli_fetch_array($result_by_group)) {
       $no = sprintf('%03d', $no);
       if ($row["shift_pps1"] != "") {
          $sta = "D/S";
@@ -299,13 +299,13 @@ while ($db_rs = mysql_fetch_array($rs)) {
       }
       //---------get material header---------
       $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '" . $row['material_no'] . "'";
-      $result_mat_h = mysql_query($query_mat_h);
-      $data_mat_h = mysql_fetch_array($result_mat_h);
+      $result_mat_h = mysqli_query($dbc, $query_mat_h);
+      $data_mat_h = mysqli_fetch_array($result_mat_h);
 
       //---------get material detail---------
       $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '" . $row['material_no'] . "' OR bill_component = '" . $row['material_no'] . "')";
-      $result_mat_d = mysql_query($query_mat_d);
-      $data_mat_d = mysql_fetch_array($result_mat_d);
+      $result_mat_d = mysqli_query($dbc, $query_mat_d);
+      $data_mat_d = mysqli_fetch_array($result_mat_d);
       ++$i;
 
       // set the barcode content and type

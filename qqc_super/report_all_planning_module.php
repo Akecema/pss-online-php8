@@ -16,13 +16,13 @@ exit();
 $url = "report_all_planning_module.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -36,38 +36,38 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Closed)
 $sta13 = "SELECT * from request_status WHERE status_id = '13' ";
-$sta_res13 = mysql_query($sta13);
-$rst_sta13 = mysql_fetch_array($sta_res13);
+$sta_res13 = mysqli_query($dbc, $sta13);
+$rst_sta13 = mysqli_fetch_array($sta_res13);
 
 //CR status (Completed)
 $sta14 = "SELECT * from request_status WHERE status_id = '14' ";
-$sta_res14 = mysql_query($sta14);
-$rst_sta14 = mysql_fetch_array($sta_res14);
+$sta_res14 = mysqli_query($dbc, $sta14);
+$rst_sta14 = mysqli_fetch_array($sta_res14);
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16' ";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 		
 	?>
 <!DOCTYPE html>
@@ -262,9 +262,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -282,9 +282,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
 	             $query9 = "SELECT * FROM pps_detail ORDER BY plan_no ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
@@ -305,9 +305,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                   <?php
 	               $query10 = "SELECT * FROM mat_master_header WHERE status_BOM = 'Y' ORDER BY material_no ASC";
-                   $result10 = mysql_query($query10);
+                   $result10 = mysqli_query($dbc, $query10);
   
-                   while($row10 = mysql_fetch_array($result10)) 
+                   while($row10 = mysqli_fetch_array($result10)) 
 			      {
 				   ?>
                   <option value="<?php echo $row10["material_no"]; ?>"> <?php echo $row10["material_no"]; ?></option>
@@ -347,8 +347,8 @@ echo "window.location='report_all_planning_module2.php?date1=$dateF&&date2=$date
  
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps != '".$rst_sta4["status_desc"]."' AND status_pps != '".$rst_sta16["status_desc"]."')";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -358,8 +358,8 @@ echo "window.location='report_all_planning_module2.php?date1=$dateF&&date2=$date
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_posting,'%H:%i:%s') as T2 FROM pps_detail WHERE (status_pps != '".$rst_sta4["status_desc"]."' AND status_pps != '".$rst_sta16["status_desc"]."') ORDER BY plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -409,7 +409,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $counter = 1;
    $no = 1;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 		
@@ -427,13 +427,13 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	 }	
 		 
   $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'";
-  $result4_p = mysql_query($query4_p);
-  $row4_p = mysql_fetch_array($result4_p);
+  $result4_p = mysqli_query($dbc, $query4_p);
+  $row4_p = mysqli_fetch_array($result4_p);
   
      //---------get material header---------
 	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row['material_no']."'";
-		$result_mat_h = mysql_query($query_mat_h);
-		$data_mat_h = mysql_fetch_array($result_mat_h);
+		$result_mat_h = mysqli_query($dbc, $query_mat_h);
+		$data_mat_h = mysqli_fetch_array($result_mat_h);
 		
 	?>	
 		        <tr class="gradeX">
@@ -455,23 +455,23 @@ $num = mysql_num_rows($rs);   //how many material are there?
 <?php		
 
    $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".$row["id"]."' ORDER BY plan_no ASC";
-   $result_display = mysql_query($query_display);   //run the query.
+   $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    $no2 = 1;
    
-   while ($row_display = mysql_fetch_array($result_display))
+   while ($row_display = mysqli_fetch_array($result_display))
    {
   
    //---------get material header---------
 	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row['material_no']."'";
-		$result_mat_h = mysql_query($query_mat_h);
-		$data_mat_h = mysql_fetch_array($result_mat_h);	  
+		$result_mat_h = mysqli_query($dbc, $query_mat_h);
+		$data_mat_h = mysqli_fetch_array($result_mat_h);	  
 		
 		$query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".$row_display["bflush_no"]."' ORDER BY plan_no ASC";
-		$result_display3 = mysql_query($query_display3);   //run the query.  
+		$result_display3 = mysqli_query($dbc, $query_display3);   //run the query.  
 		
   		$query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".$row_display["bflush_no"]."' ORDER BY plan_no ASC";
-		$result_display2 = mysql_query($query_display2);   //run the query.
+		$result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 
 
 	//quantity output
@@ -525,7 +525,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
        <?php  
 	   $no3 = 1;
 	    
-           while ($row3 = mysql_fetch_array($result_display3))
+           while ($row3 = mysqli_fetch_array($result_display3))
         {
 	   
 	   ?> 
@@ -559,7 +559,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	 $no7 = "a"; 
      $sta_out2 = "";
 		   
-     while($row_rst_display2 = mysql_fetch_array($result_display2))
+     while($row_rst_display2 = mysqli_fetch_array($result_display2))
    {
 	   
 //quantity output
@@ -633,7 +633,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
     echo '</tbody>';
     echo '</table>';  	  
 	
-	mysql_free_result($rs); 
+	mysqli_free_result($rs); 
 ?>
     
           </div>

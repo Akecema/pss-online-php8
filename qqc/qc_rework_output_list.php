@@ -21,8 +21,8 @@ exit();
 $url = "rework_output_list_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,36 +34,36 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (In Progress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending)
 $sta8 = "SELECT * from request_status WHERE status_id = '8' ";
-$sta_res8 = mysql_query($sta8);
-$rst_sta8 = mysql_fetch_array($sta_res8);	
+$sta_res8 = mysqli_query($dbc, $sta8);
+$rst_sta8 = mysqli_fetch_array($sta_res8);	
 
 	?>
 <!DOCTYPE html>
@@ -158,8 +158,8 @@ chk[i].checked = false ;
 	   $uid = $_GET["uid"];
 	
 	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_qqc = '$uid'";
-	   $result_qqc = mysql_query($query_qqc);
-	   $data_qqc = mysql_fetch_array($result_qqc);
+	   $result_qqc = mysqli_query($dbc, $query_qqc);
+	   $data_qqc = mysqli_fetch_array($result_qqc);
 	   
 	   $date_arini = date('Y-m-d'); 
 	   $current_date = date('Y-m-d H:i:s'); 
@@ -169,7 +169,7 @@ chk[i].checked = false ;
 	    //--------- qc detail (calculate total qty_qc receive from production) ------------
 	 
 	   $query_qqc_cal = "SELECT * FROM qqc_transaction WHERE qqc_doc_no = '".$data_qqc["qqc_doc_no"]."' AND bflush_no = '".$data_qqc["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
-	   $result_qqc_cal = mysql_query($query_qqc_cal);
+	   $result_qqc_cal = mysqli_query($dbc, $query_qqc_cal);
 	   
 	    $qty_total_rec = 0.000;
    		$total_qty_pending = 0.000;
@@ -179,7 +179,7 @@ chk[i].checked = false ;
 		$total_qty = 0.000;
    
 	   
-	   while($data_qqc_cal = mysql_fetch_array($result_qqc_cal))
+	   while($data_qqc_cal = mysqli_fetch_array($result_qqc_cal))
 	   {
 		   
 		$qty_total_ok = ($qty_total_ok + $data_qqc_cal["qty_qc_ok"]);  
@@ -206,7 +206,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -326,12 +326,12 @@ $message = NULL; // create an empty new variable.
 	
 	//----------Generate Rework List QC2 (OK)
     $query_id = "SELECT count_max FROM run_count_no WHERE uid = '33'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_array($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_array($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22421";
@@ -380,7 +380,7 @@ $message = NULL; // create an empty new variable.
  //insert into table qqc_transaction-------------
 	
 $query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".$data_qqc["id_tran"]."','".$data_qqc["qqc_doc_no"]."','".$ref."','".$data_qqc["bflush_no"]."','".$data_qqc["plan_no"]."','".$data_qqc["material_no"]."', '".$data_qqc["material_desc"]."','".$data_qqc["material_type"]."','".$data_qqc["qty_plan"]."','".$data_qqc["qty_actual"]."','".$data_qqc["qty_balance"]."','','".$data_qqc["qty_qc"]."','".$_POST["qty_qc_ok"]."','','".$rst_sta8["status_desc"]."','".$data_qqc["comp_code"]."', '".$data_qqc["work_center"]."', '".$data_qqc["shift_day"]."','".$data_qqc["date_plan"]."','$username',NOW(),'','','$username','".$_POST["date1"]."','".$t_time."','".$data_qqc["ploc_qc"]."','".$_POST["sloc"]."','".$ploc_qc."','','','','','','N','Y','','','')";
-$result_data2 = mysql_query($query_data2) or die (mysql_error());
+$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
  
  
 	//----check qqc_transaction total pending "0" ----------	
@@ -388,7 +388,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 	
 	
 	   $query_qqc_cal2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
-	   $result_qqc_cal2 = mysql_query($query_qqc_cal2);
+	   $result_qqc_cal2 = mysqli_query($dbc, $query_qqc_cal2);
 	   
 	    $qty_total_rec2 = 0.000;
    		$total_qty_pending2 = 0.000;
@@ -398,7 +398,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 		$total_qty2 = 0.000;
    
 	   
-	   while($data_qqc_cal2 = mysql_fetch_array($result_qqc_cal2))
+	   while($data_qqc_cal2 = mysqli_fetch_array($result_qqc_cal2))
 	   {
 		   
 		$qty_total_ok2 = ($qty_total_ok2 + $data_qqc_cal2["qty_qc_ok"]);  
@@ -426,7 +426,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 	  
 	//---update status_QC at qqc_detail_transaction--------
 	$query_upd_sta = "UPDATE qqc_detail_transaction SET status_QC = '".$status_new."' WHERE bflush_no = '".$data_qqc["bflush_no"]."'";
-	$result_upd_sta = mysql_query($query_upd_sta); 
+	$result_upd_sta = mysqli_query($dbc, $query_upd_sta); 
 	
 	
  //------- crete text file to SAP [FromPortal] -----------
@@ -435,7 +435,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 		
 	
        $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '33'";
-	   $result_max_a = mysql_query($query_max_a);
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
 	 
    //end update count_max ---------------------------------	
  
@@ -454,7 +454,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 	  	   
 	   }
 	   
-	// mysql_close();  
+	// mysqli_close($dbc);  
 	   
   //print the message if there is one.
 if (isset($message))
@@ -478,7 +478,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -616,12 +616,12 @@ $message = NULL; // create an empty new variable.
 	//-----------generate Rework List QC(NG) ---------------------
 	
     $query_id = "SELECT count_max FROM run_count_no WHERE uid = '27'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_array($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_array($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22331";
@@ -657,14 +657,14 @@ $message = NULL; // create an empty new variable.
 	//insert into table qqc_transaction-------------
 	
 $query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".$data_qqc["id_tran"]."','".$data_qqc["qqc_doc_no"]."','".$ref."','".$data_qqc["bflush_no"]."','".$data_qqc["plan_no"]."','".$data_qqc["material_no"]."', '".$data_qqc["material_desc"]."','".$data_qqc["material_type"]."','".$data_qqc["qty_plan"]."','".$data_qqc["qty_actual"]."','".$data_qqc["qty_balance"]."','','".$data_qqc["qty_qc"]."','','".$_POST["qty_qc_NG"]."','".$rst_sta8["status_desc"]."','".$data_qqc["comp_code"]."', '".$data_qqc["work_center"]."', '".$data_qqc["shift_day"]."','".$data_qqc["date_plan"]."','$username',NOW(),'','','$username','".$_POST["date2"]."','".$t_time2."','".$ploc_qc."','".$data_qqc["ploc"]."','','".$type_reject."','".$reason_reject."','$username',NOW(),NOW(),'N','N','','','')";
-$result_data2 = mysql_query($query_data2) or die (mysql_error());
+$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
  
 	
 	
 	//----check qqc_transaction total pending "0" ----------	
 	
 	   $query_qqc_cal2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
-	   $result_qqc_cal2 = mysql_query($query_qqc_cal2);
+	   $result_qqc_cal2 = mysqli_query($dbc, $query_qqc_cal2);
 	   
 	    $qty_total_rec2 = 0.000;
    		$total_qty_pending2 = 0.000;
@@ -674,7 +674,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 		$total_qty2 = 0.000;
    
 	   
-	   while($data_qqc_cal2 = mysql_fetch_array($result_qqc_cal2))
+	   while($data_qqc_cal2 = mysqli_fetch_array($result_qqc_cal2))
 	   {
 		   
 		$qty_total_ok2 = ($qty_total_ok2 + $data_qqc_cal2["qty_qc_ok"]);  
@@ -702,7 +702,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 	  
 	//---update status_QC at qqc_detail_transaction--------
 	$query_upd_sta = "UPDATE qqc_detail_transaction SET status_QC = '".$status_new."' WHERE bflush_no = '".$data_qqc["bflush_no"]."'";
-	$result_upd_sta = mysql_query($query_upd_sta);
+	$result_upd_sta = mysqli_query($dbc, $query_upd_sta);
 	
 	
  //------- crete text file to SAP [FolderPortal] -----------
@@ -711,7 +711,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 		
 	
        $query_max_b = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '27'";
-	   $result_max_b = mysql_query($query_max_b);
+	   $result_max_b = mysqli_query($dbc, $query_max_b);
 	 
    //end update count_max ---------------------------------	
 	
@@ -729,7 +729,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 	  	   
 	   }
 	   
-	// mysql_close();  
+	// mysqli_close($dbc);  
 	   
   //print the message if there is one.
 if (isset($message))
@@ -750,7 +750,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -838,7 +838,7 @@ $message = NULL; // create an empty new variable.
              <?php
 			 
 	 /*  $query_component = "SELECT * FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".$data_scan["material_no"]."' AND s.bom_status = 'Y'";
-	   $result_component = mysql_query($query_component);*/
+	   $result_component = mysqli_query($dbc, $query_component);*/
 	  
 			 ?>
              
@@ -921,9 +921,9 @@ $message = NULL; // create an empty new variable.
                   <option value="NULL" placeholder="Select Storage Location"> -- Select Storage Location --</option>
                   <?php
 	               $query_storage = "SELECT * FROM storage2_tbl ORDER BY qc_sloc_code ASC";
-                   $result_storage = mysql_query($query_storage);
+                   $result_storage = mysqli_query($dbc, $query_storage);
   
-                   while($row_storage = mysql_fetch_array($result_storage)) 
+                   while($row_storage = mysqli_fetch_array($result_storage)) 
 			      {
 					  
 				   ?>
@@ -1041,9 +1041,9 @@ $message = NULL; // create an empty new variable.
                   <option value="NULL" placeholder="Select Type of Reject"> -- Select Type of Reject --</option>
                   <?php
 	               $query_type = "SELECT * FROM type_reject_detail WHERE status_type = 'Y' ORDER BY id_type ASC";
-                   $result_type = mysql_query($query_type);
+                   $result_type = mysqli_query($dbc, $query_type);
   
-                   while($row_type = mysql_fetch_array($result_type)) 
+                   while($row_type = mysqli_fetch_array($result_type)) 
 			      {
 					  
 				   ?>
@@ -1071,9 +1071,9 @@ $message = NULL; // create an empty new variable.
                   <option value="NULL" placeholder="Select Type of Reject"> -- Select Type of Reject --</option>
                   <?php
 	               $query_reason = "SELECT * FROM reason_ng_reject WHERE status_reject = 'Y' ORDER BY id_reject ASC";
-                   $result_reason = mysql_query($query_reason);
+                   $result_reason = mysqli_query($dbc, $query_reason);
   
-                   while($row_reason = mysql_fetch_array($result_reason)) 
+                   while($row_reason = mysqli_fetch_array($result_reason)) 
 			      {
 					   if($_POST["confirm2"] == true)  
 		         {   ?>

@@ -13,9 +13,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -58,7 +58,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 	
@@ -88,20 +88,20 @@ $message = NULL; // create an empty new variable.
     if($user_name && $email) { 
 	
 	       $query = "SELECT * FROM user_detail WHERE username = '$user_name' and user_email= '$email'";
-		   $result = mysql_query($query);
-		   $num = mysql_num_rows($result);
+		   $result = mysqli_query($dbc, $query);
+		   $num = mysqli_num_rows($result);
 		   
 				  if($num == 1) {
-				    $row = mysql_fetch_array($result);
+				    $row = mysqli_fetch_array($result);
 					
 					 $p = substr (md5(uniqid(rand(),1)),3,10);
 					 $p2 = md5($p);
 					 	
 				  $query2 = "UPDATE user_detail set password = '$p2', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
-				  $result2 = mysql_query($query2) or die (mysql_error());
+				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
 				$query_login = "UPDATE login_detail SET password = '$p2', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
-				$result_login = mysql_query($query_login) or die (mysql_error());
+				$result_login = mysqli_query($dbc, $query_login) or die (mysqli_error($dbc));
 				  
 			
 			      if(($row["user_email"] == "") or ($row["user_email"] == "NULL"))
@@ -145,7 +145,7 @@ $message = NULL; // create an empty new variable.
 				
 			}	 
 			
-				 mysql_close();    //Close the database connection
+				 mysqli_close($dbc);    //Close the database connection
 				 
 		  //Print error 
 		  if(isset($message)) {

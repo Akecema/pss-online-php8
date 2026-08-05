@@ -7,9 +7,9 @@ include '../include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -80,18 +80,18 @@ $col11 = trim($allDataInSheet[$i]["K"]);
 $col12 = trim($allDataInSheet[$i]["L"]);
 
 $query_Ms = "SELECT * FROM mat_master_header as mh WHERE mh.material_type ='Z310' and material_no = '".$col3."'";
-$result_Ms = mysql_query($query_Ms);
-$res_Ms = mysql_fetch_array($result_Ms);
+$result_Ms = mysqli_query($dbc, $query_Ms);
+$res_Ms = mysqli_fetch_array($result_Ms);
 
 
 if($res_Ms > 0)
 {
 	$query_upMh = "UPDATE mat_master_header SET material_desc ='".$col4."' WHERE material_no = '".$col3."' ";
-	$result_upMh = mysql_query($query_upMh);
+	$result_upMh = mysqli_query($dbc, $query_upMh);
 	
 	//mm
 	$query_upMh2 = "UPDATE table_material SET material_desc ='".$col4."' WHERE material_no = '".$col3."' ";
-	$result_upMh2 = mysql_query($query_upMh2);
+	$result_upMh2 = mysqli_query($dbc, $query_upMh2);
 }
 
 
@@ -108,16 +108,16 @@ if($res_Ms > 0)
 
 
 
-/*while($res_Ms = mysql_fetch_array($result_Ms))
+/*while($res_Ms = mysqli_fetch_array($result_Ms))
 {
 	
 	$query_upMh = "UPDATE mat_master_header SET material_desc ='".$col4."' WHERE material_no = '".$col3."' ";
-	$result_upMh = mysql_query($query_upMh);
+	$result_upMh = mysqli_query($dbc, $query_upMh);
 	
 	
 	//
 	$query_upMh2 = "UPDATE table_material SET material_desc ='".$col4."' WHERE material_no = '".$col3."' ";
-	$result_upMh2 = mysql_query($query_upMh2);
+	$result_upMh2 = mysqli_query($dbc, $query_upMh2);
 	
 	
 	if($result_upMh)
@@ -170,7 +170,7 @@ echo $mesej2; echo $mesej3;
 
 //-------------------------------delete table mat_master_header_upload -------------------------------------
 /*$query_hsekeeping = "DELETE FROM mat_master_header_upload";
-$result_hsekeeping =  mysql_query($query_hsekeeping);
+$result_hsekeeping =  mysqli_query($dbc, $query_hsekeeping);
 */
 
 //------------------------end delete upload mat_master_header_upload ---------------------------------						

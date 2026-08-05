@@ -14,14 +14,14 @@ exit();
 $url = "add_vendor_account.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -81,8 +81,8 @@ return $ss;
 $vendor_code = $_GET["vendor_code"];
 
 $queryu = "SELECT *, DATE_FORMAT(date_create,'%d-%m-%Y') AS R, DATE_FORMAT(date_update,'%d-%m-%Y') AS R2 FROM vendor_detail WHERE vendor_code = '".$vendor_code."'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_array($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_array($resultu);   //how many records are there?
 
 
 //--------------------function escape data from form ------------------------
@@ -92,7 +92,7 @@ if (ini_get('magic_quotes_gpc'))
 {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 //------------------------------end function --------------------------------
@@ -100,14 +100,14 @@ $message = NULL; // create an empty new variable.
     //----user created -----
 
     $query_create = "SELECT * FROM user_detail WHERE username = '".$row[13]."'";
-    $result_create = mysql_query($query_create) or die (mysql_error());
-    $data_create = mysql_fetch_array($result_create);
+    $result_create = mysqli_query($dbc, $query_create) or die (mysqli_error($dbc));
+    $data_create = mysqli_fetch_array($result_create);
 	
 	//----user updated -----
 
     $query_update = "SELECT * FROM user_detail WHERE username = '".$row[15]."'";
-    $result_update = mysql_query($query_update) or die (mysql_error());
-    $data_update = mysql_fetch_array($result_update);
+    $result_update = mysqli_query($dbc, $query_update) or die (mysqli_error($dbc));
+    $data_update = mysqli_fetch_array($result_update);
 	
 	if($row[17] == "Y")
 	{

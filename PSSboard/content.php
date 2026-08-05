@@ -18,8 +18,8 @@ $nextpage = 1;
 */
 
 $sql = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') AND MR.date_mrin >= '".$end_date_check."'  GROUP BY MR.temp_mrin ORDER BY MR.temp_mrin DESC, MR.date_mrin DESC, MR.time_mrin ASC ";
-$result = mysql_query($sql);
-$r = mysql_num_rows($result);
+$result = mysqli_query($dbc, $sql);
+$r = mysqli_num_rows($result);
 $numrows = $r;
 
 

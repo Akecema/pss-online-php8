@@ -30,14 +30,14 @@ exit();
 $url = "list_ftp_to-ipos.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -51,44 +51,44 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2'";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7'";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Closed)
 $sta13 = "SELECT * from request_status WHERE status_id = '13'";
-$sta_res13 = mysql_query($sta13);
-$rst_sta13 = mysql_fetch_array($sta_res13);
+$sta_res13 = mysqli_query($dbc, $sta13);
+$rst_sta13 = mysqli_fetch_array($sta_res13);
 
 //CR status (Completed)
 $sta14 = "SELECT * from request_status WHERE status_id = '14'";
-$sta_res14 = mysql_query($sta14);
-$rst_sta14 = mysql_fetch_array($sta_res14);
+$sta_res14 = mysqli_query($dbc, $sta14);
+$rst_sta14 = mysqli_fetch_array($sta_res14);
 
 //CR status (Transfer QC)
 $sta18 = "SELECT * from request_status WHERE status_id = '18'";
-$sta_res18 = mysql_query($sta18);
-$rst_sta18 = mysql_fetch_array($sta_res18);	
+$sta_res18 = mysqli_query($dbc, $sta18);
+$rst_sta18 = mysqli_fetch_array($sta_res18);	
 
 //CR status (Approved QC)
 $sta17 = "SELECT * from request_status WHERE status_id = '17'";
-$sta_res17 = mysql_query($sta17);
-$rst_sta17 = mysql_fetch_array($sta_res17);	
+$sta_res17 = mysqli_query($dbc, $sta17);
+$rst_sta17 = mysqli_fetch_array($sta_res17);	
 	
 	?>
 <!DOCTYPE html>
@@ -258,8 +258,8 @@ return "";
 		   	 //convert 
 			
 			$query_convert = "SELECT * FROM work_center_detail WHERE id_work = '".$_GET["work_center"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 	
 
 			//-------Count all results------------------------//
@@ -361,9 +361,9 @@ return "";
                   <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                   <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3)) 
+                   while($row3=mysqli_fetch_array($result3)) 
 			      {
 				  
 				  
@@ -379,9 +379,9 @@ return "";
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -397,9 +397,9 @@ return "";
                   <option value="NULL" placeholder="Select Plan Category"> -- Select Plan Category --</option>
                   <?php
 	               $query29 = "SELECT * FROM plan_cat_pps ORDER BY id_plan ASC";
-                   $result29 = mysql_query($query29);
+                   $result29 = mysqli_query($dbc, $query29);
   
-                   while($row29=mysql_fetch_array($result29)) 
+                   while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
                      <option value="<?php echo $row29["id_plan"]; ?>" <?php if($row29["id_plan"] == $_GET["plan_category"]) echo "selected"; ?>> <?php echo $row29["plan_category_desc"]; ?></option>
@@ -435,8 +435,8 @@ return "";
 	
 		
    $query8 = "SELECT COUNT(*) FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' AND status = 'Y' ".$where_sql;
-   $result8 = mysql_query($query8);
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8);
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -446,8 +446,8 @@ return "";
  
   
 $query_all = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' AND status = 'Y' ".$where_sql." ORDER BY plan_no ASC";
-$rs = mysql_query($query_all);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query_all);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 
@@ -514,7 +514,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $sta_out = "";
    $k = 1;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 	//shift	
@@ -533,14 +533,14 @@ $num = mysql_num_rows($rs);   //how many material are there?
 	 
 	//---factory detail -------
 	$query_fac = "SELECT * FROM factory_detail WHERE factory_desc2 = '".$row["id_factory_pps"]."'";
-	$result_fac = mysql_query($query_fac);
-	$data_fac = mysql_fetch_array($result_fac);	 
+	$result_fac = mysqli_query($dbc, $query_fac);
+	$data_fac = mysqli_fetch_array($result_fac);	 
 	 
 	
 	//-----material info -------
 	$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row["material_no"]."' AND status_BOM = 'Y'";
-	$result_mat = mysql_query($query_mat);
-	$data_mat = mysql_fetch_array($result_mat);
+	$result_mat = mysqli_query($dbc, $query_mat);
+	$data_mat = mysqli_fetch_array($result_mat);
 	
 
 	
@@ -556,8 +556,8 @@ onClick="Check(document.myform.cancel)">
 				
 	//-----ftp info -------
 	$query_ftp_sent = "SELECT * FROM ftp_pss_ipos WHERE plan_no = '".$row["plan_no"]."' AND material_no = '".$row["material_no"]."'";
-	$result_ftp_sent = mysql_query($query_ftp_sent);
-	$data_ftp_sent = mysql_fetch_array($result_ftp_sent);
+	$result_ftp_sent = mysqli_query($dbc, $query_ftp_sent);
+	$data_ftp_sent = mysqli_fetch_array($result_ftp_sent);
 	       
 			   if($data_ftp_sent > 0 ){
 			     
@@ -581,8 +581,8 @@ onClick="Check(document.myform.cancel)">
 				
 	//-----ftp info -------
 	$query_ftp = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as TG  FROM ftp_pss_ipos WHERE plan_no = '".$row["plan_no"]."' AND material_no = '".$row["material_no"]."'";
-	$result_ftp = mysql_query($query_ftp);
-                while($data_ftp = mysql_fetch_array($result_ftp))
+	$result_ftp = mysqli_query($dbc, $query_ftp);
+                while($data_ftp = mysqli_fetch_array($result_ftp))
 	           {  
 			     
 			    ?><?php echo $data_ftp["TG"]; echo "<br>"; ?><?php  
@@ -595,8 +595,8 @@ onClick="Check(document.myform.cancel)">
 				
 	//-----ftp info -------
 	$query_ftp2 = "SELECT *, DATE_FORMAT(posting_time,'%H:%i:%s') as TG2  FROM ftp_pss_ipos WHERE plan_no = '".$row["plan_no"]."' AND material_no = '".$row["material_no"]."' ORDER BY posting_time ASC";
-	$result_ftp2 = mysql_query($query_ftp2);
-                while($data_ftp2 = mysql_fetch_array($result_ftp2))
+	$result_ftp2 = mysqli_query($dbc, $query_ftp2);
+                while($data_ftp2 = mysqli_fetch_array($result_ftp2))
 	           {  
 			     
 			    ?><?php echo $data_ftp2["TG2"]; echo "<br>"; ?><?php  
@@ -632,7 +632,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
  
@@ -666,15 +666,15 @@ $message = NULL; // create an empty new variable.
 		//insert table pps_detail_close
 		
 		$query_info = "SELECT * FROM pps_detail WHERE id = '".$cancel[$i]."'";
-		$result_info = mysql_query($query_info);
-		$row_info = mysql_fetch_array($result_info);
+		$result_info = mysqli_query($dbc, $query_info);
+		$row_info = mysqli_fetch_array($result_info);
 	
 		
 		//-----material info ----
 	
 	$query_mat_info2 = "SELECT * FROM mat_master_header WHERE material_no = '".$row_info["material_no"]."' AND status_BOM = 'Y'";
-	$result_mat_info2 = mysql_query($query_mat_info2);
-	$data_mat_info2 = mysql_fetch_array($result_mat_info2);
+	$result_mat_info2 = mysqli_query($dbc, $query_mat_info2);
+	$data_mat_info2 = mysqli_fetch_array($result_mat_info2);
 	
 	//-----shift day ----
 	
@@ -697,7 +697,7 @@ $message = NULL; // create an empty new variable.
 	$file_chker = "PPS".$date_run;
 	   
     $query_pps_closed = "INSERT INTO ftp_pss_ipos(id,file_chker,file_name,plan_no,id_pss,material_no,material_desc,qty_ftp,uom,work_center,id_factory,plant,date_plan,shift_day,status_ftp,posting_date,posting_time,user_create,date_create) VALUES('','".$file_chker."','".$filen."','".$row_info['plan_no']."','".$row_info["id"]."','".$row_info["material_no"]."','".$data_mat_info2["material_desc"]."','".$row_info["qty_plan"]."','".$data_mat_info2["BUn"]."','".$row_info["work_center"]."','".$row_info["id_factory_pps"]."','".$row_info["comp_code"]."','".$row_info["date_plan"]."','".$shift_dayF."','Y',NOW(),NOW(),'".$row_info["user_create"]."','".$row_info["date_create"]."')";
-	$rst_pps_closed = mysql_query($query_pps_closed);
+	$rst_pps_closed = mysqli_query($dbc, $query_pps_closed);
      
 	
 	
@@ -709,8 +709,8 @@ $message = NULL; // create an empty new variable.
 //-------  checking line x sama --------//
 
   $query_chk_line = "SELECT COUNT(DISTINCT work_center) AS GG FROM ftp_pss_ipos WHERE file_chker = '".$file_chker."'";
-  $rst_chk_line = mysql_query($query_chk_line);
-  $data_chk_line = mysql_fetch_array($rst_chk_line);
+  $rst_chk_line = mysqli_query($dbc, $query_chk_line);
+  $data_chk_line = mysqli_fetch_array($rst_chk_line);
 
  
  if($data_chk_line["GG"] > 1)
@@ -719,7 +719,7 @@ $message = NULL; // create an empty new variable.
 		//-----delete file date x ssama ------
 			
 		     $query_del_tarikh = "DELETE FROM ftp_pss_ipos WHERE file_chker = '".$file_chker."'";
-			 $result_del_tarikh =  mysql_query($query_del_tarikh); 
+			 $result_del_tarikh =  mysqli_query($dbc, $query_del_tarikh); 
 			
 	
 	        echo '<script type="text/javascript">';
@@ -737,10 +737,10 @@ $message = NULL; // create an empty new variable.
 	
 			
 //	 
-$qry = mysql_query("SELECT *, DATE_FORMAT(date_plan,'%Y%m%d') AS R FROM ftp_pss_ipos WHERE file_name = '".$filen."'");
+$qry = mysqli_query($dbc, "SELECT *, DATE_FORMAT(date_plan,'%Y%m%d') AS R FROM ftp_pss_ipos WHERE file_name = '".$filen."'");
 $data = "";
 $bil = 1;
-while($rowz = mysql_fetch_array($qry)) {
+while($rowz = mysqli_fetch_array($qry)) {
 	
 	
   $data .= $bil.";REL;".$rowz['plant'].";".$rowz['id_factory'].";".$rowz['work_center'].";".$rowz['plan_no'].";".$rowz['material_no'].";".$rowz['material_desc'].";".$rowz['R'].";".$rowz["shift_day"].";".$rowz['qty_ftp'].";".$rowz['uom']."\r\n";

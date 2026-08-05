@@ -20,8 +20,8 @@ $url = "wastage_qc_tran_NG.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,35 +33,35 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16'";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 
 	?>
 <!DOCTYPE html>
@@ -135,7 +135,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -144,17 +144,17 @@ $message = NULL; // create an empty new variable.
    // echo $uid;
    
     $query_upd_detail = "UPDATE reject_detail_disposal SET status_disposal = '".$rst_sta16["status_desc"]."' WHERE id_disposal = '".$uid."'";
-	$result_upd_detail = mysql_query($query_upd_detail) or die (mysql_error());
+	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
 	
 	//-----------select statement--------------
 	$query_state = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".$uid."' ORDER BY id_disposal ASC";
-    $result_state = mysql_query($query_state);
-    $row_state = mysql_fetch_array($result_state);
+    $result_state = mysqli_query($dbc, $query_state);
+    $row_state = mysqli_fetch_array($result_state);
 	
 
 	//---------------
 	  $query_upd_detail2 = "UPDATE wastage_transaction SET status_disposal = '".$rst_sta16["status_desc"]."' WHERE id_wastage_tran = '".$row_state["uid"]."'";
-	  $result_upd_detail2 = mysql_query($query_upd_detail2) or die (mysql_error());
+	  $result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2) or die (mysqli_error($dbc));
 		
 	  if(($result_upd_detail > 0) && ($result_upd_detail2 > 0))
 	  {	
@@ -202,18 +202,18 @@ $message = NULL; // create an empty new variable.
    $sta_out = "";
    
    $query_display = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal AS MR WHERE MR.id_disposal = '$uid'";
-$result_display = mysql_query($query_display);   //run the query.
+$result_display = mysqli_query($dbc, $query_display);   //run the query.
    
-   while ($row2 = mysql_fetch_array($result_display))
+   while ($row2 = mysqli_fetch_array($result_display))
    {
 		
     $query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row2['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row2['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	 
       ?>
       <tr class="gradeX">

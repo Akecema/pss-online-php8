@@ -20,8 +20,8 @@ exit();
 //include "config.inc";
 
 $sql = "SELECT COUNT(*) FROM material_request";
-$result = mysql_query($sql) or trigger_error("SQL", E_USER_ERROR);
-$r = mysql_fetch_row($result);
+$result = mysqli_query($dbc, $sql) or trigger_error("SQL", E_USER_ERROR);
+$r = mysqli_fetch_row($result);
 $numrows = $r[0];
 
 
@@ -53,10 +53,10 @@ $offset = ($currentpage - 1) * $rowsperpage;
 
 
 $sql = "SELECT * FROM material_request LIMIT $offset, $rowsperpage";
-$result = mysql_query($sql) or trigger_error("SQL", E_USER_ERROR);
+$result = mysqli_query($dbc, $sql) or trigger_error("SQL", E_USER_ERROR);
 
 
-while ($list = mysql_fetch_array($result)) {
+while ($list = mysqli_fetch_array($result)) {
 
 echo $list['id_req'] . " : " . $list['temp_mrin'] . "<br />";
 } 

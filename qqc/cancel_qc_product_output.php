@@ -20,8 +20,8 @@ $url = "rework_output_list_tran.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,40 +33,40 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1'";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2'";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7'";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending)
 $sta8 = "SELECT * from request_status WHERE status_id = '8'";
-$sta_res8 = mysql_query($sta8);
-$rst_sta8 = mysql_fetch_array($sta_res8);	
+$sta_res8 = mysqli_query($dbc, $sta8);
+$rst_sta8 = mysqli_fetch_array($sta_res8);	
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16'";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 
 	?>
 <!DOCTYPE html>
@@ -183,7 +183,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -203,12 +203,12 @@ $message = NULL; // create an empty new variable.
 	
  
 	$query_id = "SELECT count_max FROM run_count_no WHERE uid = '32'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_array($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_array($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22412";
@@ -245,26 +245,26 @@ $message = NULL; // create an empty new variable.
 	
 		
   $query_upd_detail = "UPDATE qqc_detail_transaction SET status_QC = '".$rst_sta4["status_desc"]."', qqc_doc_no_ref = '".$ref."', user_cancel = '".$username."', date_cancel = NOW() WHERE id_qqc = '".$cancel[$i]."'";
-  $result_upd_detail = mysql_query($query_upd_detail) or die (mysql_error());
+  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
   
   
   	
 		
   
   		$query_ftp = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_cancel,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_cancel,'%H:%i:%s') as J3 FROM qqc_detail_transaction AS M WHERE M.id_qqc = '".$cancel[$i]."'";
-		$result_ftp = mysql_query($query_ftp);   //run the query.
-		$data_ftp = mysql_fetch_array($result_ftp);
+		$result_ftp = mysqli_query($dbc, $query_ftp);   //run the query.
+		$data_ftp = mysqli_fetch_array($result_ftp);
 		
 		$query_q2 = "SELECT * FROM table_material WHERE material_no = '".$data_ftp["material_no"]."'";
-        $result_q2 = mysql_query($query_q2) or die (mysql_error());
-        $ans3 = mysql_fetch_array($result_q2);
+        $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+        $ans3 = mysqli_fetch_array($result_q2);
 		
 		
 		//---------update table qqc_transaction_cancel
 		
 	
 $query_data_my = "INSERT INTO qqc_transaction_cancel(id_qqc, id_tran, qqc_doc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, qqc_doc_no_ref, user_cancel, date_cancel) VALUES('".$data_ftp["id_qqc"]."','".$data_ftp["id_tran"]."','".$data_ftp["qqc_doc_no"]."','".$data_ftp["bflush_no"]."','".$data_ftp["plan_no"]."','".$data_ftp["material_no"]."','".$data_ftp["material_desc"]."','".$data_ftp["material_type"]."','".$data_ftp["qty_plan"]."','".$data_ftp["qty_actual"]."','".$data_ftp["qty_balance"]."','".$data_ftp["qty_NG"]."','".$data_ftp["qty_qc"]."','".$data_ftp["qty_qc_ok"]."','".$data_ftp["qty_qc_NG"]."','".$rst_sta8["status_desc"]."','".$data_ftp["comp_code"]."','".$data_ftp["work_center"]."','".$data_ftp["shift_day"]."','".$data_ftp["date_plan"]."', '".$data_ftp["user_create"]."','".$data_ftp["date_create"]."','','','$username',NOW(),NOW(),'".$data_ftp["ploc_qc"]."','".$data_ftp["ploc"]."','".$data_ftp["delivery_loc"]."','".$data_ftp["type_qc_reject"]."','".$data_ftp["reason_qc_reject"]."','".$data_ftp["user_qc_reject"]."','".$data_ftp["date_qc_reject"]."','".$data_ftp["time_qc_reject"]."','Y','".$data_ftp["qqc_doc_no_ref"]."','".$username."',NOW())";
-$result_data_my = mysql_query($query_data_my) or die (mysql_error());
+$result_data_my = mysqli_query($dbc, $query_data_my) or die (mysqli_error($dbc));
 
 
   //------ftp text file for cancel from FromPortal2 to SAP ------- //
@@ -281,14 +281,14 @@ file_put_contents($file,$data);
 //----------update table ftp_goodtran_detail------------
    
     $query_ftp_info = "INSERT INTO ftp_goodtran_detail(id, file_name, qqc_no, bflush_no, id_tran, plan_no, material_no, material_desc, qty_ftp, uom, status_ftp, posting_date, posting_time, user_create, date_create) VALUES('','".$filen."','".$data_ftp["qqc_doc_no_ref"]."',".$data_ftp["bflush_no"].",'".$data_ftp["id_tran"]."','".$data_ftp["plan_no"]."','".$data_ftp["material_no"]."','".$data_ftp["material_desc"]."','".$data_ftp["qty_qc_ok"]."','".$ans3['BUn']."','Y','".$data_ftp["J2"]."','".$data_ftp["J3"]."','".$username."',NOW())"; 
-     $rst_ftp_info = mysql_query($query_ftp_info);
+     $rst_ftp_info = mysqli_query($dbc, $query_ftp_info);
 
 
 
 	//---------------delete data---------------------------------
 	
 	$query_delete = "DELETE FROM qqc_detail_transaction WHERE id_qqc = '".$cancel[$i]."'";
-	$result_delete = mysql_query($query_delete) or die (mysql_error());
+	$result_delete = mysqli_query($dbc, $query_delete) or die (mysqli_error($dbc));
   
   	
 		
@@ -300,7 +300,7 @@ file_put_contents($file,$data);
 		
 	
        $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '32'";
-	   $result_max_a = mysql_query($query_max_a);
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
 	 
       //end update count_max ---------------------------------	
 	  
@@ -348,24 +348,24 @@ file_put_contents($file,$data);
    $qty_final = 0.000;
    
 $query_display = "SELECT *, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2 FROM qqc_detail_transaction AS MR WHERE MR.id_tran = '".$uid."'";
-$result_display = mysql_query($query_display);   //run the query.
+$result_display = mysqli_query($dbc, $query_display);   //run the query.
    
-   while($row2 = mysql_fetch_array($result_display))
+   while($row2 = mysqli_fetch_array($result_display))
    {
 		
      $query_model =  "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row2["plan_no"]."' ORDER BY plan_no ASC";		
-	 $result_model = mysql_query($query_model);
-     $row_model = mysql_fetch_array($result_model); 	
+	 $result_model = mysqli_query($dbc, $query_model);
+     $row_model = mysqli_fetch_array($result_model); 	
 	 
 	//query material 
 	 $query_mat =  "SELECT * FROM mat_master_header WHERE material_no = '".$row2["material_no"]."'";		
-	 $result_mat = mysql_query($query_mat);
-     $row_mat = mysql_fetch_array($result_mat); 
+	 $result_mat = mysqli_query($dbc, $query_mat);
+     $row_mat = mysqli_fetch_array($result_mat); 
 	 
 	//query reason reject
 	 $query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row2["reason_qc_reject"]."'";
-     $result_reason = mysql_query($query_reason);
-	 $row_reason = mysql_fetch_array($result_reason);	
+     $result_reason = mysqli_query($dbc, $query_reason);
+	 $row_reason = mysqli_fetch_array($result_reason);	
 	 
 	 
 	 //quantity output

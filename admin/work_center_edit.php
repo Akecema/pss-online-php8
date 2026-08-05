@@ -15,14 +15,14 @@ exit();
     $url = 'work_center_edit.php';
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -91,8 +91,8 @@ return $ss;
 $id_work = $_GET['id_work'];
 
 $queryu = "SELECT * FROM work_center_detail WHERE id_work = '$id_work'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 
 if (isset($_POST['submit']))
@@ -115,7 +115,7 @@ if (ini_get('magic_quotes_gpc'))
 {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -179,16 +179,16 @@ if (empty($_POST['id_factory']) || ($_POST['id_factory'] == ""))
  if($id_work && $wc_desc && $plant_code && $cost_center && $cc_desc && $id_factory) //everything ok
 {     	
 		  	  $query_search = "SELECT * FROM work_center_detail WHERE id_work = '$id_work'";
-              $result_search = mysql_query($query_search);   //run the query.
-              $num_search = mysql_num_rows($result_search);   //how many suppliers are there?
+              $result_search = mysqli_query($dbc, $query_search);   //run the query.
+              $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
 			  if($num_search == 1) {
 			  //echo $num_search; 
-			    $row = mysql_fetch_array($result_search,MYSQL_NUM);
+			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
 		$query_upd = "UPDATE work_center_detail SET wc_desc = '$wc_desc', cost_center = '$cost_center', cc_desc = '$cc_desc', plant_code = '$plant_code', id_factory = '$id_factory' WHERE id_work = '$id_work'"; 
-		$result_upd = mysql_query($query_upd); 
+		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)
 			{
@@ -256,9 +256,9 @@ if (isset($message))
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  

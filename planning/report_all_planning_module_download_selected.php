@@ -5,20 +5,20 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16' ";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,8 +50,8 @@ set_time_limit(0);
 			 //convert 
 			
 			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert); 
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert); 
 			
 			//-------Count all results------------------------//
 			
@@ -112,8 +112,8 @@ $namaFile = "Report Planned Order_".$date_tdy.".xls";
 			
 		
     $query8 = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 FROM pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".$rst_sta4["status_desc"]."' AND MR.status_pps != '".$rst_sta16["status_desc"]."')".$where_sql. " ORDER BY MR.plan_no ASC";
-  $result8 = mysql_query($query8) or die(mysql_error());
-  $num_rows = mysql_num_rows($result8);
+  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $num_rows = mysqli_num_rows($result8);
 
 
 //---------------------------end count
@@ -174,7 +174,7 @@ echo '</table>';
 //Display table
 // query menampilkan semua data
 $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_posting,'%H:%i:%s') as T2 FROM  pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".$rst_sta4["status_desc"]."'  AND MR.status_pps != '".$rst_sta16["status_desc"]."')".$where_sql. " ORDER BY MR.plan_no ASC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
    $counter = 1;
@@ -185,17 +185,17 @@ $rs = mysql_query($query);   //run the query.
    $rq = 0;
    
  echo '<table border="1" width="100%">';
- while ($row2 = mysql_fetch_array($rs))
+ while ($row2 = mysqli_fetch_array($rs))
    {
 	    //---------get material header---------
 	    $query_mat_h = "SELECT * FROM table_material WHERE material_no = '".$row2['material_no']."'";
-		$result_mat_h = mysql_query($query_mat_h);
-		$data_mat_h = mysql_fetch_array($result_mat_h);	 
+		$result_mat_h = mysqli_query($dbc, $query_mat_h);
+		$data_mat_h = mysqli_fetch_array($result_mat_h);	 
 		
 		//---------get sloc ---------
 	    $query_mat_h2 = "SELECT * FROM mat_master_detail WHERE material = '".$row2['material_no']."'";
-		$result_mat_h2 = mysql_query($query_mat_h2);
-		$data_mat_h2 = mysql_fetch_array($result_mat_h2);	 
+		$result_mat_h2 = mysqli_query($dbc, $query_mat_h2);
+		$data_mat_h2 = mysqli_fetch_array($result_mat_h2);	 
 		 
 	   
 	    echo '<tr height="35">';
@@ -215,17 +215,17 @@ $rs = mysql_query($query);   //run the query.
 	    echo '</tr>'; 
 
    $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as RR, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as RR2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as RR3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".$row2["id"]."'";
-   $result_display = mysql_query($query_display);   //run the query.
+   $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
-   while ($row_display = mysql_fetch_array($result_display))
+   while ($row_display = mysqli_fetch_array($result_display))
    {
 	   
  $query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".$row_display["bflush_no"]."'";
-$result_display3 = mysql_query($query_display3);   //run the query.  
+$result_display3 = mysqli_query($dbc, $query_display3);   //run the query.  
   
   
    $query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".$row_display["bflush_no"]."'";
-$result_display2 = mysql_query($query_display2);   //run the query.
+$result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 
 
 	//quantity output
@@ -284,7 +284,7 @@ $result_display2 = mysql_query($query_display2);   //run the query.
 	<?php  
 	   $no3 = 1;
 	    
-           while ($row3 = mysql_fetch_array($result_display3))
+           while ($row3 = mysqli_fetch_array($result_display3))
         {
 	   
 	  
@@ -318,7 +318,7 @@ $result_display2 = mysql_query($query_display2);   //run the query.
 	 $no2 = "a"; 
      $sta_out2 = "";
 		   
-     while($row_rst_display2 = mysql_fetch_array($result_display2))
+     while($row_rst_display2 = mysqli_fetch_array($result_display2))
    {
 	   
 //quantity output
@@ -385,7 +385,7 @@ $result_display2 = mysql_query($query_display2);   //run the query.
 
 }  // end while loop $row2
     echo '</table>';   
-	mysql_free_result($rs); 
+	mysqli_free_result($rs); 
 ?>
 
 

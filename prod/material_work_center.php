@@ -22,14 +22,14 @@ $mday = $today['mday'];
 $year = $today['year']; 
 
 $query_u = "SELECT * FROM user_detail WHERE username = '$username'";
-$result_u = mysql_query($query_u);   //run the query.
-$data_u = mysql_fetch_array($result_u);   //how many records are there?       
+$result_u = mysqli_query($dbc, $query_u);   //run the query.
+$data_u = mysqli_fetch_array($result_u);   //how many records are there?       
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -118,9 +118,9 @@ function getXMLHTTP() { //fuction to return the xml http object
         <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
         <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }

@@ -20,9 +20,9 @@ exit();
 $temp_mrin = $_GET["mrin_no"];
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -109,24 +109,24 @@ function myFunction() {
 
 
 $queryu = "SELECT * FROM consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
 $query_2 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
-$result_2 = mysql_query($query_2);   //run the query.
-$data_2 = mysql_fetch_array($result_2);
+$result_2 = mysqli_query($dbc, $query_2);   //run the query.
+$data_2 = mysqli_fetch_array($result_2);
 
  $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 		$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
-$result_k = mysql_query($query_k);
-$row_k = mysql_fetch_array($result_k);
+$result_k = mysqli_query($dbc, $query_k);
+$row_k = mysqli_fetch_array($result_k);
 
 $query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '$username'";
-$result_k2 = mysql_query($query_k2);
-$row_k2 = mysql_fetch_array($result_k2);
+$result_k2 = mysqli_query($dbc, $query_k2);
+$row_k2 = mysqli_fetch_array($result_k2);
 
 		 
 	 /*if(isset($_POST["submit"]) && $_POST!=="") 
@@ -140,7 +140,7 @@ $row_k2 = mysql_fetch_array($result_k2);
 <?php
 
 	$query_update_print = "UPDATE consumable_request SET status_print = 'Y' WHERE temp_mrin = '$temp_mrin'";
-	$result_update_print = mysql_query($query_update_print);
+	$result_update_print = mysqli_query($dbc, $query_update_print);
 ?>
     //self.parent.tb_remove();
     //parent.tb_remove(); parent.location.reload(1);
@@ -234,7 +234,7 @@ console.log('closed!');
       $counter = 1;
    $no = 1;
     $k = 0;
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		//$user_no = $row[0]; 
  $no = sprintf('%03d', $no);
@@ -243,8 +243,8 @@ console.log('closed!');
      
   //------------------cost center --------------------//
    $query_cost_center = "SELECT * FROM work_center_detail WHERE id_work = '".$row["id_work"]."'";
-   $result_cost_center = mysql_query($query_cost_center) or die (mysql_error());
-   $row_cost_center = mysql_fetch_array($result_cost_center);
+   $result_cost_center = mysqli_query($dbc, $query_cost_center) or die (mysqli_error($dbc));
+   $row_cost_center = mysqli_fetch_array($result_cost_center);
    
 	 
 			 
@@ -290,12 +290,12 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
                  <?php
 		
 	/* $query_display_reason = "SELECT * from `consumable_request_cancel` WHERE temp_mrin = '$temp_mrin' AND status = 'Cancel'";
-    $result_display_reason = mysql_query($query_display_reason);
-    $row_display_reason = mysql_fetch_array($result_display_reason);
+    $result_display_reason = mysqli_query($dbc, $query_display_reason);
+    $row_display_reason = mysqli_fetch_array($result_display_reason);
 	
 	$query_reason_tbl = "SELECT * from `reason_req_cancel` WHERE id_cancel = '".$row_display_reason["reason_cancel"]."'";
-	 $result_reason_tbl = mysql_query($query_reason_tbl);
-    $row_reason_tbl = mysql_fetch_array($result_reason_tbl);
+	 $result_reason_tbl = mysqli_query($dbc, $query_reason_tbl);
+    $row_reason_tbl = mysqli_fetch_array($result_reason_tbl);
 	
 	if($row_display_reason	> 0)
 	{   */
@@ -311,12 +311,12 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
 /* }
  
 $query_display_reason2 = "SELECT * from `consumable_request_close` WHERE temp_mrin = '$temp_mrin' AND status = 'Close'";
-    $result_display_reason2 = mysql_query($query_display_reason2);
-    $row_display_reason2 = mysql_fetch_array($result_display_reason2);
+    $result_display_reason2 = mysqli_query($dbc, $query_display_reason2);
+    $row_display_reason2 = mysqli_fetch_array($result_display_reason2);
 	
 	$query_reason_tbl2 = "SELECT * from `reason_req_close` WHERE id_close = '".$row_display_reason2["reason_close"]."'";
-	 $result_reason_tbl2 = mysql_query($query_reason_tbl2);
-    $row_reason_tbl2 = mysql_fetch_array($result_reason_tbl2);
+	 $result_reason_tbl2 = mysqli_query($dbc, $query_reason_tbl2);
+    $row_reason_tbl2 = mysqli_fetch_array($result_reason_tbl2);
 	
 	if($row_display_reason2	> 0)
 	{   

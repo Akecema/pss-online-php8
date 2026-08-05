@@ -19,8 +19,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 $url = "posting_request_history.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -31,9 +31,9 @@ $mday = $today['mday'];
 $year = $today['year']; 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	
 	?>
@@ -185,9 +185,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -205,9 +205,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -239,9 +239,9 @@ function getXMLHTTP() { //fuction to return the xml http object
 				//convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
-			$result_convert = mysql_query($query_convert); 
+			$result_convert = mysqli_query($dbc, $query_convert); 
 			
-			while ($row_convert = mysql_fetch_array($result_convert))
+			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
 			echo $row_convert["id_fac"];
@@ -295,9 +295,9 @@ function getXMLHTTP() { //fuction to return the xml http object
 		//********** END CONDITION **************	
 								 
       $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request_close AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND MR.status = 'Close' ".$where_sql." GROUP BY MR.temp_mrin";
-     $result8 = mysql_query($query8) or trigger_error("SQL", E_USER_ERROR);
-     $num_8 = mysql_fetch_row($result8);
-     $num_rows = mysql_num_rows($result8);
+     $result8 = mysqli_query($dbc, $query8) or trigger_error("SQL", E_USER_ERROR);
+     $num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
  
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -306,7 +306,7 @@ function getXMLHTTP() { //fuction to return the xml http object
    
   
 $query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request_close AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND  MR.status = 'Close' ".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC, MR.temp_mrin ASC ";
-$rs = mysql_query($query);   //run the query.GROUP BY MR.temp_mrin
+$rs = mysqli_query($dbc, $query);   //run the query.GROUP BY MR.temp_mrin
 
 	
 	 	if($num_rows > 0) {
@@ -341,29 +341,29 @@ $rs = mysql_query($query);   //run the query.GROUP BY MR.temp_mrin
    $counter = 1;
    $no = 1;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 	
    
    	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
-   	$result_scan = mysql_query($query_scan);
-   	$row_scan = mysql_fetch_array($result_scan);
+   	$result_scan = mysqli_query($dbc, $query_scan);
+   	$row_scan = mysqli_fetch_array($result_scan);
 	
 	$query_again = "SELECT * FROM material_request_close WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
-  	$result4_p = mysql_query($query4_p);
- 	$row4_p = mysql_fetch_array($result4_p); 
+  	$result4_p = mysqli_query($dbc, $query4_p);
+ 	$row4_p = mysqli_fetch_array($result4_p); 
  
   
 
@@ -408,7 +408,7 @@ $since_start = $start_date->diff(new DateTime($date_transfer));
 		  } ?>
           </tbody> </table>
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
    ?>
 
   <?php
@@ -423,7 +423,7 @@ else
 </table></center>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 
 ?>
 

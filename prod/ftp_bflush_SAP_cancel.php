@@ -6,9 +6,9 @@ include '../include/config.php';
 $uid2 = $_GET["buid"];
 $buid = $_GET["buid2A"];
 
-$qry = mysql_query("SELECT *, DATE_FORMAT(A1.date_posting,'%Y-%m-%d') AS R, DATE_FORMAT(A1.date_create,'%Y-%m-%d') AS R2, DATE_FORMAT(A1.date_create,'%H:%i:%s') AS R3 FROM pps_detail_transaction AS A1 WHERE A1.id = '".$uid2."'");
+$qry = mysqli_query($dbc, "SELECT *, DATE_FORMAT(A1.date_posting,'%Y-%m-%d') AS R, DATE_FORMAT(A1.date_create,'%Y-%m-%d') AS R2, DATE_FORMAT(A1.date_create,'%H:%i:%s') AS R3 FROM pps_detail_transaction AS A1 WHERE A1.id = '".$uid2."'");
 $data = "";
-while($row = mysql_fetch_array($qry)) {
+while($row = mysqli_fetch_array($qry)) {
 	
 	$sta_out = substr($row["bflush_no"],2,3);
 	//$sta_out = substr($row["bflush_no"],4,1);
@@ -18,8 +18,8 @@ while($row = mysql_fetch_array($qry)) {
 	    //------get data UOM ----------
 	 
 	  $query_uom = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$row["id_scan"]."'";
-	  $rst_uom = mysql_query($query_uom);
-	  $data_uom = mysql_fetch_array($rst_uom);
+	  $rst_uom = mysqli_query($dbc, $query_uom);
+	  $data_uom = mysqli_fetch_array($rst_uom);
 
 	
 	
@@ -29,32 +29,32 @@ while($row = mysql_fetch_array($qry)) {
 	{
 		
 	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row['type_reject']."' ORDER BY id_type ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row['reason_reject']."' ORDER BY id_reject ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 	 $data .= $row['bflush_no_ref'].";".$row['bflush_no'].";".$row['comp_code'].";".$row['work_center'].";".$row['material_no'].";132;".$row['plan_no'].";".$row['date_plan'].";".$data_uom['scan_shift'].";".$row['qty_NG'].";".$data_uom['scan_uom'].";".$row['ploc'].";".$row['R'].";".$row['time_posting'].";".$row['R2'].";".$row['R3'].";".$row['user_cancel'].";".$row['date_cancel']."\r\n";
 	
   
    //----colect data --------------
   $query_collect = "SELECT *, DATE_FORMAT(A1.date_posting,'%Y-%m-%d') AS R FROM pps_detail_transaction AS A1 WHERE A1.id = '".$uid2."'";
-  $rst_collect = mysql_query($query_collect);
-  $data_collect = mysql_fetch_array($rst_collect);
+  $rst_collect = mysqli_query($dbc, $query_collect);
+  $data_collect = mysqli_fetch_array($rst_collect);
   
   //------get data UOM ----------
 	 
   $query_collectA = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$data_collect["id_scan"]."'";
-  $rst_collectA = mysql_query($query_collectA);
-  $data_collectA = mysql_fetch_array($rst_collectA);
+  $rst_collectA = mysqli_query($dbc, $query_collectA);
+  $data_collectA = mysqli_fetch_array($rst_collectA);
 
  
      //--------insert into table ftp_bflush_detail
   
      $query_ftp_info = "INSERT INTO ftp_bflush_detail(id,file_name,bflush_no,ref_id,plan_no,material_no,material_desc,qty_ftp,uom,status_ftp,posting_date,posting_time,user_create,date_create) VALUES('','".$filen."','".$data_collect["bflush_no"]."','".$data_collect["ref_id"]."','".$data_collect["plan_no"]."','".$data_collect["material_no"]."','".$data_collect["material_desc"]."','".$data_collect["qty_NG"]."','".$data_collectA["scan_uom"]."','Y','".$data_collect["R"]."','".$data_collect["time_posting"]."','".$username."',NOW())"; 
-     $rst_ftp_info = mysql_query($query_ftp_info);
+     $rst_ftp_info = mysqli_query($dbc, $query_ftp_info);
 	 
 	}elseif($sta_out == "211")
 	{
@@ -65,20 +65,20 @@ while($row = mysql_fetch_array($qry)) {
 	
 	  //----colect data --------------
   $query_collect = "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS R FROM pps_detail_transaction WHERE id = '".$uid2."'";
-  $rst_collect = mysql_query($query_collect);
-  $data_collect = mysql_fetch_array($rst_collect);
+  $rst_collect = mysqli_query($dbc, $query_collect);
+  $data_collect = mysqli_fetch_array($rst_collect);
   
     //------get data UOM ----------
 	 
   $query_collectA = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$data_collect["id_scan"]."'";
-  $rst_collectA = mysql_query($query_collectA);
-  $data_collectA = mysql_fetch_array($rst_collectA);
+  $rst_collectA = mysqli_query($dbc, $query_collectA);
+  $data_collectA = mysqli_fetch_array($rst_collectA);
 
  
      //--------insert into table ftp_bflush_detail
   
      $query_ftp_info = "INSERT INTO ftp_bflush_detail(id,file_name,bflush_no,ref_id,plan_no,material_no,material_desc,qty_ftp,uom,status_ftp,posting_date,posting_time,user_create,date_create) VALUES('','".$filen."','".$data_collect["bflush_no"]."','".$data_collect["ref_id"]."','".$data_collect["plan_no"]."','".$data_collect["material_no"]."','".$data_collect["material_desc"]."','".$data_collect["qty_actual"]."','".$data_collectA["scan_uom"]."','Y','".$data_collect["R"]."','".$data_collect["time_posting"]."','".$username."',NOW())"; 
-     $rst_ftp_info = mysql_query($query_ftp_info);
+     $rst_ftp_info = mysqli_query($dbc, $query_ftp_info);
 		
 	}else{
 		
@@ -89,22 +89,22 @@ while($row = mysql_fetch_array($qry)) {
 	
 	  //----colect data --------------
   $query_collect = "SELECT *, DATE_FORMAT(A1.date_posting,'%Y-%m-%d') AS R FROM pps_detail_transaction AS A1 WHERE A1.id = '".$uid2."'";
-  $rst_collect = mysql_query($query_collect);
-  $data_collect = mysql_fetch_array($rst_collect);
+  $rst_collect = mysqli_query($dbc, $query_collect);
+  $data_collect = mysqli_fetch_array($rst_collect);
   
   
      //------get data UOM ----------
 	 
   $query_collectA = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$data_collect["id_scan"]."'";
-  $rst_collectA = mysql_query($query_collectA);
-  $data_collectA = mysql_fetch_array($rst_collectA);
+  $rst_collectA = mysqli_query($dbc, $query_collectA);
+  $data_collectA = mysqli_fetch_array($rst_collectA);
 	 
 
  
      //--------insert into table ftp_bflush_detail
   
      $query_ftp_info = "INSERT INTO ftp_bflush_detail(id,file_name,bflush_no,ref_id,plan_no,material_no,material_desc,qty_ftp,uom,status_ftp,posting_date,posting_time,user_create,date_create) VALUES('','".$filen."','".$data_collect["bflush_no"]."','".$data_collect["ref_id"]."','".$data_collect["plan_no"]."','".$data_collect["material_no"]."','".$data_collect["material_desc"]."','".$data_collect["qty_actual"]."','".$data_collectA["scan_uom"]."','Y','".$data_collect["R"]."','".$data_collect["time_posting"]."','".$username."',NOW())"; 
-     $rst_ftp_info = mysql_query($query_ftp_info);	
+     $rst_ftp_info = mysqli_query($dbc, $query_ftp_info);	
 		*/
 		
 	}
@@ -126,7 +126,7 @@ file_put_contents($file,$data);
 	 // ---update status 
 
 		$query_ftp = "UPDATE pps_detail_transaction SET status_ftp_bflush = 'Y' WHERE id = '".$uid2."'";
-		$rst_query_ftp = mysql_query($query_ftp); //or die ("Error in query: $query_ftp"); 
+		$rst_query_ftp = mysqli_query($dbc, $query_ftp); //or die ("Error in query: $query_ftp"); 
 		
 				
 		if($rst_query_ftp > 0)

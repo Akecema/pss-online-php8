@@ -18,14 +18,14 @@ exit();
 $url = "setup_maintain_add.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	
 	?>
@@ -103,7 +103,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -188,25 +188,25 @@ if(empty($_POST['status_system']) || ($_POST['status_system'] == ""))
    
 	   //Add the record to the database
 	   $query = "INSERT INTO sys_setup_maintain(id_setup, title_desc, logo_name, logo_comp, urls_system, smtp_account, email_account, ftp_ip, date_create, user_create, date_update, user_update, status_system, comp_code) VALUES('','".$title_desc."','".$_FILES['upload']['name']."','','".$urls_system."','".$smtp_account."', '".$email_account."', '".$ftp_ip."',NOW(),'$username','','','".$status_system."','".$comp_code."')";
-	   $result = mysql_query($query) or die (mysql_error());   
+	   $result = mysqli_query($dbc, $query) or die (mysqli_error($dbc));   
 	  
 	   if($result) {
 	   //create the filename
 	     $extension = explode ('.', $_FILES['upload']['name']);
-		 $uid = mysql_insert_id();  //upload ID
+		 $uid = mysqli_insert_id($dbc);  //upload ID
 		// $filetest = $_FILES['upload']['name'];
 		 //$filename = $filetest;
 		 $filename = $uid .'.'.$extension[1];
 		 
 		 
 		    $query_update2 = "UPDATE sys_setup_maintain SET logo_comp = '".$uid."' WHERE id_setup = '".$uid."'";
-			$result_update2 = mysql_query($query_update2) or die (mysql_error());   
+			$result_update2 = mysqli_query($dbc, $query_update2) or die (mysqli_error($dbc));   
 		 
 		 //--------update table sys_setup_maintain ----------------
 		  if($status_system == "AC")
 		  {
 			$query_update1 = "UPDATE sys_setup_maintain SET status_system = 'NA' WHERE logo_comp != '".$uid."'";
-			$result_update1 = mysql_query($query_update1) or die (mysql_error());   
+			$result_update1 = mysqli_query($dbc, $query_update1) or die (mysqli_error($dbc));   
 	       
 		  }
 		 
@@ -240,7 +240,7 @@ echo "</script>";
 			  
 		
 				}
-				  mysql_close();   // close database conn
+				  mysqli_close($dbc);   // close database conn
 				
 				}
 	  
@@ -280,10 +280,10 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query3 ='Select * from company';
-  $result3 = mysql_query($query3);
+  $result3 = mysqli_query($dbc, $query3);
   
     
-     while($row3 =mysql_fetch_array ($result3, MYSQL_NUM)) {
+     while($row3 =mysqli_fetch_array($result3, MYSQLI_NUM)) {
 	
 	 if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->

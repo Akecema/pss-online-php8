@@ -17,14 +17,14 @@ exit();
 $url = "wastage_backflush_tran_NG.php";
 
 $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-$result2 = mysql_query($query2) or die (mysql_error());
-$res = mysql_fetch_array($result2);
+$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -38,23 +38,23 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending Approve)
 $sta15 = "SELECT * from request_status WHERE status_id = '15' ";
-$sta_res15 = mysql_query($sta15);
-$rst_sta15 = mysql_fetch_array($sta_res15);	
+$sta_res15 = mysqli_query($dbc, $sta15);
+$rst_sta15 = mysqli_fetch_array($sta_res15);	
 	
 	?>
 <!DOCTYPE html>
@@ -252,12 +252,12 @@ return "";
      //-------------------generate disposal doc no. [Wastage Prod]---------------
 	 
 	/* $query_id = "SELECT count_max FROM run_count_no WHERE uid = '25'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_row($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_row($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22321";
@@ -298,9 +298,9 @@ return "";
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3)) 
+                   while($row3=mysqli_fetch_array($result3)) 
 			      {
 					 ?>    
                        <option value="<?php echo $row3["factory_desc2"]; ?>" > <?php echo $row3["factory_desc"]; ?> </option>                    
@@ -330,10 +330,10 @@ return "";
  	       
 		  //Retrieve and display the available types
 		  $query8 = "SELECT * from mat_type_tbl";
-		  $result8 = mysql_query($query8);
+		  $result8 = mysqli_query($dbc, $query8);
 		  
 			
-			 while($row8 = mysql_fetch_array($result8)) {
+			 while($row8 = mysqli_fetch_array($result8)) {
 			
 			 if($_POST['Submit2'] == true){ ?>
 					   <!--RETAIN VALUE-->
@@ -365,9 +365,9 @@ return "";
                   
                    <?php
 	               $query10 = "SELECT * FROM storage_tbl ORDER BY sloc_code ASC";
-                   $result10 = mysql_query($query10);
+                   $result10 = mysqli_query($dbc, $query10);
   
-                   while($row10=mysql_fetch_array($result10)) 
+                   while($row10=mysqli_fetch_array($result10)) 
 			      {
 					    if($_POST['Submit2'] == true){ ?>
                  <option value="<?php echo $row10["sloc_code"]; ?>" <?php if($row10["sloc_code"] == $_POST["ploc"]) echo "selected"; ?>> <?php echo $row10["sloc_code"]; ?></option>   
@@ -388,9 +388,9 @@ return "";
                   <?php
 				  
 	               $query7 = "SELECT * FROM model_detail ORDER BY code_model ASC";
-                   $result7 = mysql_query($query7);
+                   $result7 = mysqli_query($dbc, $query7);
   
-                   while($row7=mysql_fetch_array($result7)) 
+                   while($row7=mysqli_fetch_array($result7)) 
 			      {
 					  if($_POST['Submit2'] == true){ ?>
                       <option value="<?php echo $row7["model_name"]?>" <?php if($row7["model_name"] == $_POST["model_code"]) echo "selected"; ?>> <?php echo $row7["model_name"]?></option>
@@ -412,9 +412,9 @@ return "";
                    <option value="NULL" placeholder="Select Type of Wastage "> -- Select Type of Wastage --</option>
                   <?php
 	               $query_type = "SELECT * FROM type_wastage_detail WHERE status_wastage = 'Y' ORDER BY id_wastage ASC";;
-                   $result_type = mysql_query($query_type);
+                   $result_type = mysqli_query($dbc, $query_type);
   
-                   while($row_type = mysql_fetch_array($result_type)) 
+                   while($row_type = mysqli_fetch_array($result_type)) 
 			      {
 					  
 				   ?>
@@ -441,9 +441,9 @@ return "";
                   <option value="NULL" placeholder="Select Reason of Wastage"> -- Select Reason of Wastage --</option>
                   <?php
 	               $query_reason = "SELECT * FROM reason_wastage WHERE status_reason_wastage = 'Y' ORDER BY id_reason_wastage ASC";
-                   $result_reason = mysql_query($query_reason);
+                   $result_reason = mysqli_query($dbc, $query_reason);
   
-                   while($row_reason = mysql_fetch_array($result_reason)) 
+                   while($row_reason = mysqli_fetch_array($result_reason)) 
 			      {
 					   if($_POST["Submit2"] == true)  
 		         {   ?>
@@ -472,9 +472,9 @@ return "";
                    <option value="NULL" placeholder="Select UOM"> -- Select UOM --</option>
                   <?php
 	               $query_uom = "SELECT * FROM uom_con ORDER BY UOM ASC";;
-                   $result_uom = mysql_query($query_uom);
+                   $result_uom = mysqli_query($dbc, $query_uom);
   
-                   while($row_uom = mysql_fetch_array($result_uom)) 
+                   while($row_uom = mysqli_fetch_array($result_uom)) 
 			      {
 					  
 				   ?>
@@ -564,7 +564,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -683,25 +683,25 @@ $message = NULL; // create an empty new variable.
 		   
 		   //get data table mat_master_header
 	  $query_info2 = "SELECT * FROM table_material WHERE material_no = '".$_POST["material_no"]."'";
-	  $result_info2 = mysql_query($query_info2);
-	  $data_info2 = mysql_fetch_array($result_info2);  
+	  $result_info2 = mysqli_query($dbc, $query_info2);
+	  $data_info2 = mysqli_fetch_array($result_info2);  
 	  
 	  $query_info3 = "SELECT * FROM mat_master_detail WHERE material = '".$_POST["material_no"]."' OR bill_component = '".$_POST["material_no"]."'";
-	  $result_info3 = mysql_query($query_info3);
-	  $data_info3 = mysql_fetch_array($result_info3);
+	  $result_info3 = mysqli_query($dbc, $query_info3);
+	  $data_info3 = mysqli_fetch_array($result_info3);
 		 
 	
 		   
 		//insert table wastage_transaction
 		
 		$query_wastage = "INSERT INTO wastage_transaction (id_wastage_tran, material_no, material_desc, material_type, model_code, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, remark_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center) VALUES('','".$_POST["material_no"]."','".$data_info2["material_desc"]."','".$_POST["material_type"]."','".$_POST["model_code"]."','".$_POST["UOM_unit"]."','2200','".$_POST["work_center"]."','','','".$username."','".$_POST["date1"]."','','".$rst_sta["status_desc"]."','".$data_info3["sloc"]."','".$_POST["ploc"]."','','".$_POST["qty_wastage"]."','".$_POST["type_wastage"]."','".$_POST["reason_wastage"]."','".$username."',NOW(),NOW(),'','','','','','','','WS','','','','','','".$_POST["cost_center"]."')";
-		$result_wastage = mysql_query($query_wastage) or die (mysql_error());   
+		$result_wastage = mysqli_query($dbc, $query_wastage) or die (mysqli_error($dbc));   
 		   
 		   
 		//insert table reject_detail_disposal
 		
-		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center, id_factory) VALUES('','','','','','".mysql_insert_id()."','".$_POST["material_no"]."', '".$data_info2["material_desc"]."','".$_POST["material_type"]."','".$_POST["model_code"]."','','','','','','','','".$_POST["UOM_unit"]."','2200','".$_POST["work_center"]."','','','".$username."','".$_POST["date1"]."','','".$rst_sta["status_desc"]."','".$data_info3["sloc"]."','".$_POST["ploc"]."','','','','','','','".$_POST["qty_wastage"]."','".$_POST["type_wastage"]."','".$_POST["reason_wastage"]."', '".$username."',NOW(),NOW(),'','','','','','','WS','','','','','','".$_POST["cost_center"]."','".$_POST["factory"]."')";
-$result_insert2 = mysql_query($query_insert2) or die (mysql_error());
+		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center, id_factory) VALUES('','','','','','".mysqli_insert_id($dbc)."','".$_POST["material_no"]."', '".$data_info2["material_desc"]."','".$_POST["material_type"]."','".$_POST["model_code"]."','','','','','','','','".$_POST["UOM_unit"]."','2200','".$_POST["work_center"]."','','','".$username."','".$_POST["date1"]."','','".$rst_sta["status_desc"]."','".$data_info3["sloc"]."','".$_POST["ploc"]."','','','','','','','".$_POST["qty_wastage"]."','".$_POST["type_wastage"]."','".$_POST["reason_wastage"]."', '".$username."',NOW(),NOW(),'','','','','','','WS','','','','','','".$_POST["cost_center"]."','".$_POST["factory"]."')";
+$result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc));
 		   
 	   }
 	   
@@ -726,7 +726,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
  
@@ -734,12 +734,12 @@ $message = NULL; // create an empty new variable.
    //-------------------generate disposal doc no. [Wastage Prod]---------------
 	 
 	$query_id = "SELECT count_max FROM run_count_no WHERE uid = '25'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_row($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_row($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22321";
@@ -790,20 +790,20 @@ $message = NULL; // create an empty new variable.
 		 
 	  //----------------------update table reject_detail_disposal
 	  $query_disposal = "UPDATE reject_detail_disposal SET doc_dis = '".$ref."', doc_disposal_no = '".$ref."', user_disposal = '".$username."', date_disposal = NOW(), remarks = '".$string[$i]."' WHERE id_disposal = '".$cancel[$i]."'";
-	  $result_disposal = mysql_query($query_disposal);
+	  $result_disposal = mysqli_query($dbc, $query_disposal);
 	  
 	  
 	  
 	  //---------------------get data table reject_detail_disposal-------
 	  $query_all = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".$cancel[$i]."'";
-	  $result_all = mysql_query($query_all);
+	  $result_all = mysqli_query($dbc, $query_all);
 	  
-	  while($row_all = mysql_fetch_array($result_all))
+	  while($row_all = mysqli_fetch_array($result_all))
 	  {
 	
 	  // //----------------------update table wastage_disposal
 	  $query_wastage_update = "UPDATE wastage_transaction SET user_disposal = '".$username."', date_disposal = NOW(), remarks = '".$row_all["remarks"]."' WHERE id_wastage_tran = '".$row_all["uid"]."'";
-	  $result_wastage_update = mysql_query($query_wastage_update);		  
+	  $result_wastage_update = mysqli_query($dbc, $query_wastage_update);		  
 		  	
 				
 	  }// end while loop
@@ -815,17 +815,17 @@ $message = NULL; // create an empty new variable.
 		  //--------ftp to SAP after generate disposal doc no.---------------	
 		  
 	  $query_generate = "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS P, DATE_FORMAT(date_disposal,'%Y-%m-%d') AS P2, DATE_FORMAT(date_disposal,'%H:%i:%s') AS P3 FROM reject_detail_disposal WHERE doc_disposal_no = '".$ref."'";
-	  $result_generate = mysql_query($query_generate);
+	  $result_generate = mysqli_query($dbc, $query_generate);
 	  
-	  while($data_generate = mysql_fetch_array($result_generate))
+	  while($data_generate = mysqli_fetch_array($result_generate))
    {  
 	$query_type_w = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$data_generate['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type_w = mysql_query($query_type_w);
-    $row_type_w = mysql_fetch_array($result_type_w); 
+    $result_type_w = mysqli_query($dbc, $query_type_w);
+    $row_type_w = mysqli_fetch_array($result_type_w); 
 	
 	$query_reason_w = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$data_generate['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason_w = mysql_query($query_reason_w);
-    $row_reason_w = mysql_fetch_array($result_reason_w);
+    $result_reason_w = mysqli_query($dbc, $query_reason_w);
+    $row_reason_w = mysqli_fetch_array($result_reason_w);
 	
 			  
  $data .= $data_generate['doc_disposal_no'].";".$data_generate['comp_code'].";".$data_generate['work_center'].";".$data_generate['material_no'].";551;".$data_generate['shift_day'].";".$data_generate['qty_wastage'].";".$data_generate['UOM_unit'].";".$row_type['wastage_desc'].";".$row_reason['reason_wastage_desc'].";".$data_generate['ploc'].";Scrap;".$data_generate['P'].";".$data_generate['time_wastage'].";".$data_generate['P2'].";".$data_generate['P3'].";".$data_generate['user_disposal'].";".$data_generate['cost_center']."\r\n";
@@ -835,7 +835,7 @@ $message = NULL; // create an empty new variable.
   //----------update table ftp_wastage------------
    
     $query_ftp_info = "INSERT INTO ftp_wastage(id, file_name, doc_disposal_no, id_disposal, material_no, material_desc, qty_ftp, uom, status_ftp, posting_date, posting_time, user_create, date_create, status_part) VALUES('','".$filen."','".$data_generate['doc_disposal_no']."','".$data_generate["id_disposal"]."','".$data_generate["material_no"]."','".$data_generate["material_desc"]."','".$data_generate["qty_wastage"]."','".$data_generate["UOM_unit"]."','Y','".$data_generate["P"]."','".$data_generate["time_wastage"]."','".$username."',NOW(),'WS')"; 
-     $rst_ftp_info = mysql_query($query_ftp_info);
+     $rst_ftp_info = mysqli_query($dbc, $query_ftp_info);
 
 	  }
 
@@ -850,7 +850,7 @@ file_put_contents($file,$data);
 		
 	
        $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '25'";
-	   $result_max_a = mysql_query($query_max_a);
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
 	 
    //end update count_max ---------------------------------	
  
@@ -886,8 +886,8 @@ file_put_contents($file,$data);
  
 								 
    $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND status_part = 'WS' AND doc_disposal_no = '' ORDER BY date_posting ASC";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -897,8 +897,8 @@ file_put_contents($file,$data);
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND status_part = 'WS' AND doc_disposal_no = '' ORDER BY date_posting ASC";
-$rs = mysql_query($query) or die(mysql_error());  //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query) or die(mysqli_error($dbc));  //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -950,16 +950,16 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $sta_out = "";
    $k= 1;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {	
 	
 	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 	 
       ?>

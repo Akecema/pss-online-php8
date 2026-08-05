@@ -14,14 +14,14 @@ exit();
 $url = "work_center_table.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -81,7 +81,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -148,7 +148,7 @@ if (empty($_POST['id_factory']) || ($_POST['id_factory'] == "NULL"))
 //register the user in the db.
 $query_db = "INSERT INTO work_center_detail(id_work,plant_code,wc_desc,cost_center,cc_desc,id_factory) VALUES
                                 ('$id_work','$plant_code','$wc_desc','$cost_center','$cc_desc','$id_factory')";
-$result = mysql_query($query_db) or die (mysql_error());
+$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
              if($result)
@@ -162,7 +162,7 @@ echo "</script>";
              else 
 			 {
              $message = '<p><strong>Error!</strong> Cannot Work Center. </p>';
-              mysql_close(); //close db
+              mysqli_close($dbc); //close db
              }  
 }
 //print the message if there is one.
@@ -233,9 +233,9 @@ echo '<div class="alert alert-error">', $message, '</div>';
                  <option value="NULL"> --Select-- </option>';
   
                    $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 	
 	 if($_POST['submit'] == true){ ?>

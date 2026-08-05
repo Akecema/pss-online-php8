@@ -16,9 +16,9 @@ exit();
 }
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 ?>
@@ -167,9 +167,9 @@ visibility:hidden;
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -184,9 +184,9 @@ visibility:hidden;
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                 <?php
 	       $query5 = "SELECT * FROM work_center_detail ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -241,9 +241,9 @@ visibility:hidden;
 				//convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
-			$result_convert = mysql_query($query_convert); 
+			$result_convert = mysqli_query($dbc, $query_convert); 
 			
-			while ($row_convert = mysql_fetch_array($result_convert))
+			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
 			echo $row_convert["id_fac"];
@@ -538,9 +538,9 @@ visibility:hidden;
 
 								 
    $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')".$where_sql." GROUP BY MR.temp_mrin";
-     $result8 = mysql_query($query8) or trigger_error("SQL", E_USER_ERROR);
-     //$num_8 = mysql_fetch_row($result8);
-     $num_rows = mysql_num_rows($result8);
+     $result8 = mysqli_query($dbc, $query8) or trigger_error("SQL", E_USER_ERROR);
+     //$num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -550,8 +550,8 @@ visibility:hidden;
  
   
 $query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel')".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC $pages->limit";
-$rs = mysql_query($query);   //run the query.
-//$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
 
 	echo '<br>';
 	echo '<br>';
@@ -598,7 +598,7 @@ $rs = mysql_query($query);   //run the query.
    $counter = 1;
    $no = 1;
    
-    while ($row2 = mysql_fetch_array($rs))
+    while ($row2 = mysqli_fetch_array($rs))
    {
 		//$user_no = $row[0]; 
 
@@ -609,23 +609,23 @@ $rs = mysql_query($query);   //run the query.
 		
 		
 	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
-   $result_scan = mysql_query($query_scan);
-   $row_scan = mysql_fetch_array($result_scan);	
+   $result_scan = mysqli_query($dbc, $query_scan);
+   $row_scan = mysqli_fetch_array($result_scan);	
    
    
    
 	
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
-$result_u = mysql_query($query_u);   //run the query.
-$data_u = mysql_fetch_array($result_u);   //how many records are there?       
+$result_u = mysqli_query($dbc, $query_u);   //run the query.
+$data_u = mysqli_fetch_array($result_u);   //how many records are there?       
 		  
 
 
@@ -676,8 +676,8 @@ elseif($curr_time >= $plus_20)
 
 		//---checking transfer poasting-----
   $query_tp = "SELECT * FROM post_detail_header WHERE mrin_no = '".$row2[3]."' AND mvt_type = 311 AND (status_posting = 'New' OR status_posting != 'Close' OR status_posting != 'Cancel')";
-  $result_tp  = mysql_query($query_tp); 
-	$row_tp = mysql_fetch_array($result_tp);
+  $result_tp  = mysqli_query($dbc, $query_tp); 
+	$row_tp = mysqli_fetch_array($result_tp);
 	
    
 	  if($row_tp["mrin_no"] == $row2["temp_mrin"])
@@ -709,7 +709,7 @@ elseif($curr_time >= $plus_20)
 
   </center>
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
 	?>
       <table width="700" height="25" border="0" align="center" >
 <tr>
@@ -740,7 +740,7 @@ elseif($curr_time >= $plus_20)
 </table></center>
         <?php
 		   } 
-mysql_close()
+mysqli_close($dbc)
 ?>
 
 

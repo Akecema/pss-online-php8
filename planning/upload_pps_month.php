@@ -21,14 +21,14 @@ exit();
  $url = "upload_pps_month.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 
 $today = getdate();
@@ -125,7 +125,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -141,8 +141,8 @@ $message = NULL; // create an empty new variable.
           //check file name duplicate-----
  
             $query_chk_attach4 = "SELECT * FROM ftp_pps WHERE file_name = '".$_FILES["upload"]["name"]."'";
-            $result_chk_attach4 = mysql_query($query_chk_attach4);   //run the query.
-            $data_chk_attach4 = mysql_fetch_array($result_chk_attach4);   //how many records are there?   
+            $result_chk_attach4 = mysqli_query($dbc, $query_chk_attach4);   //run the query.
+            $data_chk_attach4 = mysqli_fetch_array($result_chk_attach4);   //how many records are there?   
 			 
 			 if($data_chk_attach4 >= 1 )
 			 {
@@ -199,19 +199,19 @@ $message = NULL; // create an empty new variable.
 	   //Add the record to the database
 	   
 	    $query = "INSERT INTO ftp_pps(upload_id, id_file, file_name, file_size, file_type, date_plan, user_upload, date_upload, user_update, date_update) VALUES('','','".$_FILES['upload']['name']."','".$_FILES['upload']['size']."','".$_FILES['upload']['type']."','".$date_plan."','$username',NOW(),'','')";
-	   $result = mysql_query($query) or die (mysql_error());   
+	   $result = mysqli_query($dbc, $query) or die (mysqli_error($dbc));   
 	   
 	  
 	   if($result) {
 	   //create the filename
 	     $extension = explode ('.', $_FILES['upload']['name']);
-		 $uid = mysql_insert_id();  //upload ID
+		 $uid = mysqli_insert_id($dbc);  //upload ID
 	
 		 $filename = $uid.'.'.$extension[1];
 		 
 		 
 		    $query_update2 = "UPDATE ftp_pps SET id_file = '".$uid."' WHERE upload_id = '".$uid."'";
-			$result_update2 = mysql_query($query_update2) or die (mysql_error());   
+			$result_update2 = mysqli_query($dbc, $query_update2) or die (mysqli_error($dbc));   
 		 
 		 
 	 if(move_uploaded_file($_FILES['upload']['tmp_name'], "upload_pps/$filename"))  {
@@ -249,7 +249,7 @@ echo "</script>";
 			  
 		
 				}
-				  mysql_close();   // close database conn
+				  mysqli_close($dbc);   // close database conn
 				
 				}
 	  
@@ -320,9 +320,9 @@ if (isset($message))
                   <option value="NULL" placeholder="Select Plan Category"> -- Select Plan Category --</option>
                   <?php
 	               $query19 = "SELECT * FROM plan_cat_pps ORDER BY id_plan ASC";
-                   $result19 = mysql_query($query19);
+                   $result19 = mysqli_query($dbc, $query19);
   
-                   while($row19=mysql_fetch_array($result19)) 
+                   while($row19=mysqli_fetch_array($result19)) 
 			      {
 				   ?>
                      <option value="<?php echo $row19["id_plan"]; ?>"> <?php echo $row19["plan_category_desc"]; ?></option>

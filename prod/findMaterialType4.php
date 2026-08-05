@@ -8,13 +8,13 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 $query9 = "SELECT * FROM table_material WHERE mat_type = '".$material_type."' AND material_no = '".$material_no."' AND ploc = '".$ploc."' AND bom_status = 'Y' ORDER BY material_no ASC";
-$result9 = mysql_query($query9);
+$result9 = mysqli_query($dbc, $query9);
 
 ?> 
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ $result9 = mysql_query($query9);
     <option value="NULL" placeholder="Select UOM"> -- Select UOM sss --</option>
      
 	<?php
-    while($row9=mysql_fetch_array($result9)) 
+    while($row9=mysqli_fetch_array($result9)) 
     {
           
     ?>

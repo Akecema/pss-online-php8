@@ -16,14 +16,14 @@ exit();
 $url = "display_pps_month_reprint.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 $today = getdate();
@@ -36,28 +36,28 @@ $year = $today['year'];
 
 //CR status (New)
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);
 
 //CR status (Closed)
 $sta13 = "SELECT * from request_status WHERE status_id = '13'";
-$sta_res13 = mysql_query($sta13);
-$rst_sta13 = mysql_fetch_array($sta_res13);
+$sta_res13 = mysqli_query($dbc, $sta13);
+$rst_sta13 = mysqli_fetch_array($sta_res13);
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16' ";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -206,9 +206,9 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
                   <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                   <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3)) 
+                   while($row3=mysqli_fetch_array($result3)) 
 			      {
 				  
 				  
@@ -224,9 +224,9 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -242,9 +242,9 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
 	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta["status_desc"]."' OR status_pps = '".$rst_sta2["status_desc"]."' ORDER BY plan_no ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["plan_no"]; ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo $row9["plan_no"]; ?></option>
@@ -273,9 +273,9 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
                   <option value="NULL" placeholder="Select Filename"> -- Select Filename --</option>
                   <?php
 	               $query19 = "SELECT * FROM pps_detail AS DC, ftp_pps AS FP  WHERE FP.upload_id = DC.upload_id AND (DC.status_pps != '".$rst_sta4["status_desc"]."' AND DC.status_pps != '".$rst_sta13["status_desc"]."') GROUP BY FP.file_name ORDER BY FP.file_name ASC";
-                   $result19 = mysql_query($query19);
+                   $result19 = mysqli_query($dbc, $query19);
   
-                   while($row19=mysql_fetch_array($result19)) 
+                   while($row19=mysqli_fetch_array($result19)) 
 			      {
 				   ?>
                   <option value="<?php echo $row19["file_name"]; ?>" <?php if($row19["file_name"] == $_GET["name_file"]) echo "selected"; ?>> <?php echo $row19["file_name"]; ?></option>
@@ -290,9 +290,9 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
                   <option value="NULL" placeholder="Select Plan Category"> -- Select Plan Category --</option>
                   <?php
 	               $query29 = "SELECT * FROM plan_cat_pps ORDER BY id_plan ASC";
-                   $result29 = mysql_query($query29);
+                   $result29 = mysqli_query($dbc, $query29);
   
-                   while($row29=mysql_fetch_array($result29)) 
+                   while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
                      <option value="<?php echo $row29["id_plan"]; ?>" <?php if($row29["id_plan"] == $_GET["plan_category"]) echo "selected"; ?>> <?php echo $row29["plan_category_desc"]; ?></option>
@@ -328,12 +328,12 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
 			 //convert 
 			
 			$query_convert = "SELECT * FROM work_center_detail WHERE id_work = '".$_GET["work_center"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 			
 			$query_convert2 = "SELECT * FROM ftp_pps WHERE file_name = '".$_GET["name_file"]."'";
-			$result_convert2 = mysql_query($query_convert2); 
-			$row_convert2 = mysql_fetch_array($result_convert2);
+			$result_convert2 = mysqli_query($dbc, $query_convert2); 
+			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
 		   // echo $row_convert2["upload_id"];
 		  
@@ -408,8 +408,8 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps != '".$rst_sta["status_desc"]."' AND status_pps != '".$rst_sta4["status_desc"]."' AND status_pps != '".$rst_sta16["status_desc"]."') ".$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -419,8 +419,8 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE (status_pps != '".$rst_sta["status_desc"]."' AND status_pps != '".$rst_sta4["status_desc"]."' AND status_pps != '".$rst_sta16["status_desc"]."') ".$where_sql. " ORDER BY plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -467,7 +467,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
                         $counter = 1;
                         $no = 1;
                         
-						while ($row = mysql_fetch_array($rs)) {
+						while ($row = mysqli_fetch_array($rs)) {
                            if ($row["shift_pps1"] != "") {
                               $sta = "D/S";
                            } elseif ($row["shift_pps2"] != "") {

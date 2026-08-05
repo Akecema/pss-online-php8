@@ -19,8 +19,8 @@ exit();
 $url = "print_tag_backflush_tran.php";
 
 $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-$result2 = mysql_query($query2) or die (mysql_error());
-$res = mysql_fetch_array($result2);
+$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -32,9 +32,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
  $extension = explode ('.', $data_setup["logo_name"]);
@@ -43,23 +43,23 @@ $data_setup = mysql_fetch_array($rs_setup);
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 	?>
 <!DOCTYPE html>
@@ -182,27 +182,27 @@ $uid = $_GET["uid"];
 //--------- pps detail ------------
 
 $query_pps = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') as R FROM print_tag_backflush WHERE id_tran = '".$uid."'";
-$result_pps = mysql_query($query_pps);
+$result_pps = mysqli_query($dbc, $query_pps);
 
 
 
-while($row = mysql_fetch_array($result_pps))
+while($row = mysqli_fetch_array($result_pps))
 
 {
   //----------display model 
 $query_info = "SELECT * FROM pps_detail WHERE plan_no = '".$row["plan_no"]."'";
-$result_info = mysql_query($query_info);
-$row_info = mysql_fetch_array($result_info);
+$result_info = mysqli_query($dbc, $query_info);
+$row_info = mysqli_fetch_array($result_info);
 
 //----------display mat_type 
 $query_info2 = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row_info["plan_no"]."' AND ref_id = '".$row_info["ref_id"]."'";
-$result_info2 = mysql_query($query_info2);
-$row_info2 = mysql_fetch_array($result_info2);
+$result_info2 = mysqli_query($dbc, $query_info2);
+$row_info2 = mysqli_fetch_array($result_info2);
 
 //----------display material header
 $query_info3 = "SELECT * FROM mat_master_header WHERE material_no = '".$row["material_no"]."'";
-$result_info3 = mysql_query($query_info3);
-$row_info3 = mysql_fetch_array($result_info3);
+$result_info3 = mysqli_query($dbc, $query_info3);
+$row_info3 = mysqli_fetch_array($result_info3);
 
 
 ?>
@@ -239,7 +239,7 @@ $row_info3 = mysql_fetch_array($result_info3);
     <td colspan="3" rowspan="3" valign="top"><?php
 
 $query = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') as Q, DATE_FORMAT(date_posting,'%d-%m-%Y') as Q2 FROM pps_detail_transaction WHERE id = '$uid'";
-$hasil = mysql_query($query);
+$hasil = mysqli_query($dbc, $query);
 
 // setting banyaknya kolom
 $kolom = 2;
@@ -247,12 +247,12 @@ $kolom = 2;
 // membuat tabel berisi label barcode
 echo " <center><br /><table border='0'>";
 $counter = 1;
-while ($data = mysql_fetch_array($hasil))
+while ($data = mysqli_fetch_array($hasil))
 {
 	
 	$query_sloc = "SELECT * FROM mat_master_detail WHERE material = '".$data["material_no"]."' OR bill_component = '".$data["material_no"]."'";
-$result_sloc = mysql_query($query_sloc);
-$data_sloc = mysql_fetch_array($result_sloc);
+$result_sloc = mysqli_query($dbc, $query_sloc);
+$data_sloc = mysqli_fetch_array($result_sloc);
 	
 	
 	

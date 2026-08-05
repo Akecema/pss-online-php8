@@ -16,32 +16,32 @@ exit();
 }
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 	$url = "dash.php"; 
 	
 	//--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);
 
 //CR status (Transfer Posting)
 $sta19 = "SELECT * from request_status WHERE status_id = '19'";
-$sta_res19 = mysql_query($sta19);
-$rst_sta19 = mysql_fetch_array($sta_res19);	
+$sta_res19 = mysqli_query($dbc, $sta19);
+$rst_sta19 = mysqli_fetch_array($sta_res19);	
 
 //CR status (Return Posting)
 $sta20 = "SELECT * from request_status WHERE status_id = '20'";
-$sta_res20 = mysql_query($sta20);
-$rst_sta20 = mysql_fetch_array($sta_res20);	
+$sta_res20 = mysqli_query($dbc, $sta20);
+$rst_sta20 = mysqli_fetch_array($sta_res20);	
 
 	?>
 <!DOCTYPE html>
@@ -105,44 +105,44 @@ $rst_sta20 = mysql_fetch_array($sta_res20);
  // ------------------------------  display dashboard ------------------------
  //TP to store
 $query_tp_store = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_tp_store= mysql_query($query_tp_store);   //run the query.
-$num_tp_store = mysql_num_rows($rs_tp_store);   //how many record are there?
+$rs_tp_store= mysqli_query($dbc, $query_tp_store);   //run the query.
+$num_tp_store = mysqli_num_rows($rs_tp_store);   //how many record are there?
 
  //Cancel TP to store
 $query_cancel_tp_store = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM tp_store_cancel WHERE status_tran = 'Y' AND status_tp = '".$rst_sta4["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_cancel_tp_store= mysql_query($query_cancel_tp_store);   //run the query.
-$num_cancel_tp_store = mysql_num_rows($rs_cancel_tp_store);   //how many record are there?
+$rs_cancel_tp_store= mysqli_query($dbc, $query_cancel_tp_store);   //run the query.
+$num_cancel_tp_store = mysqli_num_rows($rs_cancel_tp_store);   //how many record are there?
 
 //TP to PLB
 $query_tp_plb = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM tp_plb_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_tp_plb = mysql_query($query_tp_plb);   //run the query.
-$num_tp_plb = mysql_num_rows($rs_tp_plb);   //how many rrecord are there?
+$rs_tp_plb = mysqli_query($dbc, $query_tp_plb);   //run the query.
+$num_tp_plb = mysqli_num_rows($rs_tp_plb);   //how many rrecord are there?
 
 //Cancel TP to PLB
 $query_cancel_tp_plb = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM tp_plb_cancel WHERE status_tran = 'Y' AND status_tp = '".$rst_sta4["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_cancel_tp_plb = mysql_query($query_cancel_tp_plb);   //run the query.
-$num_cancel_tp_plb = mysql_num_rows($rs_cancel_tp_plb);   //how many rrecord are there?
+$rs_cancel_tp_plb = mysqli_query($dbc, $query_cancel_tp_plb);   //run the query.
+$num_cancel_tp_plb = mysqli_num_rows($rs_cancel_tp_plb);   //how many rrecord are there?
 
 //Return from PLB
 $query_ret_plb = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM ret_plb_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta20["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_ret_plb = mysql_query($query_ret_plb);   //run the query.
-$num_ret_plb = mysql_num_rows($rs_ret_plb);   //how many rrecord are there?
+$rs_ret_plb = mysqli_query($dbc, $query_ret_plb);   //run the query.
+$num_ret_plb = mysqli_num_rows($rs_ret_plb);   //how many rrecord are there?
 
 //TP to Subcont
 $query_tp_subcont = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM tp_subcont_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_tp_subcont = mysql_query($query_tp_subcont);   //run the query.
-$num_tp_subcont = mysql_num_rows($rs_tp_subcont);   //how many rrecord are there?
+$rs_tp_subcont = mysqli_query($dbc, $query_tp_subcont);   //run the query.
+$num_tp_subcont = mysqli_num_rows($rs_tp_subcont);   //how many rrecord are there?
 
 //Cancel TP to Subcont
 $query_cancel_tp_subcont = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM tp_subcont_cancel WHERE status_tran = 'Y' AND status_tp = '".$rst_sta4["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_cancel_tp_subcont = mysql_query($query_cancel_tp_subcont);   //run the query.
-$num_cancel_tp_subcont = mysql_num_rows($rs_cancel_tp_subcont);   //how many rrecord are there?
+$rs_cancel_tp_subcont = mysqli_query($dbc, $query_cancel_tp_subcont);   //run the query.
+$num_cancel_tp_subcont = mysqli_num_rows($rs_cancel_tp_subcont);   //how many rrecord are there?
 
 
 //Return from Subcont
 $query_ret_subcont = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R FROM ret_subcont_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta20["status_desc"]."' GROUP BY doc_tp ORDER BY posting_date DESC";
-$rs_ret_subcont = mysql_query($query_ret_subcont);   //run the query.
-$num_ret_subcont = mysql_num_rows($rs_ret_subcont);   //how many rrecord are there?
+$rs_ret_subcont = mysqli_query($dbc, $query_ret_subcont);   //run the query.
+$num_ret_subcont = mysqli_num_rows($rs_ret_subcont);   //how many rrecord are there?
 
 ?>
 

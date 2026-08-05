@@ -16,8 +16,8 @@ $url = "TP_manual_upload.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -28,9 +28,9 @@ $mday = $today['mday'];
 $year = $today['year']; 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 ?>
 <!DOCTYPE html>
@@ -177,9 +177,9 @@ $data_setup = mysql_fetch_array($rs_setup);
                 <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                 <?php
 	               $query9 = "SELECT * FROM consumable_detail WHERE con_status = 'Y' ORDER BY material_no ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                 <option value="<?php echo $row9["material_no"]; ?>"> <?php echo $row9["material_no"]. ' - ' .$row9["mat_desc"]; ?></option>

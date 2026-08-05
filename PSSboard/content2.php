@@ -9,8 +9,8 @@ $nextpage = 1;
 <?php
 
 $sql = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_require DESC, MR.time_require";
-$result = mysql_query($sql);
-$r = mysql_num_rows($result);
+$result = mysqli_query($dbc, $sql);
+$r = mysqli_num_rows($result);
 $numrows = $r;
 
 

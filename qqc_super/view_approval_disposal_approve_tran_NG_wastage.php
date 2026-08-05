@@ -21,8 +21,8 @@ $url = "disposal_production_tran_NG.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,9 +34,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
  $extension = explode ('.', $data_setup["logo_name"]);
  $filename = $data_setup["logo_comp"].'.'.$extension[1];
@@ -132,13 +132,13 @@ if (bV >= 4) window.print();
  $doc_disposal = $_GET["doc_disposal"];
   
 $queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 //detail info disposal 
 
 $query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2, DATE_FORMAT(date_approve,'%d-%m-%Y') as W3, DATE_FORMAT(date_approve2,'%d-%m-%Y') as W4 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
-$result_disposal = mysql_query($query_disposal);   //run the query.
-$row_disposal = mysql_fetch_array($result_disposal);
+$result_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
+$row_disposal = mysqli_fetch_array($result_disposal);
 
 
 //FUNCTION RETAIN TEXTBOX VALUE
@@ -239,36 +239,36 @@ function prepopulate($name)
 	  $loc_asal = "";
 	  $k= 1;
 	   
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 	 	
 	  $query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
-		$result_type = mysql_query($query_type);
-		$row_type = mysql_fetch_array($result_type); 
+		$result_type = mysqli_query($dbc, $query_type);
+		$row_type = mysqli_fetch_array($result_type); 
 		
 		$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-		$result_reason = mysql_query($query_reason);
-		$row_reason = mysql_fetch_array($result_reason);
+		$result_reason = mysqli_query($dbc, $query_reason);
+		$row_reason = mysqli_fetch_array($result_reason);
 			
 		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
-		$result_mat = mysql_query($query_mat);
-		$data_mat = mysql_fetch_array($result_mat);	
+		$result_mat = mysqli_query($dbc, $query_mat);
+		$data_mat = mysqli_fetch_array($result_mat);	
 		
 		$query_model = "SELECT * FROM pps_detail WHERE plan_no = '".$row['plan_no']."'";
-		$result_model = mysql_query($query_model);
-		$data_model = mysql_fetch_array($result_model);	
+		$result_model = mysqli_query($dbc, $query_model);
+		$data_model = mysqli_fetch_array($result_model);	
 			
 		$query_disposal2 = "SELECT * FROM user_detail WHERE username = '".$row["user_disposal"]."'";
-        $result_disposal2 = mysql_query($query_disposal2) or die (mysql_error());
-        $res_disposal2 = mysql_fetch_array($result_disposal2);
+        $result_disposal2 = mysqli_query($dbc, $query_disposal2) or die (mysqli_error($dbc));
+        $res_disposal2 = mysqli_fetch_array($result_disposal2);
 		
 		$query_approve = "SELECT * FROM user_detail WHERE username = '".$row["approve_by"]."'";
-        $result_approve = mysql_query($query_approve) or die (mysql_error());
-        $res_approve = mysql_fetch_array($result_approve);
+        $result_approve = mysqli_query($dbc, $query_approve) or die (mysqli_error($dbc));
+        $res_approve = mysqli_fetch_array($result_approve);
 
        	$query_approve2 = "SELECT * FROM user_detail WHERE username = '".$row["approve_by2"]."'";
-        $result_approve2 = mysql_query($query_approve2) or die (mysql_error());
-        $res_approve2 = mysql_fetch_array($result_approve2);
+        $result_approve2 = mysqli_query($dbc, $query_approve2) or die (mysqli_error($dbc));
+        $res_approve2 = mysqli_fetch_array($result_approve2);
 	   
 		 ?>
 <tbody>

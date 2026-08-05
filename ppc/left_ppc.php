@@ -13,13 +13,13 @@ exit();
 }
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 	
    $query = "SELECT * from level_detail WHERE id_level = '$res[level_id]'";
-   $result = mysql_query($query); // Run the query
-   $deb = mysql_fetch_array($result);
+   $result = mysqli_query($dbc, $query); // Run the query
+   $deb = mysqli_fetch_array($result);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -199,8 +199,8 @@ $(document).ready(function () {
     <ul> <?php
 	  
 	  $query = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status_view = 'N' AND (MR.status != 'Close' AND MR.status  != 'Cancel') GROUP BY MR.temp_mrin";
-$rs = mysql_query($query);   //run the query.
-	    $num_rows = mysql_num_rows($rs); 
+$rs = mysqli_query($dbc, $query);   //run the query.
+	    $num_rows = mysqli_num_rows($rs); 
 
 	  ?>
     

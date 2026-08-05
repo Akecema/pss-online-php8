@@ -23,16 +23,16 @@ $max = 15;
 //-------select data from database --------------------------//
 
     $query_detail = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS T5, DATE_FORMAT(date_generate_tp,'%d-%m-%Y') AS T15 FROM tp_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".$uid."' GROUP BY doc_tp";
-    $result_detail = mysql_query($query_detail) or die (mysql_error());
-	$row_detail = mysql_fetch_array($result_detail);
+    $result_detail = mysqli_query($dbc, $query_detail) or die (mysqli_error($dbc));
+	$row_detail = mysqli_fetch_array($result_detail);
  
     $query2 = "SELECT * FROM tp_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".$uid."' ORDER BY doc_tp";
-    $result2 = mysql_query($query2) or die (mysql_error());
-	$num = mysql_num_rows($result2);  
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+	$num = mysqli_num_rows($result2);  
     
 	$query_vendor = "SELECT * FROM vendor_detail WHERE vendor_code = '".$row_detail["sloc_to"]."'";
-	$result_vendor = mysql_query($query_vendor) or die (mysql_error());
-	$row_vendor = mysql_fetch_array($result_vendor);
+	$result_vendor = mysqli_query($dbc, $query_vendor) or die (mysqli_error($dbc));
+	$row_vendor = mysqli_fetch_array($result_vendor);
 	
 	
 
@@ -124,7 +124,7 @@ $pdf->Cell(170,2,$row_vendor["post_region"].','.$row_vendor["post_country"].'.',
 $grd_total = 0.000;
 
 //For each row, add the field to the corresponding column
-while($row = mysql_fetch_array($result2))
+while($row = mysqli_fetch_array($result2))
 {	
 
 	$no = sprintf('%04d',$no);  // item no
@@ -140,8 +140,8 @@ while($row = mysql_fetch_array($result2))
 	$grd_total = ($grd_total + $row["qty_tp"]);
 	
 	$query_model = "SELECT * FROM mat_master_header WHERE material_no = '".$part_no."'";
-	$result_model = mysql_query($query_model) or die (mysql_error());
-	$row_model = mysql_fetch_array($result_model);
+	$result_model = mysqli_query($dbc, $query_model) or die (mysqli_error($dbc));
+	$row_model = mysqli_fetch_array($result_model);
 
 	$model = $row_model["material_group"];
 
@@ -260,7 +260,7 @@ $pdf->Cell(270,42,' '.$row_detail["prepared_by"].'',0,1,'C');
 } // end for
 
 
-mysql_close();
+mysqli_close($dbc);
 
 
 $pdf->Output();

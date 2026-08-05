@@ -15,8 +15,8 @@ exit();
 $url = "report_prod_consumable.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -28,9 +28,9 @@ $year = $today['year'];
 		
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -141,9 +141,9 @@ visibility:hidden;
                     <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                     <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -174,9 +174,9 @@ visibility:hidden;
 			//convert material no kpd id_hdr
 			
 			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = '".$_GET["factory"]."'";
-			$result_convert2 = mysql_query($query_convert2); 
+			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			
-			while ($row_convert2 = mysql_fetch_array($result_convert2))
+			while ($row_convert2 = mysqli_fetch_array($result_convert2))
 			{
 			
 			//echo $row_convert2["id_fac"];
@@ -217,8 +217,8 @@ visibility:hidden;
  
 
  $query8 = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status != 'Cancel'" .$where_sql."GROUP BY MR.id_scan ORDER BY MR.id_req_con ASC";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_num_rows($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_num_rows($result8);
    
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -228,7 +228,7 @@ visibility:hidden;
  
   
 $query = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status != 'Cancel'".$where_sql."GROUP BY MR.id_scan ORDER BY MR.id_req_con ASC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 	
 	 if($num_rows > 0) {	
@@ -266,7 +266,7 @@ $rs = mysql_query($query);   //run the query.
    $counter = 1;
    $no = 1;
    
-    while ($row2 = mysql_fetch_array($rs))
+    while ($row2 = mysqli_fetch_array($rs))
    {
 	?>
     
@@ -283,8 +283,8 @@ $rs = mysql_query($query);   //run the query.
      
          <?php
 	$query_again = "SELECT * FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.material_no = SD.material_no AND status_request = 'Y' and id_scan = '".$row2[5]."' ORDER BY id_req_con ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-	 while ($row = mysql_fetch_array($rs_again))
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+	 while ($row = mysqli_fetch_array($rs_again))
    {
 
 
@@ -316,7 +316,7 @@ $rs = mysql_query($query);   //run the query.
                     
             
    <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
 	}   // free up the resources 
 else
 {
@@ -329,7 +329,7 @@ else
 </table></center>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 
 ?>          </div>
 

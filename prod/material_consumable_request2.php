@@ -17,8 +17,8 @@ exit();
 $url = "display_consumable_request.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -30,9 +30,9 @@ $year = $today['year'];
 		
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -187,7 +187,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -231,8 +231,8 @@ if($work_center && $material_no && $con_qty) //everything ok
    $work_center = $_POST["work_center"];
 
 $query_data = "SELECT * FROM consumable_detail WHERE id_con = '$material_no'";
-$result_data = mysql_query($query_data) or die (mysql_error());
-$row_data = mysql_fetch_array($result_data);
+$result_data = mysqli_query($dbc, $query_data) or die (mysqli_error($dbc));
+$row_data = mysqli_fetch_array($result_data);
 
 
  // $_SESSION['lastID'] = $lastID;
@@ -240,8 +240,8 @@ $row_data = mysql_fetch_array($result_data);
  //echo $_GET["lastID"];
    
 //insert to scan_detail
-$query_db = "INSERT INTO `consumable_request` (id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, id_work) VALUES ('".mysql_insert_id()."', '', '','', '$material_no', '$lastID','".$row_data["material_no"]."', '$con_qty', '".$row_data["BUn"]."', 'N', 'N', 'N', '$factory', '$user_no', NOW(),'','','','','New','$date1','$t_time','$work_center')";
-$result = mysql_query($query_db) or die (mysql_error());
+$query_db = "INSERT INTO `consumable_request` (id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, id_work) VALUES ('".mysqli_insert_id($dbc)."', '', '','', '$material_no', '$lastID','".$row_data["material_no"]."', '$con_qty', '".$row_data["BUn"]."', 'N', 'N', 'N', '$factory', '$user_no', NOW(),'','','','','New','$date1','$t_time','$work_center')";
+$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
 }
@@ -262,7 +262,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -288,11 +288,11 @@ $size2 = count($_POST["id_req_con"]) + 1;
 
    //--------------------------------create (temporary MRIN)-----------------------------
 $query_id_2 = "SELECT * FROM consumable_request WHERE id_scan = (SELECT MAX(mrin_doc) FROM consumable_request)";
-$result_id_2 = mysql_query($query_id_2);
+$result_id_2 = mysqli_query($dbc, $query_id_2);
 
 if ($result_id_2) {
-$nrows_2 = mysql_num_rows($result_id_2);
-$row_id_2 = mysql_fetch_array($result_id_2);
+$nrows_2 = mysqli_num_rows($result_id_2);
+$row_id_2 = mysqli_fetch_array($result_id_2);
 
  $dht_2 = "00000";
 
@@ -326,7 +326,7 @@ $row_id_2 = mysql_fetch_array($result_id_2);
 
 $query_update = "UPDATE consumable_request SET status_request = 'Y', mrin_doc = '$number', mrin_year = '$year', temp_mrin = '$ref', con_qty = '".$_POST["con_qty"][$i]."', user_update = '".$res["user_no"]."', date_update = NOW(), date_posting = NOW(), time_posting = NOW() WHERE id_req_con = '".$_POST["id_req_con"][$i]."' AND user_create = '".$res["user_no"]."' ";
 
-$result_update = mysql_query($query_update);
+$result_update = mysqli_query($dbc, $query_update);
 
 	 $i++;
    } // end while loop	
@@ -344,7 +344,7 @@ $result_update = mysql_query($query_update);
              else 
 			 {
              $message = '<p> CANNOT CREATE MATERIAL REQUEST!!!. </p>';
-             // mysql_close(); //close db
+             // mysqli_close($dbc); //close db
              }  
    
    
@@ -379,9 +379,9 @@ if (isset($message))
                     <option value="NULL" placeholder="Select Production Line/ Work Center"> -- Select Production Line/ Work Center --</option>
                     <?php
 	       $query4 = "SELECT * FROM work_center_detail WHERE id_factory = '".$factory."' ORDER BY id_work ASC";
-                   $result4 = mysql_query($query4);
+                   $result4 = mysqli_query($dbc, $query4);
   
-                   while($row4=mysql_fetch_array($result4)) 
+                   while($row4=mysqli_fetch_array($result4)) 
 			      {
                   echo'<option value="',$row4["id_work"],'">',stripslashes($row4["id_work"]),' - ',stripslashes($row4["wc_desc"]),'</option>';
                   }
@@ -397,9 +397,9 @@ if (isset($message))
                      <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                      <?php
 	               $query2 = "SELECT * FROM consumable_detail WHERE con_status = 'Y' ORDER BY material_no ASC";
-                   $result2 = mysql_query($query2);
+                   $result2 = mysqli_query($dbc, $query2);
   
-                   while($row2=mysql_fetch_array($result2)) 
+                   while($row2=mysqli_fetch_array($result2)) 
 			      {
                   echo'<option value="',$row2["id_con"],'">',stripslashes($row2["material_no"]),' - ',stripslashes($row2["mat_desc"]),'</option>';
                   }
@@ -459,14 +459,14 @@ if (isset($message))
 			  $i = 1;
 			  
 			$query_data2 = "SELECT * FROM consumable_request WHERE id_scan = '$lastID' AND status_request = 'N' AND user_create = '".$res["user_no"]."'";
-            $result_data2 = mysql_query($query_data2) or die (mysql_error());
+            $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
            
-		   while ($row_data2 = mysql_fetch_array($result_data2))
+		   while ($row_data2 = mysqli_fetch_array($result_data2))
 		   {
 			 
 			 $query_con_detail = "SELECT * FROM consumable_detail WHERE id_con = '".$row_data2["id_con"]."'";
-			 $result_con_detail = mysql_query($query_con_detail) or die (mysql_error());
-			 $row_con_detail = mysql_fetch_array($result_con_detail);
+			 $result_con_detail = mysqli_query($dbc, $query_con_detail) or die (mysqli_error($dbc));
+			 $row_con_detail = mysqli_fetch_array($result_con_detail);
 			 
 			 ?>
              
@@ -492,7 +492,7 @@ if (isset($message))
 			 $i++;
 			 
 			 }
-			// mysql_close();
+			// mysqli_close($dbc);
 			 
 			 ?>
              <br />

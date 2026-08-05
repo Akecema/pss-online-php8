@@ -5,36 +5,36 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1'";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2'";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
  //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7'";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Delete)
 $sta16 = "SELECT * from request_status WHERE status_id = '16'";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);	
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);	
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -62,8 +62,8 @@ $namaFile = "Production Disposal Report.xls";
 
 
   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' AND status_disposal != '".$rst_sta4["status_desc"]."'";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
 
 //---------------------------end count
@@ -134,8 +134,8 @@ echo '</table>';
 
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_reject,'%d-%m-%Y') as R3, DATE_FORMAT(date_wastage,'%d-%m-%Y') as R4, DATE_FORMAT(date_disposal,'%d-%m-%Y') as R5, DATE_FORMAT(date_approve,'%d-%m-%Y') as R6, DATE_FORMAT(date_approve2,'%d-%m-%Y') as R7 FROM reject_detail_disposal WHERE (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' AND status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND status_disposal != '".$rst_sta4["status_desc"]."' ORDER BY doc_disposal_no ASC";
-$rs = mysql_query($query);   //run the query.
-//$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
 
 //count how many data
 $counter = 1;
@@ -144,44 +144,44 @@ $i = 1;
 $qty_final = 0;
   
 
-while ($row2 = mysql_fetch_array($rs))
+while ($row2 = mysqli_fetch_array($rs))
 {
 
 	$query_u = "SELECT * FROM user_detail WHERE username = '".$row2["user_reject"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 	
 	$query_u2 = "SELECT * FROM user_detail WHERE username = '".$row2["user_wastage"]."'";
-	$result_u2 = mysql_query($query_u2);   //run the query.
-	$data_u2 = mysql_fetch_array($result_u2);   //how many records are there?   
+	$result_u2 = mysqli_query($dbc, $query_u2);   //run the query.
+	$data_u2 = mysqli_fetch_array($result_u2);   //how many records are there?   
 	
 	$query_u3 = "SELECT * FROM user_detail WHERE username = '".$row2["user_disposal"]."'";
-	$result_u3 = mysql_query($query_u3);   //run the query.
-	$data_u3 = mysql_fetch_array($result_u3);   //how many records are there?     
+	$result_u3 = mysqli_query($dbc, $query_u3);   //run the query.
+	$data_u3 = mysqli_fetch_array($result_u3);   //how many records are there?     
 	
 	$query_u4 = "SELECT * FROM user_detail WHERE username = '".$row2["approve_by"]."'";
-	$result_u4 = mysql_query($query_u4);   //run the query.
-	$data_u4 = mysql_fetch_array($result_u4);   //how many records are there?  
+	$result_u4 = mysqli_query($dbc, $query_u4);   //run the query.
+	$data_u4 = mysqli_fetch_array($result_u4);   //how many records are there?  
 	
 	$query_u5 = "SELECT * FROM user_detail WHERE username = '".$row2["approve_by2"]."'";
-	$result_u5 = mysql_query($query_u5);   //run the query.
-	$data_u5 = mysql_fetch_array($result_u5);   //how many records are there?  
+	$result_u5 = mysqli_query($dbc, $query_u5);   //run the query.
+	$data_u5 = mysqli_fetch_array($result_u5);   //how many records are there?  
 	
 	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row2['type_reject']."' ORDER BY id_type ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row2['reason_reject']."' ORDER BY id_reject ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 	$query_type_wastage = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row2['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type_wastage = mysql_query($query_type_wastage);
-    $row_type_wastage = mysql_fetch_array($result_type_wastage); 
+    $result_type_wastage = mysqli_query($dbc, $query_type_wastage);
+    $row_type_wastage = mysqli_fetch_array($result_type_wastage); 
 	
 	$query_reason_wastage = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row2['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason_wastage = mysql_query($query_reason_wastage);
-    $row_reason_wastage = mysql_fetch_array($result_reason_wastage);
+    $result_reason_wastage = mysqli_query($dbc, $query_reason_wastage);
+    $row_reason_wastage = mysqli_fetch_array($result_reason_wastage);
 	
 	
 	
@@ -247,7 +247,7 @@ while ($row2 = mysql_fetch_array($rs))
     $counter++; 
 		
 }  // end while loop
- mysql_free_result($rs); 
+ mysqli_free_result($rs); 
 ?>
 
 <?php

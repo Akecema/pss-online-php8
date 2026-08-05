@@ -16,8 +16,8 @@ $url = "TP_manual_upload.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -29,9 +29,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -157,9 +157,9 @@ $data_setup = mysql_fetch_array($rs_setup);
                   <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                   <?php
 	    $query9 = "SELECT * FROM mat_master_detail WHERE mat_type = 'Z100' GROUP BY bill_component ORDER BY bill_component ASC";
-        $result9 = mysql_query($query9);
+        $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["bill_component"]; ?>" <?php if($row9["bill_component"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["bill_component"]; ?></option>
@@ -190,8 +190,8 @@ $data_setup = mysql_fetch_array($rs_setup);
 		    //convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 		
 				
 		    $where_sql = '';
@@ -224,9 +224,9 @@ $data_setup = mysql_fetch_array($rs_setup);
 
 								 
    $query8 = "SELECT *,DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM ftp_detail AS MR WHERE MR.mrin_no != '' " .$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-     $num_8 = mysql_fetch_row($result8);
-     $num_rows = mysql_num_rows($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+     $num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
    
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -236,8 +236,8 @@ $data_setup = mysql_fetch_array($rs_setup);
  
   
 $query = "SELECT *,DATE_FORMAT(MR.transfer_date,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM ftp_detail AS MR WHERE  MR.mrin_no != '' ".$where_sql;
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 	
 	 if($num > 0) {
@@ -288,7 +288,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
     $bq = 0;
    $rq = 0;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 		
  	?>        
@@ -320,7 +320,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
  
             
   <?php
-  mysql_free_result($rs); 
+  mysqli_free_result($rs); 
 	}   // free up the resources 
 else
 {
@@ -333,7 +333,7 @@ else
 </table></center>
         <?php
 		   } 
- mysql_close();
+ mysqli_close($dbc);
 ?>      
      </div></div>
           </div>

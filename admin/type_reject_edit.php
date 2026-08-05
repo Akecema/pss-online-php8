@@ -15,14 +15,14 @@ exit();
     $url = 'type_reject_edit.php';
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -91,8 +91,8 @@ return $ss;
 $id_type = $_GET['id_type'];
 
 $queryu = "SELECT * FROM type_reject_detail WHERE id_type = '$id_type'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 
 if (isset($_POST['submit']))
@@ -109,7 +109,7 @@ if (ini_get('magic_quotes_gpc'))
 {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -141,16 +141,16 @@ if (empty($_POST['status_type']))
  if($type_desc && $status_type) //everything ok
 {     	
 		  	  $query_search = "SELECT * FROM type_reject_detail WHERE id_type = '".$id_type."'";
-              $result_search = mysql_query($query_search);   //run the query.
-              $num_search = mysql_num_rows($result_search);   //how many suppliers are there?
+              $result_search = mysqli_query($dbc, $query_search);   //run the query.
+              $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
 			  if($num_search == 1) {
 			  //echo $num_search; 
-			    $row = mysql_fetch_array($result_search,MYSQL_NUM);
+			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
 		$query_upd = "UPDATE type_reject_detail SET type_desc = '".$type_desc."', status_type = '".$status_type."' WHERE id_type = '$id_type'"; 
-		$result_upd = mysql_query($query_upd); 
+		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)
 			{

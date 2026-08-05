@@ -20,8 +20,8 @@ $url = "report_PPC_consumable.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,9 +33,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	?>
 <!DOCTYPE html>
@@ -109,7 +109,7 @@ if (bV >= 4) window.print();
  $temp_mrin = $_GET["mrin_no"];
  
  $query_update_view = "UPDATE consumable_request SET status_view = 'Y' WHERE temp_mrin = '$temp_mrin'";
- $result_update_view = mysql_query($query_update_view);
+ $result_update_view = mysqli_query($dbc, $query_update_view);
  
    if($result_update_view)
    {
@@ -120,24 +120,24 @@ if (bV >= 4) window.print();
     }
 
 $queryu = "SELECT * from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
 $query_2 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
-$result_2 = mysql_query($query_2);   //run the query.
-$data_2 = mysql_fetch_array($result_2);
+$result_2 = mysqli_query($dbc, $query_2);   //run the query.
+$data_2 = mysqli_fetch_array($result_2);
 
  $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 		$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
-$result_k = mysql_query($query_k);
-$row_k = mysql_fetch_array($result_k);
+$result_k = mysqli_query($dbc, $query_k);
+$row_k = mysqli_fetch_array($result_k);
 
 $query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '".$data_2["user_update"]."'";
-$result_k2 = mysql_query($query_k2);
-$row_k2 = mysql_fetch_array($result_k2);
+$result_k2 = mysqli_query($dbc, $query_k2);
+$row_k2 = mysqli_fetch_array($result_k2);
 
  ?>
  <div class="widget-box">
@@ -205,7 +205,7 @@ $row_k2 = mysql_fetch_array($result_k2);
       $counter = 1;
    $no = 1;
      $k = 0;
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		//$user_no = $row[0]; 
  $no = sprintf('%03d', $no);
@@ -214,8 +214,8 @@ $row_k2 = mysql_fetch_array($result_k2);
    
   //------------------cost center --------------------//
    $query_cost_center = "SELECT * FROM work_center_detail WHERE id_work = '".$row["id_work"]."'";
-   $result_cost_center = mysql_query($query_cost_center) or die (mysql_error());
-   $row_cost_center = mysql_fetch_array($result_cost_center);
+   $result_cost_center = mysqli_query($dbc, $query_cost_center) or die (mysqli_error($dbc));
+   $row_cost_center = mysqli_fetch_array($result_cost_center);
 		
 		 ?>
             
@@ -243,13 +243,13 @@ $row_k2 = mysql_fetch_array($result_k2);
 	                <?php 
 					
 		$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row["temp_mrin"]."' AND mvt_type = 201 AND material_no = '".$row["material_no"]."' AND status_posting != 'Cancel'";
-	    $result_tp  = mysql_query($query_tp); 
-	    //$row_tp = mysql_fetch_assoc($result_tp); 
+	    $result_tp  = mysqli_query($dbc, $query_tp); 
+	    //$row_tp = mysqli_fetch_assoc($result_tp); 
 		
 					
 		$outs_qty = 0;
 					
-	while($row_tp = mysql_fetch_assoc($result_tp))
+	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
 	echo $row_tp["TOT"]; 
 	
@@ -314,12 +314,12 @@ $row_k2 = mysql_fetch_array($result_k2);
          <?php
 		
 	$query_display_reason = "SELECT * from `consumable_request_cancel` WHERE temp_mrin = '$temp_mrin' AND status = 'Cancel'";
-    $result_display_reason = mysql_query($query_display_reason);
-    $row_display_reason = mysql_fetch_array($result_display_reason);
+    $result_display_reason = mysqli_query($dbc, $query_display_reason);
+    $row_display_reason = mysqli_fetch_array($result_display_reason);
 	
 	$query_reason_tbl = "SELECT * from `reason_req_cancel` WHERE id_cancel = '".$row_display_reason["reason_cancel"]."'";
-	 $result_reason_tbl = mysql_query($query_reason_tbl);
-    $row_reason_tbl = mysql_fetch_array($result_reason_tbl);
+	 $result_reason_tbl = mysqli_query($dbc, $query_reason_tbl);
+    $row_reason_tbl = mysqli_fetch_array($result_reason_tbl);
 	
 	if($row_display_reason	> 0)
 	{   
@@ -336,12 +336,12 @@ $row_k2 = mysql_fetch_array($result_k2);
 
 		
 	$query_display_reason2 = "SELECT * from `consumable_request_close` WHERE temp_mrin = '$temp_mrin' AND status = 'Close'";
-    $result_display_reason2 = mysql_query($query_display_reason2);
-    $row_display_reason2 = mysql_fetch_array($result_display_reason2);
+    $result_display_reason2 = mysqli_query($dbc, $query_display_reason2);
+    $row_display_reason2 = mysqli_fetch_array($result_display_reason2);
 	
 	$query_reason_tbl2 = "SELECT * from `reason_req_close` WHERE id_close = '".$row_display_reason2["reason_close"]."'";
-	 $result_reason_tbl2 = mysql_query($query_reason_tbl2);
-    $row_reason_tbl2 = mysql_fetch_array($result_reason_tbl2);
+	 $result_reason_tbl2 = mysqli_query($dbc, $query_reason_tbl2);
+    $row_reason_tbl2 = mysqli_fetch_array($result_reason_tbl2);
 	
 	if($row_display_reason2	> 0)
 	{   

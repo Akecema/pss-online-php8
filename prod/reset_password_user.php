@@ -6,9 +6,9 @@ include '../include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
  ?>
  
@@ -60,7 +60,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -73,8 +73,8 @@ $message = NULL; // create an empty new variable.
       else {
 	  
 	      $query_all = "SELECT * FROM user_detail where user_no = '".$_POST['username1']."'";
-		  $result_all = mysql_query($query_all);
-		  $db_all = mysql_fetch_array($result_all);
+		  $result_all = mysqli_query($dbc, $query_all);
+		  $db_all = mysqli_fetch_array($result_all);
 	  
 	  
 	      if($_POST["username1"] == $db_all["user_no"]) {
@@ -113,18 +113,18 @@ $message = NULL; // create an empty new variable.
 				 // $pass = md5($password);
 				 
 				  $query = "SELECT * FROM user_detail WHERE user_no = '$user'";
-				  $result = mysql_query($query);
-				  $num = mysql_num_rows($result);
+				  $result = mysqli_query($dbc, $query);
+				  $num = mysqli_num_rows($result);
 				  
 				  if($num == 1 ) {
-				    $row = mysql_fetch_array($result);
+				    $row = mysqli_fetch_array($result);
 					
 					//Make the query
 			
 		          $query2 = "UPDATE user_detail set password = '$newpass' where user_no ='".$row["user_no"]."'";
-				  $result2 = mysql_query($query2) or die (mysql_error());
+				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
-				  if(mysql_affected_rows() == 1) { //If it ran ok
+				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 				  //Send an email, if desired
 				$pass_new =  $_POST['newpass'];
@@ -164,7 +164,7 @@ $message = NULL; // create an empty new variable.
 				}else { 
 				   $message = '<p>Your username and password do not match our database</p>';
 				 }
-				 mysql_close();    //Close the database connection
+				 mysqli_close($dbc);    //Close the database connection
 				 
 			 } else {
 			     $message .='<p>Please try again.</p>';
@@ -212,9 +212,9 @@ $message = NULL; // create an empty new variable.
       <option value="NULL" placeholder="Select username"> -- Select username --</option>
       <?php
 	       $query2 = "SELECT * FROM user_detail WHERE level_id != '1' AND status = 'AC' ORDER BY vendor_no ASC";
-                   $result2 = mysql_query($query2);
+                   $result2 = mysqli_query($dbc, $query2);
   
-                   while($row2=mysql_fetch_array($result2, MYSQL_NUM)) 
+                   while($row2=mysqli_fetch_array($result2, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row2[0],'">',stripslashes($row2[2]),' - ',stripslashes($row2[5]),'</option>';
                   }

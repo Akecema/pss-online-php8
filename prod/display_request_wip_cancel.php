@@ -17,8 +17,8 @@ exit();
 $url = "display_request_wip_cancel.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -30,9 +30,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -236,9 +236,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -282,8 +282,8 @@ echo "window.location='display_request_wip_cancel2.php?temp_mrin=$temp_mrin&&pro
 
 								 
     $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') GROUP BY MR.temp_mrin_wip  ORDER BY MR.id_req_wip ASC";
-   $result8 = mysql_query($query8) or trigger_error("SQL", E_USER_ERROR);
-   $num_rows = mysql_num_rows($result8); 
+   $result8 = mysqli_query($dbc, $query8) or trigger_error("SQL", E_USER_ERROR);
+   $num_rows = mysqli_num_rows($result8); 
  
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -293,7 +293,7 @@ echo "window.location='display_request_wip_cancel2.php?temp_mrin=$temp_mrin&&pro
 //echo $num_rows;
   
 $query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_posting ASC, MR.temp_mrin_wip ASC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 	
 	 if($num_rows > 0) {	
@@ -334,32 +334,32 @@ $rs = mysql_query($query);   //run the query.
    $counter = 1;
    $no = 1;
    
-    while ($row2 = mysql_fetch_array($rs))
+    while ($row2 = mysqli_fetch_array($rs))
    {
 	
    $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."'";
-   $result_scan = mysql_query($query_scan);
-   $row_scan = mysql_fetch_array($result_scan);
+   $result_scan = mysqli_query($dbc, $query_scan);
+   $row_scan = mysqli_fetch_array($result_scan);
 	
 	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".$row2[6]."'";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row["user_create"]."'";
-    $result_u = mysql_query($query_u);   //run the query.
-    $data_u = mysql_fetch_array($result_u);   //how many records are there?  
+    $result_u = mysqli_query($dbc, $query_u);   //run the query.
+    $data_u = mysqli_fetch_array($result_u);   //how many records are there?  
 	
 	//------------------------------
 	// check yg mana dah ada dlm table history 
 	//------------------------------
 	
 	    $query_check = "SELECT * FROM wip_request_close WHERE temp_mrin_wip = '".$row2["temp_mrin_wip"]."'";
-		$result_check = mysql_query($query_check);		
-		$rst_check = mysql_fetch_array($result_check);
+		$result_check = mysqli_query($dbc, $query_check);		
+		$rst_check = mysqli_fetch_array($result_check);
 		
 		if($rst_check > 0)
 		
@@ -374,8 +374,8 @@ $rs = mysql_query($query);   //run the query.
 	       
 	
 	    $query_check2 = "SELECT * FROM wip_request_cancel WHERE temp_mrin_wip = '".$row2["temp_mrin_wip"]."'";
-		$result_check2 = mysql_query($query_check2);		
-		$rst_check2 = mysql_fetch_array($result_check2);
+		$result_check2 = mysqli_query($dbc, $query_check2);		
+		$rst_check2 = mysqli_fetch_array($result_check2);
 	
 	           if($rst_check2 > 0)
 		 {
@@ -452,7 +452,7 @@ elseif($curr_time >= $plus_20)
 		  } ?></tbody></table>
 
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
 	?>
       
           
@@ -469,7 +469,7 @@ elseif($curr_time >= $plus_20)
 </table>
         <?php
 		   } 
-mysql_close()
+mysqli_close($dbc)
 ?>
 
 

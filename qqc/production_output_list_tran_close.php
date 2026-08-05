@@ -16,13 +16,13 @@ exit();
 $url = "production_output_list_tran_close.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -36,28 +36,28 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Transfer QC)
 $sta18 = "SELECT * from request_status WHERE status_id = '18'";
-$sta_res18 = mysql_query($sta18);
-$rst_sta18 = mysql_fetch_array($sta_res18);	
+$sta_res18 = mysqli_query($dbc, $sta18);
+$rst_sta18 = mysqli_fetch_array($sta_res18);	
 
 //CR status (Approved QC)
 $sta17 = "SELECT * from request_status WHERE status_id = '17'";
-$sta_res17 = mysql_query($sta17);
-$rst_sta17 = mysql_fetch_array($sta_res17);	
+$sta_res17 = mysqli_query($dbc, $sta17);
+$rst_sta17 = mysqli_fetch_array($sta_res17);	
 	
 	?>
 <!DOCTYPE html>
@@ -252,9 +252,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
                   echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';
                   }
@@ -272,9 +272,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
 	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
@@ -295,9 +295,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Model"> -- Select Model --</option>
                   <?php
 	               $query7 = "SELECT * FROM model_detail ORDER BY code_model ASC";
-                   $result7 = mysql_query($query7);
+                   $result7 = mysqli_query($dbc, $query7);
   
-                   while($row7=mysql_fetch_array($result7)) 
+                   while($row7=mysqli_fetch_array($result7)) 
 			      {
 				   ?>
                   <option value="<?php echo $row7["model_name"]; ?>"> <?php echo $row7["model_name"]; ?></option>
@@ -344,8 +344,8 @@ echo "window.location='production_output_list_tran2.php?date1=$dateF&&date2=$dat
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND qty_actual != ''";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -355,8 +355,8 @@ echo "window.location='production_output_list_tran2.php?date1=$dateF&&date2=$dat
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND qty_actual != '' order by plan_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -410,7 +410,7 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $sta_out = "";
    $sta_out2 = "";
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 	//shift	
@@ -490,8 +490,8 @@ $num = mysql_num_rows($rs);   //how many material are there?
 			  
 			  //-------info qqc detail --------- 
 	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_tran = '".$row["id"]."' AND bflush_no = '".$row["bflush_no"]."'";
-	   $result_qqc = mysql_query($query_qqc) or die (mysql_error());
-	   $data_qqc = mysql_fetch_array($result_qqc);
+	   $result_qqc = mysqli_query($dbc, $query_qqc) or die (mysqli_error($dbc));
+	   $data_qqc = mysqli_fetch_array($result_qqc);
 
 	     if($data_qqc == 0) { //If it ran ok
 				   ?> 

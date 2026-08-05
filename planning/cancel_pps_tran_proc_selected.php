@@ -20,8 +20,8 @@ $url = "display_consumable_request.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,30 +33,30 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 	?>
 <!DOCTYPE html>
@@ -128,12 +128,12 @@ if (bV >= 4) window.print();
 			 //convert 
 			
 			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 			
 			$query_convert2 = "SELECT * FROM `ftp_pps` WHERE file_name = '".$_GET["name_file"]."'";
-			$result_convert2 = mysql_query($query_convert2); 
-			$row_convert2 = mysql_fetch_array($result_convert2);
+			$result_convert2 = mysqli_query($dbc, $query_convert2); 
+			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
 			//-------Count all results------------------------//
 			
@@ -190,8 +190,8 @@ if (bV >= 4) window.print();
 	//********** END CONDITION **************
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail AS MR WHERE MR.status_pps = '".$rst_sta2["status_desc"]."'".$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -209,7 +209,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -221,21 +221,21 @@ $message = NULL; // create an empty new variable.
     //--------- pps detail ------------
 	 
 	   $query_pps = "SELECT * FROM pps_detail WHERE upload_id = '".$uid."'";
-	   $result_pps = mysql_query($query_pps);
+	   $result_pps = mysqli_query($dbc, $query_pps);
 	  
-	  while($data_pps = mysql_fetch_array($result_pps))
+	  while($data_pps = mysqli_fetch_array($result_pps))
 	  
 	  {
 		  
 	  //---------update cancellation--------------------------
 	 
 	$query_cancel = "UPDATE pps_detail SET status_pps = '".$rst_sta4["status_desc"]."' WHERE upload_id = '".$uid."'";
-	$result_cancel = mysql_query($query_cancel);
+	$result_cancel = mysqli_query($dbc, $query_cancel);
 		  
 		   //insert into table pps_detail_cancellation-------------
 	
 $query_data2 = "INSERT INTO pps_cancellation (id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload,user_create, date_create, user_update, date_update, user_posting, date_posting, user_cancel, date_cancel, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('".$data_pps["id"]."','".$data_pps["ref_id"]."','".$data_pps["plan_no"]."','".$data_pps["upload_id"]."','".$data_pps["model_code"]."','".$data_pps["month_plan"]."','".$data_pps["material_no"]."','".$data_pps["qty_plan"]."','".$data_pps["qty_actual"]."','".$rst_sta4["status_desc"]."','".$data_pps["comp_code"]."','".$data_pps["work_center"]."','".$data_pps["shift_pps1"]."','".$data_pps["shift_pps2"]."','".$data_pps["date_plan"]."','N','".$data_pps["user_upload"]."','".$data_pps["date_upload"]."','".$data_pps["user_create"]."','".$data_pps["date_create"]."','".$data_pps["user_update"]."','".$data_pps["date_update"]."','".$data_pps["user_posting"]."','".$data_pps["date_posting"]."','".$username."',NOW(),'".$data_pps["plan_category"]."','".$data_pps["id_factory_pps"]."','".$data_pps["rev_pps"]."','".$data_pps["seq_pps"]."','".$data_pps["man_hours"]."','".$data_pps["work_hours"]."')";
-$result_data2 = mysql_query($query_data2) or die (mysql_error());   
+$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));   
 
 				  
 		  
@@ -286,9 +286,9 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
    $sta_out = "";
    
 $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R FROM pps_detail AS MR WHERE MR.status_pps = '".$rst_sta2["status_desc"]."' AND  MR.upload_id = '".$uid."' ".$where_sql." order by MR.plan_no ASC";
-$result_display = mysql_query($query_display);   //run the query.
+$result_display = mysqli_query($dbc, $query_display);   //run the query.
    
-   while ($row2 = mysql_fetch_array($result_display))
+   while ($row2 = mysqli_fetch_array($result_display))
    {
 		
 	//shift	

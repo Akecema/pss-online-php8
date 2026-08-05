@@ -20,8 +20,8 @@ $url = "cancellation_list_backflush_tran.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,30 +33,30 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 	?>
 <!DOCTYPE html>
@@ -130,7 +130,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -143,12 +143,12 @@ $message = NULL; // create an empty new variable.
   //-------create Cancellation-Backflush OK No.---------------------------------
 	
 	$query_id = "SELECT count_max FROM run_count_no WHERE uid = '20'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_array($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_array($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22212";
@@ -183,33 +183,33 @@ $message = NULL; // create an empty new variable.
     //--------- pps detail ---------
 	 
 	   $query_pps = "SELECT * FROM pps_detail_transaction WHERE id = '".$buid."'";
-	   $result_pps = mysql_query($query_pps);
-	   $data_pps = mysql_fetch_array($result_pps);
+	   $result_pps = mysqli_query($dbc, $query_pps);
+	   $data_pps = mysqli_fetch_array($result_pps);
 	   
 	 //insert into table pps_detail_cancellation-------------
 
   
 	
 $query_data2 = "INSERT INTO pps_detail_cancellation(id,pps_id,ref_id,bflush_no,plan_no,id_scan,upload_id,model_code,month_plan,material_no,material_desc,material_type,qty_plan,qty_actual,qty_balance,qty_NG,status_pps,comp_code,work_center,shift_pps1,shift_pps2,date_plan,status,user_upload,date_upload,user_create,date_create,user_update,date_update,user_posting,date_posting,time_posting,ploc,delivery_loc,type_reject,reason_reject,user_reject,date_reject,time_reject,status_ftp_bflush,bflush_no_ref,user_cancel,date_cancel,remark_cancel,plant_code,shift_posting) VALUES('".$data_pps["id"]."','".$data_pps["pps_id"]."','".$data_pps["ref_id"]."','".$data_pps["bflush_no"]."','".$data_pps["plan_no"]."','".$data_pps["id_scan"]."','".$data_pps["upload_id"]."','".$data_pps["model_code"]."','".$data_pps["month_plan"]."','".$data_pps["material_no"]."','".$data_pps["material_desc"]."','".$data_pps["material_type"]."','".$data_pps["qty_plan"]."','".$data_pps["qty_actual"]."','".$data_pps["qty_balance"]."','".$data_pps["qty_NG"]."','".$rst_sta4["status_desc"]."','".$data_pps["comp_code"]."','".$data_pps["work_center"]."','".$data_pps["shift_pps1"]."','".$data_pps["shift_pps2"]."','".$data_pps["date_plan"]."','N','".$data_pps["user_upload"]."','".$data_pps["date_upload"]."','".$data_pps["user_create"]."','".$data_pps["date_create"]."','".$data_pps["user_update"]."','".$data_pps["date_update"]."','".$data_pps["user_posting"]."','".$data_pps["date_posting"]."','".$data_pps["time_posting"]."','".$data_pps["ploc"]."','".$data_pps["delivery_loc"]."','".$data_pps["type_reject"]."','".$data_pps["reason_reject"]."','".$data_pps["user_reject"]."','".$data_pps["date_reject"]."','".$data_pps["time_reject"]."','Y','".$ref."','".$username."',NOW(),'".$data_pps["remark_cancel"]."','".$data_pps["plant_code"]."','".$data_pps["shift_posting"]."')";
-$result_data2 = mysql_query($query_data2) or die (mysql_error());   
+$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));   
 
    //---------update cancellation--------------------------
 	 
 	  $query_cancel = "UPDATE pps_detail_transaction SET bflush_no_ref = '".$ref."', status_pps = '".$rst_sta4["status_desc"]."', status = 'N', user_cancel = '".$username."', date_cancel = NOW() WHERE id = '".$buid."'";
-	$result_cancel = mysql_query($query_cancel);
+	$result_cancel = mysqli_query($dbc, $query_cancel);
 	
   
   //--update status "Inprogress" to "Release" in table pps_detail	
 	  
 	  $query_all_info = "SELECT * FROM pps_detail_transaction WHERE status_pps != '".$rst_sta4["status_desc"]."' AND plan_no = '".$data_pps["plan_no"]."'";
-	  $result_all_info = mysql_query($query_all_info);
-	  $data_all_info = mysql_fetch_array($result_all_info); 
+	  $result_all_info = mysqli_query($dbc, $query_all_info);
+	  $data_all_info = mysqli_fetch_array($result_all_info); 
 	  	
 	  if($data_all_info < 1)
 	  {
 		  
 	$query_upd_detail = "UPDATE pps_detail SET status_pps = '".$rst_sta2["status_desc"]."' WHERE plan_no = '".$data_pps["plan_no"]."'";
-	$result_upd_detail = mysql_query($query_upd_detail) or die (mysql_error());
+	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
 	
 	  }
 		  
@@ -224,7 +224,7 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
 		
 	
        $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '20'";
-	   $result_max_a = mysql_query($query_max_a);
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
 	 
    //end update count_max ---------------------------------	
 	
@@ -275,9 +275,9 @@ $result_data2 = mysql_query($query_data2) or die (mysql_error());
    $sta_out = "";
    
    $query_display = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE id = '".$buid."' AND status_pps = '".$rst_sta7["status_desc"]."'";
-$result_display = mysql_query($query_display);   //run the query.
+$result_display = mysqli_query($dbc, $query_display);   //run the query.
    
-   while ($row2 = mysql_fetch_array($result_display))
+   while ($row2 = mysqli_fetch_array($result_display))
    {
 		
 	//shift	

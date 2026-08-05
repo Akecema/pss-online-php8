@@ -21,8 +21,8 @@ exit();
 $url = "wip_request_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,9 +34,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -156,8 +156,8 @@ return "";
 	   $uid = $_GET["uid"];
 	
 	   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '$uid'";
-	   $result_scan = mysql_query($query_scan);
-	   $data_scan = mysql_fetch_array($result_scan);
+	   $result_scan = mysqli_query($dbc, $query_scan);
+	   $data_scan = mysqli_fetch_array($result_scan);
 	   
 	   $date_arini = date('Y-m-d'); 
 	  $current_date = date('Y-m-d H:i:s'); 
@@ -173,7 +173,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
  $k = 0;
@@ -293,12 +293,12 @@ $message = NULL; // create an empty new variable.
    
  
   $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '$cancel2[$i]'";
-  $result_q2 = mysql_query($query_q2) or die (mysql_error());
-  $ans3 = mysql_fetch_array($result_q2);
+  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $ans3 = mysqli_fetch_array($result_q2);
   
 //register the user in the db.
 $query_db2 = "INSERT INTO wip_request (id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','$ans3[id_hdr]','$ans3[id_dtl]','$uid','$cancel2[$i]','$string[$i]', '$ans3[comp_unit]','N','N','$res[user_no]',NOW(),'','','','','New','$ans3[bill_component]','".$_POST["date1"]."','$t_time')";
-$result_db2 = mysql_query($query_db2) or die (mysql_error());
+$result_db2 = mysqli_query($dbc, $query_db2) or die (mysqli_error($dbc));
  
 
 
@@ -329,7 +329,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -448,12 +448,12 @@ if(isset($_POST["cancel"])) {
    
  
   $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '$cancel2[$i]'";
-  $result_q2 = mysql_query($query_q2) or die (mysql_error());
-  $ans3 = mysql_fetch_array($result_q2);
+  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $ans3 = mysqli_fetch_array($result_q2);
   
 //register the user in the db.
 $query_db2 = "INSERT INTO wip_request (id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','$ans3[id_hdr]','$ans3[id_dtl]','$uid','$cancel2[$i]','$string[$i]', '$ans3[comp_unit]','N','N','$res[user_no]',NOW(),'','','','','New','$ans3[bill_component]','".$_POST["date1"]."','$t_time')";
-$result_db2 = mysql_query($query_db2) or die (mysql_error());
+$result_db2 = mysqli_query($dbc, $query_db2) or die (mysqli_error($dbc));
  
 
 
@@ -578,7 +578,7 @@ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $mess
              <?php
 			 
 	   $query_component = "SELECT * FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".$data_scan["material_no"]."' AND s.bom_status = 'Y' AND s.mat_type = 'Z200'";
-	   $result_component = mysql_query($query_component);
+	   $result_component = mysqli_query($dbc, $query_component);
 	  
 			 ?>
              <table class="table table-striped">
@@ -598,7 +598,7 @@ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $mess
 		 $k = 0;
 		 $no2 = 1;
 				 
-			while($row = mysql_fetch_array($result_component))
+			while($row = mysqli_fetch_array($result_component))
 			{  
 	
 		

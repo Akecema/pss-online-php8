@@ -5,9 +5,9 @@ include 'include/config_mail.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 
 
 ?>
@@ -203,8 +203,8 @@ return $ss;
  
  	$username = $_COOKIE['ID_my_site']; 
  	$pass = $_COOKIE['Key_my_site'];
- 	 	$check = mysql_query("SELECT * FROM user_detail WHERE username = '$username' AND status = 'AC' AND status_failed = 'N'")or die(mysql_error());
- 	while($info = mysql_fetch_array($check)) 	
+ 	 	$check = mysqli_query($dbc, "SELECT * FROM user_detail WHERE username = '$username' AND status = 'AC' AND status_failed = 'N'")or die(mysqli_error($dbc));
+ 	while($info = mysqli_fetch_array($check)) 	
  		{
  		if ($pass != $info['password']) 
  			{
@@ -213,16 +213,16 @@ return $ss;
 		//-------------edit date 16/11/2017
 		
 		$check_log = "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = '".$_POST['username']."' AND FL.ip_address = '".$_SERVER["REMOTE_ADDR"]."'  AND FL.date_failed BETWEEN DATE_SUB(NOW() , INTERVAL 1 DAY) AND NOW()";
-		$rs_check_log = mysql_query($check_log);   
-	    $num_check_log = mysql_num_rows($rs_check_log);  
-		$row = mysql_fetch_array($rs_check_log);
+		$rs_check_log = mysqli_query($dbc, $check_log);   
+	    $num_check_log = mysqli_num_rows($rs_check_log);  
+		$row = mysqli_fetch_array($rs_check_log);
 		
 		if($num_check_log < 2)
 		{
 			
 				
 		$query_log = "INSERT INTO failed_login(ip_address,date_failed,staff_ID,username) VALUES('".$_SERVER["REMOTE_ADDR"]."',NOW(),'".$info['staff_ID']."','".$_POST['username']."')";
-		$result_log = mysql_query($query_log) or die (mysql_error());
+		$result_log = mysqli_query($dbc, $query_log) or die (mysqli_error($dbc));
 		
 		             
 		             echo "<script>";
@@ -237,9 +237,9 @@ return $ss;
 		
 		//----------------------------------------------	
 			       $query_update_fail = "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = '".$row["username"]."', date_update = NOW() where username='".$_POST["username"]."'";
-				  $result_update_fail = mysql_query($query_update_fail) or die (mysql_error());
+				  $result_update_fail = mysqli_query($dbc, $query_update_fail) or die (mysqli_error($dbc));
 				  
-				  if(mysql_affected_rows() == 1) { //If it ran ok
+				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 			
 			$to = $row["user_email"]; 
@@ -536,10 +536,10 @@ $_SESSION["password"] = $password;
  	// checks it against the database
 
  	
- 	$check = mysql_query("SELECT * FROM user_detail WHERE username = '".$_POST['username']."' AND status = 'AC' AND status_failed = 'N'")or die(mysql_error());
+ 	$check = mysqli_query($dbc, "SELECT * FROM user_detail WHERE username = '".$_POST['username']."' AND status = 'AC' AND status_failed = 'N'")or die(mysqli_error($dbc));
 
  //Gives error if user dosen't exist
- $check2 = mysql_num_rows($check);
+ $check2 = mysqli_num_rows($check);
  if ($check2 == 0) {
 
  
@@ -552,7 +552,7 @@ $_SESSION["password"] = $password;
  
  		//die('That user does not exist in our database. Please contact IAV Administrator to Register.');
  				}
- while($info = mysql_fetch_array( $check )) 	
+ while($info = mysqli_fetch_array($check)) 	
  {
     $_POST['pass'] = stripslashes($_POST['pass']);
  	$info['password'] = stripslashes($info['password']);
@@ -567,16 +567,16 @@ $_SESSION["password"] = $password;
 		//-------------edit date 16/11/2017
 		
 		$check_log = "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = '".$_POST['username']."' AND FL.ip_address = '".$_SERVER["REMOTE_ADDR"]."'  AND FL.date_failed BETWEEN DATE_SUB( NOW() , INTERVAL 1 DAY ) AND NOW()";
-		$rs_check_log = mysql_query($check_log);   
-	    $num_check_log = mysql_num_rows($rs_check_log);  
-		$row = mysql_fetch_array($rs_check_log);
+		$rs_check_log = mysqli_query($dbc, $check_log);   
+	    $num_check_log = mysqli_num_rows($rs_check_log);  
+		$row = mysqli_fetch_array($rs_check_log);
 		
 		if($num_check_log < 2)
 		{
 			
 				
 		$query_log = "INSERT INTO failed_login(ip_address,date_failed,staff_ID,username) VALUES('".$_SERVER["REMOTE_ADDR"]."',NOW(),'".$info['staff_ID']."','".$_POST['username']."')";
-		$result_log = mysql_query($query_log) or die (mysql_error());
+		$result_log = mysqli_query($dbc, $query_log) or die (mysqli_error($dbc));
 		
 		             
 		             echo "<script>";
@@ -591,9 +591,9 @@ $_SESSION["password"] = $password;
 		
 		//----------------------------------------------	
 			       $query_update_fail = "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = '".$row["username"]."', date_update = NOW() where username='".$_POST["username"]."'";
-				  $result_update_fail = mysql_query($query_update_fail) or die (mysql_error());
+				  $result_update_fail = mysqli_query($dbc, $query_update_fail) or die (mysqli_error($dbc));
 				  
-				  if(mysql_affected_rows() == 1) { //If it ran ok
+				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 			
 			$to = $row["user_email"]; 

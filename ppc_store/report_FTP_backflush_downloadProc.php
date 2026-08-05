@@ -5,9 +5,9 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -57,8 +57,8 @@ $where_sql =  $wheresql_01 .$wheresql_02 ;
 //------------------------------------count-------------------\\
 
 $query8 = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_bflush_detail WHERE status_ftp = 'Y' " .$where_sql;
-$result8 = mysql_query($query8) or die(mysql_error());
-$num_rows = mysql_num_rows($result8);
+$result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+$num_rows = mysqli_num_rows($result8);
 
 
 //---------------------------end count
@@ -109,7 +109,7 @@ echo '</table>';
 //Display table
 // query menampilkan semua data
 $query = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_bflush_detail WHERE status_ftp = 'Y' " .$where_sql;
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
 $counter = 1;
@@ -117,12 +117,12 @@ $no = 1;
 $i = 1;
   
 
-while ($row2 = mysql_fetch_array($rs))
+while ($row2 = mysqli_fetch_array($rs))
 {
 
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
 
 	//Display data
@@ -145,7 +145,7 @@ while ($row2 = mysql_fetch_array($rs))
     $counter++; 
 		
 }  // end while loop
- mysql_free_result($rs); 
+ mysqli_free_result($rs); 
 ?>
 
 <?php

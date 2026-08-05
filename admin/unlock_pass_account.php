@@ -15,14 +15,14 @@ exit();
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 	?>
@@ -95,8 +95,8 @@ $user_no = $_GET["user_no"];
 
 
 $queryu = "SELECT * from user_detail where user_no = '$user_no'";
-$resultu = mysql_query($queryu);   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 
 
@@ -109,7 +109,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 	
@@ -136,9 +136,9 @@ if (empty($_POST["status_failed"]) || ($_POST["status_failed"] == ""))
 {  
 
 		  	  $query_search = "SELECT * FROM user_detail WHERE user_no = '$user_no'";
-              $result_search = mysql_query($query_search);   //run the query.
-              $num_search = mysql_num_rows($result_search);   //how many suppliers are there?
-			  $row_search = mysql_fetch_array($result_search);
+              $result_search = mysqli_query($dbc, $query_search);   //run the query.
+              $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
+			  $row_search = mysqli_fetch_array($result_search);
 			  
 			  if($num_search == 1) {
 			  //echo $num_search; 
@@ -146,9 +146,9 @@ if (empty($_POST["status_failed"]) || ($_POST["status_failed"] == ""))
 				// make the update query
 				
 				$query_upd = "UPDATE user_detail SET status_failed = 'N', date_update= NOW(), user_update ='$username', date_failed = '' WHERE user_no = '$user_no'";
-				$result_upd = mysql_query($query_upd); 
+				$result_upd = mysqli_query($dbc, $query_upd); 
 			
-			 if(mysql_affected_rows() == 1) { //If it ran ok
+			 if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 			
 			$to = $row_search["user_email"]; 
@@ -176,7 +176,7 @@ if (empty($_POST["status_failed"]) || ($_POST["status_failed"] == ""))
 			
 				//-----------------delete clear table failed_login-----------
 			$query_failed_del = "DELETE FROM failed_login WHERE staff_ID = '".$row_search["staff_ID"]."'";
-		    $result_failed_del = mysql_query($query_failed_del); 			
+		    $result_failed_del = mysqli_query($dbc, $query_failed_del); 			
 			
 			  }
 			

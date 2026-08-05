@@ -20,8 +20,8 @@ $url = "upload_pps_month.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -33,9 +33,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	?>
 <!DOCTYPE html>
@@ -110,7 +110,7 @@ if (bV >= 4) window.print();
  
  
 $queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as T from pps_detail as MR, ftp_pps as SD WHERE MR.upload_id = SD.upload_id AND MR.upload_id = '$upload_id'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
  ?>
  <div class="widget-box">
@@ -135,16 +135,16 @@ $rs = mysql_query($queryu);   //run the query.
     //generate Planned Order PPS
    
     $query_num_2 = "SELECT * FROM num_range_detail WHERE id_num = '1'";
-    $result_num_2 = mysql_query($query_num_2);
-	$data_num_2 = mysql_fetch_array($result_num_2);
+    $result_num_2 = mysqli_query($dbc, $query_num_2);
+	$data_num_2 = mysqli_fetch_array($result_num_2);
 
 
 $query_id_2 = "SELECT MAX(plan_no) FROM pps_detail";
-$result_id_2 = mysql_query($query_id_2);
+$result_id_2 = mysqli_query($dbc, $query_id_2);
 
 if ($result_id_2) {
-$nrows_2 = mysql_num_rows($result_id_2);
-$row_id_2 = mysql_fetch_row($result_id_2);
+$nrows_2 = mysqli_num_rows($result_id_2);
+$row_id_2 = mysqli_fetch_row($result_id_2);
 
  $dht_2 = $data_num_2["mat_doc_start"]; 
 
@@ -188,7 +188,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.	
 	
@@ -204,7 +204,7 @@ $message = NULL; // create an empty new variable.
 	foreach($id as $key => $n ) {
 		  		 
 		 $query_update = "UPDATE pps_detail SET plan_no = '".$plan_no[$j]."', user_update = '".$username."', date_update = NOW(), user_posting = '".$username."', date_posting = NOW() WHERE id = '$n'";
-         $result_update = mysql_query($query_update);  
+         $result_update = mysqli_query($dbc, $query_update);  
 		 
 		 $j++;
 		 
@@ -227,10 +227,10 @@ require_once('../include/config.php');   //connect to the db.
 
 
          $query_del_ftp = "DELETE FROM ftp_pps WHERE upload_id = '".$upload_id."'";
-	     $result_del_ftp = mysql_query($query_del_ftp); 
+	     $result_del_ftp = mysqli_query($dbc, $query_del_ftp); 
 
          $sqlDel = "DELETE FROM pps_detail WHERE upload_id = '".$upload_id."'";
-         $rsDel = mysql_query($sqlDel);
+         $rsDel = mysqli_query($dbc, $sqlDel);
 
          if ($rsDel) {
             echo "<script>alert('Planned Order has been cancelled.');window.close();window.location='upload_pps_month.php';window.opener.location.reload();</script>";
@@ -266,7 +266,7 @@ require_once('../include/config.php');   //connect to the db.
 	 $sta = "";
 	 $p = 1;
 		
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 	
 
@@ -323,7 +323,7 @@ require_once('../include/config.php');   //connect to the db.
              <p>&nbsp;</p> 
              
     <?php
-        mysql_free_result($rs);  
+        mysqli_free_result($rs);  
 		
 		?>
  <br>

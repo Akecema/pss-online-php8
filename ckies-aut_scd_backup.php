@@ -15,10 +15,10 @@
  	// checks it against the database
 
  	
- 	$check = mysql_query("SELECT * FROM user_detail WHERE username = '".$_POST['username']."' AND status = 'AC' AND status_failed = 'N'")or die(mysql_error());
+ 	$check = mysqli_query($dbc, "SELECT * FROM user_detail WHERE username = '".$_POST['username']."' AND status = 'AC' AND status_failed = 'N'")or die(mysqli_error($dbc));
 
  //Gives error if user dosen't exist
- $check2 = mysql_num_rows($check);
+ $check2 = mysqli_num_rows($check);
  if ($check2 == 0) {
 
  
@@ -31,7 +31,7 @@
  
  		//die('That user does not exist in our database. Please contact IAV Administrator to Register.');
  				}
- while($info = mysql_fetch_array( $check )) 	
+ while($info = mysqli_fetch_array($check)) 	
  {
     $_POST['pass'] = stripslashes($_POST['pass']);
  	$info['password'] = stripslashes($info['password']);
@@ -46,16 +46,16 @@
 		//-------------edit date 16/11/2017
 		
 		$check_log = "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = '".$_POST['username']."' AND FL.ip_address = '".$_SERVER["REMOTE_ADDR"]."'  AND FL.date_failed BETWEEN DATE_SUB( NOW() , INTERVAL 1 DAY ) AND NOW()";
-		$rs_check_log = mysql_query($check_log);   
-	    $num_check_log = mysql_num_rows($rs_check_log);  
-		$row = mysql_fetch_array($rs_check_log);
+		$rs_check_log = mysqli_query($dbc, $check_log);   
+	    $num_check_log = mysqli_num_rows($rs_check_log);  
+		$row = mysqli_fetch_array($rs_check_log);
 		
 		if($num_check_log < 2)
 		{
 			
 				
 		$query_log = "INSERT INTO failed_login(ip_address,date_failed,staff_ID,username) VALUES('".$_SERVER["REMOTE_ADDR"]."',NOW(),'".$info['staff_ID']."','".$_POST['username']."')";
-		$result_log = mysql_query($query_log) or die (mysql_error());
+		$result_log = mysqli_query($dbc, $query_log) or die (mysqli_error($dbc));
 		
 		             
 		             echo "<script>";

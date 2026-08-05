@@ -21,8 +21,8 @@ exit();
 $url = "confirm_backflush_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,31 +34,31 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancel)
 $sta4 = "SELECT * from request_status WHERE status_id = '4' ";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (In Progress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 	?>
 <!DOCTYPE html>
@@ -180,8 +180,8 @@ var interval = setInterval(function() {
 	   //echo $uid;
 	
 	   $query_scan = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$buid."'";
-	   $result_scan = mysql_query($query_scan);
-	   $data_scan = mysql_fetch_array($result_scan);
+	   $result_scan = mysqli_query($dbc, $query_scan);
+	   $data_scan = mysqli_fetch_array($result_scan);
 	   
 	   $date_arini = date('Y-m-d'); 
 	   $current_date = date('Y-m-d H:i:s'); 
@@ -199,7 +199,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -267,12 +267,12 @@ $message = NULL; // create an empty new variable.
   //------generate Backflush OK No.---------------------------------
 	
 	$query_id = "SELECT * FROM run_count_no WHERE uid = '19'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_array($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_array($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22211";
@@ -305,8 +305,8 @@ $message = NULL; // create an empty new variable.
 	 //--------- pps detail ------------
 	 
 	   $query_pps = "SELECT * FROM pps_detail WHERE plan_no = '".$data_scan["plan_no"]."'";
-	   $result_pps = mysql_query($query_pps);
-	   $data_pps = mysql_fetch_array($result_pps);
+	   $result_pps = mysqli_query($dbc, $query_pps);
+	   $data_pps = mysqli_fetch_array($result_pps);
 	   
 	  //----------find posting log depend material type
 	  
@@ -325,19 +325,19 @@ $message = NULL; // create an empty new variable.
 	 //insert into table pps_detail_transaction-------------
 	
 $query_data2 = "INSERT INTO pps_detail_transaction (id, pps_id, ref_id, bflush_no, plan_no, id_scan, upload_id, model_code, month_plan, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload,user_create, date_create, user_update, date_update, user_posting, date_posting, time_posting, ploc, delivery_loc, type_reject, reason_reject, user_reject, date_reject, time_reject, status_ftp_bflush, bflush_no_ref, user_cancel, date_cancel,remark_cancel,plant_code,shift_posting) VALUES('','".$data_pps["id"]."','".$data_pps["ref_id"]."','".$ref."','".$data_scan["plan_no"]."','".$data_scan["id_scan"]."','".$data_pps["upload_id"]."','".$data_pps["model_code"]."','".$data_pps["month_plan"]."','".$data_pps["material_no"]."', '".$data_scan["material_desc"]."','".$data_scan["material_type"]."','".$data_pps["qty_plan"]."','".$qty_actual."','','','".$rst_sta7["status_desc"]."','".$data_scan["scan_plant"]."','".$data_scan["work_center"]."','".$data_pps["shift_pps1"]."','".$data_pps["shift_pps2"]."','".$data_pps["date_plan"]."','Y','".$data_pps["user_upload"]."','".$data_pps["date_upload"]."','$username',NOW(),'','','$username','".$_POST["date1"]."','$t_time','".$ploc."','','','','','','','Y','','','','','".$data_scan["scan_plant"]."','')";
-$result_data2 = mysql_query($query_data2) or die (mysql_error());
+$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
  
   //-------------------update---------------------
   
-    $query_all_info = "SELECT * FROM pps_detail_transaction WHERE id = '".mysql_insert_id()."'";
-	  $result_all_info = mysql_query($query_all_info);
-	  $data_all_info = mysql_fetch_array($result_all_info); 
+    $query_all_info = "SELECT * FROM pps_detail_transaction WHERE id = '".mysqli_insert_id($dbc)."'";
+	  $result_all_info = mysqli_query($dbc, $query_all_info);
+	  $data_all_info = mysqli_fetch_array($result_all_info); 
 
 //---shift detail ------
 	
 $query_sht = "SELECT * FROM shift_detail WHERE id_shift = '1'";
-$result_sht = mysql_query($query_sht);
-$data_sht = mysql_fetch_array($result_sht); 
+$result_sht = mysqli_query($dbc, $query_sht);
+$data_sht = mysqli_fetch_array($result_sht); 
 
 //----shift posting ----
 
@@ -355,7 +355,7 @@ $shif_p = "N/S";
 
 //---------update shift posting ---------------
 $query_upd_detail2 = "UPDATE pps_detail_transaction SET shift_posting = '".$shif_p."' WHERE id = '".$data_all_info["id"]."'";
-$result_upd_detail2 = mysql_query($query_upd_detail2);  
+$result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2);  
 
 
 
@@ -363,15 +363,15 @@ $result_upd_detail2 = mysql_query($query_upd_detail2);
   //-------update status "Released" to "Inprogress" in table pps_detail	
 	
 	$query_upd_detail = "UPDATE pps_detail SET status_pps = '".$rst_sta7["status_desc"]."' WHERE id = '".$buid."'";
-	$result_upd_detail = mysql_query($query_upd_detail) or die (mysql_error());
+	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
 
 
   //----edit by azie 17 nov 2021 night shift ------	
   
   
 	$query_upd_shift = "SELECT * FROM pps_detail_transaction WHERE id = '".$data_all_info["id"]."'";
-  $result_upd_shift = mysql_query($query_upd_shift);
-	$row_upd_shift = mysql_fetch_array($result_upd_shift);
+  $result_upd_shift = mysqli_query($dbc, $query_upd_shift);
+	$row_upd_shift = mysqli_fetch_array($result_upd_shift);
 	
 	
 	if(($row_upd_shift["shift_posting"] == "N/S") && ($row_upd_shift["date_posting"] == $currentdate))
@@ -385,7 +385,7 @@ $result_upd_detail2 = mysql_query($query_upd_detail2);
 	}else{
 		
 	$query_upd_shift2 = "UPDATE pps_detail_transaction SET date_posting = '".$prev_date."' WHERE id = '".$row_upd_shift["id"]."'";
-	$result_upd_shift2 = mysql_query($query_upd_shift2);  	
+	$result_upd_shift2 = mysqli_query($dbc, $query_upd_shift2);  	
 
 	}
 	}
@@ -395,11 +395,11 @@ $result_upd_detail2 = mysql_query($query_upd_detail2);
   //-------insert table print_tag_backflush [generate print tag] ---------------	
 	
 	  $query_tag = "SELECT * FROM pps_detail_transaction WHERE id = '".$data_all_info["id"]."'";
-    $result_tag = mysql_query($query_tag);
+    $result_tag = mysqli_query($dbc, $query_tag);
 
   
   
-while ($row = mysql_fetch_array($result_tag))
+while ($row = mysqli_fetch_array($result_tag))
 {
 		
 	  $dl_qty = $row["qty_actual"];
@@ -429,8 +429,8 @@ while ($row = mysql_fetch_array($result_tag))
 	  //----detail standard packaging [ambil dari table mat_master_header]
 	  
 	   $query_pack = "SELECT std_package, type_package FROM mat_master_header WHERE material_no = '".$row["material_no"]."'";
-	   $result_pack = mysql_query($query_pack);
-	   $data_pack = mysql_fetch_array($result_pack);
+	   $result_pack = mysqli_query($dbc, $query_pack);
+	   $data_pack = mysqli_fetch_array($result_pack);
 		
 		
 		        if(($data_pack["std_package"] == "") || ($data_pack["std_package"] == "0"))
@@ -461,8 +461,8 @@ while ($row = mysql_fetch_array($result_tag))
 	// echo "last qty ".$last_tag;
 	 
 	/* $query_id2 = "SELECT MAX(tag_no) FROM delivery_tagasn";
-     $result_id2 = mysql_query($query_id2);
-	 $row_id2 = mysql_fetch_row($result_id2);
+     $result_id2 = mysqli_query($dbc, $query_id2);
+	 $row_id2 = mysqli_fetch_row($result_id2);
 	 
 	 $tag_no = ($row_id[1] + 1);
 	 echo $tag_no;   */
@@ -488,13 +488,13 @@ while ($row = mysql_fetch_array($result_tag))
 	
 	 
 $query_tag3 = "INSERT INTO print_tag_backflush(id_tag,tag_no,id_tran,bflush_no,plan_no,rev_plan_no,material_no, material_desc,tag_qty, shift_tag,ploc,station_loc,posting_date,posting_time,user_create,date_create,status_tag,status_print,month_plan,year_plan,slip_no,total_slip)  VALUES('','','".$row["id"]."','".$row["bflush_no"]."','".$row["plan_no"]."','','".$row["material_no"]."','".$row["material_desc"]."','$st_pack','".$row["shift_posting"]."','".$row["ploc"]."','".$row["work_center"]."','".$row["date_posting"]."','".$row["time_posting"]."','$username',NOW(),'N','N','".$row["month_plan"]."',NOW(),'$w','$no_tg')";
-	   $result_tag3 = mysql_query($query_tag3);
+	   $result_tag3 = mysqli_query($dbc, $query_tag3);
 	   
 	     $tag_no = ($row["bflush_no"].'/'.$w.'/'.$data_pack["std_package"].'/'.$no_tg);
 		
 		 
-		 $query_tag3_t = "UPDATE print_tag_backflush SET tag_no = '$tag_no' WHERE id_tag = '".mysql_insert_id()."' AND bflush_no = '$ref'";
-	     $result_tag3_t = mysql_query($query_tag3_t);
+		 $query_tag3_t = "UPDATE print_tag_backflush SET tag_no = '$tag_no' WHERE id_tag = '".mysqli_insert_id($dbc)."' AND bflush_no = '$ref'";
+	     $result_tag3_t = mysqli_query($dbc, $query_tag3_t);
 	   
      $w++; 
 	 
@@ -503,14 +503,14 @@ $query_tag3 = "INSERT INTO print_tag_backflush(id_tag,tag_no,id_tran,bflush_no,p
 	  if(($last_tag > 0.00) || ($dl_qty < ($st_pack))){	   // kalau qty lebih kecil drpd std packaging and baki drpd bahagi tag
 	 
 	 $query_tag2 = "INSERT INTO print_tag_backflush(id_tag,tag_no,id_tran,bflush_no,plan_no,rev_plan_no,material_no, material_desc,tag_qty, shift_tag,ploc,station_loc,posting_date,posting_time,user_create,date_create,status_tag,status_print,month_plan,year_plan,slip_no,total_slip)  VALUES('','','".$row["id"]."','".$row["bflush_no"]."','".$row["plan_no"]."','','".$row["material_no"]."','".$row["material_desc"]."','$bil_tag3','".$row["shift_posting"]."','".$row["ploc"]."','".$row["work_center"]."','".$row["date_posting"]."','".$row["time_posting"]."','$username',NOW(),'N','N','".$row["month_plan"]."',NOW(),'$w','$no_tg')"; 
-	   $result_tag2 = mysql_query($query_tag2);
+	   $result_tag2 = mysqli_query($dbc, $query_tag2);
 	   
 
        
 	     $tag_no = ($row["bflush_no"].'/'.$w.'/'.$bil_tag3.'/'.($b + 1));
 		 
-		 $query_tag2_t = "UPDATE print_tag_backflush SET tag_no = '$tag_no' WHERE id_tag = '".mysql_insert_id()."' AND bflush_no = '$ref'";
-	     $result_tag2_t = mysql_query($query_tag2_t);
+		 $query_tag2_t = "UPDATE print_tag_backflush SET tag_no = '$tag_no' WHERE id_tag = '".mysqli_insert_id($dbc)."' AND bflush_no = '$ref'";
+	     $result_tag2_t = mysqli_query($dbc, $query_tag2_t);
 	   
 	   
 	   
@@ -533,7 +533,7 @@ $query_tag3 = "INSERT INTO print_tag_backflush(id_tag,tag_no,id_tran,bflush_no,p
 		
 	
        $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '19'";
-	   $result_max_a = mysql_query($query_max_a);
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
 	 
    //end update count_max ---------------------------------	
 			  
@@ -549,7 +549,7 @@ $query_tag3 = "INSERT INTO print_tag_backflush(id_tag,tag_no,id_tran,bflush_no,p
 	  	   
 	   }
 	   
-	// mysql_close();  
+	// mysqli_close($dbc);  
 	   
   //print the message if there is one.
 if (isset($message))
@@ -573,7 +573,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -665,12 +665,12 @@ $message = NULL; // create an empty new variable.
 	 //--------- generate backflush no ---------------
 	
 	$query_id = "SELECT * FROM run_count_no WHERE uid = '21'";
-	$result_id = mysql_query($query_id);
+	$result_id = mysqli_query($dbc, $query_id);
 	
 	if ($result_id) 
 {
-	$nrows = mysql_num_rows($result_id);
-	$row_id = mysql_fetch_array($result_id);
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_array($result_id);
 	
 	$dht = 0000000; 
 	$dht_OK = "22221";
@@ -702,8 +702,8 @@ $message = NULL; // create an empty new variable.
 	 //--------- pps detail ------------
 	 
 	   $query_pps = "SELECT * FROM pps_detail WHERE plan_no = '".$data_scan["plan_no"]."'";
-	   $result_pps = mysql_query($query_pps);
-	   $data_pps = mysql_fetch_array($result_pps);
+	   $result_pps = mysqli_query($dbc, $query_pps);
+	   $data_pps = mysqli_fetch_array($result_pps);
 	   
 	  //----------find posting log depend material type
 	  	 
@@ -713,22 +713,22 @@ $message = NULL; // create an empty new variable.
 	 //insert into table pps_detail_transaction-------------
 	
 $query_data2 = "INSERT INTO pps_detail_transaction (id, pps_id, ref_id, bflush_no, plan_no, id_scan, upload_id, model_code, month_plan, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload,user_create, date_create, user_update, date_update, user_posting, date_posting, time_posting, ploc, delivery_loc, type_reject, reason_reject, user_reject, date_reject, time_reject, status_ftp_bflush, bflush_no_ref, user_cancel, date_cancel,remark_cancel,plant_code,shift_posting) VALUES('','".$data_pps["id"]."','".$data_pps["ref_id"]."','".$ref."','".$data_scan["plan_no"]."','".$data_scan["id_scan"]."','".$data_pps["upload_id"]."','".$data_pps["model_code"]."','".$data_pps["month_plan"]."','".$data_pps["material_no"]."', '".$data_scan["material_desc"]."','".$data_scan["material_type"]."','".$data_pps["qty_plan"]."','','','".$qty_NG."','".$rst_sta7["status_desc"]."', '".$data_scan["scan_plant"]."', '".$data_scan["work_center"]."', '".$data_pps["shift_pps1"]."','".$data_pps["shift_pps2"]."','".$data_pps["date_plan"]."','N','".$data_pps["user_upload"]."','".$data_pps["date_upload"]."','$username',NOW(),'','','$username','".$_POST["date2"]."','$t_time2','".$ploc."','','".$type_reject."',' ".$reason_reject."','".$username."',NOW(),NOW(),'Y','','','','','".$data_scan["scan_plant"]."','')";
-$result_data2 = mysql_query($query_data2) or die (mysql_error());
+$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
  
   
 
 	   
  //-------------------update---------------------
   
-    $query_all_info = "SELECT * FROM pps_detail_transaction WHERE id = '".mysql_insert_id()."'";
-	  $result_all_info = mysql_query($query_all_info);
-	  $data_all_info = mysql_fetch_array($result_all_info); 
+    $query_all_info = "SELECT * FROM pps_detail_transaction WHERE id = '".mysqli_insert_id($dbc)."'";
+	  $result_all_info = mysqli_query($dbc, $query_all_info);
+	  $data_all_info = mysqli_fetch_array($result_all_info); 
 
     //---shift detail ------
 	
 $query_sht = "SELECT * FROM shift_detail WHERE id_shift = '1'";
-$result_sht = mysql_query($query_sht);
-$data_sht = mysql_fetch_array($result_sht); 
+$result_sht = mysqli_query($dbc, $query_sht);
+$data_sht = mysqli_fetch_array($result_sht); 
 
 //----shift posting ----
 
@@ -747,15 +747,15 @@ $shif_p = "N/S";
 
 //---------update shift posting ---------------
 $query_upd_detail2 = "UPDATE pps_detail_transaction SET shift_posting = '".$shif_p."' WHERE id = '".$data_all_info["id"]."'";
-$result_upd_detail2 = mysql_query($query_upd_detail2);  
+$result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2);  
 
 
 //----edit by azie 17 nov 2021 night shift ------	
   
   
 $query_upd_shift = "SELECT * FROM pps_detail_transaction WHERE id = '".$data_all_info["id"]."'";
-$result_upd_shift = mysql_query($query_upd_shift);
-$row_upd_shift = mysql_fetch_array($result_upd_shift);
+$result_upd_shift = mysqli_query($dbc, $query_upd_shift);
+$row_upd_shift = mysqli_fetch_array($result_upd_shift);
 
 
 if(($row_upd_shift["shift_posting"] == "N/S") && ($row_upd_shift["date_posting"] == $currentdate))
@@ -769,7 +769,7 @@ if(($row_upd_shift["time_posting"] > "21:00:00" ) && ($row_upd_shift["time_posti
 }else{
   
 $query_upd_shift2 = "UPDATE pps_detail_transaction SET date_posting = '".$prev_date."' WHERE id = '".$row_upd_shift["id"]."'";
-$result_upd_shift2 = mysql_query($query_upd_shift2);  	
+$result_upd_shift2 = mysqli_query($dbc, $query_upd_shift2);  	
 
 }
 }
@@ -783,7 +783,7 @@ $result_upd_shift2 = mysql_query($query_upd_shift2);
   //-------update status "Released" to "Inprogress" in table pps_detail	
 	
 	$query_upd_detail = "UPDATE pps_detail SET status_pps = '".$rst_sta7["status_desc"]."' WHERE id = '".$data_all_info["pps_id"]."'";
-	$result_upd_detail = mysql_query($query_upd_detail) or die (mysql_error());
+	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
 	
  //------- crete text file to SAP [FolderPortal] -----------
 
@@ -797,7 +797,7 @@ $result_upd_shift2 = mysql_query($query_upd_shift2);
 		
 	
        $query_max_b = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '21'";
-	   $result_max_b = mysql_query($query_max_b);
+	   $result_max_b = mysqli_query($dbc, $query_max_b);
 	 
    //end update count_max ---------------------------------	
 
@@ -814,7 +814,7 @@ $result_upd_shift2 = mysql_query($query_upd_shift2);
 	  	   
 	   }
 	   
-	// mysql_close();  
+	// mysqli_close($dbc);  
 	   
   //print the message if there is one.
 if (isset($message))
@@ -838,7 +838,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -926,7 +926,7 @@ $message = NULL; // create an empty new variable.
              <?php
 			 
 	 /*  $query_component = "SELECT * FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".$data_scan["material_no"]."' AND s.bom_status = 'Y'";
-	   $result_component = mysql_query($query_component);*/
+	   $result_component = mysqli_query($dbc, $query_component);*/
 	  
 			 ?>
              
@@ -1098,9 +1098,9 @@ $message = NULL; // create an empty new variable.
                   <option value="NULL" placeholder="Select Type of Reject"> -- Select Type of Reject --</option>
                   <?php
 	               $query_type = "SELECT * FROM type_reject_detail WHERE status_type = 'Y' ORDER BY id_type ASC";
-                   $result_type = mysql_query($query_type);
+                   $result_type = mysqli_query($dbc, $query_type);
   
-                   while($row_type = mysql_fetch_array($result_type)) 
+                   while($row_type = mysqli_fetch_array($result_type)) 
 			      {
 					  
 				   ?>
@@ -1128,9 +1128,9 @@ $message = NULL; // create an empty new variable.
                   <option value="NULL" placeholder="Select Reason of Reject"> -- Select Reason of Reject --</option>
                   <?php
 	               $query_reason = "SELECT * FROM reason_ng_reject WHERE status_reject = 'Y' ORDER BY id_reject ASC";
-                   $result_reason = mysql_query($query_reason);
+                   $result_reason = mysqli_query($dbc, $query_reason);
   
-                   while($row_reason = mysql_fetch_array($result_reason)) 
+                   while($row_reason = mysqli_fetch_array($result_reason)) 
 			      {
 					   if($_POST["confirm2"] == true)  
 		         {   ?>

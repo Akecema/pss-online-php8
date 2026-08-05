@@ -14,15 +14,15 @@ exit();
 
 
 $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-$result2 = mysql_query($query2) or die (mysql_error());
-$res = mysql_fetch_array($result2);
+$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$res = mysqli_fetch_array($result2);
 
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 	
 ?>
@@ -97,8 +97,8 @@ $url = 'material_master_list.php';
 $id_hdr = $_GET['id_hdr'];
 
 $queryu = "SELECT * FROM mat_master_header WHERE id_hdr = '".$id_hdr."'";
-$resultu = mysql_query($queryu) ;   //run the query.
-$row = mysql_fetch_row($resultu);   //how many records are there?
+$resultu = mysqli_query($dbc, $queryu) ;   //run the query.
+$row = mysqli_fetch_row($resultu);   //how many records are there?
 
 
 if (isset($_POST['submit']))
@@ -114,7 +114,7 @@ if (isset($_POST['submit']))
 	{
 		$data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 	$message = NULL; // create an empty new variable.
 	
@@ -160,22 +160,22 @@ if($_POST['status_BOM'] == 'Y')
 {      	
 	
 	$query_search = "SELECT * FROM mat_master_header WHERE id_hdr = '".$id_hdr."'";
-	$result_search = mysql_query($query_search);   //run the query.
-	$num_search = mysql_num_rows($result_search);   //how many suppliers are there?
+	$result_search = mysqli_query($dbc, $query_search);   //run the query.
+	$num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 
 
 	if($num_search == 1) 
 	{
 		//echo $num_search; 
-		$row2 = mysql_fetch_array($result_search,MYSQL_NUM);
+		$row2 = mysqli_fetch_array($result_search, MYSQLI_NUM);
 		
 		// update tbl header
 		$query_upd = "UPDATE mat_master_header SET status_BOM = '$status_BOM',date_updated = NOW(),updated_by='$username' WHERE id_hdr = '$id_hdr'"; 
-		$result_upd = mysql_query($query_upd); 
+		$result_upd = mysqli_query($dbc, $query_upd); 
 		
 		//update tbl material for header
 		$query_updM = "UPDATE table_material SET bom_status = '$status_BOM',date_updated = NOW(),updated_by = '$username' WHERE  material_no = '$row[1]' "; 
-		$result_updM = mysql_query($query_updM);
+		$result_updM = mysqli_query($dbc, $query_updM);
 		
 		//update table material qc
 		//if($_POST['material_type'] == 'Z310')
@@ -183,7 +183,7 @@ if($_POST['status_BOM'] == 'Y')
 		{
 			//update table material qc
 			$query_updQ = "UPDATE table_material_qc SET bom_status = '".$_POST['status_BOM']."',date_updated = NOW(),updated_by = '$username' WHERE  material_no = '$row[1]' "; 
-			$result_updQ = mysql_query($query_updQ); 	
+			$result_updQ = mysqli_query($dbc, $query_updQ); 	
 				
 		}//end mat type z310
 			
@@ -192,10 +192,10 @@ if($_POST['status_BOM'] == 'Y')
 		//-------------- for component------------------------------//
 		
 		$query_searchCP = "SELECT * FROM mat_master_detail WHERE id_hdr = '".$id_hdr."'";
-		$result_searchCP = mysql_query($query_searchCP);   //run the query.
-		$num_searchCP = mysql_num_rows($result_searchCP);   //how many suppliers are there?
-		$row_CP = mysql_fetch_row($result_searchCP);
-		$row_CP2 = mysql_fetch_array($result_searchCP);
+		$result_searchCP = mysqli_query($dbc, $query_searchCP);   //run the query.
+		$num_searchCP = mysqli_num_rows($result_searchCP);   //how many suppliers are there?
+		$row_CP = mysqli_fetch_row($result_searchCP);
+		$row_CP2 = mysqli_fetch_array($result_searchCP);
 		
 		//if ada components
 		if($num_searchCP  > 0)
@@ -239,8 +239,8 @@ if($_POST['status_BOM'] == 'Y')
 			{
 				
 				$query_sel = "SELECT * FROM mat_master_header WHERE id_hdr = '".$id_hdr."'";
-				$result_sel = mysql_query($query_sel); 
-				$row_sel = mysql_fetch_array($result_sel);
+				$result_sel = mysqli_query($dbc, $query_sel); 
+				$row_sel = mysqli_fetch_array($result_sel);
 				
 				/*if($row_sel["status_BOM"] == 'N') 
 				{
@@ -255,22 +255,22 @@ if($_POST['status_BOM'] == 'Y')
 					$query_upd5 = "UPDATE mat_master_detail SET
 									 bom_status = '".$_POST["bom_status"][$i]."',date_updated = NOW(),updated_by = '$username'
 										WHERE id_dtl = '".$_POST["id_dtl"][$i]."'";
-					$result_upd5 = mysql_query($query_upd5);
+					$result_upd5 = mysqli_query($dbc, $query_upd5);
 					
 					
 					//update tbl material
 					$query_updMT = "UPDATE table_material SET
 											 bom_status = '".$_POST['bom_status'][$i]."',date_updated = NOW(),updated_by = '$username'
 												WHERE material_no = '$row_CP[10]' ";
-					$result_updMT = mysql_query($query_updMT);
+					$result_updMT = mysqli_query($dbc, $query_updMT);
 					
 					//update table material qc
 					if($row_CP2["mat_type"][$i] == 'Z310')
 					{
 						//check if exist
 						$searchz3C = "SELECT * FROM table_material_qc WHERE material_no = '$row[10]' ";
-						$rst_searchz3C = mysql_query($searchz3C);   
-						$result_searchz3C = mysql_fetch_array($rst_searchz3C);
+						$rst_searchz3C = mysqli_query($dbc, $searchz3C);   
+						$result_searchz3C = mysqli_fetch_array($rst_searchz3C);
 						
 						if($result_searchz3C > 0)
 						{
@@ -278,7 +278,7 @@ if($_POST['status_BOM'] == 'Y')
 							$query_updQC = "UPDATE table_material SET
 											 bom_status = '".$_POST['bom_status'][$i]."',date_updated = NOW(),updated_by = '$username'
 												WHERE material_no = '$row_CP[10]'  "; 
-							$result_updQC = mysql_query($query_updQC); 
+							$result_updQC = mysqli_query($dbc, $query_updQC); 
 						}
 						else
 						{			
@@ -287,7 +287,7 @@ if($_POST['status_BOM'] == 'Y')
 								(id_mat,material_no,material_desc,mat_type,plan_code,BUn,date_create_bom,bom_status,material_group,date_uploaded,uploaded_by)
 									VALUES('','$row_CP[10]','$material_desc_c','$mat_type_c','$plant_c' ,'$comp_unit','$date_create_bom', '$bom_status', '$matl_group',NOW(),'".$username."') ";
 										
-							$result_qc = mysql_query($ist_qc) or die('Error, failed to add into table material qc.');	
+							$result_qc = mysqli_query($dbc, $ist_qc) or die('Error, failed to add into table material qc.');	
 						}	
 					}//end mat type z310
 							
@@ -301,11 +301,11 @@ if($_POST['status_BOM'] == 'Y')
 			{
 				//upd tbl component
 				$updcp = "UPDATE mat_master_detail SET bom_status = '".$_POST['bom_status']."' WHERE id_hdr = '".$id_hdr."'";
-				$rst_updcp = mysql_query($updcp) or die(mysql_error()); 
+				$rst_updcp = mysqli_query($dbc, $updcp) or die(mysqli_error($dbc)); 
 
 				//upd tbl material
 				$updtb = "UPDATE table_material SET bom_status = '".$_POST['bom_status']."' WHERE material_no = '".$row_CP2["bill_component"]."' "; 
-				$rst_updtb = mysql_query($updtb) or die(mysql_error());
+				$rst_updtb = mysqli_query($dbc, $updtb) or die(mysqli_error($dbc));
 					
 			}*/
 	
@@ -509,9 +509,9 @@ if (isset($message))
 			 $i = 1;
 			 
 	  $query_component = "SELECT *, DATE_FORMAT(valid_from, '%d-%m-%Y') AS R FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND h.id_hdr = '$id_hdr'";
-	   $result_component = mysql_query($query_component);
+	   $result_component = mysqli_query($dbc, $query_component);
 	   
-	  while($row2 = mysql_fetch_array($result_component))
+	  while($row2 = mysqli_fetch_array($result_component))
 			{  
 			 ?> 
              

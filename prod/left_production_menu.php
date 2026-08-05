@@ -83,8 +83,8 @@
    <?php
 	  
 	  $query = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status_view = 'N' AND (MR.status != 'Close' AND MR.status  != 'Cancel') GROUP BY MR.temp_mrin";
-$rs = mysql_query($query);   //run the query.
-	    $num_rows = mysql_num_rows($rs); 
+$rs = mysqli_query($dbc, $query);   //run the query.
+	    $num_rows = mysqli_num_rows($rs); 
 
 	  ?></span> </a> 
       <ul>

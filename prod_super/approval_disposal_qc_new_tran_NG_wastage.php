@@ -21,8 +21,8 @@ $url = "disposal_backflush_tran_NG.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -34,9 +34,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
  $extension = explode ('.', $data_setup["logo_name"]);
  $filename = $data_setup["logo_comp"].'.'.$extension[1];
@@ -44,13 +44,13 @@ $data_setup = mysql_fetch_array($rs_setup);
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Approved)
 $sta3 = "SELECT * from request_status WHERE status_id = '3' ";
-$sta_res3 = mysql_query($sta3);
-$rst_sta3 = mysql_fetch_array($sta_res3);	
+$sta_res3 = mysqli_query($dbc, $sta3);
+$rst_sta3 = mysqli_fetch_array($sta_res3);	
 
 	?>
 <!DOCTYPE html>
@@ -156,13 +156,13 @@ return "";
  $doc_disposal = $_GET["doc_disposal"];
   
 $queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 //detail info disposal 
 
 $query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
-$result_disposal = mysql_query($query_disposal);   //run the query.
-$row_disposal = mysql_fetch_array($result_disposal);
+$result_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
+$row_disposal = mysqli_fetch_array($result_disposal);
 
 
 //FUNCTION RETAIN TEXTBOX VALUE
@@ -201,7 +201,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
  
@@ -229,20 +229,20 @@ $message = NULL; // create an empty new variable.
 //------------update remarks reject detail disposal-------------------
       
  $query_upd3 = "UPDATE reject_detail_disposal SET remark_approve = '".$string[$i]."', approve_by = '".$username."', date_approve = NOW(), status_disposal = '".$rst_sta3["status_desc"]."' WHERE id_disposal = '".$cancel[$i]."'";
- $result_upd3 = mysql_query($query_upd3); 
+ $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
    //---------------------get data table reject_detail_disposal-------
 	  $query_all = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".$cancel[$i]."'";
-	  $result_all = mysql_query($query_all);
+	  $result_all = mysqli_query($dbc, $query_all);
 	 
 	  
-	  while($row_all = mysql_fetch_array($result_all))
+	  while($row_all = mysqli_fetch_array($result_all))
 	  {
  
  
   // //----------------------update table wastage_disposal
 	  $query_wastage_update = "UPDATE wastage_transaction SET user_update = '".$username."', date_update = NOW(), remark_approve = '".$row_all["remark_approve"]."', approve_by = '".$username."', date_approve = NOW(), status_disposal = '".$rst_sta3["status_desc"]."' WHERE id_wastage_tran = '".$row_all["uid"]."'";
-	  $result_wastage_update = mysql_query($query_wastage_update);	
+	  $result_wastage_update = mysqli_query($dbc, $query_wastage_update);	
 	  
 	           
 	     }// end while loop	   
@@ -250,23 +250,23 @@ $message = NULL; // create an empty new variable.
 		 
 	  //-------------sent ftp mvt_type 551 to SAP --------
 	 
-	 $qry = mysql_query("SELECT *, DATE_FORMAT(A1.date_disposal,'%Y-%m-%d %H:%i:%s') AS M, DATE_FORMAT(A1.date_approve,'%Y-%m-%d %H:%i:%s') AS M2 FROM reject_detail_disposal AS A1, wastage_transaction AS A2 WHERE A2.id_wastage_tran = A1.uid AND A1.doc_disposal_no  = '".$doc_disposal."'");
+	 $qry = mysqli_query($dbc, "SELECT *, DATE_FORMAT(A1.date_disposal,'%Y-%m-%d %H:%i:%s') AS M, DATE_FORMAT(A1.date_approve,'%Y-%m-%d %H:%i:%s') AS M2 FROM reject_detail_disposal AS A1, wastage_transaction AS A2 WHERE A2.id_wastage_tran = A1.uid AND A1.doc_disposal_no  = '".$doc_disposal."'");
 $data = "";
-while($row_1 = mysql_fetch_array($qry)) {
+while($row_1 = mysqli_fetch_array($qry)) {
 	
 /*  $data .= $row_1['doc_disposal_no'].";".$row_1['id_disposal']."\r\n";*/
 
     $query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row_1['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row_1['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 	$query_fac = "SELECT * FROM work_center_detail WHERE id_work = '".$row_1['work_center']."' ORDER BY id_work ASC";
-    $result_fac = mysql_query($query_fac);
-    $row_fac = mysql_fetch_array($result_fac);
+    $result_fac = mysqli_query($dbc, $query_fac);
+    $row_fac = mysqli_fetch_array($result_fac);
 
   
    $data .= $row_1['material_type'].";".$row_1['model_code'].";".$row_1['material_no'].";551;".";".$row_fac['id_factory'].";".$row_1['work_center'].";".$row_1['ploc_prod_reject'].";".$row_type['wastage_desc'].";".$row_reason['reason_wastage_desc'].";".$row_1['qty_wastage'].";".$row_1['UOM_unit'].";".$res['user_fullname'].";".$row_1['M'].";".$row_1['M2']."\r\n";
@@ -356,24 +356,24 @@ if (isset($message))
 	  $loc_asal = "";
 	  $k= 1;
 	   
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 		$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
-		$result_type = mysql_query($query_type);
-		$row_type = mysql_fetch_array($result_type); 
+		$result_type = mysqli_query($dbc, $query_type);
+		$row_type = mysqli_fetch_array($result_type); 
 		
 		$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-		$result_reason = mysql_query($query_reason);
-		$row_reason = mysql_fetch_array($result_reason);
+		$result_reason = mysqli_query($dbc, $query_reason);
+		$row_reason = mysqli_fetch_array($result_reason);
 			
 		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
-		$result_mat = mysql_query($query_mat);
-		$data_mat = mysql_fetch_array($result_mat);	
+		$result_mat = mysqli_query($dbc, $query_mat);
+		$data_mat = mysqli_fetch_array($result_mat);	
 		
 		$query_model = "SELECT * FROM pps_detail WHERE plan_no = '".$row['plan_no']."'";
-		$result_model = mysql_query($query_model);
-		$data_model = mysql_fetch_array($result_model);	
+		$result_model = mysqli_query($dbc, $query_model);
+		$data_model = mysqli_fetch_array($result_model);	
 			
 
 	   

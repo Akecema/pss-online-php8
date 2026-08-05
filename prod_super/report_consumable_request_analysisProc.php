@@ -5,9 +5,9 @@ include '../include/config.php';
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 ?>
@@ -82,8 +82,8 @@ $namaFile = "Consumable Request Analysis Report.xls";
 
 
   $query8 = "SELECT *,DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status != 'Cancel'" .$where_sql;
-  $result8 = mysql_query($query8) or die(mysql_error());
-  $num_rows = mysql_num_rows($result8);
+  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $num_rows = mysqli_num_rows($result8);
 
 
 //---------------------------end count
@@ -146,7 +146,7 @@ echo '</table>';
 //Display table
 // query menampilkan semua data
 $query = "SELECT *,DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status != 'Cancel'".$where_sql;
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
    $counter = 1;
@@ -154,24 +154,24 @@ $rs = mysql_query($query);   //run the query.
    $i = 1;
   
 
- while ($row2 = mysql_fetch_array($rs))
+ while ($row2 = mysqli_fetch_array($rs))
    {
    	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row2["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query5 = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') AS T FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row2["material_no"]."' AND mvt_type = 201";
-    $result5 = mysql_query($query5);
-	$row5 = mysql_fetch_array($result5);
+    $result5 = mysqli_query($dbc, $query5);
+	$row5 = mysqli_fetch_array($result5);
 	
 	$query7 = "SELECT *  FROM consumable_request_close AS MC, reason_req_close AS MRC WHERE MC.reason_close = MRC.id_close AND MC.temp_mrin = '".$row2["temp_mrin"]."' AND MC.material_no = '".$row2["material_no"]."'";
-    $result7 = mysql_query($query7);
-	$row7 = mysql_fetch_array($result7);
+    $result7 = mysqli_query($dbc, $query7);
+	$row7 = mysqli_fetch_array($result7);
 
 
 	
@@ -198,11 +198,11 @@ echo $since_start->s.' seconds<br>';  */
 
 					
     $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND mvt_type = 201 AND material_no = '".$row2["material_no"]."'";
-	$result_tp  = mysql_query($query_tp); 
+	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;
 					
-	while($row_tp = mysql_fetch_assoc($result_tp))
+	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
 	
 	$tp_quantity = $row_tp["TOT"]; 
@@ -282,7 +282,7 @@ echo $since_start->s.' seconds<br>';  */
 		  
 
 }  // end while loop
- mysql_free_result($rs); 
+ mysqli_free_result($rs); 
 ?>
 
 <?php

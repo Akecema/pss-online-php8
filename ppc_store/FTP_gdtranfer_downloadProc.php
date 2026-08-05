@@ -16,8 +16,8 @@ $url = "FTP_gdtranfer_download.php";
 
 
 $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-$result2 = mysql_query($query2) or die (mysql_error());
-$res = mysql_fetch_array($result2);
+$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 	
@@ -29,9 +29,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -160,8 +160,8 @@ $data_setup = mysql_fetch_array($rs_setup);
 		//convert material no kpd id_hdr
 		
 /*		$query_convert = "SELECT * FROM `ftp_bflush_detail` WHERE posting_date >= $dateF or $dateF <= $dateT ";
-		$result_convert = mysql_query($query_convert); 
-		$row_convert = mysql_fetch_array($result_convert);
+		$result_convert = mysqli_query($dbc, $query_convert); 
+		$row_convert = mysqli_fetch_array($result_convert);
 		*/
 		
 					
@@ -189,9 +189,9 @@ $data_setup = mysql_fetch_array($rs_setup);
 	//********** END CONDITION **************
 
 	$query8 = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_goodtran_detail WHERE status_ftp = 'Y' " .$where_sql;
-	$result8 = mysql_query($query8)or die(mysql_error());
-	$num_8 = mysql_fetch_row($result8);
-	$num_rows = mysql_num_rows($result8);
+	$result8 = mysqli_query($dbc, $query8)or die(mysqli_error($dbc));
+	$num_8 = mysqli_fetch_row($result8);
+	$num_rows = mysqli_num_rows($result8);
 	
 	$pages = new Paginator;
 	$pages->items_total = $num_rows;
@@ -201,8 +201,8 @@ $data_setup = mysql_fetch_array($rs_setup);
  
   
 	$query = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_goodtran_detail WHERE status_ftp = 'Y' " .$where_sql;
-	$rs = mysql_query($query);   //run the query.
-	$num = mysql_num_rows($rs);   //how many material are there?
+	$rs = mysqli_query($dbc, $query);   //run the query.
+	$num = mysqli_num_rows($rs);   //how many material are there?
 
 	
 	 if($num > 0) 
@@ -254,12 +254,12 @@ $data_setup = mysql_fetch_array($rs_setup);
    $bq = 0;
    $rq = 0;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
   	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 	
 
 	//-------------------------------------------------------Transfer Posting [Traffic Light] --------------------------
@@ -303,7 +303,7 @@ $data_setup = mysql_fetch_array($rs_setup);
   
         
 <?php
-mysql_free_result($rs); 
+mysqli_free_result($rs); 
 }   // free up the resources 
 else
 {
@@ -318,7 +318,7 @@ else
 </center>
     <?php
        } 
-//mysql_close();
+//mysqli_close($dbc);
 ?>
 
     

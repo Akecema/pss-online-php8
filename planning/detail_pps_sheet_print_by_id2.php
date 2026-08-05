@@ -19,9 +19,9 @@ exit();
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 ?>
 <!DOCTYPE html>
@@ -177,10 +177,10 @@ ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs select
   
     
 $queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail WHERE upload_id = '".$id."' GROUP BY work_center";
-$rs = mysql_query($queryu);   //run the query.
+$rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
- while ($db_rs = mysql_fetch_array($rs))
+ while ($db_rs = mysqli_fetch_array($rs))
    {
 	
 	if($db_rs["month_plan"] == "01")
@@ -230,8 +230,8 @@ $rs = mysql_query($queryu);   //run the query.
 	 //--------------get filename from table ftp_pps
  
  $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '".$id."'";
- $result_ftp_pps = mysql_query($query_ftp_pps);
- $data_ftp_pps = mysql_fetch_array($result_ftp_pps); 	
+ $result_ftp_pps = mysqli_query($dbc, $query_ftp_pps);
+ $data_ftp_pps = mysqli_fetch_array($result_ftp_pps); 	
 	   
  ?>
 <div class="page">
@@ -323,7 +323,7 @@ $rs = mysql_query($queryu);   //run the query.
         <?php
 		
 	  $query_by_group = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.upload_id = '".$id."' AND MR.work_center = '".$db_rs["work_center"]."'";
-      $result_by_group = mysql_query($query_by_group);   //run the query.
+      $result_by_group = mysqli_query($dbc, $query_by_group);   //run the query.
 		
 		
       $counter = 1;
@@ -332,7 +332,7 @@ $rs = mysql_query($queryu);   //run the query.
 	
 	  
   
-   while ($row = mysql_fetch_array($result_by_group))
+   while ($row = mysqli_fetch_array($result_by_group))
    {
 		//$user_no = $row[0]; 
     $no = sprintf('%03d', $no);
@@ -352,14 +352,14 @@ $rs = mysql_query($queryu);   //run the query.
 	   
 	   //---------get material header---------
 	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row['material_no']."'";
-		$result_mat_h = mysql_query($query_mat_h);
-		$data_mat_h = mysql_fetch_array($result_mat_h);	
+		$result_mat_h = mysqli_query($dbc, $query_mat_h);
+		$data_mat_h = mysqli_fetch_array($result_mat_h);	
 		
 		
 		  //---------get material detail---------
 	    $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '".$row['material_no']."' OR bill_component = '".$row['material_no']."')";
-		$result_mat_d = mysql_query($query_mat_d);
-		$data_mat_d = mysql_fetch_array($result_mat_d);	
+		$result_mat_d = mysqli_query($dbc, $query_mat_d);
+		$data_mat_d = mysqli_fetch_array($result_mat_d);	
 		
 		if ($i && $i % 4 == 0)  
 		echo '<tr style="page-break-after:always">';  

@@ -87,7 +87,7 @@ global $dbc;   // need the connection.
 if(ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
 
@@ -142,18 +142,18 @@ $message = NULL; // create an empty new variable.
 				  $pass = md5($password);
 				 
 				  $query = "SELECT * FROM user_detail WHERE username ='$user' AND password = '$pass'";
-				  $result = mysql_query($query);
-				  $num = mysql_num_rows($result);
+				  $result = mysqli_query($dbc, $query);
+				  $num = mysqli_num_rows($result);
 				  
 				  if($num == 1 ) {
-				    $row = mysql_fetch_array($result);
+				    $row = mysqli_fetch_array($result);
 					
 					//Make the query
 			
 		          $query2 = "UPDATE user_detail set password = '$newpass' where username='".$row["username"]."'";
-				  $result2 = mysql_query($query2) or die (mysql_error());
+				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
-				  if(mysql_affected_rows() == 1) { //If it ran ok
+				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
 				  //Send an email, if desired
 				$pass_new =  $_POST['newpass'];
@@ -187,12 +187,12 @@ $message = NULL; // create an empty new variable.
 				  exit();
 				  
 				  } else {   //If it did not run OK
-				  $message = '<p>Password cannot be change due to system error. We apologize for any inconvenience.</p><p>'.mysql_error().'</p>';
+				  $message = '<p>Password cannot be change due to system error. We apologize for any inconvenience.</p><p>'.mysqli_error($dbc).'</p>';
 				  }
 				}else { 
 				   $message = '<p>Your username and password do not match our database</p>';
 				 }
-				 mysql_close();    //Close the database connection
+				 mysqli_close($dbc);    //Close the database connection
 				 
 			 } else {
 			     $message .='<p>Please try again.</p>';

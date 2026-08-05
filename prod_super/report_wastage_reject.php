@@ -17,14 +17,14 @@ exit();
 $url = "report_wastage_reject.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -38,23 +38,23 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Pending Approve)
 $sta15 = "SELECT * from request_status WHERE status_id = '15' ";
-$sta_res15 = mysql_query($sta15);
-$rst_sta15 = mysql_fetch_array($sta_res15);	
+$sta_res15 = mysqli_query($dbc, $sta15);
+$rst_sta15 = mysqli_fetch_array($sta_res15);	
 	
 	?>
 <!DOCTYPE html>
@@ -282,9 +282,9 @@ return "";
               <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
               <?php
                 $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                $result3 = mysql_query($query3);
+                $result3 = mysqli_query($dbc, $query3);
                 
-                while($row3 = mysql_fetch_array($result3)) 
+                while($row3 = mysqli_fetch_array($result3)) 
                 {
 				?>
               <option value="<?php echo $row3['factory_desc2']?>" <?php if($row3['factory_desc2']=='1') echo "selected"; ?>> <?php echo $row3['factory_desc'] ?></option>
@@ -303,9 +303,9 @@ return "";
                 <option value="" placeholder="Select Work Center"> -- Select Work Center --</option>
                 <?php
                 $query31 = "SELECT * FROM work_center_detail WHERE id_factory = '1' ORDER BY id_work ASC";
-                $result31 = mysql_query($query31);
+                $result31 = mysqli_query($dbc, $query31);
                 
-                while($row31 = mysql_fetch_array($result31)) 
+                while($row31 = mysqli_fetch_array($result31)) 
                 {
 				?>
                 <option value="<?php echo $row31['id_work']?>"> <?php echo $row31['wc_desc'] ?></option>
@@ -322,9 +322,9 @@ return "";
               <option value="NULL">-- Select Document No --</option>
               <?php
 						$sqld = "SELECT DISTINCT doc_disposal_no FROM reject_detail_disposal ORDER BY doc_disposal_no ASC";
-						$resultsd = mysql_query($sqld);
+						$resultsd = mysqli_query($dbc, $sqld);
 						
-						while($rowd = mysql_fetch_assoc($resultsd))
+						while($rowd = mysqli_fetch_assoc($resultsd))
 						{
 						?>
               <option value="<?php echo $rowd['doc_disposal_no']?>"> <?php echo $rowd['doc_disposal_no']?></option>
@@ -337,9 +337,9 @@ return "";
               <option value="NULL">-- Select Document No --</option>
               <?php
 					$sqld2 = "SELECT DISTINCT doc_disposal_no FROM reject_detail_disposal ORDER BY doc_disposal_no ASC";
-					$resultsd2 = mysql_query($sqld2);
+					$resultsd2 = mysqli_query($dbc, $sqld2);
 					
-					while($rowd2 = mysql_fetch_assoc($resultsd2))
+					while($rowd2 = mysqli_fetch_assoc($resultsd2))
 					{
 					?>
               <option value="<?php echo $rowd2['doc_disposal_no']?>"> <?php echo $rowd2['doc_disposal_no']?></option>
@@ -373,8 +373,8 @@ return "";
         
 								 
    $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_part = 'WS' AND qty_wastage != '' AND doc_disposal_no != ''";
-   $result8 = mysql_query($query8) or die(mysql_error());
-   $num_rows = mysql_fetch_row($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows[0];
@@ -384,8 +384,8 @@ return "";
  
   
 $query = "SELECT *, DATE_FORMAT(date_wastage,'%d-%m-%Y %H:%i:%s') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE status_part = 'WS' AND qty_wastage != '' AND doc_disposal_no != '' ORDER BY doc_disposal_no ASC";
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -437,20 +437,20 @@ $num = mysql_num_rows($rs);   //how many material are there?
    $sta_out = "";
    $k= 1;
    
-   while ($row = mysql_fetch_array($rs))
+   while ($row = mysqli_fetch_array($rs))
    {
 		
 	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
-    $result_type = mysql_query($query_type);
-    $row_type = mysql_fetch_array($result_type); 
+    $result_type = mysqli_query($dbc, $query_type);
+    $row_type = mysqli_fetch_array($result_type); 
 	
 	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
-    $result_reason = mysql_query($query_reason);
-    $row_reason = mysql_fetch_array($result_reason);
+    $result_reason = mysqli_query($dbc, $query_reason);
+    $row_reason = mysqli_fetch_array($result_reason);
 	
 	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
-    $result_scan = mysql_query($query_scan);
-    $row_scan = mysql_fetch_array($result_scan);
+    $result_scan = mysqli_query($dbc, $query_scan);
+    $row_scan = mysqli_fetch_array($result_scan);
 	 
       ?>
                 <tr class="gradeX">

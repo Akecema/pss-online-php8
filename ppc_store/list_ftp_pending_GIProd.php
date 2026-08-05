@@ -16,14 +16,14 @@ exit();
 $url = "list_ftp_pending_sap.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------			
 
 $today = getdate();
@@ -37,18 +37,18 @@ $year = $today['year'];
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1' ";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2' ";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7' ";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 	
 	?>
 <!DOCTYPE html>
@@ -201,22 +201,22 @@ if(is_dir($dir)){
 		//---check filename from table ftp backflush --------
 		
 	$query = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_approval_qc WHERE status_ftp = 'Y' AND file_name = '".$filename2."'";
-	$rs = mysql_query($query);   //run the query.
+	$rs = mysqli_query($dbc, $query);   //run the query.
 	
 	
-	while($row_rs = mysql_fetch_array($rs)) {   //how many material are there?
+	while($row_rs = mysqli_fetch_array($rs)) {   //how many material are there?
 				 
 		//---check material type in table material--------
 		
 	$query_mat_type = "SELECT * FROM table_material WHERE material_no = '".$row_rs["material_no"]."'";
-	$rs_mat_type = mysql_query($query_mat_type);   //run the query.
-	$row_mat_type = mysql_fetch_array($rs_mat_type);   //how many material are there?	
+	$rs_mat_type = mysqli_query($dbc, $query_mat_type);   //run the query.
+	$row_mat_type = mysqli_fetch_array($rs_mat_type);   //how many material are there?	
 	
 		//---check ploc reject in table disposal --------
 		
 		$query_disposal = "SELECT * FROM reject_detail_disposal WHERE material_no = '".$row_mat_type["material_no"]."' AND doc_disposal_no = '".$row_rs["doc_disposal_no"]."'";
-	$rs_disposal = mysql_query($query_disposal);   //run the query.
-	$row_disposal = mysql_fetch_array($rs_disposal);   //how many material are there?			 
+	$rs_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
+	$row_disposal = mysqli_fetch_array($rs_disposal);   //how many material are there?			 
 				                
     ?>
    
@@ -235,7 +235,7 @@ if(is_dir($dir)){
 
 <?php  
 	}
-	mysql_free_result($rs); 
+	mysqli_free_result($rs); 
        ?></td>
        
       </tr></table> 

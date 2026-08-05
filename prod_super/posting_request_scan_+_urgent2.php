@@ -19,8 +19,8 @@ exit();
 $url = "posting_request_scan_+_urgent.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -32,9 +32,9 @@ $year = $today['year'];
 		
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -195,9 +195,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -213,9 +213,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -245,9 +245,9 @@ function getXMLHTTP() { //fuction to return the xml http object
 				//convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
-			$result_convert = mysql_query($query_convert); 
+			$result_convert = mysqli_query($dbc, $query_convert); 
 			
-			while ($row_convert = mysql_fetch_array($result_convert))
+			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
 			echo $row_convert["id_fac"];
@@ -301,8 +301,8 @@ function getXMLHTTP() { //fuction to return the xml http object
 									 
  							 
    $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y'".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.id_req ASC";
-   $result8 = mysql_query($query8) or trigger_error("SQL", E_USER_ERROR);
-   $num_rows = mysql_num_rows($result8); 
+   $result8 = mysqli_query($dbc, $query8) or trigger_error("SQL", E_USER_ERROR);
+   $num_rows = mysqli_num_rows($result8); 
  
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -312,7 +312,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 //echo $num_rows;
   
 $query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y'".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC, MR.temp_mrin ASC ";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 	
 	 if($num_rows > 0) {	
@@ -353,32 +353,32 @@ $rs = mysql_query($query);   //run the query.
    $counter = 1;
    $no = 1;
    
-    while ($row2 = mysql_fetch_array($rs))
+    while ($row2 = mysqli_fetch_array($rs))
    {
 	
    $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
-   $result_scan = mysql_query($query_scan);
-   $row_scan = mysql_fetch_array($result_scan);
+   $result_scan = mysqli_query($dbc, $query_scan);
+   $row_scan = mysqli_fetch_array($result_scan);
 	
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."'";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row["user_create"]."'";
-    $result_u = mysql_query($query_u);   //run the query.
-    $data_u = mysql_fetch_array($result_u);   //how many records are there?  
+    $result_u = mysqli_query($dbc, $query_u);   //run the query.
+    $data_u = mysqli_fetch_array($result_u);   //how many records are there?  
 	
 	//------------------------------
 	// check yg mana dah ada dlm table history 
 	//------------------------------
 	
 	    $query_check = "SELECT * FROM material_request_close WHERE temp_mrin = '".$row2["temp_mrin"]."'";
-		$result_check = mysql_query($query_check);		
-		$rst_check = mysql_fetch_array($result_check);
+		$result_check = mysqli_query($dbc, $query_check);		
+		$rst_check = mysqli_fetch_array($result_check);
 		
 		if($rst_check > 0)
 		
@@ -393,8 +393,8 @@ $rs = mysql_query($query);   //run the query.
 	       
 	
 	    $query_check2 = "SELECT * FROM material_request_cancel WHERE temp_mrin = '".$row2["temp_mrin"]."'";
-		$result_check2 = mysql_query($query_check2);		
-		$rst_check2 = mysql_fetch_array($result_check2);
+		$result_check2 = mysqli_query($dbc, $query_check2);		
+		$rst_check2 = mysqli_fetch_array($result_check2);
 	
 	           if($rst_check2 > 0)
 		 {
@@ -433,7 +433,7 @@ $rs = mysql_query($query);   //run the query.
 		  } ?></tbody></table>
 
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
 	?>
       
           
@@ -450,7 +450,7 @@ $rs = mysql_query($query);   //run the query.
 </table>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 ?>
 
 

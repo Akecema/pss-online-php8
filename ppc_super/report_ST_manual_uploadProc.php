@@ -4,9 +4,9 @@ $username = $_SESSION['username'];
 include '../include/config.php';
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -63,8 +63,8 @@ $namaFile = "ST Manual Upload Report.xls";
 
 
   $query8 = "SELECT *,DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM ftp_detail_consumable AS MR WHERE MR.mrin_no != '' " .$where_sql;
-  $result8 = mysql_query($query8) or die(mysql_error());
-  $num_rows = mysql_num_rows($result8);
+  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $num_rows = mysqli_num_rows($result8);
 
 
 //---------------------------end count
@@ -115,8 +115,8 @@ echo '</table>';
 //Display table
 // query menampilkan semua data
 $query = "SELECT *,DATE_FORMAT(MR.transfer_date,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM ftp_detail_consumable AS MR WHERE  MR.mrin_no != '' ".$where_sql;
-$rs = mysql_query($query);   //run the query.
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
    $counter = 1;
@@ -124,7 +124,7 @@ $rs = mysql_query($query);   //run the query.
    $i = 1;
  
 
- while ($row2 = mysql_fetch_array($rs))
+ while ($row2 = mysqli_fetch_array($rs))
    {
    
 	
@@ -156,7 +156,7 @@ $rs = mysql_query($query);   //run the query.
 		  
 
 }  // end while loop
- mysql_free_result($rs); 
+ mysqli_free_result($rs); 
 ?>
 
 <?php

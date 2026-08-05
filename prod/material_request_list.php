@@ -15,14 +15,14 @@ exit();
 $url = "material_request_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	
 	?>
@@ -113,7 +113,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -161,25 +161,25 @@ echo "<br>"; */
 //print_r(explode('|', $str, -1));
 
   $query3 = "SELECT * FROM work_center_detail WHERE id_work = '$part4' ORDER BY id_work ASC";
-  $result3 = mysql_query($query3);
-  $row3 = mysql_fetch_array($result3); 
+  $result3 = mysqli_query($dbc, $query3);
+  $row3 = mysqli_fetch_array($result3); 
 				   
   $query_q2 = "SELECT * FROM mat_master_detail WHERE (material = '".$part1."' OR bill_component = '".$part1."')";
-  $result_q2 = mysql_query($query_q2) or die (mysql_error());
-  $ans3 = mysql_fetch_array($result_q2);
+  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $ans3 = mysqli_fetch_array($result_q2);
 				   
 
 //insert to scan_detail
-$query_db = "INSERT INTO scan_detail(id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysql_insert_id()."', '".$pps_ref2."', '".$row3["id_factory"]."', '".$part4."', '".$part2."', '".$part1."', '".$part7."', '".$ans3["plant"]."', '".$ans3["sloc"]."', '".$part6."', '".$user_no."', NOW(),'','','N')";
-$result = mysql_query($query_db) or die (mysql_error());
+$query_db = "INSERT INTO scan_detail(id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '".$pps_ref2."', '".$row3["id_factory"]."', '".$part4."', '".$part2."', '".$part1."', '".$part7."', '".$ans3["plant"]."', '".$ans3["sloc"]."', '".$part6."', '".$user_no."', NOW(),'','','N')";
+$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
              if($result)
              {
 			 
-			 $query_sql = "SELECT * FROM `scan_detail` WHERE id_scan = '".mysql_insert_id()."'";
-			 $result_sql = mysql_query($query_sql);
-			 $data_sql = mysql_fetch_array($result_sql);
+			 $query_sql = "SELECT * FROM `scan_detail` WHERE id_scan = '".mysqli_insert_id($dbc)."'";
+			 $result_sql = mysqli_query($dbc, $query_sql);
+			 $data_sql = mysqli_fetch_array($result_sql);
 			 
 echo "<script>";
 //echo "alert('Congratulations! Material Request successfully created');";
@@ -190,7 +190,7 @@ echo "</script>";
              else 
 			 {
              $message = '<p> Cannot request Material Request. </p>';
-             // mysql_close(); //close db
+             // mysqli_close($dbc); //close db
              }   
 }
 //print the message if there is one.

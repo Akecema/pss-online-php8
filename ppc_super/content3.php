@@ -6,8 +6,8 @@ $Cdate = date ("l, j F Y ");
 $nextpage = 1;
 
 $sql = "SELECT * FROM wip_request AS MR, scan_detail AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip";
-$result = mysql_query($sql) or trigger_error("SQL", E_USER_ERROR);
-$r = mysql_num_rows($result);
+$result = mysqli_query($dbc, $sql) or trigger_error("SQL", E_USER_ERROR);
+$r = mysqli_num_rows($result);
 $numrows = $r;
 
 

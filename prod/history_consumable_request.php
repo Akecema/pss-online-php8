@@ -17,8 +17,8 @@ exit();
 $url = "history_consumable_request.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -30,9 +30,9 @@ $year = $today['year'];
 		
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -198,9 +198,9 @@ visibility:hidden;
                 <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                 <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3)) 
+                   while($row3=mysqli_fetch_array($result3)) 
 			      {
                   echo'<option value="',$row3["factory_desc2"],'">',stripslashes($row3["factory_desc"]),'</option>';
                   }
@@ -238,9 +238,9 @@ visibility:hidden;
           <?php
 								 
     $query8 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status_request = 'Y' AND MR.status_print = 'Y' AND MR.date_require = '".$currentdate."' GROUP BY MR.temp_mrin";
-    $result8 = mysql_query($query8);
-    $num_8 = mysql_fetch_row($result8);
-    $num_rows = mysql_num_rows($result8);
+    $result8 = mysqli_query($dbc, $query8);
+    $num_8 = mysqli_fetch_row($result8);
+    $num_rows = mysqli_num_rows($result8);
  
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -249,7 +249,7 @@ visibility:hidden;
    
   
 $query = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status_request = 'Y' AND MR.status_print = 'Y' AND MR.date_require = '".$currentdate."' GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC, MR.temp_mrin ASC ";
-$rs = mysql_query($query);   //run the query.GROUP BY MR.temp_mrin
+$rs = mysqli_query($dbc, $query);   //run the query.GROUP BY MR.temp_mrin
 
 	
 	
@@ -286,22 +286,22 @@ $rs = mysql_query($query);   //run the query.GROUP BY MR.temp_mrin
    $counter = 1;
    $no = 1;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	
 	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2["id_dtl"]."'";
-  	$result4_p = mysql_query($query4_p);
- 	$row4_p = mysql_fetch_array($result4_p); 
+  	$result4_p = mysqli_query($dbc, $query4_p);
+ 	$row4_p = mysqli_fetch_array($result4_p); 
  
     $query_u2 = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_update"]."'";
-	$result_u2 = mysql_query($query_u2);   //run the query.
-	$data_u2 = mysql_fetch_array($result_u2);   //how many records are there?    
+	$result_u2 = mysqli_query($dbc, $query_u2);   //run the query.
+	$data_u2 = mysqli_fetch_array($result_u2);   //how many records are there?    
 	  
 		  ?>
   <tr>
@@ -327,7 +327,7 @@ $rs = mysql_query($query);   //run the query.GROUP BY MR.temp_mrin
           </tbody>
           </table>   
   <?php
-   mysql_free_result($rs); 
+   mysqli_free_result($rs); 
    
 
 	}   // free up the resources 
@@ -342,7 +342,7 @@ else
 </table>
         <?php
 		   } 
-//mysql_close()
+//mysqli_close($dbc)
 ?>
 
 

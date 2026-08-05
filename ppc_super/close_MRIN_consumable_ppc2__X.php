@@ -154,9 +154,9 @@ visibility:hidden;
                           <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                           <?php
 	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                    while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                    while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -251,9 +251,9 @@ visibility:hidden;
 
 								 
     $query8 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') ".$where_sql."  GROUP BY MR.temp_mrin";
-	   $result8 = mysql_query($query8) or die(mysql_error());
-     //$num_8 = mysql_fetch_row($result8);
-     $num_rows = mysql_num_rows($result8);
+	   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+     //$num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
 
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -261,8 +261,8 @@ visibility:hidden;
    $pages->paginate(); 
    
 $query = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') ".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC, MR.temp_mrin ASC $pages->limit";
-$rs = mysql_query($query);   //run the query.
-//$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
 
 	echo '<br>';
 	echo '<br>';
@@ -306,7 +306,7 @@ $rs = mysql_query($query);   //run the query.
    $no = 1;
  
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 
 		//if($row_req["total"] !=  $row_tp["total2"])
@@ -321,12 +321,12 @@ $rs = mysql_query($query);   //run the query.
    
 	
 	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row2[user_create]'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	
   
@@ -360,7 +360,7 @@ $rs = mysql_query($query);   //run the query.
   </center>
  
   <?php
-  mysql_free_result($rs); 
+  mysqli_free_result($rs); 
   ?>
  <table width="700" height="25" border="0" align="center" >
 <tr>
@@ -389,7 +389,7 @@ else
 </table></center>
         <?php
 		   } 
-mysql_close()
+mysqli_close($dbc)
 
 ?>
 

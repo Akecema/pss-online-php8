@@ -16,8 +16,8 @@ $url = "wip_request_analysis.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
 $hours = $today['hours']; 
@@ -29,9 +29,9 @@ $year = $today['year'];
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -197,9 +197,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
                   <?php
 	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
-                   $result3 = mysql_query($query3);
+                   $result3 = mysqli_query($dbc, $query3);
   
-                   while($row3=mysql_fetch_array($result3, MYSQL_NUM)) 
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
 			      {
 				  
 				  
@@ -215,9 +215,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
-                   $result5 = mysql_query($query5);
+                   $result5 = mysqli_query($dbc, $query5);
   
-                   while($row5=mysql_fetch_array($result5)) 
+                   while($row5=mysqli_fetch_array($result5)) 
 				    { 
 				   
 				   ?>
@@ -233,9 +233,9 @@ function getXMLHTTP() { //fuction to return the xml http object
                   <option value="NULL" placeholder="Select Material No."> -- Select Material No. --</option>
                   <?php
 	               $query9 = "SELECT * FROM mat_master_detail WHERE mat_type = 'Z100' GROUP BY bill_component ORDER BY bill_component ASC";
-                   $result9 = mysql_query($query9);
+                   $result9 = mysqli_query($dbc, $query9);
   
-                   while($row9=mysql_fetch_array($result9)) 
+                   while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
                   <option value="<?php echo $row9["bill_component"]; ?>" <?php if($row9["bill_component"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["bill_component"]; ?></option>
@@ -271,8 +271,8 @@ function getXMLHTTP() { //fuction to return the xml http object
 		    //convert material no kpd id_hdr
 			
 			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 		
 			//-------Count all results------------------------//
 			
@@ -321,9 +321,9 @@ function getXMLHTTP() { //fuction to return the xml http object
 
 								 
    $query8 = "SELECT *,DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'New'" .$where_sql;
-   $result8 = mysql_query($query8) or die(mysql_error());
-     $num_8 = mysql_fetch_row($result8);
-     $num_rows = mysql_num_rows($result8);
+   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+     $num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
    
    $pages = new Paginator;
    $pages->items_total = $num_rows;
@@ -333,8 +333,8 @@ function getXMLHTTP() { //fuction to return the xml http object
  
   
 $query = "SELECT *,DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'New'".$where_sql;
-$rs = mysql_query($query);   //run the query.
-$num = mysql_num_rows($rs);   //how many material are there?
+$rs = mysqli_query($dbc, $query);   //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
 
 
 	
@@ -387,39 +387,39 @@ $num = mysql_num_rows($rs);   //how many material are there?
     $bq = 0;
    $rq = 0;
    
-   while ($row2 = mysql_fetch_array($rs))
+   while ($row2 = mysqli_fetch_array($rs))
    {
 		//$user_no = $row[0]; 
 
 		
 		
    	$query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."'";
-   	$result_scan = mysql_query($query_scan);
-   	$row_scan = mysql_fetch_array($result_scan);
+   	$result_scan = mysqli_query($dbc, $query_scan);
+   	$row_scan = mysqli_fetch_array($result_scan);
 	
 	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".$row2[6]."' ORDER BY id_req_wip ASC";
-    $rs_again = mysql_query($query_again);   //run the query.
-    $row = mysql_fetch_array($rs_again);
+    $rs_again = mysqli_query($dbc, $query_again);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
 	
 	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
-	$result_u = mysql_query($query_u);   //run the query.
-	$data_u = mysql_fetch_array($result_u);   //how many records are there?    
+	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
-    $result3 = mysql_query($query3);
-	$row3 = mysql_fetch_array($result3);
+    $result3 = mysqli_query($dbc, $query3);
+	$row3 = mysqli_fetch_array($result3);
 	
 	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
-  	$result4_p = mysql_query($query4_p);
- 	$row4_p = mysql_fetch_array($result4_p); 
+  	$result4_p = mysqli_query($dbc, $query4_p);
+ 	$row4_p = mysqli_fetch_array($result4_p); 
  
     $query5 = "SELECT * FROM post_detail_header_wip WHERE mrin_no = '".$row2["temp_mrin_wip"]."' AND material_no = '".$row2["bom_component"]."' AND mvt_type = 311 AND prod_order = '".$row_scan["prod_order"]."'";
-    $result5 = mysql_query($query5);
-	$row5 = mysql_fetch_array($result5);
+    $result5 = mysqli_query($dbc, $query5);
+	$row5 = mysqli_fetch_array($result5);
 	
 	$query6 = "SELECT * FROM post_detail_header_wip AS PD, wip_request AS MR WHERE PD.mrin_no = MR.temp_mrin_wip AND PD.material_no = MR.bom_component AND PD.mrin_no = '".$row2["temp_mrin_wip"]."' AND PD.material_no = '".$row2["bom_component"]."' AND PD.mvt_type = 311";
-    $result6 = mysql_query($query6);
-	$row6 = mysql_fetch_array($result6);
+    $result6 = mysqli_query($dbc, $query6);
+	$row6 = mysqli_fetch_array($result6);
 
 //-------------------------------------------------------Transfer Posting [Traffic Light] --------------------------
 // table post_detail_header --- checking traffic licht
@@ -444,11 +444,11 @@ echo $since_start->s.' seconds<br>';  */
 
 					
     $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header_wip WHERE mrin_no = '".$row2["temp_mrin_wip"]."' AND prod_order = '".$row_scan["prod_order"]."' AND mvt_type = 311 AND material_no = '".$row4_p["bill_component"]."'";
-	$result_tp  = mysql_query($query_tp); 
+	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;
 					
-	while($row_tp = mysql_fetch_assoc($result_tp))
+	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
 	
 	$tp_quantity = $row_tp["TOT"]; 
@@ -514,7 +514,7 @@ echo $since_start->s.' seconds<br>';  */
                     
             
   <?php
-  mysql_free_result($rs); 
+  mysqli_free_result($rs); 
 	}   // free up the resources 
 else
 {
@@ -527,7 +527,7 @@ else
 </table></center>
         <?php
 		   } 
- mysql_close();
+ mysqli_close($dbc);
 ?>   
 </div></div>
           </div>

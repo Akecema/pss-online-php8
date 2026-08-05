@@ -14,14 +14,14 @@ exit();
 $url = "add_user.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	
 	?>
@@ -85,7 +85,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -211,11 +211,11 @@ if ($vendor_no && $user_id && $upw && $user_fullname && $department && $designat
 
 //register the user in the db.
 $query_db = "INSERT INTO user_detail (vendor_no,staff_ID,username,password,user_fullname,department,designation,company,user_telno1,user_telno2,user_fax,user_email,user_created,date_created,status,level_id,user_update,date_update,last_login,status_failed,date_failed) VALUES('$vendor_no','$user_id','$user_id','".$_POST['user_password']."','$user_fullname','$department','$designation','$company','$user_telno1','$user_telno2','$user_fax','$user_email','$username',now(),'$status','$level_id','','','','N','')";
-$result = mysql_query($query_db) or die(mysql_error());
+$result = mysqli_query($dbc, $query_db) or die(mysqli_error($dbc));
 
 //login detail
 $query_login = "INSERT INTO login_detail (staff_ID, username, password, company, user_email, user_created, date_created, status, level_id, user_update, date_update, last_login, expired_pass_date, status_pass) VALUES('".strtoupper($user_id)."','".strtoupper($user_id)."', '".$_POST['user_password']."', '$company', '$user_email', '".$username."', NOW(), '$status', '$level_id','','','','','N')";
-$result_login = mysql_query($query_login) or die (mysql_error());
+$result_login = mysqli_query($dbc, $query_login) or die (mysqli_error($dbc));
 
 
 
@@ -230,7 +230,7 @@ echo "</script>";
              else 
 			 {
              $message = '<p><strong>Error!</strong> Cannot create User. </p>';
-              mysql_close(); //close db
+              mysqli_close($dbc); //close db
              }  
 }
 //print the message if there is one.
@@ -302,10 +302,10 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query3 ='Select * from company';
-  $result3 = mysql_query($query3);
+  $result3 = mysqli_query($dbc, $query3);
   
     
-     while($row3 =mysql_fetch_array ($result3, MYSQL_NUM)) {
+     while($row3 =mysqli_fetch_array($result3, MYSQLI_NUM)) {
 	
 	 if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
@@ -334,9 +334,9 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query2 ='Select * from department';
-  $result2 = mysql_query($query2);
+  $result2 = mysqli_query($dbc, $query2);
   
-      while($row2 =mysql_fetch_array ($result2, MYSQL_NUM)) {
+      while($row2 =mysqli_fetch_array($result2, MYSQLI_NUM)) {
 
         if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
@@ -364,9 +364,9 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query2b ='Select * from designation';
-  $result2b = mysql_query($query2b);
+  $result2b = mysqli_query($dbc, $query2b);
   
-    while($row2b =mysql_fetch_array ($result2b, MYSQL_NUM)) {
+    while($row2b =mysqli_fetch_array($result2b, MYSQLI_NUM)) {
 
       if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
@@ -418,10 +418,10 @@ if (isset($message))
   
   //Retrieve and display the available types
   $query4 ='Select * from level_detail where status_level = "Y"';
-  $result4 = mysql_query($query4);
+  $result4 = mysqli_query($dbc, $query4);
   
    
-     while($row4 =mysql_fetch_array ($result4, MYSQL_NUM)) {
+     while($row4 =mysqli_fetch_array($result4, MYSQLI_NUM)) {
 	 
 	  if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->

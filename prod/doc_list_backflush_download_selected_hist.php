@@ -7,36 +7,36 @@ set_time_limit(0);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1'";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2'";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);	
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
 
 //CR status (Cancelled)
 $sta4 = "SELECT * from request_status WHERE status_id = '4'";
-$sta_res4 = mysql_query($sta4);
-$rst_sta4 = mysql_fetch_array($sta_res4);	
+$sta_res4 = mysqli_query($dbc, $sta4);
+$rst_sta4 = mysqli_fetch_array($sta_res4);	
 
 //CR status (InProgress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7'";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);	
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
 
 //CR status (Completed)
 $sta14 = "SELECT * from request_status WHERE status_id = '14'";
-$sta_res14 = mysql_query($sta14);
-$rst_sta14 = mysql_fetch_array($sta_res14);	
+$sta_res14 = mysqli_query($dbc, $sta14);
+$rst_sta14 = mysqli_fetch_array($sta_res14);	
 ?>
 
 
@@ -70,8 +70,8 @@ $date_tdy2 = date('d-m-Y');
 			 //convert 
 			
 			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
-			$result_convert = mysql_query($query_convert); 
-			$row_convert = mysql_fetch_array($result_convert);
+			$result_convert = mysqli_query($dbc, $query_convert); 
+			$row_convert = mysqli_fetch_array($result_convert);
 			
 		  
 		
@@ -129,8 +129,8 @@ $namaFile = "Backflush Document List_".$date_tdy2.".xls";
 			
 		
     $query8 = "SELECT * FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql;
-  $result8 = mysql_query($query8) or die(mysql_error());
-  $num_rows = mysql_num_rows($result8);
+  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $num_rows = mysqli_num_rows($result8);
 
 
 //---------------------------end count
@@ -186,7 +186,7 @@ echo '</table>';
 //Display table
 // query menampilkan semua data
 $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql."ORDER BY MR.plan_no ASC";
-$rs = mysql_query($query);   //run the query.
+$rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
    $counter = 1;
@@ -201,13 +201,13 @@ $rs = mysql_query($query);   //run the query.
    $sta_out_2 = "";
 
   echo '<table border="1" width="100%">';
-  while ($row2 = mysql_fetch_array($rs))
+  while ($row2 = mysqli_fetch_array($rs))
    {
 	
 	    //---------get material header---------
 	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row2["material_no"]."'";
-		$result_mat_h = mysql_query($query_mat_h);
-		$data_mat_h = mysql_fetch_array($result_mat_h);	  
+		$result_mat_h = mysqli_query($dbc, $query_mat_h);
+		$data_mat_h = mysqli_fetch_array($result_mat_h);	  
 		
 		
 		//shift	
@@ -344,7 +344,7 @@ $rs = mysql_query($query);   //run the query.
 
 }  // end while loop $row2
     echo '</table>';   
-	mysql_free_result($rs); 
+	mysqli_free_result($rs); 
 ?>
 
 <?php

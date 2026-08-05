@@ -14,14 +14,14 @@ exit();
 $url = "add_vendor_account.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------		
 	?>
 <!DOCTYPE html>
@@ -95,7 +95,7 @@ global $dbc;   // need the connection.
 if (ini_get('magic_quotes_gpc')) {
     $data = stripslashes($data);
 	}
-	return mysql_real_escape_string($data,$dbc);
+	return mysqli_real_escape_string($dbc, $data);
 	}   // end function.
 $message = NULL; // create an empty new variable.
    
@@ -221,7 +221,7 @@ if (empty($_POST["status_subcont"]) || ($_POST["status_subcont"] == ""))
 //insert vendor detail
 
 $query_db = "INSERT INTO vendor_detail(vendor_code,vendor_name,add_no1,add_no2,post_code,post_city,post_region,post_country,search_term,tphone,fax_no,payment_method,term_payment,user_create,date_create,user_update,date_update,status_acc,status_subcont) VALUES('".strtoupper($vendor_code)."','".strtoupper($vendor_name)."','".$add_no1."','".$add_no2."','".$post_code."','".$post_city."','".$post_region."','".$post_country."','".strtoupper($search_term)."','".$tphone."','".$fax_no."','".strtoupper($payment_method)."','".strtoupper($term_payment)."','".$username."',NOW(),'','','".$status_acc."','".$status_subcont."')";
-$result = mysql_query($query_db) or die (mysql_error());
+$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
              if($result)
@@ -235,7 +235,7 @@ echo "</script>";
              else 
 			 {
              $message = '<p><strong>Error!</strong> Cannot create account of VENDOR. </p>';
-              mysql_close(); //close db
+              mysqli_close($dbc); //close db
              }  
 }
 //print the message if there is one.

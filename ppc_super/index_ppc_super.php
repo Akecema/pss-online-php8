@@ -16,16 +16,16 @@ exit();
 }
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 	$url = "index_ppc_super.php"; 
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------
 	?>
 <!DOCTYPE html>
@@ -62,8 +62,8 @@ $data_setup = mysql_fetch_array($rs_setup);
 <?php
 
   $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
-   $result_sql = mysql_query($query_sql);
-   $info = mysql_fetch_array($result_sql);
+   $result_sql = mysqli_query($dbc, $query_sql);
+   $info = mysqli_fetch_array($result_sql);
     
  
     if(($info['status_pass'] == 'N'))
@@ -130,13 +130,13 @@ jQuery(document).ready(function ($) {
  // ------------------------------  display dashboard ------------------------
  //new material request 
 $query_mat_req = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-$rs_mat_req = mysql_query($query_mat_req);   //run the query.
-$num_mat_req = mysql_num_rows($rs_mat_req);   //how many material are there?
+$rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
+$num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
 
 //new consumable request
 $query_con_req = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-$rs_con_req = mysql_query($query_con_req);   //run the query.
-$num_con_req = mysql_num_rows($rs_con_req);   //how many material are there?
+$rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
+$num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
 
 
 

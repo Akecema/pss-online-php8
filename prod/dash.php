@@ -16,54 +16,54 @@ exit();
 }
 
     $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
-    $result2 = mysql_query($query2) or die (mysql_error());
-    $res = mysql_fetch_array($result2);
+    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $res = mysqli_fetch_array($result2);
 	
 	$url = "dash.php"; 
 	
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysql_query($query_setup);   //run the query.
-$num_setup = mysql_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysql_fetch_array($rs_setup);
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
 //CR status (New)
 
 $sta = "SELECT * from request_status WHERE status_id = '1'";
-$sta_res = mysql_query($sta);
-$rst_sta = mysql_fetch_array($sta_res);
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
 
 //CR status (Released)
 $sta2 = "SELECT * from request_status WHERE status_id = '2'";
-$sta_res2 = mysql_query($sta2);
-$rst_sta2 = mysql_fetch_array($sta_res2);
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);
 
 
 //CR status (Approved)
 $sta3 = "SELECT * from request_status WHERE status_id = '3'";
-$sta_res3 = mysql_query($sta3);
-$rst_sta3 = mysql_fetch_array($sta_res3);
+$sta_res3 = mysqli_query($dbc, $sta3);
+$rst_sta3 = mysqli_fetch_array($sta_res3);
 
 //CR status (In Progress)
 $sta7 = "SELECT * from request_status WHERE status_id = '7'";
-$sta_res7 = mysql_query($sta7);
-$rst_sta7 = mysql_fetch_array($sta_res7);
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);
 
 //CR status (Pending)
 $sta8 = "SELECT * from request_status WHERE status_id = '8'";
-$sta_res8 = mysql_query($sta8);
-$rst_sta8 = mysql_fetch_array($sta_res8);
+$sta_res8 = mysqli_query($dbc, $sta8);
+$rst_sta8 = mysqli_fetch_array($sta_res8);
 
 //CR status (Completed)
 $sta14 = "SELECT * from request_status WHERE status_id = '14'";
-$sta_res14 = mysql_query($sta14);
-$rst_sta14 = mysql_fetch_array($sta_res14);
+$sta_res14 = mysqli_query($dbc, $sta14);
+$rst_sta14 = mysqli_fetch_array($sta_res14);
 
 //CR status (Deleted)
 $sta16 = "SELECT * from request_status WHERE status_id = '16'";
-$sta_res16 = mysql_query($sta16);
-$rst_sta16 = mysql_fetch_array($sta_res16);
+$sta_res16 = mysqli_query($dbc, $sta16);
+$rst_sta16 = mysqli_fetch_array($sta_res16);
 
 	?>
 <!DOCTYPE html>
@@ -100,8 +100,8 @@ $rst_sta16 = mysql_fetch_array($sta_res16);
 <?php
 
  /* $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
-   $result_sql = mysql_query($query_sql);
-   $info = mysql_fetch_array($result_sql);
+   $result_sql = mysqli_query($dbc, $query_sql);
+   $info = mysqli_fetch_array($result_sql);
     
  
     if(($info['status_pass'] == 'N'))
@@ -167,36 +167,36 @@ jQuery(document).ready(function ($) {
  // ------------------------------  display dashboard ------------------------
  //new material request 
 $query_mat_req = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-$rs_mat_req = mysql_query($query_mat_req);   //run the query.
-$num_mat_req = mysql_num_rows($rs_mat_req);   //how many material are there?
+$rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
+$num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
 
 //new consumable request
 $query_con_req = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-$rs_con_req = mysql_query($query_con_req);   //run the query.
-$num_con_req = mysql_num_rows($rs_con_req);   //how many material are there?
+$rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
+$num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
 
  //in progress planned order
 $query_plan_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY date_plan DESC";
-$rs_plan_req = mysql_query($query_plan_req);   //run the query.
-$num_plan_req = mysql_num_rows($rs_plan_req);   //how many material are there?
+$rs_plan_req = mysqli_query($dbc, $query_plan_req);   //run the query.
+$num_plan_req = mysqli_num_rows($rs_plan_req);   //how many material are there?
 
 
  //release planned order
 $query_release_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' ORDER BY date_plan DESC";
-$rs_release_req = mysql_query($query_release_req);   //run the query.
-$num_release_req = mysql_num_rows($rs_release_req);   //how many material are there?
+$rs_release_req = mysqli_query($dbc, $query_release_req);   //run the query.
+$num_release_req = mysqli_num_rows($rs_release_req);   //how many material are there?
 
 
  //pending approval disposal
 $query_disposal_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_plan DESC";
-$rs_disposal_req = mysql_query($query_disposal_req);   //run the query.
-$num_disposal_req = mysql_num_rows($rs_disposal_req);   //how many material are there?
+$rs_disposal_req = mysqli_query($dbc, $query_disposal_req);   //run the query.
+$num_disposal_req = mysqli_num_rows($rs_disposal_req);   //how many material are there?
 
 
 // approved disposal
 $query_disposal_req_app = "SELECT * FROM reject_detail_disposal WHERE status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_plan DESC";
-$rs_disposal_req_app = mysql_query($query_disposal_req_app);   //run the query.
-$num_disposal_req_app = mysql_num_rows($rs_disposal_req_app);   //how many material are there?
+$rs_disposal_req_app = mysqli_query($dbc, $query_disposal_req_app);   //run the query.
+$num_disposal_req_app = mysqli_num_rows($rs_disposal_req_app);   //how many material are there?
 
 ?>
 <!--Action boxes-->
@@ -227,14 +227,14 @@ $num_disposal_req_app = mysql_num_rows($rs_disposal_req_app);   //how many mater
 		
 		//1. - status "In Progress"
 	$query_mat_prog_open_q = "SELECT * FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta7["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
-	$rs_mat_prog_open_q = mysql_query($query_mat_prog_open_q);   
-	$num_mat_prog_open_q = mysql_num_rows($rs_mat_prog_open_q);   	
+	$rs_mat_prog_open_q = mysqli_query($dbc, $query_mat_prog_open_q);   
+	$num_mat_prog_open_q = mysqli_num_rows($rs_mat_prog_open_q);   	
 		
 		
 		//2.  - status Completed
 	$query_mat_prog_close_q = "SELECT * FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta14["status_desc"]."'";
-	$rs_mat_prog_close_q = mysql_query($query_mat_prog_close_q);   
-	$num_mat_prog_close_q = mysql_num_rows($rs_mat_prog_close_q);   		
+	$rs_mat_prog_close_q = mysqli_query($dbc, $query_mat_prog_close_q);   
+	$num_mat_prog_close_q = mysqli_num_rows($rs_mat_prog_close_q);   		
 		
 	
 	//-------calculation percentage--------------------------
@@ -294,21 +294,21 @@ $num_disposal_req_app = mysql_num_rows($rs_disposal_req_app);   //how many mater
 		
 		//1. - open
 	$query_mat_prog_open = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_open = mysql_query($query_mat_prog_open);   
-	$num_mat_prog_open = mysql_num_rows($rs_mat_prog_open);   	
+	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);   
+	$num_mat_prog_open = mysqli_num_rows($rs_mat_prog_open);   	
 		
 		
 		//2.  - close
 	$query_mat_prog_close = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_close = mysql_query($query_mat_prog_close);   
-	$num_mat_prog_close = mysql_num_rows($rs_mat_prog_close);   		
+	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);   
+	$num_mat_prog_close = mysqli_num_rows($rs_mat_prog_close);   		
 		
 		
 		//3. - cancel
 		
 	$query_mat_prog_cancel = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_cancel = mysql_query($query_mat_prog_cancel);   
-	$num_mat_prog_cancel = mysql_num_rows($rs_mat_prog_cancel);  
+	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);   
+	$num_mat_prog_cancel = mysqli_num_rows($rs_mat_prog_cancel);  
 	
 	
 	//-------calculation percentage--------------------------
@@ -373,21 +373,21 @@ $num_disposal_req_app = mysql_num_rows($rs_disposal_req_app);   //how many mater
 		
 		//1. - open
 	$query_con_prog_open = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_open = mysql_query($query_con_prog_open);   
-	$num_con_prog_open = mysql_num_rows($rs_con_prog_open);   	
+	$rs_con_prog_open = mysqli_query($dbc, $query_con_prog_open);   
+	$num_con_prog_open = mysqli_num_rows($rs_con_prog_open);   	
 		
 		
 		//2.  - close
 	$query_con_prog_close = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_close = mysql_query($query_con_prog_close);   
-	$num_con_prog_close = mysql_num_rows($rs_con_prog_close);   		
+	$rs_con_prog_close = mysqli_query($dbc, $query_con_prog_close);   
+	$num_con_prog_close = mysqli_num_rows($rs_con_prog_close);   		
 		
 		
 		//3. - cancel
 		
 	$query_con_prog_cancel = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status = 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_cancel = mysql_query($query_con_prog_cancel);   
-	$num_con_prog_cancel = mysql_num_rows($rs_con_prog_cancel);  
+	$rs_con_prog_cancel = mysqli_query($dbc, $query_con_prog_cancel);   
+	$num_con_prog_cancel = mysqli_num_rows($rs_con_prog_cancel);  
 	
 	
 	//-------calculation percentage--------------------------
@@ -454,21 +454,21 @@ $num_disposal_req_app = mysql_num_rows($rs_disposal_req_app);   //how many mater
 		
 		//1. - open
 	$query_wip_prog_open = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_wip_prog_open = mysql_query($query_wip_prog_open);   
-	$num_wip_prog_open = mysql_num_rows($rs_wip_prog_open);   	
+	$rs_wip_prog_open = mysqli_query($dbc, $query_wip_prog_open);   
+	$num_wip_prog_open = mysqli_num_rows($rs_wip_prog_open);   	
 		
 		
 		//2.  - close
 	$query_wip_prog_close = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_wip_prog_close = mysql_query($query_wip_prog_close);   
-	$num_wip_prog_close = mysql_num_rows($rs_wip_prog_close);   		
+	$rs_wip_prog_close = mysqli_query($dbc, $query_wip_prog_close);   
+	$num_wip_prog_close = mysqli_num_rows($rs_wip_prog_close);   		
 		
 		
 		//3. - cancel
 		
 	$query_wip_prog_cancel = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_wip_prog_cancel = mysql_query($query_wip_prog_cancel);   
-	$num_wip_prog_cancel = mysql_num_rows($rs_wip_prog_cancel);  
+	$rs_wip_prog_cancel = mysqli_query($dbc, $query_wip_prog_cancel);   
+	$num_wip_prog_cancel = mysqli_num_rows($rs_wip_prog_cancel);  
 	
 	
 	//-------calculation percentage--------------------------

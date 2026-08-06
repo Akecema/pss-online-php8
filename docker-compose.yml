@@ -5,6 +5,10 @@ services:
       - "${APP_PORT:-8080}:80"
     volumes:
       - .:/var/www/html
+      # FromPortal2 (~91k files of historical portal data) was left in place next
+      # to this migrated copy rather than duplicated - mounted straight from the
+      # original location instead. Adjust this host path if you move things around.
+      - ../FromPortal2:/var/www/html/FromPortal2
     environment:
       DB_HOST: ${DB_HOST:-db}
       DB_USER: ${DB_USER:-root}

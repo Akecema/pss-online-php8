@@ -36,6 +36,21 @@ your host machine). Then either remove the `db`/`phpmyadmin` services from
 `docker-compose.yml` or just ignore them - the `app` container will connect
 to your own MySQL server using the DB_HOST/DB_USER/DB_PASSWORD/DB_NAME you set.
 
+## FromPortal2 is mounted from the original location, not copied
+
+FromPortal2 (~91,000 files of historical portal data, organized by
+month/category) was left where it already was on disk rather than
+duplicated into this folder - docker-compose.yml mounts it directly:
+
+    ../FromPortal2:/var/www/html/FromPortal2
+
+This assumes _PHP8_MIGRATED and the original FromPortal2 stay siblings
+(i.e. both live directly under the original PSS_Online folder). If you move
+this folder somewhere else, update that path in docker-compose.yml to point
+at wherever FromPortal2 actually lives. The other 9 small upload/data
+folders (BOM_upload, ToIPOS, set_upload, etc.) were copied in normally since
+they're small.
+
 ## What was changed to make this container-friendly
 
 - `include/config.php` and `PSSboard/include/config.php` now read

@@ -33,9 +33,11 @@ files in them:
     FromPortal, FromPortal2, FromPortal3, ToIPOS, set_upload,
     upload_master_MRIN
 
-If the running app writes into any of these at runtime, recreate them
-(empty, with appropriate permissions) or mount your originals as Docker
-volumes.
+Update: 9 of these 10 folders (all except FromPortal2) were subsequently
+copied into this folder with their real contents, at the user's request.
+FromPortal2 alone (~91,000 files) was left in its original location and is
+instead mounted directly into the Docker container via docker-compose.yml
+(`../FromPortal2:/var/www/html/FromPortal2`) - see README-DOCKER.md.
 
 ## Things flagged but found to be non-issues (false positives / already safe)
 

@@ -8,33 +8,38 @@ existing MySQL server you already have.
 
 - Docker Desktop (or Docker Engine + Compose plugin) installed and running.
 
-## Quick start (bundled MySQL container)
+## Quick start (default: connects to MySQL already running on your PC)
 
 1. Copy the env template and adjust if needed:
 
    cp .env.example .env
 
-2. If you have an existing database dump, put it in `docker/initdb/` before
-   first startup (e.g. `docker/initdb/mrin_project_ipsb.sql`) - MySQL will
-   import it automatically the first time the `db` container is created.
+   By default `DB_HOST=host.docker.internal`, which reaches a MySQL server
+   already running on your Windows machine (NOT "localhost" - inside a
+   container that means the container itself, not your PC). Your local MySQL
+   needs to accept non-local connections (bind address not locked to
+   `127.0.0.1`) and a user grant like `'root'@'%'`.
 
-3. Start everything:
+2. Start the app (and phpMyAdmin, pointed at the same DB):
 
    docker compose up -d --build
 
-4. Open the app: http://localhost:8080
+3. Open the app: http://localhost:8080
    Open phpMyAdmin: http://localhost:8081  (user: root, password: from .env)
 
-## Using your own existing MySQL server instead of the bundled one
+## Using the bundled MySQL container instead
 
-Set in `.env`:
+If you'd rather have a self-contained MySQL in a container (no dependency on
+anything already running on your machine):
 
-    DB_HOST=host.docker.internal
+1. In `.env`, set `DB_HOST=db`.
+2. If you have an existing database dump, put it in `docker/initdb/` (e.g.
+   `docker/initdb/mrin_project_ipsb.sql`) - MySQL imports it automatically
+   the first time the `db` container is created on an empty volume.
+3. Start with the `bundled-db` profile enabled, so the `db` service actually
+   starts (it's off by default):
 
-(this is Docker Desktop's built-in DNS name for reaching services running on
-your host machine). Then either remove the `db`/`phpmyadmin` services from
-`docker-compose.yml` or just ignore them - the `app` container will connect
-to your own MySQL server using the DB_HOST/DB_USER/DB_PASSWORD/DB_NAME you set.
+   docker compose --profile bundled-db up -d --build
 
 ## FromPortal2 is mounted from the original location, not copied
 

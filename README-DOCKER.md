@@ -24,8 +24,18 @@ existing MySQL server you already have.
 
    docker compose up -d --build
 
-3. Open the app: http://localhost:8080
+3. Open the app: http://localhost:8090
    Open phpMyAdmin: http://localhost:8081  (user: root, password: from .env)
+
+## Running alongside i-CHARM
+
+Both this app and the i-CHARM project connect to `host.docker.internal`
+(the same local MariaDB instance on your PC) with different database names
+(`mrin_project_ipsb` here, `icharm` there), and use different Docker bridge
+subnets (10.78.78.0/24 here, 10.77.77.0/24 there) - so both can run at the
+same time with no changes needed. The only thing that would have collided is
+the app port, which is why this one defaults to 8090 instead of i-CHARM's
+8080.
 
 ## Using the bundled MySQL container instead
 

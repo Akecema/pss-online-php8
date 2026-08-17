@@ -40,14 +40,16 @@
 //------------------------barutambah 03/04/2014
  
  
- 	$username = $_COOKIE['ID_my_site']; 
+ 	$username = $_COOKIE['ID_my_site'];
  	$pass = $_COOKIE['Key_my_site'];
- 	// SECURITY: $username is taken straight from the cookie and concatenated
- 	// directly into the SQL string below with no escaping/parameter binding -
- 	// this is SQL-injectable by anyone who can set their own cookies (i.e.
- 	// everyone). See MIGRATION_NOTES/improvement report for the recommended fix
- 	// (parameterised queries via mysqli prepared statements).
- 	 	$check = mysqli_query($dbc, "SELECT * FROM user_detail WHERE username = '$username' AND status = 'AC' AND status_failed = 'N'")or die(mysqli_error($dbc));
+ 	// FIXED (2026-08-17): $username used to be concatenated straight into the
+ 	// SQL string below - SQL-injectable by anyone who can set their own
+ 	// cookies (i.e. everyone), no login required to reach this code path. Now
+ 	// a parameterised/prepared mysqli statement.
+ 	$stmt_check = mysqli_prepare($dbc, "SELECT * FROM user_detail WHERE username = ? AND status = 'AC' AND status_failed = 'N'") or die(mysqli_error($dbc));
+ 	mysqli_stmt_bind_param($stmt_check, "s", $username);
+ 	mysqli_stmt_execute($stmt_check) or die(mysqli_error($dbc));
+ 	$check = mysqli_stmt_get_result($stmt_check);
  	while($info = mysqli_fetch_array($check)) 	
  		{
  		if ($pass != $info['password']) 
@@ -61,21 +63,25 @@
 				// user without ever knowing their password.
 	   //-------------additional for checking failed login 5 times ---------------
 		//-------------edit date 16/11/2017
-		
-		// SECURITY: $_POST['username'] is concatenated into SQL unescaped here too -
- 		// same SQL-injection issue as above, just via the POST field instead of
- 		// the cookie.
- 		$check_log = "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = '".$_POST['username']."' AND FL.ip_address = '".$_SERVER["REMOTE_ADDR"]."'  AND FL.date_failed BETWEEN DATE_SUB(NOW() , INTERVAL 1 DAY) AND NOW()";
-		$rs_check_log = mysqli_query($dbc, $check_log);   
-	    $num_check_log = mysqli_num_rows($rs_check_log);  
+
+		// FIXED (2026-08-17): both queries below used to concatenate
+		// $_POST['username'] (and REMOTE_ADDR/staff_ID) directly into SQL -
+		// same SQL-injection issue as the cookie-based query above, just via
+		// the POST field instead of the cookie. Now parameterised.
+ 		$stmt_check_log = mysqli_prepare($dbc, "SELECT * FROM failed_login AS FL, user_detail AS UL WHERE FL.staff_ID = UL.staff_ID AND FL.username = ? AND FL.ip_address = ? AND FL.date_failed BETWEEN DATE_SUB(NOW() , INTERVAL 1 DAY) AND NOW()") or die(mysqli_error($dbc));
+ 		mysqli_stmt_bind_param($stmt_check_log, "ss", $_POST['username'], $_SERVER["REMOTE_ADDR"]);
+ 		mysqli_stmt_execute($stmt_check_log) or die(mysqli_error($dbc));
+		$rs_check_log = mysqli_stmt_get_result($stmt_check_log);
+	    $num_check_log = mysqli_num_rows($rs_check_log);
 		$row = mysqli_fetch_array($rs_check_log);
-		
+
 		if($num_check_log < 2)
 		{
-			
-				
-		$query_log = "INSERT INTO failed_login(ip_address,date_failed,staff_ID,username) VALUES('".$_SERVER["REMOTE_ADDR"]."',NOW(),'".$info['staff_ID']."','".$_POST['username']."')";
-		$result_log = mysqli_query($dbc, $query_log) or die (mysqli_error($dbc));
+
+
+		$stmt_log = mysqli_prepare($dbc, "INSERT INTO failed_login(ip_address,date_failed,staff_ID,username) VALUES(?,NOW(),?,?)") or die(mysqli_error($dbc));
+		mysqli_stmt_bind_param($stmt_log, "sss", $_SERVER["REMOTE_ADDR"], $info['staff_ID'], $_POST['username']);
+		$result_log = mysqli_stmt_execute($stmt_log) or die (mysqli_error($dbc));
 		
 		             
 		             echo "<script>";

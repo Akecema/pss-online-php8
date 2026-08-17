@@ -13,12 +13,14 @@
  * in this file). It describes *what the code touches*, not necessarily *why* -
  * treat it as a starting point and refine as you work in this file.
  */
-// SECURITY: $_POST["username"] and $row["username"] are concatenated
-// directly into SQL here - injectable. Included via ckies-aut_frst.php after
-// 5 failed logins in 24h: locks the account (status_failed='Y') and emails
-// the user's registered address to notify them.
-$query_update_fail = "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = '".$row["username"]."', date_update = NOW() where username='".$_POST["username"]."'";
-				  $result_update_fail = mysqli_query($dbc, $query_update_fail) or die (mysqli_error($dbc));
+// FIXED (2026-08-17): $_POST["username"] and $row["username"] used to be
+// concatenated directly into SQL here - SQL-injectable, and reachable by an
+// unauthenticated visitor (included via ckies-aut_frst.php/ckies-aut_scd.php
+// after 5 failed logins in 24h). Now parameterised. Locks the account
+// (status_failed='Y') and emails the user's registered address to notify them.
+$stmt_update_fail = mysqli_prepare($dbc, "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = ?, date_update = NOW() where username = ?") or die(mysqli_error($dbc));
+					  mysqli_stmt_bind_param($stmt_update_fail, "ss", $row["username"], $_POST["username"]);
+					  $result_update_fail = mysqli_stmt_execute($stmt_update_fail) or die (mysqli_error($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  

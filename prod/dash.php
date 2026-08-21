@@ -180,38 +180,45 @@ jQuery(document).ready(function ($) {
 <?php 
  
  // ------------------------------  display dashboard ------------------------
- //new material request 
-$query_mat_req = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
+ //new material request
+ // 2026-08-10 perf fix: these 6 queries were "SELECT *"/"SELECT *, ..." with
+ // the result only ever used for mysqli_num_rows() (confirmed via grep - no
+ // other code reads a row from these result sets). Converted to COUNT()/
+ // COUNT(DISTINCT ...) so MySQL returns one number instead of materializing
+ // and transmitting every matching row. The GROUP BY queries become
+ // COUNT(DISTINCT <the GROUP BY column>), which counts the same number of
+ // distinct groups the original GROUP BY + num_rows did.
+$query_mat_req = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')";
 $rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
-$num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
+$num_mat_req = mysqli_fetch_assoc($rs_mat_req)['cnt'];   //how many material are there?
 
 //new consumable request
-$query_con_req = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
+$query_con_req = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y'";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
-$num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
+$num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are there?
 
  //in progress planned order
-$query_plan_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY date_plan DESC";
+$query_plan_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."'";
 $rs_plan_req = mysqli_query($dbc, $query_plan_req);   //run the query.
-$num_plan_req = mysqli_num_rows($rs_plan_req);   //how many material are there?
+$num_plan_req = mysqli_fetch_assoc($rs_plan_req)['cnt'];   //how many material are there?
 
 
  //release planned order
-$query_release_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' ORDER BY date_plan DESC";
+$query_release_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."'";
 $rs_release_req = mysqli_query($dbc, $query_release_req);   //run the query.
-$num_release_req = mysqli_num_rows($rs_release_req);   //how many material are there?
+$num_release_req = mysqli_fetch_assoc($rs_release_req)['cnt'];   //how many material are there?
 
 
  //pending approval disposal
-$query_disposal_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_plan DESC";
+$query_disposal_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
 $rs_disposal_req = mysqli_query($dbc, $query_disposal_req);   //run the query.
-$num_disposal_req = mysqli_num_rows($rs_disposal_req);   //how many material are there?
+$num_disposal_req = mysqli_fetch_assoc($rs_disposal_req)['cnt'];   //how many material are there?
 
 
 // approved disposal
-$query_disposal_req_app = "SELECT * FROM reject_detail_disposal WHERE status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_plan DESC";
+$query_disposal_req_app = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
 $rs_disposal_req_app = mysqli_query($dbc, $query_disposal_req_app);   //run the query.
-$num_disposal_req_app = mysqli_num_rows($rs_disposal_req_app);   //how many material are there?
+$num_disposal_req_app = mysqli_fetch_assoc($rs_disposal_req_app)['cnt'];   //how many material are there?
 
 ?>
 <!--Action boxes-->
@@ -241,16 +248,21 @@ $num_disposal_req_app = mysqli_num_rows($rs_disposal_req_app);   //how many mate
 		$percent_cancel_q = 0.00;
 		
 		//1. - status "In Progress"
-	$query_mat_prog_open_q = "SELECT * FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta7["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
-	$rs_mat_prog_open_q = mysqli_query($dbc, $query_mat_prog_open_q);   
-	$num_mat_prog_open_q = mysqli_num_rows($rs_mat_prog_open_q);   	
-		
-		
-		//2.  - status Completed
-	$query_mat_prog_close_q = "SELECT * FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta14["status_desc"]."'";
-	$rs_mat_prog_close_q = mysqli_query($dbc, $query_mat_prog_close_q);   
-	$num_mat_prog_close_q = mysqli_num_rows($rs_mat_prog_close_q);   		
-		
+		// 2026-08-10 perf fix: was "SELECT *" + mysqli_num_rows(), which had
+		// MySQL materialize and transmit all ~248k matching rows just to be
+		// counted (measured at 9.3 seconds - the dominant cost of this whole
+		// page). No GROUP BY in the original query, so COUNT(*) is exactly
+		// equivalent and lets MySQL return a single number instead.
+	$query_mat_prog_open_q = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta7["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
+	$rs_mat_prog_open_q = mysqli_query($dbc, $query_mat_prog_open_q);
+	$num_mat_prog_open_q = mysqli_fetch_assoc($rs_mat_prog_open_q)['cnt'];
+
+
+		//2.  - status Completed (same fix as above)
+	$query_mat_prog_close_q = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta14["status_desc"]."'";
+	$rs_mat_prog_close_q = mysqli_query($dbc, $query_mat_prog_close_q);
+	$num_mat_prog_close_q = mysqli_fetch_assoc($rs_mat_prog_close_q)['cnt'];
+
 	
 	//-------calculation percentage--------------------------
 	
@@ -307,23 +319,25 @@ $num_disposal_req_app = mysqli_num_rows($rs_disposal_req_app);   //how many mate
 		$percent_close = 0.00;
 		$percent_cancel = 0.00;
 		
-		//1. - open
-	$query_mat_prog_open = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);   
-	$num_mat_prog_open = mysqli_num_rows($rs_mat_prog_open);   	
-		
-		
-		//2.  - close
-	$query_mat_prog_close = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);   
-	$num_mat_prog_close = mysqli_num_rows($rs_mat_prog_close);   		
-		
-		
-		//3. - cancel
-		
-	$query_mat_prog_cancel = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);   
-	$num_mat_prog_cancel = mysqli_num_rows($rs_mat_prog_cancel);  
+		//1. - open (same query/result as $num_mat_req above - "Open Material
+		// Request" badge and this progress bar show the identical open-request
+		// count, so it's reused instead of re-running the same expensive
+		// material_request x scan_detail join+group-by a second time)
+	$num_mat_prog_open = $num_mat_req;
+
+
+		//2.  - close (2026-08-10 perf fix: COUNT(DISTINCT ...) instead of
+		// SELECT * + GROUP BY + num_rows - see comment above $query_mat_req)
+	$query_mat_prog_close = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel')";
+	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);
+	$num_mat_prog_close = mysqli_fetch_assoc($rs_mat_prog_close)['cnt'];
+
+
+		//3. - cancel (same fix)
+
+	$query_mat_prog_cancel = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel')";
+	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);
+	$num_mat_prog_cancel = mysqli_fetch_assoc($rs_mat_prog_cancel)['cnt'];
 	
 	
 	//-------calculation percentage--------------------------
@@ -386,23 +400,23 @@ $num_disposal_req_app = mysqli_num_rows($rs_disposal_req_app);   //how many mate
 		$percent_close2 = 0.00;
 		$percent_cancel2 = 0.00;
 		
-		//1. - open
-	$query_con_prog_open = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_open = mysqli_query($dbc, $query_con_prog_open);   
-	$num_con_prog_open = mysqli_num_rows($rs_con_prog_open);   	
-		
-		
-		//2.  - close
-	$query_con_prog_close = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_close = mysqli_query($dbc, $query_con_prog_close);   
-	$num_con_prog_close = mysqli_num_rows($rs_con_prog_close);   		
-		
-		
-		//3. - cancel
-		
-	$query_con_prog_cancel = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status = 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_cancel = mysqli_query($dbc, $query_con_prog_cancel);   
-	$num_con_prog_cancel = mysqli_num_rows($rs_con_prog_cancel);  
+		//1. - open (same query/result as $num_con_req above - reused for the
+		// same reason as $num_mat_prog_open, see comment there)
+	$num_con_prog_open = $num_con_req;
+
+
+		//2.  - close (2026-08-10 perf fix: COUNT(DISTINCT ...) instead of
+		// SELECT * + GROUP BY + num_rows - see comment above $query_mat_req)
+	$query_con_prog_close = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status  != 'Cancel') AND MR.status_print != 'Y'";
+	$rs_con_prog_close = mysqli_query($dbc, $query_con_prog_close);
+	$num_con_prog_close = mysqli_fetch_assoc($rs_con_prog_close)['cnt'];
+
+
+		//3. - cancel (same fix)
+
+	$query_con_prog_cancel = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status = 'Cancel') AND MR.status_print != 'Y'";
+	$rs_con_prog_cancel = mysqli_query($dbc, $query_con_prog_cancel);
+	$num_con_prog_cancel = mysqli_fetch_assoc($rs_con_prog_cancel)['cnt'];
 	
 	
 	//-------calculation percentage--------------------------
@@ -460,56 +474,13 @@ $num_disposal_req_app = mysqli_num_rows($rs_disposal_req_app);   //how many mate
         
         
            <?php
-		//Progress WIP Request
-		
-		$total_month3 = 0.00;
-		$percent_open3 = 0.00;
-		$percent_close3 = 0.00;
-		$percent_cancel3 = 0.00;
-		
-		//1. - open
-	$query_wip_prog_open = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_wip_prog_open = mysqli_query($dbc, $query_wip_prog_open);   
-	$num_wip_prog_open = mysqli_num_rows($rs_wip_prog_open);   	
-		
-		
-		//2.  - close
-	$query_wip_prog_close = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_wip_prog_close = mysqli_query($dbc, $query_wip_prog_close);   
-	$num_wip_prog_close = mysqli_num_rows($rs_wip_prog_close);   		
-		
-		
-		//3. - cancel
-		
-	$query_wip_prog_cancel = "SELECT * FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel') GROUP BY MR.temp_mrin_wip ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_wip_prog_cancel = mysqli_query($dbc, $query_wip_prog_cancel);   
-	$num_wip_prog_cancel = mysqli_num_rows($rs_wip_prog_cancel);  
-	
-	
-	//-------calculation percentage--------------------------
-	if(($num_wip_prog_open > 0) || ($num_wip_prog_close > 0) || ($num_wip_prog_cancel > 0))
-	{
-	
-	$total_month3 = 	($num_wip_prog_open + $num_wip_prog_close + $num_wip_prog_cancel);
-	
-	$percent_open3 =  (($num_wip_prog_open / $total_month3) * 100);
-	$percent_open3 = number_format($percent_open3, 2);
-	
-	$percent_close3 =  (($num_wip_prog_close / $total_month3) * 100);
-	$percent_close3 = number_format($percent_close3, 2);
-	
-	$percent_cancel3 =  (($num_wip_prog_cancel / $total_month3) * 100);
-	$percent_cancel3 = number_format($percent_cancel3, 2);
-	
-	
-	}else{
-		
-		
-		$percent_open3 = 0;
-		$percent_close3 = 0;
-		$percent_cancel3 = 0;	
-		
-	}
+		// "Progress WIP Request" section removed (2026-08-10, performance fix):
+		// this used to run 3 more full material_request-style joined/grouped
+		// queries (wip_request x scan_detail_wip) on every dashboard load, but
+		// the HTML block that would display $num_wip_prog_open/close/cancel and
+		// $percent_open3/close3/cancel3 has been entirely commented out below
+		// since before this fix - the values were computed and then never used.
+		// Confirmed unused anywhere else in this file before removing.
 		?>
                 
         <!--- <div class="widget-box">

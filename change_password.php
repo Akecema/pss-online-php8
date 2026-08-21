@@ -156,21 +156,29 @@ $message = NULL; // create an empty new variable.
 				  	  
                  if($user && $password && $newpass) { // Everything's OK
 				 
-				 // Same bare/unsalted MD5 hashing as the login flow (ckies-aut_scd.php) -
-				 // see improvement report re: password_hash()/password_verify().
-				 $newpass = md5($_POST['newpass']);
-				  $pass = md5($password);
-				 
-				  // $user/$pass were passed through escape_data() (mysqli_real_escape_string)
-				  // above, so this query is reasonably defended against SQL injection -
-				  // unlike several other files in this app, this one does it right.
-				  $query = "SELECT * FROM user_detail WHERE username ='$user' AND password = '$pass'";
+				 $pass = md5($password); // legacy-format fallback for the old-password check below
+
+				  // MIGRATED (2026-08-17): can't match the old password by SQL equality
+				  // anymore now that some accounts have bcrypt hashes (non-deterministic
+				  // per hash, so "password = '$pass'" in SQL could never match those rows)
+				  // - fetch by username only, then verify the old password and hash the
+				  // new one in PHP. Same pattern as the login flow (ckies-aut_scd.php).
+				  // $user was passed through escape_data() (mysqli_real_escape_string)
+				  // above, so this query is reasonably defended against SQL injection.
+				  $query = "SELECT * FROM user_detail WHERE username ='$user'";
 				  $result = mysqli_query($dbc, $query);
 				  $num = mysqli_num_rows($result);
 				  
 				  if($num == 1 ) {
 				    $row = mysqli_fetch_array($result);
-					
+					$stored_pass = stripslashes($row['password']);
+					if (password_get_info($stored_pass)['algo'] !== null) {
+						$old_password_ok = password_verify($password, $stored_pass);
+					} else {
+						$old_password_ok = ($pass == $stored_pass);
+					}
+					if ($old_password_ok) {
+					$newpass = password_hash($_POST['newpass'], PASSWORD_DEFAULT);
 					//Make the query
 			
 		          $query2 = "UPDATE user_detail set password = '$newpass' where username='".$row["username"]."'";
@@ -217,7 +225,10 @@ $message = NULL; // create an empty new variable.
 				  } else {   //If it did not run OK
 				  $message = '<p>Password cannot be change due to system error. We apologize for any inconvenience.</p><p>'.mysqli_error($dbc).'</p>';
 				  }
-				}else { 
+					} else {
+					   $message = '<p>Your username and password do not match our database</p>';
+					}
+				}else {
 				   $message = '<p>Your username and password do not match our database</p>';
 				 }
 				 mysqli_close($dbc);    //Close the database connection

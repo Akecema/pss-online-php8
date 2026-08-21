@@ -19,7 +19,7 @@ services:
       # container, "localhost" means the container itself, not your PC.
       DB_HOST: ${DB_HOST:-host.docker.internal}
       DB_USER: ${DB_USER:-root}
-      DB_PASSWORD: ${DB_PASSWORD:-!ngre55Ee}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}
       DB_NAME: ${DB_NAME:-mrin_project_ipsb}
     extra_hosts:
       # Needed for host.docker.internal to resolve on Linux Docker Engine;
@@ -35,7 +35,7 @@ services:
     image: mysql:8.0
     profiles: ["bundled-db"]
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-!ngre55Ee}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}
       MYSQL_DATABASE: ${DB_NAME:-mrin_project_ipsb}
     ports:
       - "${DB_PORT:-3306}:3306"
@@ -43,7 +43,7 @@ services:
       - db_data:/var/lib/mysql
       - ./docker/initdb:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD:-!ngre55Ee}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -56,7 +56,7 @@ services:
     environment:
       PMA_HOST: ${DB_HOST:-host.docker.internal}
       PMA_USER: root
-      PMA_PASSWORD: ${DB_PASSWORD:-!ngre55Ee}
+      PMA_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}
     ports:
       - "${PMA_PORT:-8081}:80"
     extra_hosts:

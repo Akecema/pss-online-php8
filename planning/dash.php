@@ -174,19 +174,19 @@ jQuery(document).ready(function ($) {
  
  // ------------------------------  display dashboard ------------------------
  //new material request 
-$query_mat_req = "SELECT * FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND status = 'Y' AND qty_actual != '' GROUP BY plan_no";
+$query_mat_req = "SELECT COUNT(DISTINCT plan_no) AS cnt FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND status = 'Y' AND qty_actual != ''";
 $rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
-$num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
+$num_mat_req = mysqli_fetch_assoc($rs_mat_req)['cnt'];   //how many material are there?
 
 //In Progress Plan Order request
-$query_con_req = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' order by plan_no ASC";
+$query_con_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."'";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
-$num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
+$num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are there?
 
  //in progress planned order
-$query_plan_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta18["status_desc"]."' ORDER BY date_plan DESC";
+$query_plan_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta18["status_desc"]."'";
 $rs_plan_req = mysqli_query($dbc, $query_plan_req);   //run the query.
-$num_plan_req = mysqli_num_rows($rs_plan_req);   //how many material are there?
+$num_plan_req = mysqli_fetch_assoc($rs_plan_req)['cnt'];   //how many material are there?
 
 ?>
 <!--Action boxes-->
@@ -212,23 +212,21 @@ $num_plan_req = mysqli_num_rows($rs_plan_req);   //how many material are there?
 		$percent_close = 0.00;
 		$percent_cancel = 0.00;
 		
-		//1. - Released Plan Order
-	$query_mat_prog_open = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' order by plan_no ASC";
-	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);   
-	$num_mat_prog_open = mysqli_num_rows($rs_mat_prog_open);   	
-		
-		
+		//1. - Released Plan Order (same query as $query_con_req above — reuse instead of re-running)
+	$num_mat_prog_open = $num_con_req;
+
+
 		//2.  - In Progress Plan Order
-	$query_mat_prog_close = "SELECT * FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND status = 'Y' AND qty_actual != ''";
-	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);   
-	$num_mat_prog_close = mysqli_num_rows($rs_mat_prog_close);   		
-		
-		
+	$query_mat_prog_close = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND status = 'Y' AND qty_actual != ''";
+	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);
+	$num_mat_prog_close = mysqli_fetch_assoc($rs_mat_prog_close)['cnt'];
+
+
 		//3. - Closed Plan Order
-		
-	$query_mat_prog_cancel = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta13["status_desc"]."'";
-	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);   
-	$num_mat_prog_cancel = mysqli_num_rows($rs_mat_prog_cancel);  
+
+	$query_mat_prog_cancel = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta13["status_desc"]."'";
+	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);
+	$num_mat_prog_cancel = mysqli_fetch_assoc($rs_mat_prog_cancel)['cnt'];
 	
 	
 	//-------calculation percentage--------------------------

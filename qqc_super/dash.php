@@ -168,24 +168,25 @@ jQuery(document).ready(function ($) {
  
  // ------------------------------  display dashboard ------------------------
  //status pps in progress
-$query_in_progress = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') AS R2 FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel') GROUP BY MR.plan_no";
+$query_in_progress = "SELECT COUNT(DISTINCT MR.plan_no) AS cnt FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
 $rs_in_progress = mysqli_query($dbc, $query_in_progress);   //run the query.
-$num_in_progress = mysqli_num_rows($rs_in_progress);   //how many material are there?
+$num_in_progress = mysqli_fetch_assoc($rs_in_progress)['cnt'];   //how many material are there?
 
 // approval disposal for QQC
-$query_con_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_posting DESC";
+$query_con_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != ''";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
-$num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
+$num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are there?
 
- //release planned order
-$query_plan_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' ORDER BY date_plan DESC";
-$rs_plan_req = mysqli_query($dbc, $query_plan_req);   //run the query.
-$num_plan_req = mysqli_num_rows($rs_plan_req);   //how many material are there?
+ // Dead code removed: "release planned order" query ($num_plan_req) was
+ // computed here but its only display line further down has the echo
+ // itself PHP-commented out (the "echo" is prefixed with // inside that
+ // PHP tag), so the query ran on every page load and the result was
+ // never used.
 
 //pending approval disposal for Prod
-$query_disposal_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta3["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_plan DESC";
+$query_disposal_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta3["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
 $rs_disposal_req = mysqli_query($dbc, $query_disposal_req);   //run the query.
-$num_disposal_req = mysqli_num_rows($rs_disposal_req);   //how many material are there?
+$num_disposal_req = mysqli_fetch_assoc($rs_disposal_req)['cnt'];   //how many material are there?
 
 
 ?>
@@ -215,16 +216,14 @@ $num_disposal_req = mysqli_num_rows($rs_disposal_req);   //how many material are
 		$percent_close = 0.00;
 		$percent_cancel = 0.00;
 		
-		//1. - status "Pending"
-	$query_mat_prog_open = "SELECT * FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel') GROUP BY MR.plan_no";
-	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);   
-	$num_mat_prog_open = mysqli_num_rows($rs_mat_prog_open);   	
-		
-		
+		//1. - status "Pending" (same query as $query_in_progress above — reuse instead of re-running)
+	$num_mat_prog_open = $num_in_progress;
+
+
 		//2.  - status QC OK
-	$query_mat_prog_close = "SELECT * FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = 'QC OK' GROUP BY MR.plan_no";
-	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);   
-	$num_mat_prog_close = mysqli_num_rows($rs_mat_prog_close);   		
+	$query_mat_prog_close = "SELECT COUNT(DISTINCT MR.plan_no) AS cnt FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = 'QC OK'";
+	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);
+	$num_mat_prog_close = mysqli_fetch_assoc($rs_mat_prog_close)['cnt'];
 		
 	
 	//-------calculation percentage--------------------------

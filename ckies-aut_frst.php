@@ -54,6 +54,14 @@
  		{
  		if ($pass != $info['password']) 
  			{
+				// NOTE (2026-08-17): since the MD5-to-password_hash() migration
+				// (see ckies-aut_scd.php / [[Pss ipsb Security Findings]]), this cookie
+				// (always a 32-char MD5-shaped value, set at login time) will simply
+				// never equal a migrated account's bcrypt hash - so remember-me quietly
+				// stops working for an account the moment it's rehashed, falling
+				// through to the ordinary "incorrect password" handling below rather
+				// than erroring. No code change needed here for that reason alone, but
+				// it's still the same insecure cookie scheme flagged separately.
 				// $pass here is the raw Key_my_site cookie value being compared directly
 				// against the stored password hash - so the cookie itself IS the
 				// long-lived credential (valid for 1 hour per the "$hour = time()+3600"

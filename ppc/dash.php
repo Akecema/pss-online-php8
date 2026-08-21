@@ -142,14 +142,14 @@ jQuery(document).ready(function ($) {
  
  // ------------------------------  display dashboard ------------------------
  //new material request 
-$query_mat_req = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
+$query_mat_req = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel')";
 $rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
-$num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
+$num_mat_req = mysqli_fetch_assoc($rs_mat_req)['cnt'];   //how many material are there?
 
 //new consumable request
-$query_con_req = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
+$query_con_req = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y'";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
-$num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
+$num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are there?
 
 
 ?>
@@ -177,23 +177,21 @@ $num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
 		$percent_close = 0.00;
 		$percent_cancel = 0.00;
 		
-		//1. - open
-	$query_mat_prog_open = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);   
-	$num_mat_prog_open = mysqli_num_rows($rs_mat_prog_open);   	
-		
-		
+		//1. - open (same query as $query_mat_req above — reuse instead of re-running)
+	$num_mat_prog_open = $num_mat_req;
+
+
 		//2.  - close
-	$query_mat_prog_close = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);   
-	$num_mat_prog_close = mysqli_num_rows($rs_mat_prog_close);   		
-		
-		
+	$query_mat_prog_close = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status != 'Cancel')";
+	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);
+	$num_mat_prog_close = mysqli_fetch_assoc($rs_mat_prog_close)['cnt'];
+
+
 		//3. - cancel
-		
-	$query_mat_prog_cancel = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_mrin DESC,MR.time_mrin DESC";
-	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);   
-	$num_mat_prog_cancel = mysqli_num_rows($rs_mat_prog_cancel);  
+
+	$query_mat_prog_cancel = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status = 'Cancel')";
+	$rs_mat_prog_cancel = mysqli_query($dbc, $query_mat_prog_cancel);
+	$num_mat_prog_cancel = mysqli_fetch_assoc($rs_mat_prog_cancel)['cnt'];
 	
 	
 	//-------calculation percentage--------------------------
@@ -254,23 +252,21 @@ $num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
 		$percent_close2 = 0.00;
 		$percent_cancel2 = 0.00;
 		
-		//1. - open
-	$query_con_prog_open = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_open = mysqli_query($dbc, $query_con_prog_open);   
-	$num_con_prog_open = mysqli_num_rows($rs_con_prog_open);   	
-		
-		
+		//1. - open (same query as $query_con_req above — reuse instead of re-running)
+	$num_con_prog_open = $num_con_req;
+
+
 		//2.  - close
-	$query_con_prog_close = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status  != 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_close = mysqli_query($dbc, $query_con_prog_close);   
-	$num_con_prog_close = mysqli_num_rows($rs_con_prog_close);   		
-		
-		
+	$query_con_prog_close = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'New' AND MR.status  != 'Cancel') AND MR.status_print != 'Y'";
+	$rs_con_prog_close = mysqli_query($dbc, $query_con_prog_close);
+	$num_con_prog_close = mysqli_fetch_assoc($rs_con_prog_close)['cnt'];
+
+
 		//3. - cancel
-		
-	$query_con_prog_cancel = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status = 'Cancel') AND MR.status_print != 'Y' GROUP BY MR.temp_mrin ORDER BY MR.date_posting DESC, MR.temp_mrin ASC ";
-	$rs_con_prog_cancel = mysqli_query($dbc, $query_con_prog_cancel);   
-	$num_con_prog_cancel = mysqli_num_rows($rs_con_prog_cancel);  
+
+	$query_con_prog_cancel = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status = 'Cancel') AND MR.status_print != 'Y'";
+	$rs_con_prog_cancel = mysqli_query($dbc, $query_con_prog_cancel);
+	$num_con_prog_cancel = mysqli_fetch_assoc($rs_con_prog_cancel)['cnt'];
 	
 	
 	//-------calculation percentage--------------------------

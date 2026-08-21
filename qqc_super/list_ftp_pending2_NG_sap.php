@@ -171,7 +171,7 @@ $total = count($files);  */
 // Open a directory, and read its contents
 if(is_dir($dir)){
   if($dh = opendir($dir)){
-  $total2 = count($dh);  
+  // $total2 = count($dh); removed - count() on a directory resource/handle throws a fatal TypeError under PHP 8 (was PHP7: warning + returned 1). $total2 was assigned but never read anywhere in this file, so the line was just dropped rather than wrapped.
   
    echo "<br>";
    echo "<font color='blue'>TOTAL FILES : ".$total." </font>"; echo "<br>";

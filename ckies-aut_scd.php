@@ -64,14 +64,28 @@
  {
     $_POST['pass'] = stripslashes($_POST['pass']);
  	$info['password'] = stripslashes($info['password']);
- 	// Password hashing here is a bare, unsalted MD5 - MD5 is fast and has no
- 	// per-user salt, so stored hashes are crackable via rainbow tables /
- 	// brute force. Modern PHP has password_hash()/password_verify() (bcrypt,
- 	// salted, tunable cost) built in - see improvement report.
+ 	$plain_pass = $_POST['pass']; // kept for password_verify()/rehash below - $_POST['pass'] gets overwritten to its MD5 form next, still needed as-is for the legacy cookie set further down
+ 	// MIGRATED (2026-08-17): this DB has a mix of legacy bare-MD5 hashes and
+ 	// new password_hash() (bcrypt) hashes. password_get_info() tells us which
+ 	// kind we're looking at without guessing at string length/prefix. Modern
+ 	// hashes go through password_verify(); legacy MD5 hashes are checked the
+ 	// old way and, on a successful match, silently rehashed to bcrypt so the
+ 	// account never needs a manual reset. See [[Pss ipsb Security Findings]].
  	$_POST['pass'] = md5($_POST['pass']);
+ 	if (password_get_info($info['password'])['algo'] !== null) {
+ 		$password_ok = password_verify($plain_pass, $info['password']);
+ 	} else {
+ 		$password_ok = ($_POST['pass'] == $info['password']);
+ 		if ($password_ok) {
+ 			$new_hash = password_hash($plain_pass, PASSWORD_DEFAULT);
+ 			$stmt_rehash = mysqli_prepare($dbc, "UPDATE user_detail SET password = ? WHERE username = ?") or die(mysqli_error($dbc));
+ 			mysqli_stmt_bind_param($stmt_rehash, "ss", $new_hash, $info['username']);
+ 			mysqli_stmt_execute($stmt_rehash);
+ 		}
+ 	}
 
  //gives error if the password is wrong
- 	if ($_POST['pass'] != $info['password']) {
+ 	if (!$password_ok) {
 	
 	
 		

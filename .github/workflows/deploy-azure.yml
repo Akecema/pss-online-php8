@@ -1,0 +1,111 @@
+# READY — both blockers that gated this (git recovery, login-flow SQL
+# injection) are cleared as of 2026-08-17. See infra/main.bicep header and
+# [[Pss ipsb GitHub CLI Deployment Runbook]] for the run steps.
+
+name: Build & Deploy to Azure (testing tier)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm this pushes to the shared testing environment'
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ACR_NAME: acringresspaastest
+  IMAGE_NAME: pssonline
+  RESOURCE_GROUP: rg-ingress-paas-test
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require explicit confirmation
+        if: github.event.inputs.confirm != 'deploy'
+        run: |
+          echo "::error::Input 'confirm' must be exactly 'deploy'. Aborting to avoid an accidental push to the shared testing environment."
+          exit 1
+
+  build-and-push:
+    needs: guard
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute image tag
+        id: tag
+        run: echo "tag=sha-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR login
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      - name: Build image
+        run: docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} .
+
+      - name: Push image
+        run: docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: testing
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Fetch shared-infra outputs
+        id: shared
+        run: |
+          MYSQL_SUBNET_ID=$(az network vnet subnet show \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --vnet-name vnet-ingress-paas-test --name snet-mysql \
+            --query id -o tsv)
+          MYSQL_DNS_ZONE_ID=$(az network private-dns zone show \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --name privatelink.mysql.database.azure.com \
+            --query id -o tsv)
+          echo "mysql_subnet_id=$MYSQL_SUBNET_ID" >> "$GITHUB_OUTPUT"
+          echo "mysql_dns_zone_id=$MYSQL_DNS_ZONE_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy Bicep
+        uses: azure/arm-deploy@v2
+        with:
+          scope: resourcegroup
+          resourceGroupName: ${{ env.RESOURCE_GROUP }}
+          template: infra/main.bicep
+          parameters: >
+            infra/main.bicepparam
+            containerImage=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}
+            mysqlAdminPassword=${{ secrets.MYSQL_ADMIN_PASSWORD }}
+            appDbPassword=${{ secrets.APP_DB_PASSWORD }}
+            mysqlSubnetId=${{ steps.shared.outputs.mysql_subnet_id }}
+            mysqlPrivateDnsZoneId=${{ steps.shared.outputs.mysql_dns_zone_id }}
+
+      - name: Print deployed URL
+        run: |
+          az containerapp show -n ca-pssonline-test -g ${{ env.RESOURCE_GROUP }} \
+            --query properties.configuration.ingress.fqdn -o tsv
+
+# --- Rollback ---------------------------------------------------------------
+#   az containerapp revision list -n ca-pssonline-test -g rg-ingress-paas-test -o table
+#   az containerapp ingress traffic set -n ca-pssonline-test -g rg-ingress-paas-test \
+#     --revision-weight <previous-good-revision>=100

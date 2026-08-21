@@ -111,13 +111,14 @@ $message = NULL; // create an empty new variable.
 				  if($num == 1) {
 				    $row = mysqli_fetch_array($result);
 					
-					 // Generates a random temporary password ($p), stores its MD5 hash
-					 // ($p2) in the DB, and emails the plaintext temp password to the
-					 // user below - better than change_password.php (which emails a
-					 // user-chosen password), but a reset *link* would still be safer
-					 // than emailing any password, even a temporary one.
+					 // Generates a random temporary password ($p), stores its
+					 // password_hash() (bcrypt) hash ($p2) in the DB - MIGRATED
+					 // (2026-08-17), was a bare MD5 hash - and emails the plaintext
+					 // temp password to the user below. Better than change_password.php
+					 // (which emails a user-chosen password), but a reset *link* would
+					 // still be safer than emailing any password, even a temporary one.
 					 $p = substr (md5(uniqid(rand(),1)),3,10);
-					 $p2 = md5($p);
+					 $p2 = password_hash($p, PASSWORD_DEFAULT);
 					 	
 				  $query2 = "UPDATE user_detail set password = '$p2', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
 				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));

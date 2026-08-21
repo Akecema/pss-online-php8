@@ -27,9 +27,22 @@ if (function_exists("mysqli_report")) {
 }
 
 // Set the database access information as constants.
+// DB_PASSWORD has no hardcoded fallback on purpose: this app shares its local
+// MySQL/MariaDB root account with the sibling i-CHARM project, whose old
+// hardcoded password ("!ngre55") leaked into that project's git history and
+// was rotated on 2026-08-07 (see i-CHARM's "DB password + SSO JWT secret
+// rotation" note). The old value that used to sit here is now stale and was
+// never safe to fall back to silently in the first place - failing loudly if
+// DB_PASSWORD isn't set is safer than reusing a known-leaked password.
 define ("DB_HOST", getenv("DB_HOST") ?: "172.18.1.21");
 define ("DB_USER", getenv("DB_USER") ?: "root");
-define ("DB_PASSWORD", getenv("DB_PASSWORD") ?: "!ngre55");
+if (!getenv("DB_PASSWORD")) {
+    // Covers both "unset" (getenv() returns false) and "set but empty"
+    // (e.g. docker-compose substituting a blank string for a missing .env
+    // value) - either way, don't proceed without a real password.
+    die("Configuration error: DB_PASSWORD environment variable is not set. See .env.example.");
+}
+define ("DB_PASSWORD", getenv("DB_PASSWORD"));
 define ("DB_NAME", getenv("DB_NAME") ?: "mrin_project_ipsb");
 
 // Make the connection and then select the database.

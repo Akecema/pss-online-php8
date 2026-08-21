@@ -35,8 +35,16 @@ COPY docker/php.ini-overrides.ini /usr/local/etc/php/conf.d/zz-app-overrides.ini
 
 WORKDIR /var/www/html
 
-# App code is mounted as a volume in docker-compose for local dev; for a production image
-# build, uncomment the line below to bake the code into the image instead.
-# COPY . /var/www/html
+# App code: bind-mounted as a volume in docker-compose for local dev (see that file),
+# but a deployable image for Azure/CI must bake the code in — Container Apps has no
+# concept of your local bind mount. Baked in by default here so this image is
+# push-and-deploy-ready; local dev's bind mount still overlays it at runtime.
+COPY . /var/www/html
+
+# uploads/exports dirs the app writes into at runtime (BOM_upload, FromPortal, etc.
+# already exist in the source tree — this just guarantees ownership/perms in the image).
+RUN chown -R www-data:www-data /var/www/html \
+    && find /var/www/html -type d -exec chmod 755 {} \; \
+    && find /var/www/html -type f -exec chmod 644 {} \;
 
 EXPOSE 80

@@ -138,36 +138,25 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 		//date_default_timezone_set('Asia/Kuala Lumpur');
 		
 
+// NOTE: originally this validated the folder with
+//   opendir($_SERVER['DOCUMENT_ROOT'] . "../../PSS_Online/FromPortal/") or die(...)
+// which concatenates DOCUMENT_ROOT with a path meant to be relative to this
+// script (not the document root), and always failed - the "Unable to open"
+// message shown on every load. The actual listing below already uses $dir
+// (document-root-relative, correct in any deployment) and already handles a
+// missing directory gracefully via is_dir($dir), so the broken pre-check was
+// just removed rather than repaired.
 $root = $_SERVER['DOCUMENT_ROOT'];
-$path = "../../PSS_Online/FromPortal/"; 
-
-// Open the folder
- $dir_handle = @opendir($root . $path) or die("Unable to open $path");
-
 $dir = "$root/FromPortal/";
 
-$folder = '../../PSS_Online/FromPortal/';
-$filetype = '*.*';    
-$files = glob($folder.$filetype);    
-$total = count($files);   
-/*
-$root = $_SERVER['DOCUMENT_ROOT'];
-$path = "/PSS_Online/FromPortal/"; 
-
-// Open the folder
- $dir_handle = @opendir($root . $path) or die("Unable to open $path");
-
-$dir = "$root/PSS_Online/FromPortal/";
-
-$folder = '../../PSS_Online/FromPortal/';
-$filetype = '*.*';    
-$files = glob($folder.$filetype);    
-$total = count($files);  */ 
+$filetype = '*.*';
+$files = glob($dir.$filetype);
+$total = count($files);
 
 // Open a directory, and read its contents
 if(is_dir($dir)){
   if($dh = opendir($dir)){
-  $total2 = count($dh);  
+  // $total2 = count($dh); removed - count() on a directory resource/handle throws a fatal TypeError under PHP 8 (was PHP7: warning + returned 1). $total2 was assigned but never read anywhere in this file, so the line was just dropped rather than wrapped.
   
    echo "<br>";
    echo "<font color='blue'>TOTAL FILES : ".$total." </font>"; echo "<br>";

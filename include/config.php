@@ -34,8 +34,8 @@ if (function_exists("mysqli_report")) {
 // rotation" note). The old value that used to sit here is now stale and was
 // never safe to fall back to silently in the first place - failing loudly if
 // DB_PASSWORD isn't set is safer than reusing a known-leaked password.
-define ("DB_HOST", getenv("DB_HOST") ?: "172.18.1.21");
-define ("DB_USER", getenv("DB_USER") ?: "root");
+define ("DB_HOST", getenv("DB_HOST");
+define ("DB_USER", getenv("DB_USER");
 if (!getenv("DB_PASSWORD")) {
     // Covers both "unset" (getenv() returns false) and "set but empty"
     // (e.g. docker-compose substituting a blank string for a missing .env
@@ -43,7 +43,7 @@ if (!getenv("DB_PASSWORD")) {
     die("Configuration error: DB_PASSWORD environment variable is not set. See .env.example.");
 }
 define ("DB_PASSWORD", getenv("DB_PASSWORD"));
-define ("DB_NAME", getenv("DB_NAME") ?: "mrin_project_ipsb");
+define ("DB_NAME", getenv("DB_NAME");
 
 // Make the connection and then select the database.
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD) or die ("Could not connect to MySQL :".mysqli_error($dbc));

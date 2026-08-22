@@ -1,18 +1,17 @@
 <?php
 
-
 /**
- * include/config.php
- * Part of: Shared includes/config
- * Filename suggests: config
- *
- * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
- *
- * NOTE: this summary was generated automatically by static analysis during
- * the PHP8 migration (looking at queries/includes/superglobals actually used
- * in this file). It describes *what the code touches*, not necessarily *why* -
- * treat it as a starting point and refine as you work in this file.
- */
+* include/config.php
+* Part of: Shared includes/config
+* Filename suggests: config
+*
+* Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+*
+* NOTE: this summary was generated automatically by static analysis during
+* the PHP8 migration (looking at queries/includes/superglobals actually used
+* in this file). It describes *what the code touches*, not necessarily *why* -
+* treat it as a starting point and refine as you work in this file.
+*/
 // This file contains the database access information. This file also
 // establishes a connection to MySQL and selects the database.
 //
@@ -34,16 +33,16 @@ if (function_exists("mysqli_report")) {
 // rotation" note). The old value that used to sit here is now stale and was
 // never safe to fall back to silently in the first place - failing loudly if
 // DB_PASSWORD isn't set is safer than reusing a known-leaked password.
-define ("DB_HOST", getenv("DB_HOST");
-define ("DB_USER", getenv("DB_USER");
+define ("DB_HOST", getenv("DB_HOST"));
+define ("DB_USER", getenv("DB_USER"));
 if (!getenv("DB_PASSWORD")) {
     // Covers both "unset" (getenv() returns false) and "set but empty"
-    // (e.g. docker-compose substituting a blank string for a missing .env
-    // value) - either way, don't proceed without a real password.
-    die("Configuration error: DB_PASSWORD environment variable is not set. See .env.example.");
+// (e.g. docker-compose substituting a blank string for a missing .env
+// value) - either way, don't proceed without a real password.
+die("Configuration error: DB_PASSWORD environment variable is not set. See .env.example.");
 }
 define ("DB_PASSWORD", getenv("DB_PASSWORD"));
-define ("DB_NAME", getenv("DB_NAME");
+define ("DB_NAME", getenv("DB_NAME"));
 
 // Make the connection and then select the database.
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD) or die ("Could not connect to MySQL :".mysqli_error($dbc));

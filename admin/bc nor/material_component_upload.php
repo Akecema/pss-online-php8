@@ -227,7 +227,7 @@ else
 {
 	if (file_exists($_FILES["fileUpload"]["name"])) 
 	{	
-		unlink($_FILES["fileUpload"]["name"]);
+		unlink(basename($_FILES["fileUpload"]["name"]));
 	}
 }
 } 

@@ -230,7 +230,7 @@ echo "Return Code: " . $_FILES["fileUpload"]["error"] . "<br />";
 else {
 if (file_exists($_FILES["fileUpload"]["name"])) {
 	
-unlink($_FILES["fileUpload"]["name"]);
+unlink(basename($_FILES["fileUpload"]["name"]));
 
 
 }

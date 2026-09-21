@@ -15,10 +15,13 @@
  * treat it as a starting point and refine as you work in this file.
  */
 //--------setup website page --------------------------
-$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
-$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
-$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
-$data_setup = mysqli_fetch_array($rs_setup);
+// The including page has usually closed $dbc already (mysqli_close) and loaded $data_setup;
+// querying again on a closed mysqli object is a fatal error on PHP 8.
+if (!isset($data_setup['title_desc'])) {
+	$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+	$rs_setup = mysqli_query($dbc, $query_setup);
+	$data_setup = mysqli_fetch_array($rs_setup);
+}
 //----------------------------------------------------
 ?>
 <!--Footer-part-->

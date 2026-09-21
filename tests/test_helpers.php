@@ -42,5 +42,6 @@ check('upload name: plain xlsx kept', upload_safe_name('BOM list (1).xlsx', ['xl
 check('upload name: traversal stripped', upload_safe_name('..\..\x/evil.xls', ['xls']) === 'evil.xls');
 check('upload ext: lower-cased', upload_safe_ext('A.JPG', ['jpg']) === 'jpg');
 
+
 ob_end_flush();
 exit($fail === 0 ? 0 : 1);

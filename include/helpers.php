@@ -133,9 +133,9 @@ function require_same_origin(): void
  *
  * @param list<string> $allowedExt lower-case extensions without the dot
  */
-function upload_safe_name(string $name, array $allowedExt): string
+function upload_safe_name(mixed $name, array $allowedExt): string
 {
-    $base = basename(str_replace(chr(92), '/', $name));
+    $base = basename(str_replace(chr(92), '/', (string) $name));
     $base = str_replace('..', '_', (string) preg_replace('/[^A-Za-z0-9._() \-]/', '_', $base));
     $ext = strtolower(pathinfo($base, PATHINFO_EXTENSION));
     if ($base === '' || $base[0] === '.' || !in_array($ext, $allowedExt, true)) {
@@ -146,7 +146,7 @@ function upload_safe_name(string $name, array $allowedExt): string
 }
 
 /** Validated lower-case extension of a client file name (exits with 400 if not allowed). */
-function upload_safe_ext(string $name, array $allowedExt): string
+function upload_safe_ext(mixed $name, array $allowedExt): string
 {
     return strtolower(pathinfo(upload_safe_name($name, $allowedExt), PATHINFO_EXTENSION));
 }

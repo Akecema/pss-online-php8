@@ -651,7 +651,7 @@ class tc_calendar{
 
 	function writeDateContainer(){
 		if($this->day && $this->month && $this->year)
-			$dd = date($this->date_format, mktime(0,0,0,$this->month,$this->day,$this->year));
+			$dd = date($this->date_format, mktime(0,0,0,(int)$this->month,(int)$this->day,(int)$this->year));
 		else $dd = "Select Date";
 
 		echo("<span id=\"divCalendar_".$this->objname."_lbl\" class=\"date-tccontainer\"".($this->rtl ? " dir=\"rtl\"" : "").">$dd</span>");
@@ -714,7 +714,7 @@ class tc_calendar{
 	}
 
 	function checkDefaultDateValid(){
-		$default_datetime = mktime(0,0,0,$this->month,$this->day,$this->year);
+		$default_datetime = mktime(0,0,0,(int)$this->month,(int)$this->day,(int)$this->year);
 		$valid = true;
 
 		//check with allow date

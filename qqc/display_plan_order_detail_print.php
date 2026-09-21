@@ -25,7 +25,7 @@ $Cdate = date ("l, j F Y ");
 
 set_time_limit(0);
 // include 2D barcode class (search for installation path)
-require_once('/tcpdf_barcodes_2d.php');
+require_once(__DIR__ . '/tcpdf_barcodes_2d.php');
 
 // Check, if username session is NOT set then this page will jump to login page
 if (!isset($_SESSION['username'])) {

@@ -29,7 +29,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -107,7 +107,7 @@ $url = 'material_master_list.php';
  <?php
 	   $id_hdr = $_GET["id_hdr"];
 	
-	   $query_scan = "SELECT *,DATE_FORMAT(date_bom_create, '%d-%m-%Y') AS R2 FROM mat_master_header AS HD WHERE HD.id_hdr = '".$id_hdr."'";
+	   $query_scan = "SELECT *,DATE_FORMAT(date_bom_create, '%d-%m-%Y') AS R2 FROM mat_master_header AS HD WHERE HD.id_hdr = '".db_esc($dbc, $id_hdr)."'";
 	   $result_scan = mysqli_query($dbc, $query_scan);
 	   $data_scan = mysqli_fetch_array($result_scan);
 	   
@@ -142,7 +142,7 @@ $url = 'material_master_list.php';
              <p>--------------------------------------------------------------------------------------------------------------------------------------------- </p>
              <?php
 			 
-	  $query_component = "SELECT *, DATE_FORMAT(valid_from, '%d-%m-%Y') AS R FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".$data_scan["material_no"]."' AND s.bom_status != 'N'";
+	  $query_component = "SELECT *, DATE_FORMAT(valid_from, '%d-%m-%Y') AS R FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".db_esc($dbc, $data_scan["material_no"])."' AND s.bom_status != 'N'";
 	   $result_component = mysqli_query($dbc, $query_component);
 	  
 			 ?>

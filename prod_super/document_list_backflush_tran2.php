@@ -32,7 +32,7 @@ exit();
 }
 $url = "document_list_backflush_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -249,7 +249,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -267,7 +267,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
+	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' ORDER BY plan_no ASC";
             $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -359,7 +359,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	//********** END CONDITION **************
 
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql;
+   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."')".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -370,7 +370,7 @@ function getXMLHTTP() { //fuction to return the xml http object
  
  
   
-$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql."ORDER BY MR.plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."')".$where_sql."ORDER BY MR.plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 

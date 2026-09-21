@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -104,7 +104,7 @@ $rst_sta14 = mysqli_fetch_array($sta_res14);
 
 <?php
 
-  $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
+  $query_sql = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $username)."' and status = 'AC'";
    $result_sql = mysqli_query($dbc, $query_sql);
    $info = mysqli_fetch_array($result_sql);
     
@@ -187,7 +187,7 @@ $num_wip_req = mysqli_num_rows($rs_wip_req);   //how many material are there?
 
 
  //pending approval disposal
-$query_disposal_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' ORDER BY date_plan DESC";
+$query_disposal_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' ORDER BY date_plan DESC";
 $rs_disposal_req = mysqli_query($dbc, $query_disposal_req);   //run the query.
 $num_disposal_req = mysqli_num_rows($rs_disposal_req);   //how many material are there?
 

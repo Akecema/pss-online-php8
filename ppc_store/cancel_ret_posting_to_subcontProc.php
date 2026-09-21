@@ -40,8 +40,8 @@ $year = $today['year'];
 
 $url = "cancel_trans_posting_to_store.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -409,8 +409,8 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
    while ($data_sql2 = mysqli_fetch_array($result_sql2))
    {
 	   
-	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM ret_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $data_sql2["doc_tp"])."'  ORDER BY doc_tp ASC";
-     $result_sql3 = mysqli_query($dbc, $query_sql3);   //run the query.
+	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM ret_subcont_detail WHERE status_tran = 'Y' AND doc_tp = ?  ORDER BY doc_tp ASC"; $query_sql3_args = [$data_sql2["doc_tp"]];
+     $result_sql3 = db_query_bind($dbc, $query_sql3, $query_sql3_args);   //run the query.
 	 
 
 	   while ($data_sql3 = mysqli_fetch_array($result_sql3))

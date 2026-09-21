@@ -33,8 +33,8 @@ exit();
 $url = "FTP_bflush_download.php";
 
 
-$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+$query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+$result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -272,8 +272,8 @@ $data_setup = mysqli_fetch_array($rs_setup);
    while ($row2 = mysqli_fetch_array($rs))
    {
   	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2["user_create"])."'";
-	$result_u = mysqli_query($dbc, $query_u);   //run the query.
+	$query_u = "SELECT * FROM user_detail WHERE user_no = ?"; $query_u_args = [$row2["user_create"]];
+	$result_u = db_query_bind($dbc, $query_u, $query_u_args);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 	
 

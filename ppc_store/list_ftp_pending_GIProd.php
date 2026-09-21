@@ -32,8 +32,8 @@ exit();
 }
 $url = "list_ftp_pending_sap.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -217,22 +217,22 @@ if(is_dir($dir)){
 				 
 		//---check filename from table ftp backflush --------
 		
-	$query = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_approval_qc WHERE status_ftp = 'Y' AND file_name = '".db_esc($dbc, $filename2)."'";
-	$rs = mysqli_query($dbc, $query);   //run the query.
+	$query = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_approval_qc WHERE status_ftp = 'Y' AND file_name = ?"; $query_args = [$filename2];
+	$rs = db_query_bind($dbc, $query, $query_args);   //run the query.
 	
 	
 	while($row_rs = mysqli_fetch_array($rs)) {   //how many material are there?
 				 
 		//---check material type in table material--------
 		
-	$query_mat_type = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row_rs["material_no"])."'";
-	$rs_mat_type = mysqli_query($dbc, $query_mat_type);   //run the query.
+	$query_mat_type = "SELECT * FROM table_material WHERE material_no = ?"; $query_mat_type_args = [$row_rs["material_no"]];
+	$rs_mat_type = db_query_bind($dbc, $query_mat_type, $query_mat_type_args);   //run the query.
 	$row_mat_type = mysqli_fetch_array($rs_mat_type);   //how many material are there?	
 	
 		//---check ploc reject in table disposal --------
 		
-		$query_disposal = "SELECT * FROM reject_detail_disposal WHERE material_no = '".db_esc($dbc, $row_mat_type["material_no"])."' AND doc_disposal_no = '".db_esc($dbc, $row_rs["doc_disposal_no"])."'";
-	$rs_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
+		$query_disposal = "SELECT * FROM reject_detail_disposal WHERE material_no = ? AND doc_disposal_no = ?"; $query_disposal_args = [$row_mat_type["material_no"], $row_rs["doc_disposal_no"]];
+	$rs_disposal = db_query_bind($dbc, $query_disposal, $query_disposal_args);   //run the query.
 	$row_disposal = mysqli_fetch_array($rs_disposal);   //how many material are there?			 
 				                
     ?>

@@ -41,8 +41,8 @@ $currentdate = (date("Y-m-d"));
 
 $url = "trans_posting_to_store.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -243,16 +243,16 @@ echo "<br>"; */
 			$yy2 = substr($part11,6,5);
 			$create_dt = ($yy2.'-'.$mm2.'-'.$dd2);
 				   
-  $query_q2 = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $part4)."'";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
+  $query_q2 = "SELECT * FROM table_material WHERE material_no = ?"; $query_q2_args = [$part4];
+  $result_q2 = db_query_bind($dbc, $query_q2, $query_q2_args) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
   
   
   //-----------------checking sudah generate scan id ------------------
   
 //insert to scan_tp_store
-$query_db = "INSERT INTO scan_tp_store(id_scan_tp, scan_doc, barcode_ref, doc_no, plan_code, scan_sloc, material_no, material_desc, plan_no, scan_shift, scan_qty, scan_uom, scan_date_posting, scan_date_create, slip_no, user_create, date_create, status) VALUES ('','".db_esc($dbc, $number)."','".db_esc($dbc, $barcode_ref2)."', '".db_esc($dbc, $part1)."', '".db_esc($dbc, $part2)."', '".strtoupper($part3)."', '".strtoupper($part4)."', '".strtoupper($ans3["material_desc"])."', '".strtoupper($part5)."', '".strtoupper($part6)."', '".db_esc($dbc, $part7)."', '".strtoupper($part8)."', '".db_esc($dbc, $post_dt)."', '".db_esc($dbc, $create_dt)."', '".strtolower($part12)."', '".db_esc($dbc, $username)."', NOW(),'N')";
-$result_db = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
+$query_db = "INSERT INTO scan_tp_store(id_scan_tp, scan_doc, barcode_ref, doc_no, plan_code, scan_sloc, material_no, material_desc, plan_no, scan_shift, scan_qty, scan_uom, scan_date_posting, scan_date_create, slip_no, user_create, date_create, status) VALUES ('',?,?, ?, ?, '".strtoupper($part3)."', '".strtoupper($part4)."', '".strtoupper($ans3["material_desc"])."', '".strtoupper($part5)."', '".strtoupper($part6)."', ?, '".strtoupper($part8)."', ?, ?, '".strtolower($part12)."', ?, NOW(),'N')"; $query_db_args = [$number, $barcode_ref2, $part1, $part2, $part7, $post_dt, $create_dt, $username];
+$result_db = db_query_bind($dbc, $query_db, $query_db_args) or die(db_fail($dbc));
 
 //----add for record [status = 'Y' will be generate trans posting running no]
 
@@ -425,13 +425,13 @@ return "";
 		   			
 		/*echo ($i+1).'-'.$cancel[$i];   echo h($string[$i]); echo "</br>";*/
 		
-		$query_update_scan2 = "UPDATE scan_tp_store SET scan_qty = '".db_esc($dbc, $string[$i])."' WHERE id_scan_tp = '".db_esc($dbc, $cancel[$i])."'";
-	    $rst_update_scan2 = mysqli_query($dbc, $query_update_scan2);
+		$query_update_scan2 = "UPDATE scan_tp_store SET scan_qty = ? WHERE id_scan_tp = ?"; $query_update_scan2_args = [$string[$i], $cancel[$i]];
+	    $rst_update_scan2 = db_query_bind($dbc, $query_update_scan2, $query_update_scan2_args);
 		
 		 //-----get info scan_tp_store-------------
 		 
-		$query_info = "SELECT * FROM scan_tp_store WHERE id_scan_tp = '".db_esc($dbc, $cancel[$i])."'";
-		$result_info = mysqli_query($dbc, $query_info);
+		$query_info = "SELECT * FROM scan_tp_store WHERE id_scan_tp = ?"; $query_info_args = [$cancel[$i]];
+		$result_info = db_query_bind($dbc, $query_info, $query_info_args);
 		$row_info = mysqli_fetch_array($result_info);
 		 
 		   if($row_info["scan_sloc"] == "P130")
@@ -449,8 +449,8 @@ return "";
 
 		//---------insert data at table tp_store_detail
 		
-		  $query_store = "INSERT INTO tp_store_detail(id_tp, doc_tp, id_scan_tp, scan_doc, doc_no, posting_date, posting_time, prepared_by, plan_code, shift_day, scan_shift_day, item_no, material_no, material_desc, qty_tp, uom, slip_no, plan_no, sloc_from, sloc_to, user_create, date_create, user_generate_tp, date_generate_tp, ref_doc_tp, user_cancel, date_cancel, status_ftp, status_tran, status_tp) VALUES('','".db_esc($dbc, $ref)."','".db_esc($dbc, $row_info["id_scan_tp"])."','".db_esc($dbc, $scan_doc)."','".db_esc($dbc, $row_info["doc_no"])."','".db_esc($dbc, $_POST["date1"])."',NOW(),'".db_esc($dbc, strtoupper($_POST["prepared_by"]))."','".db_esc($dbc, $_POST["plan_code"])."','".db_esc($dbc, $_POST["shift_day"])."','".db_esc($dbc, $row_info["scan_shift"])."','".db_esc($dbc, $string2[$i])."','".db_esc($dbc, $row_info["material_no"])."','".db_esc($dbc, $row_info["material_desc"])."','".db_esc($dbc, $string[$i])."','".strtoupper($row_info["scan_uom"])."','".db_esc($dbc, $row_info["slip_no"])."','".db_esc($dbc, $row_info["plan_no"])."','".db_esc($dbc, $row_info["scan_sloc"])."','".db_esc($dbc, $sloc_to2)."','".db_esc($dbc, $row_info["user_create"])."','".db_esc($dbc, $row_info["date_create"])."','".db_esc($dbc, $username)."', NOW(),'','','','Y','Y','".db_esc($dbc, $rst_sta19["status_desc"])."')";      
-		  $rst_store = mysqli_query($dbc, $query_store);
+		  $query_store = "INSERT INTO tp_store_detail(id_tp, doc_tp, id_scan_tp, scan_doc, doc_no, posting_date, posting_time, prepared_by, plan_code, shift_day, scan_shift_day, item_no, material_no, material_desc, qty_tp, uom, slip_no, plan_no, sloc_from, sloc_to, user_create, date_create, user_generate_tp, date_generate_tp, ref_doc_tp, user_cancel, date_cancel, status_ftp, status_tran, status_tp) VALUES('',?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,'".strtoupper($row_info["scan_uom"])."',?,?,?,?,?,?,?, NOW(),'','','','Y','Y',?)"; $query_store_args = [$ref, $row_info["id_scan_tp"], $scan_doc, $row_info["doc_no"], $_POST["date1"], strtoupper($_POST["prepared_by"]), $_POST["plan_code"], $_POST["shift_day"], $row_info["scan_shift"], $string2[$i], $row_info["material_no"], $row_info["material_desc"], $string[$i], $row_info["slip_no"], $row_info["plan_no"], $row_info["scan_sloc"], $sloc_to2, $row_info["user_create"], $row_info["date_create"], $username, $rst_sta19["status_desc"]];      
+		  $rst_store = db_query_bind($dbc, $query_store, $query_store_args);
 
 
 		  //-----------------k azie edit 19/2/2024----------------------
@@ -471,8 +471,8 @@ return "";
 		   
 	   }else{
 		   
-	   $query_upd_shift2 = "UPDATE tp_store_detail SET posting_date = '".$prev_date."' WHERE id_tp = '".db_esc($dbc, $row_upd_shift["id_tp"])."'";
-	   $result_upd_shift2 = mysqli_query($dbc, $query_upd_shift2);  	
+	   $query_upd_shift2 = "UPDATE tp_store_detail SET posting_date = '".$prev_date."' WHERE id_tp = ?"; $query_upd_shift2_args = [$row_upd_shift["id_tp"]];
+	   $result_upd_shift2 = db_query_bind($dbc, $query_upd_shift2, $query_upd_shift2_args);  	
    
 	   }
 	   }  
@@ -480,8 +480,8 @@ return "";
 
 		//---update status "yes" for generate tp to store----
 		
-		$query_update_scan = "UPDATE scan_tp_store SET status = 'Y' WHERE id_scan_tp = '".db_esc($dbc, $cancel[$i])."'";
-	    $rst_update_scan = mysqli_query($dbc, $query_update_scan);
+		$query_update_scan = "UPDATE scan_tp_store SET status = 'Y' WHERE id_scan_tp = ?"; $query_update_scan_args = [$cancel[$i]];
+	    $rst_update_scan = db_query_bind($dbc, $query_update_scan, $query_update_scan_args);
 		
 	}//end for loop
        
@@ -489,8 +489,8 @@ return "";
     $data_rcv = "";
    
 
-   $query_rcv_ftp = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS J, DATE_FORMAT(date_create,'%d-%m-%Y') AS R2 FROM tp_store_detail WHERE doc_tp = '".db_esc($dbc, $ref)."'";
-   $result_rcv_ftp = mysqli_query($dbc, $query_rcv_ftp);
+   $query_rcv_ftp = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS J, DATE_FORMAT(date_create,'%d-%m-%Y') AS R2 FROM tp_store_detail WHERE doc_tp = ?"; $query_rcv_ftp_args = [$ref];
+   $result_rcv_ftp = db_query_bind($dbc, $query_rcv_ftp, $query_rcv_ftp_args);
    
    $filen_rcv = "TP4".$ref; 
   
@@ -503,8 +503,8 @@ $data_rcv .= $data_rcv_ftp["prepared_by"].";".$data_rcv_ftp["J"].";".$data_rcv_f
   
      //----------update table ftp_qc_received_detail------------
    
-    $query_rcv_ftp_info = "INSERT INTO ftp_tp_store(id, file_name, doc_tp, id_tp, plan_no, material_no, material_desc, qty_ftp, uom, plant, shift_day,slip_no, mvt_type, status_ftp, posting_date, posting_time, user_create, date_create) VALUES('','".db_esc($dbc, $filen_rcv)."','".db_esc($dbc, $ref)."',".$data_rcv_ftp["id_tp"].",'".db_esc($dbc, $data_rcv_ftp["plan_no"])."','".db_esc($dbc, $data_rcv_ftp["material_no"])."','".db_esc($dbc, $data_rcv_ftp["material_desc"])."','".db_esc($dbc, $data_rcv_ftp["qty_tp"])."','".db_esc($dbc, $data_rcv_ftp["uom"])."','".db_esc($dbc, $data_rcv_ftp["plan_code"])."','".db_esc($dbc, $data_rcv_ftp["shift_day"])."','".db_esc($dbc, $data_rcv_ftp["slip_no"])."','311','Y','".db_esc($dbc, $data_rcv_ftp["posting_date"])."','".db_esc($dbc, $data_rcv_ftp["posting_time"])."','".db_esc($dbc, $username)."',NOW())"; 
-     $rst_rcv_ftp_info = mysqli_query($dbc, $query_rcv_ftp_info);
+    $query_rcv_ftp_info = "INSERT INTO ftp_tp_store(id, file_name, doc_tp, id_tp, plan_no, material_no, material_desc, qty_ftp, uom, plant, shift_day,slip_no, mvt_type, status_ftp, posting_date, posting_time, user_create, date_create) VALUES('',?,?,".$data_rcv_ftp["id_tp"].",?,?,?,?,?,?,?,?,'311','Y',?,?,?,NOW())"; $query_rcv_ftp_info_args = [$filen_rcv, $ref, $data_rcv_ftp["plan_no"], $data_rcv_ftp["material_no"], $data_rcv_ftp["material_desc"], $data_rcv_ftp["qty_tp"], $data_rcv_ftp["uom"], $data_rcv_ftp["plan_code"], $data_rcv_ftp["shift_day"], $data_rcv_ftp["slip_no"], $data_rcv_ftp["posting_date"], $data_rcv_ftp["posting_time"], $username]; 
+     $rst_rcv_ftp_info = db_query_bind($dbc, $query_rcv_ftp_info, $query_rcv_ftp_info_args);
 	  
 	  
 	  }
@@ -515,8 +515,8 @@ $data_rcv .= $data_rcv_ftp["prepared_by"].";".$data_rcv_ftp["J"].";".$data_rcv_f
    
 	   // ---update status 
 
-		$query_rcv_ftp2 = "UPDATE tp_store_detail SET status_ftp = 'Y' WHERE doc_tp = '".db_esc($dbc, $data_rcv_ftp["doc_tp"])."'";
-		$rst_query_rcv_ftp2 = mysqli_query($dbc, $query_rcv_ftp2); //or die ("Error in query: $query_ftp"); 
+		$query_rcv_ftp2 = "UPDATE tp_store_detail SET status_ftp = 'Y' WHERE doc_tp = ?"; $query_rcv_ftp2_args = [$data_rcv_ftp["doc_tp"]];
+		$rst_query_rcv_ftp2 = db_query_bind($dbc, $query_rcv_ftp2, $query_rcv_ftp2_args); //or die ("Error in query: $query_ftp"); 
 		
 				
     //---------------------------------------end ftp -------------------------------------------------   
@@ -525,8 +525,8 @@ $data_rcv .= $data_rcv_ftp["prepared_by"].";".$data_rcv_ftp["J"].";".$data_rcv_f
 	//update count_max----------------------------------------
 		
 	
-       $query_max_a = "UPDATE run_count_no SET count_max = '".db_esc($dbc, $number)."', date_updated = NOW() WHERE uid = '4'";
-	   $result_max_a = mysqli_query($dbc, $query_max_a);
+       $query_max_a = "UPDATE run_count_no SET count_max = ?, date_updated = NOW() WHERE uid = '4'"; $query_max_a_args = [$number];
+	   $result_max_a = db_query_bind($dbc, $query_max_a, $query_max_a_args);
 	   
 	   $query_max_b = "UPDATE run_count_no SET count_max = '".$number2."', date_updated = NOW() WHERE uid = '35'";
 	   $result_max_b = mysqli_query($dbc, $query_max_b);
@@ -567,8 +567,8 @@ exit();
 
 //-----------delete all data current screen-------------
 
-   $query_delete_scan = "DELETE FROM scan_tp_store WHERE scan_doc = '".db_esc($dbc, $number)."'";
-   $result_delete_scan = mysqli_query($dbc, $query_delete_scan);
+   $query_delete_scan = "DELETE FROM scan_tp_store WHERE scan_doc = ?"; $query_delete_scan_args = [$number];
+   $result_delete_scan = db_query_bind($dbc, $query_delete_scan, $query_delete_scan_args);
 
 //---------end delete ----------------------------------
 
@@ -670,8 +670,8 @@ exit();
 
 
    
-             $query_sql2 = "SELECT * FROM scan_tp_store WHERE scan_doc = '".db_esc($dbc, $number)."' AND user_create = '".db_esc($dbc, $username)."'";
-			 $result_sql2 = mysqli_query($dbc, $query_sql2);
+             $query_sql2 = "SELECT * FROM scan_tp_store WHERE scan_doc = ? AND user_create = ?"; $query_sql2_args = [$number, $username];
+			 $result_sql2 = db_query_bind($dbc, $query_sql2, $query_sql2_args);
 			
     
     

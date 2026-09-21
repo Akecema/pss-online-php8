@@ -32,8 +32,8 @@ exit();
 $url = "FTP_bflush_download.php";
 
 
-$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+$query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+$result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 	
 $today = getdate();

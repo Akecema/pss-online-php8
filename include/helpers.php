@@ -27,16 +27,30 @@ function db_esc(mysqli $dbc, mixed $value): string
  * Run a prepared statement and return the result set (SELECT) or true
  * (INSERT/UPDATE/DELETE). Returns false on failure, like mysqli_query().
  *
+ * A write statement is left open until the next call: closing it resets the link's
+ * affected_rows to -1, and legacy pages read mysqli_affected_rows($dbc) afterwards.
+ *
  * @param list<int|float|string|null> $params
  */
 function db_query_params(mysqli $dbc, string $sql, string $types = '', array $params = []): mysqli_result|bool
 {
+    static $pending = null;
+    if ($pending instanceof mysqli_stmt) {
+        mysqli_stmt_close($pending);
+        $pending = null;
+    }
     $stmt = mysqli_prepare($dbc, $sql);
     if ($stmt === false) {
         return false;
     }
-    if ($params !== []) {
-        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    try {
+        if ($params !== []) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+        }
+    } catch (ArgumentCountError | ValueError $e) {
+        error_log('PSS Online SQL bind error [' . ($_SERVER['SCRIPT_NAME'] ?? 'cli') . ']: ' . $e->getMessage());
+        mysqli_stmt_close($stmt);
+        return false;
     }
     if (!mysqli_stmt_execute($stmt)) {
         // Execute errors live on the statement, not the link, so db_fail($dbc) would not see them.
@@ -45,10 +59,13 @@ function db_query_params(mysqli $dbc, string $sql, string $types = '', array $pa
         return false;
     }
     $result = mysqli_stmt_get_result($stmt);
+    if ($result === false) {
+        $pending = $stmt;
+        return true;
+    }
     mysqli_stmt_close($stmt);
-    return $result === false ? true : $result;
+    return $result;
 }
-
 /** Per-session CSRF token, created on first use. */
 function csrf_token(): string
 {

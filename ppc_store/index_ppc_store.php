@@ -32,8 +32,8 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 	$url = "index_ppc.php"; 
@@ -77,8 +77,8 @@ $data_setup = mysqli_fetch_array($rs_setup);
 
 <?php
 
-  $query_sql = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $username)."' and status = 'AC'";
-   $result_sql = mysqli_query($dbc, $query_sql);
+  $query_sql = "SELECT * FROM login_detail WHERE username = ? and status = 'AC'"; $query_sql_args = [$username];
+   $result_sql = db_query_bind($dbc, $query_sql, $query_sql_args);
    $info = mysqli_fetch_array($result_sql);
     
  

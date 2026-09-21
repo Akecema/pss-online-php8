@@ -23,20 +23,20 @@ $max = 15;
 
 //-------select data from database --------------------------//
 
-    $query_detail = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS T5, DATE_FORMAT(date_generate_tp,'%d-%m-%Y') AS T15 FROM tp_plb_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $uid)."' GROUP BY doc_tp";
-    $result_detail = mysqli_query($dbc, $query_detail) or die(db_fail($dbc));
+    $query_detail = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') AS T5, DATE_FORMAT(date_generate_tp,'%d-%m-%Y') AS T15 FROM tp_plb_detail WHERE status_tran = 'Y' AND doc_tp = ? GROUP BY doc_tp"; $query_detail_args = [$uid];
+    $result_detail = db_query_bind($dbc, $query_detail, $query_detail_args) or die(db_fail($dbc));
 	$row_detail = mysqli_fetch_array($result_detail);
  
-	$query_vendor = "SELECT * FROM vendor_detail WHERE vendor_code = '".db_esc($dbc, $row_detail["sloc_to"])."'";
-	$result_vendor = mysqli_query($dbc, $query_vendor) or die(db_fail($dbc));
+	$query_vendor = "SELECT * FROM vendor_detail WHERE vendor_code = ?"; $query_vendor_args = [$row_detail["sloc_to"]];
+	$result_vendor = db_query_bind($dbc, $query_vendor, $query_vendor_args) or die(db_fail($dbc));
 	$row_vendor = mysqli_fetch_array($result_vendor);
 
-    $query2 = "SELECT * FROM tp_plb_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $uid)."' ORDER BY doc_tp";
-    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+    $query2 = "SELECT * FROM tp_plb_detail WHERE status_tran = 'Y' AND doc_tp = ? ORDER BY doc_tp"; $query2_args = [$uid];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
 	$num = mysqli_num_rows($result2); 
 
-    $query_detail2 = "SELECT * FROM tp_plb_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $uid)."'";
-    $result_detail2 = mysqli_query($dbc, $query_detail2);
+    $query_detail2 = "SELECT * FROM tp_plb_detail WHERE status_tran = 'Y' AND doc_tp = ?"; $query_detail2_args = [$uid];
+    $result_detail2 = db_query_bind($dbc, $query_detail2, $query_detail2_args);
 	$row_detail2 = mysqli_fetch_array($result_detail2);
 
 

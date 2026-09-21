@@ -40,8 +40,8 @@ $year = $today['year'];
 
 $url = "document_list_TP_to_store.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -394,8 +394,8 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
    {
 	   
 
-	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM ret_plb_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $data_sql2["doc_tp"])."' ORDER BY posting_date DESC, posting_time DESC";
-     $result_sql3 = mysqli_query($dbc, $query_sql3);   //run the query.
+	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM ret_plb_detail WHERE status_tran = 'Y' AND doc_tp = ? ORDER BY posting_date DESC, posting_time DESC"; $query_sql3_args = [$data_sql2["doc_tp"]];
+     $result_sql3 = db_query_bind($dbc, $query_sql3, $query_sql3_args);   //run the query.
 	 
 
 	   while ($data_sql3 = mysqli_fetch_array($result_sql3))
@@ -411,8 +411,8 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
 	 }
 	 
 	  //---- record cancellation ------ //
-		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM ret_plb_detail WHERE id_tp = '".db_esc($dbc, $data_sql3["id_tp"])."' AND status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."' ORDER BY posting_date DESC, posting_time DESC";
-		$result_cancel_plb = mysqli_query($dbc, $query_cancel_plb);
+		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM ret_plb_detail WHERE id_tp = ? AND status_tp = ? ORDER BY posting_date DESC, posting_time DESC"; $query_cancel_plb_args = [$data_sql3["id_tp"], $rst_sta4["status_desc"]];
+		$result_cancel_plb = db_query_bind($dbc, $query_cancel_plb, $query_cancel_plb_args);
 	    $row_cancel = mysqli_fetch_array($result_cancel_plb);
 		
 	 ?>

@@ -55,7 +55,7 @@ set_time_limit(0);
 $namaFile = "WIP Request Analysis Report.xls";
  //convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
+			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".db_esc($dbc, $_GET["material_no"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 		
@@ -186,35 +186,35 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    {
    
 
-   	$query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."'";
+   	$query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $row2[6])."'";
    	$result_scan = mysqli_query($dbc, $query_scan);
    	$row_scan = mysqli_fetch_array($result_scan);
 	
-	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".$row2[6]."' ORDER BY id_req_wip ASC";
+	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".db_esc($dbc, $row2[6])."' ORDER BY id_req_wip ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row['user_create'])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row_scan["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row2[5])."'";
   	$result4_p = mysqli_query($dbc, $query4_p);
  	$row4_p = mysqli_fetch_array($result4_p); 
  
-    $query5 = "SELECT * FROM post_detail_header_wip WHERE mrin_no = '".$row2["temp_mrin_wip"]."' AND material_no = '".$row2["bom_component"]."' AND mvt_type = 311 AND prod_order = '".$row_scan["prod_order"]."'";
+    $query5 = "SELECT * FROM post_detail_header_wip WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin_wip"])."' AND material_no = '".db_esc($dbc, $row2["bom_component"])."' AND mvt_type = 311 AND prod_order = '".db_esc($dbc, $row_scan["prod_order"])."'";
     $result5 = mysqli_query($dbc, $query5);
 	$row5 = mysqli_fetch_array($result5);
 	
-	$query6 = "SELECT *,DATE_FORMAT(PD.date_create,'%d-%m-%Y') AS T, DATE_FORMAT(PD.date_posting,'%d-%m-%Y') AS T2 FROM post_detail_header_wip AS PD, wip_request AS MR WHERE PD.mrin_no = MR.temp_mrin_wip AND PD.material_no = MR.bom_component AND PD.mrin_no = '".$row2["temp_mrin_wip"]."' AND PD.material_no = '".$row2["bom_component"]."' AND PD.mvt_type = 311";
+	$query6 = "SELECT *,DATE_FORMAT(PD.date_create,'%d-%m-%Y') AS T, DATE_FORMAT(PD.date_posting,'%d-%m-%Y') AS T2 FROM post_detail_header_wip AS PD, wip_request AS MR WHERE PD.mrin_no = MR.temp_mrin_wip AND PD.material_no = MR.bom_component AND PD.mrin_no = '".db_esc($dbc, $row2["temp_mrin_wip"])."' AND PD.material_no = '".db_esc($dbc, $row2["bom_component"])."' AND PD.mvt_type = 311";
     $result6 = mysqli_query($dbc, $query6);
 	$row6 = mysqli_fetch_array($result6);
 	
-	$query7 = "SELECT * FROM wip_request_close AS MC, reason_req_close AS MRC WHERE MC.reason_close = MRC.id_close AND MC.id_req_wip = '".$row2["id_req_wip"]."' AND MC.temp_mrin_wip = '".$row2["temp_mrin_wip"]."' AND MC.bom_component = '".$row2["bom_component"]."'";
+	$query7 = "SELECT * FROM wip_request_close AS MC, reason_req_close AS MRC WHERE MC.reason_close = MRC.id_close AND MC.id_req_wip = '".db_esc($dbc, $row2["id_req_wip"])."' AND MC.temp_mrin_wip = '".db_esc($dbc, $row2["temp_mrin_wip"])."' AND MC.bom_component = '".db_esc($dbc, $row2["bom_component"])."'";
     $result7 = mysqli_query($dbc, $query7);
 	$row7 = mysqli_fetch_array($result7);
 
@@ -240,7 +240,7 @@ echo $since_start->s.' seconds<br>';  */
 //------------------------------------------------------------------------------------------------------------------	
 
 					
-    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header_wip WHERE mrin_no = '".$row2["temp_mrin_wip"]."' AND mvt_type = 311 AND material_no = '".$row4_p["bill_component"]."'";
+    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header_wip WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin_wip"])."' AND mvt_type = 311 AND material_no = '".db_esc($dbc, $row4_p["bill_component"])."'";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;

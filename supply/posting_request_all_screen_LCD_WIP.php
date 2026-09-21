@@ -32,7 +32,7 @@ date_default_timezone_set('Asia/Bangkok');
 
 $url = "posting_request_all_screen_LCD_WIP.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -153,24 +153,24 @@ $num = mysqli_num_rows($rs);   //how many material are there?
    while ($row2 = mysqli_fetch_array($rs))
    {
    
-   	$query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."'";
+   	$query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $row2[6])."'";
    	$result_scan = mysqli_query($dbc, $query_scan);
    	$row_scan = mysqli_fetch_array($result_scan);
 	
-	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".$row2[6]."' ORDER BY id_req_wip ASC";
+	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".db_esc($dbc, $row2[6])."' ORDER BY id_req_wip ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row['user_create'])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row_scan["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row2[5])."'";
   	$result4_p = mysqli_query($dbc, $query4_p);
  	$row4_p = mysqli_fetch_array($result4_p); 
   
@@ -180,7 +180,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	 $TOT = 0.000;
 	 $outs_qty = 0;
 	 
-	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header_wip WHERE mrin_no = '".$row2["temp_mrin_wip"]."' AND prod_order = '".$row_scan["prod_order"]."' AND mvt_type = 311 AND status_posting = 'New' GROUP BY material_no";
+	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header_wip WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin_wip"])."' AND prod_order = '".db_esc($dbc, $row_scan["prod_order"])."' AND mvt_type = 311 AND status_posting = 'New' GROUP BY material_no";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 	
 	while($row_tp = mysqli_fetch_assoc($result_tp))
@@ -200,13 +200,13 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	   if(($row["bom_qty_wip"] == $tp_quantity) || ($row["bom_qty_wip"] < $tp_quantity) && ($outs_qty < 0))
        {  
 	
- $query_upd2 = "UPDATE `post_detail_header_wip` SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row_tp["material_no"]."' ";
+ $query_upd2 = "UPDATE `post_detail_header_wip` SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row_tp["material_no"])."' ";
  $result_upd2 = mysqli_query($dbc, $query_upd2); 
 	      
- $query_upd3 = "UPDATE `wip_request` SET status = 'Close' WHERE temp_mrin_wip = '".$row2["temp_mrin"]."' AND bom_component = '".$row_tp["material_no"]."' ";
+ $query_upd3 = "UPDATE `wip_request` SET status = 'Close' WHERE temp_mrin_wip = '".db_esc($dbc, $row2["temp_mrin"])."' AND bom_component = '".db_esc($dbc, $row_tp["material_no"])."' ";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
-	 $query_upd4 = "UPDATE `wip_request` SET status = 'Close' WHERE temp_mrin_wip = '".$row2["temp_mrin"]."' AND (bom_qty = '0.000' OR bom_qty = '')";
+	 $query_upd4 = "UPDATE `wip_request` SET status = 'Close' WHERE temp_mrin_wip = '".db_esc($dbc, $row2["temp_mrin"])."' AND (bom_qty = '0.000' OR bom_qty = '')";
  $result_upd4 = mysqli_query($dbc, $query_upd4); 
 	
 	 //--------------------------------------------------------------------
@@ -215,7 +215,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
         if($result_upd3 || $result_upd4)
 		 {
 		 
-		   $query_upd4 = "SELECT * FROM `wip_request` WHERE temp_mrin_wip = '".$row2["temp_mrin"]."' AND status = 'Close'";
+		   $query_upd4 = "SELECT * FROM `wip_request` WHERE temp_mrin_wip = '".db_esc($dbc, $row2["temp_mrin"])."' AND status = 'Close'";
 		   $result_upd4 = mysqli_query($dbc, $query_upd4) or trigger_error("SQL", E_USER_ERROR);
 		   $row_upd4 = mysqli_num_rows($result_upd4); 
         
@@ -223,12 +223,12 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		   if($row_upd4 > 0 )
 		   {
 		  
-		  $query_mm3 = "SELECT * FROM `wip_request` WHERE temp_mrin_wip = '".$row2["temp_mrin"]."' AND status = 'Close' AND bom_component = '".$row_tp["material_no"]."'"; 
+		  $query_mm3 = "SELECT * FROM `wip_request` WHERE temp_mrin_wip = '".db_esc($dbc, $row2["temp_mrin"])."' AND status = 'Close' AND bom_component = '".db_esc($dbc, $row_tp["material_no"])."'"; 
         	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 			
-			$query_mm3_insert =  "INSERT INTO wip_request_close(id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_close, reason_close2) VALUES('".$row_mm3["id_req_wip"]."','".$row_mm3["mrin_doc_wip"]."','".$row_mm3["mrin_year_wip"]."','".$row_mm3["temp_mrin_wip"]."','".$row_mm3["id_hdr_wip"]."','".$row_mm3["id_dtl_wip"]."','".$row_mm3["id_scan_wip"]."','".$row_mm3["bom_id_wip"]."','".$row_mm3["bom_qty_wip"]."', '".$row_mm3["bom_oum_wip"]."','".$row_mm3["status_request"]."','".$row_mm3["status_print"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_update"]."','".$row_mm3["date_update"]."','".$row_mm3["date_posting"]."','".$row_mm3["time_posting"]."','".$row_mm3["status"]."','".$row_mm3["bom_component"]."','".$row_mm3["date_mrin"]."','".$row_mm3["time_mrin"]."','6','')";
+			$query_mm3_insert =  "INSERT INTO wip_request_close(id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_close, reason_close2) VALUES('".db_esc($dbc, $row_mm3["id_req_wip"])."','".db_esc($dbc, $row_mm3["mrin_doc_wip"])."','".db_esc($dbc, $row_mm3["mrin_year_wip"])."','".db_esc($dbc, $row_mm3["temp_mrin_wip"])."','".db_esc($dbc, $row_mm3["id_hdr_wip"])."','".db_esc($dbc, $row_mm3["id_dtl_wip"])."','".db_esc($dbc, $row_mm3["id_scan_wip"])."','".db_esc($dbc, $row_mm3["bom_id_wip"])."','".db_esc($dbc, $row_mm3["bom_qty_wip"])."', '".db_esc($dbc, $row_mm3["bom_oum_wip"])."','".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["bom_component"])."','".db_esc($dbc, $row_mm3["date_mrin"])."','".db_esc($dbc, $row_mm3["time_mrin"])."','6','')";
 $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
 			
 		  

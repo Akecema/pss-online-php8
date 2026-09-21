@@ -16,7 +16,7 @@
  */
 error_reporting(E_ALL);
 session_start();
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
 include '../include/config.php';
 require_once '../include/auth.php';
 require_role($dbc, 2);

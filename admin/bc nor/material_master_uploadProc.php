@@ -16,7 +16,7 @@
  */
 session_start();
 
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
 include '../include/config.php';
 include '../include/config_mail.php';
 

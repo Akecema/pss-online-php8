@@ -15,7 +15,7 @@
  * treat it as a starting point and refine as you work in this file.
  */
 session_start();
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
 
 date_default_timezone_set("Asia/Kuala_Lumpur");
 include '../include/config.php';

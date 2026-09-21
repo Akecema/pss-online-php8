@@ -19,7 +19,7 @@ require("include/config.php");
 	require("status.php");
 	
 	session_start();
-    $username = $_SESSION["username"];
+    $username = $_SESSION["username"] ?? '';
     header("Cache-control: private");
 
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");

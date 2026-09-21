@@ -18,7 +18,7 @@ $min_20 = date(.
  * treat it as a starting point and refine as you work in this file.
  */
 session_start();
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
 include '../include/config.php';
 require_once '../include/auth.php';
 require_role($dbc, 4);

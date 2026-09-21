@@ -26,7 +26,7 @@ define('DB_PASSWORD', getenv('DB_PASSWORD'));
 define('DB_NAME', getenv('DB_NAME'));
 define('DB_PORT', (int) (getenv('DB_PORT') ?: 3306));
 
-$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
+$dbc = @mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 if (!$dbc) {
     // Real reason goes to the server log only, never to the browser.
     error_log('PSS Online database connection failed: ' . mysqli_connect_error());

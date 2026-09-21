@@ -1,10 +1,10 @@
 <?php
 /*require('C:\xampp\htdocs\PSS_Online\ppc_store\fpdf\fpdf.php');
 */
-require('\fpdf\fpdf.php');
+require __DIR__ . '/fpdf/fpdf.php';
 error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED);
 session_start();
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
 include '../include/config.php';
 require_once '../include/auth.php';
 require_role($dbc, 12);

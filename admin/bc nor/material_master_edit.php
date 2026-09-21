@@ -15,7 +15,7 @@
  * treat it as a starting point and refine as you work in this file.
  */
 session_start();
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
 include '../include/config.php';
 include_once ('../classes/paginator.class2.php');
 require_once("../calendar/classes/tc_calendar.php");

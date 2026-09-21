@@ -38,5 +38,9 @@ check('origin: none present allowed (non-browser)', origin_matches_host(null, nu
 check('origin: "null" origin rejected', !origin_matches_host('null', null, $H));
 check('origin: lookalike host rejected', !origin_matches_host('https://pss.example.com.evil.com', null, $H));
 
+check('upload name: plain xlsx kept', upload_safe_name('BOM list (1).xlsx', ['xls','xlsx']) === 'BOM list (1).xlsx');
+check('upload name: traversal stripped', upload_safe_name('..\..\x/evil.xls', ['xls']) === 'evil.xls');
+check('upload ext: lower-cased', upload_safe_ext('A.JPG', ['jpg']) === 'jpg');
+
 ob_end_flush();
 exit($fail === 0 ? 0 : 1);

@@ -58,7 +58,7 @@ function timedRefresh(timeoutPeriod) {
 		
 	//	date_default_timezone_set('Asia/Bangkok');
 		//date_default_timezone_set('Asia/Kuala Lumpur');
-$storagename = $_GET["file2"];		
+$storagename = upload_safe_name($_GET["file2"], ['xls', 'xlsx', 'csv']);		
 
 
 $storagename2 = "../BOM_detail_upload/$storagename";

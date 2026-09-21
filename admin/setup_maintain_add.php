@@ -213,7 +213,7 @@ if(empty($_POST['status_system']) || ($_POST['status_system'] == ""))
 		 $uid = mysqli_insert_id($dbc);  //upload ID
 		// $filetest = $_FILES['upload']['name'];
 		 //$filename = $filetest;
-		 $filename = $uid .'.'.$extension[1];
+		 $filename = $uid .'.'.upload_safe_ext($_FILES['upload']['name'], ['jpg', 'jpeg', 'gif', 'pdf']);
 		 
 		 
 		    $query_update2 = "UPDATE sys_setup_maintain SET logo_comp = '".db_esc($dbc, $uid)."' WHERE id_setup = '".db_esc($dbc, $uid)."'";

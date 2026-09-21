@@ -56,7 +56,7 @@ set_time_limit(0);
 		<table width="400px" border=1>
 <?php
 	
-$storagename = $_GET["file"];		
+$storagename = upload_safe_name($_GET["file"], ['xls', 'xlsx', 'csv']);		
 $storagename2 = "../BOM_upload/$storagename";
 
 //echo $storagename2. "<br>"; 

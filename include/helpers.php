@@ -125,3 +125,28 @@ function require_same_origin(): void
         exit('Forbidden: cross-site request rejected.');
     }
 }
+
+/**
+ * Sanitise a client-supplied file name for use inside a fixed upload folder:
+ * basename only, conservative charset, extension must be in $allowedExt.
+ * Exits with 400 otherwise. The browser-supplied MIME type is not trusted.
+ *
+ * @param list<string> $allowedExt lower-case extensions without the dot
+ */
+function upload_safe_name(string $name, array $allowedExt): string
+{
+    $base = basename(str_replace(chr(92), '/', $name));
+    $base = str_replace('..', '_', (string) preg_replace('/[^A-Za-z0-9._() \-]/', '_', $base));
+    $ext = strtolower(pathinfo($base, PATHINFO_EXTENSION));
+    if ($base === '' || $base[0] === '.' || !in_array($ext, $allowedExt, true)) {
+        http_response_code(400);
+        exit('Invalid file name or type.');
+    }
+    return $base;
+}
+
+/** Validated lower-case extension of a client file name (exits with 400 if not allowed). */
+function upload_safe_ext(string $name, array $allowedExt): string
+{
+    return strtolower(pathinfo(upload_safe_name($name, $allowedExt), PATHINFO_EXTENSION));
+}

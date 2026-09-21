@@ -208,7 +208,7 @@ elseif(in_array($fileType, $allowed))
 	}
   
 	$upload = TRUE; 
-	$storagename = $_FILES["fileUpload"]["name"];	 
+	$storagename = upload_safe_name($_FILES["fileUpload"]["name"], ['xls', 'xlsx', 'csv']);	 
 	move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "../BOM_upload/$storagename" );
 	$uploadedStatus = 1;
 

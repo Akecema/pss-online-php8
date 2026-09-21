@@ -210,7 +210,7 @@ $message = NULL; // create an empty new variable.
           }
 		  
   		$upload = TRUE; 
-$storagename = $_FILES["fileUpload"]["name"];	 
+$storagename = upload_safe_name($_FILES["fileUpload"]["name"], ['xls', 'xlsx', 'csv']);	 
 move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "../BOM_detail_upload/$storagename" );
 $uploadedStatus = 1;
 

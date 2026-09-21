@@ -224,7 +224,7 @@ $message = NULL; // create an empty new variable.
 	     $extension = explode ('.', $_FILES['upload']['name']);
 		 $uid = mysqli_insert_id($dbc);  //upload ID
 	
-		 $filename = $uid.'.'.$extension[1];
+		 $filename = $uid.'.'.upload_safe_ext($_FILES['upload']['name'], ['xls', 'xlsx']);
 		 
 		 
 		    $query_update2 = "UPDATE ftp_pps SET id_file = '".db_esc($dbc, $uid)."' WHERE upload_id = '".db_esc($dbc, $uid)."'";

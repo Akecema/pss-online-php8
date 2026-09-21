@@ -181,7 +181,7 @@ ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs select
 
  $upload_id = $_GET["upload_id"];
 
-$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail WHERE upload_id = '".$upload_id."' GROUP BY work_center";
+$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail WHERE upload_id = '".db_esc($dbc, $upload_id)."' GROUP BY work_center";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
  while ($db_rs = mysqli_fetch_array($rs))
@@ -232,7 +232,7 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 	
 	//--------------get filename from table ftp_pps
  
- $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '".$upload_id."'";
+ $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
  $result_ftp_pps = mysqli_query($dbc, $query_ftp_pps);
  $data_ftp_pps = mysqli_fetch_array($result_ftp_pps);  
  ?>
@@ -321,7 +321,7 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
    <!--   <tbody>-->
         <?php
 		
-	  $query_by_group = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y h:m:s') AS K from pps_detail WHERE upload_id = '".$upload_id."' AND work_center = '".$db_rs["work_center"]."'";
+	  $query_by_group = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y h:m:s') AS K from pps_detail WHERE upload_id = '".db_esc($dbc, $upload_id)."' AND work_center = '".db_esc($dbc, $db_rs["work_center"])."'";
       $result_by_group = mysqli_query($dbc, $query_by_group);   //run the query.
 		
 		
@@ -347,12 +347,12 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 	 }	
 	 
        //---------get material header---------
-	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row['material_no']."'";
+	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat_h = mysqli_query($dbc, $query_mat_h);
 		$data_mat_h = mysqli_fetch_array($result_mat_h);	
 		
 		  //---------get material detail---------
-	    $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '".$row['material_no']."' OR bill_component = '".$row['material_no']."')";
+	    $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '".db_esc($dbc, $row['material_no'])."' OR bill_component = '".db_esc($dbc, $row['material_no'])."')";
 		$result_mat_d = mysqli_query($dbc, $query_mat_d);
 		$data_mat_d = mysqli_fetch_array($result_mat_d);	
 		

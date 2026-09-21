@@ -36,7 +36,7 @@ exit();
 $url = "upload_pps_month.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -126,7 +126,7 @@ if (bV >= 4) window.print();
  $upload_id = $_GET["upload_id"];
  
  
-$queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as T from pps_detail as MR, ftp_pps as SD WHERE MR.upload_id = SD.upload_id AND MR.upload_id = '$upload_id'";
+$queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as T from pps_detail as MR, ftp_pps as SD WHERE MR.upload_id = SD.upload_id AND MR.upload_id = '".db_esc($dbc, $upload_id)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
  ?>
@@ -220,7 +220,7 @@ $message = NULL; // create an empty new variable.
 
 	foreach($id as $key => $n ) {
 		  		 
-		 $query_update = "UPDATE pps_detail SET plan_no = '".$plan_no[$j]."', user_update = '".$username."', date_update = NOW(), user_posting = '".$username."', date_posting = NOW() WHERE id = '$n'";
+		 $query_update = "UPDATE pps_detail SET plan_no = '".db_esc($dbc, $plan_no[$j])."', user_update = '".db_esc($dbc, $username)."', date_update = NOW(), user_posting = '".db_esc($dbc, $username)."', date_posting = NOW() WHERE id = '".db_esc($dbc, $n)."'";
          $result_update = mysqli_query($dbc, $query_update);  
 		 
 		 $j++;
@@ -243,10 +243,10 @@ $message = NULL; // create an empty new variable.
 require_once('../include/config.php');   //connect to the db.
 
 
-         $query_del_ftp = "DELETE FROM ftp_pps WHERE upload_id = '".$upload_id."'";
+         $query_del_ftp = "DELETE FROM ftp_pps WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
 	     $result_del_ftp = mysqli_query($dbc, $query_del_ftp); 
 
-         $sqlDel = "DELETE FROM pps_detail WHERE upload_id = '".$upload_id."'";
+         $sqlDel = "DELETE FROM pps_detail WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
          $rsDel = mysqli_query($dbc, $sqlDel);
 
          if ($rsDel) {

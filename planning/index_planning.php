@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -109,7 +109,7 @@ $rst_sta18 = mysqli_fetch_array($sta_res18);
 
 <?php
 
-  $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
+  $query_sql = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $username)."' and status = 'AC'";
    $result_sql = mysqli_query($dbc, $query_sql);
    $info = mysqli_fetch_array($result_sql);
     
@@ -176,17 +176,17 @@ jQuery(document).ready(function ($) {
  
  // ------------------------------  display dashboard ------------------------
  //new material request 
-$query_mat_req = "SELECT * FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND status = 'Y' AND qty_actual != '' GROUP BY plan_no";
+$query_mat_req = "SELECT * FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND status = 'Y' AND qty_actual != '' GROUP BY plan_no";
 $rs_mat_req = mysqli_query($dbc, $query_mat_req);   //run the query.
 $num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
 
 //In Progress Plan Order request
-$query_con_req = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' order by plan_no ASC";
+$query_con_req = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' order by plan_no ASC";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
 $num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
 
  //in progress planned order
-$query_plan_req = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta18["status_desc"]."' ORDER BY date_plan DESC";
+$query_plan_req = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta18["status_desc"])."' ORDER BY date_plan DESC";
 $rs_plan_req = mysqli_query($dbc, $query_plan_req);   //run the query.
 $num_plan_req = mysqli_num_rows($rs_plan_req);   //how many material are there?
 

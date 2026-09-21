@@ -34,7 +34,7 @@ exit();
 }
 $url = "technical_complete_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -261,7 +261,7 @@ return "";
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM work_center_detail as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM work_center_detail as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 	
@@ -395,7 +395,7 @@ return "";
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -413,7 +413,7 @@ return "";
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
+	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' ORDER BY plan_no ASC";
             $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -472,7 +472,7 @@ return "";
         </form>
            <?php
 		
- $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps = '".$rst_sta2["status_desc"]."' OR status_pps = '".$rst_sta18["status_desc"]."') AND status = 'Y' ".$where_sql;
+ $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' OR status_pps = '".db_esc($dbc, $rst_sta18["status_desc"])."') AND status = 'Y' ".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -483,7 +483,7 @@ return "";
  
  
   
-$query_all = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail WHERE (status_pps = '".$rst_sta2["status_desc"]."' OR status_pps = '".$rst_sta18["status_desc"]."') AND status = 'Y' ".$where_sql." ORDER BY plan_no ASC";
+$query_all = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail WHERE (status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' OR status_pps = '".db_esc($dbc, $rst_sta18["status_desc"])."') AND status = 'Y' ".$where_sql." ORDER BY plan_no ASC";
 $rs = mysqli_query($dbc, $query_all);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -586,14 +586,14 @@ $num = mysqli_num_rows($rs);   //how many material are there?
    $qty_total_NG2 = 0.000;
    
     //-----checking pps_trans entering output production
-	   $query_plan_tran = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row["plan_no"]."' AND status_pps != '".$rst_sta4["status_desc"]."'";
+	   $query_plan_tran = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".db_esc($dbc, $row["plan_no"])."' AND status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 	   $result_plan_tran = mysqli_query($dbc, $query_plan_tran);
        
 	   while($data_plan_tran = mysqli_fetch_array($result_plan_tran))
     {
 
   	 //-----checking QA/QC entering output production
-	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".$data_plan_tran["bflush_no"]."' AND plan_no = '".$data_plan_tran["plan_no"]."'";
+	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".db_esc($dbc, $data_plan_tran["bflush_no"])."' AND plan_no = '".db_esc($dbc, $data_plan_tran["plan_no"])."'";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   $data_qqc = mysqli_fetch_array($result_qqc);  
 	   
@@ -604,7 +604,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	     
 	   
 	 
-	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND plan_no = '".$data_qqc["plan_no"]."'";
+	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."' AND plan_no = '".db_esc($dbc, $data_qqc["plan_no"])."'";
 	   $result_qqc2 = mysqli_query($dbc, $query_qqc2);
 	
 	  
@@ -714,32 +714,32 @@ $message = NULL; // create an empty new variable.
 	
 		//echo ($i+1).'-'.$cancel[$i]; echo $string[$i]; echo "</br>";
 		
-	$query_pps_closed2 = "UPDATE pps_detail_close SET remark_closed_plan = '".$string[$i]."', status_pps = '".$rst_sta13["status_desc"]."', user_closed = '".$username."', date_closed = NOW() WHERE id = '".$cancel[$i]."'";
+	$query_pps_closed2 = "UPDATE pps_detail_close SET remark_closed_plan = '".db_esc($dbc, $string[$i])."', status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."', user_closed = '".db_esc($dbc, $username)."', date_closed = NOW() WHERE id = '".db_esc($dbc, $cancel[$i])."'";
 	$rst_pps_closed2 = mysqli_query($dbc, $query_pps_closed2);
 		
 		//insert table pps_detail_close
 		
-		$query_info = "SELECT * FROM pps_detail WHERE id = '".$cancel[$i]."'";
+		$query_info = "SELECT * FROM pps_detail WHERE id = '".db_esc($dbc, $cancel[$i])."'";
 		$result_info = mysqli_query($dbc, $query_info);
 		$row_info = mysqli_fetch_array($result_info);
 		
 	   if($row_info["status_pps"] != "Transfer QC")
 	 {
 	   
-    $query_pps_closed = "INSERT INTO pps_detail_close(id_closing, id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours, remark_closed, type_closed, remark_closed_plan) VALUES('','".$row_info["id"]."','".$row_info["ref_id"]."','".$row_info['plan_no']."','".$row_info["upload_id"]."','".$row_info["model_code"]."','".$row_info["month_plan"]."','".$row_info["material_no"]."','".$row_info["qty_plan"]."','".$row_info["qty_actual"]."','".$row_info["status_pps"]."','".$row_info["comp_code"]."','".$row_info["work_center"]."','".$row_info["shift_pps1"]."','".$row_info["shift_pps2"]."','".$row_info["date_plan"]."','".$row_info["status"]."','".$row_info["user_upload"]."','".$row_info["date_upload"]."','".$row_info["user_create"]."','".$row_info["date_create"]."','".$row_info["user_update"]."','".$row_info["date_update"]."','".$row_info["user_posting"]."','".$row_info["date_posting"]."','".$username."',NOW(),'".$row_info["plan_category"]."','".$row_info["id_factory_pps"]."','".$row_info["rev_pps"]."','".$row_info["seq_pps"]."','".$row_info["man_hours"]."','".$row_info["work_hours"]."','".$row_info["remark_closed"]."','','".$string[$i]."')";
+    $query_pps_closed = "INSERT INTO pps_detail_close(id_closing, id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours, remark_closed, type_closed, remark_closed_plan) VALUES('','".db_esc($dbc, $row_info["id"])."','".db_esc($dbc, $row_info["ref_id"])."','".db_esc($dbc, $row_info['plan_no'])."','".db_esc($dbc, $row_info["upload_id"])."','".db_esc($dbc, $row_info["model_code"])."','".db_esc($dbc, $row_info["month_plan"])."','".db_esc($dbc, $row_info["material_no"])."','".db_esc($dbc, $row_info["qty_plan"])."','".db_esc($dbc, $row_info["qty_actual"])."','".db_esc($dbc, $row_info["status_pps"])."','".db_esc($dbc, $row_info["comp_code"])."','".db_esc($dbc, $row_info["work_center"])."','".db_esc($dbc, $row_info["shift_pps1"])."','".db_esc($dbc, $row_info["shift_pps2"])."','".db_esc($dbc, $row_info["date_plan"])."','".db_esc($dbc, $row_info["status"])."','".db_esc($dbc, $row_info["user_upload"])."','".db_esc($dbc, $row_info["date_upload"])."','".db_esc($dbc, $row_info["user_create"])."','".db_esc($dbc, $row_info["date_create"])."','".db_esc($dbc, $row_info["user_update"])."','".db_esc($dbc, $row_info["date_update"])."','".db_esc($dbc, $row_info["user_posting"])."','".db_esc($dbc, $row_info["date_posting"])."','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $row_info["plan_category"])."','".db_esc($dbc, $row_info["id_factory_pps"])."','".db_esc($dbc, $row_info["rev_pps"])."','".db_esc($dbc, $row_info["seq_pps"])."','".db_esc($dbc, $row_info["man_hours"])."','".db_esc($dbc, $row_info["work_hours"])."','".db_esc($dbc, $row_info["remark_closed"])."','','".db_esc($dbc, $string[$i])."')";
 	$rst_pps_closed = mysqli_query($dbc, $query_pps_closed);
      
 	 }	
 		//update table pps_detail
 		
-		  $sql_delete_request_pps = "DELETE FROM pps_detail WHERE id = '$cancel[$i]'";
+		  $sql_delete_request_pps = "DELETE FROM pps_detail WHERE id = '".db_esc($dbc, $cancel[$i])."'";
           $result_delete_request_pps =mysqli_query($dbc, $sql_delete_request_pps);
 		
 		/*$query_close = "UPDATE pps_detail SET status_pps = '".$rst_sta13["status_desc"]."' WHERE id = '$cancel[$i]'";
         $result_close = mysqli_query($dbc, $query_close) or die (mysqli_error($dbc));*/
 		
 		//update table pps_detail_transaction
-		$query_close2 = "UPDATE pps_detail_transaction SET status_pps = '".$rst_sta14["status_desc"]."' WHERE pps_id = '$cancel[$i]'";
+		$query_close2 = "UPDATE pps_detail_transaction SET status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' WHERE pps_id = '".db_esc($dbc, $cancel[$i])."'";
         $result_close2 = mysqli_query($dbc, $query_close2) or die (mysqli_error($dbc));
 		
 	

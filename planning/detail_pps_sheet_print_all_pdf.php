@@ -60,11 +60,11 @@ $shift_ops = $_GET["srcShift"];
 $status = $_GET["srcStatus"];
 $name_file = $_GET["srcNFile"];
 
-$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '" . $work_center . "'";
+$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '" . db_esc($dbc, $work_center) . "'";
 $result_convert = mysqli_query($dbc, $query_convert);
 $row_convert = mysqli_fetch_array($result_convert);
 
-$query_convert2 = "SELECT * FROM `ftp_pps` WHERE file_name = '" . $name_file . "'";
+$query_convert2 = "SELECT * FROM `ftp_pps` WHERE file_name = '" . db_esc($dbc, $name_file) . "'";
 $result_convert2 = mysqli_query($dbc, $query_convert2);
 $row_convert2 = mysqli_fetch_array($result_convert2);
 
@@ -238,7 +238,7 @@ $pdf->SetFont('helvetica', '', 10);
 // add a page
 $pdf->AddPage();
 
-$queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K FROM pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND (MR.status_pps != '" . $rst_sta4["status_desc"] . "' OR MR.status_pps != '" . $rst_sta16["status_desc"] . "') AND MR.status_pps != '" . $rst_sta["status_desc"] . "'" . $where_sql . " GROUP BY work_center";
+$queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K FROM pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND (MR.status_pps != '" . db_esc($dbc, $rst_sta4["status_desc"]) . "' OR MR.status_pps != '" . db_esc($dbc, $rst_sta16["status_desc"]) . "') AND MR.status_pps != '" . db_esc($dbc, $rst_sta["status_desc"]) . "'" . $where_sql . " GROUP BY work_center";
 $rs = mysqli_query($dbc, $queryu);
 $num_rows = mysqli_num_rows($rs);
 $a = $num_rows;
@@ -274,7 +274,7 @@ while ($db_rs = mysqli_fetch_array($rs)) {
    }
 
    //--------------get filename from table ftp_pps
-   $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '" . $db_rs["upload_id"] . "'";
+   $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '" . db_esc($dbc, $db_rs["upload_id"]) . "'";
    $result_ftp_pps = mysqli_query($dbc, $query_ftp_pps);
    $data_ftp_pps = mysqli_fetch_array($result_ftp_pps);
 
@@ -357,7 +357,7 @@ while ($db_rs = mysqli_fetch_array($rs)) {
          </tr>
       </thead>';
 
-   $query_by_group = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.work_center = '" . $db_rs["work_center"] . "' " . $where_sql . " ";
+   $query_by_group = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(MR.date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.work_center = '" . db_esc($dbc, $db_rs["work_center"]) . "' " . $where_sql . " ";
    $result_by_group = mysqli_query($dbc, $query_by_group);   //run the query.
 
    $counter = 1;
@@ -374,12 +374,12 @@ while ($db_rs = mysqli_fetch_array($rs)) {
          $sta = " ";
       }
       //---------get material header---------
-      $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '" . $row['material_no'] . "'";
+      $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '" . db_esc($dbc, $row['material_no']) . "'";
       $result_mat_h = mysqli_query($dbc, $query_mat_h);
       $data_mat_h = mysqli_fetch_array($result_mat_h);
 
       //---------get material detail---------
-      $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '" . $row['material_no'] . "' OR bill_component = '" . $row['material_no'] . "')";
+      $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '" . db_esc($dbc, $row['material_no']) . "' OR bill_component = '" . db_esc($dbc, $row['material_no']) . "')";
       $result_mat_d = mysqli_query($dbc, $query_mat_d);
       $data_mat_d = mysqli_fetch_array($result_mat_d);
       ++$i;

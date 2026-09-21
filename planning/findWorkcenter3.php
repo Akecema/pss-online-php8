@@ -27,7 +27,7 @@ $num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
 $data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
-$query4 = "SELECT * FROM work_center_detail WHERE id_factory = '$factory' ORDER BY id_work ASC";
+$query4 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $factory)."' ORDER BY id_work ASC";
 $result4 =mysqli_query($dbc, $query4);
 
 ?>

@@ -32,7 +32,7 @@ exit();
 }
 $url = "inprogress_plan_order_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -221,7 +221,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 					
@@ -288,7 +288,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -306,7 +306,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
+	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' ORDER BY plan_no ASC";
             $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -421,7 +421,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	$next_page = $page+1;
 
   
-    $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".$rst_sta7["status_desc"]."' AND MR.status = 'Y' AND ((MR.material_no LIKE '%".$strKeyword."%') OR (plan_no LIKE '%".$strKeyword."%')) ".$where_sql;
+    $query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND MR.status = 'Y' AND ((MR.material_no LIKE '%".db_esc($dbc, $strKeyword)."%') OR (plan_no LIKE '%".db_esc($dbc, $strKeyword)."%')) ".$where_sql;
     $rs = mysqli_query($dbc, $query);   //run the query.
 	$num_rows = mysqli_num_rows($rs);   //how many material are there?
 
@@ -538,7 +538,7 @@ function getXMLHTTP() { //fuction to return the xml http object
     
 	 //-----checking QA/QC entering output production
 	  
-	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".$row["bflush_no"]."' AND plan_no = '".$row["plan_no"]."'";
+	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".db_esc($dbc, $row["bflush_no"])."' AND plan_no = '".db_esc($dbc, $row["plan_no"])."'";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   $data_qqc = mysqli_fetch_array($result_qqc);  
 	   
@@ -547,7 +547,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	   $qty_total_NG2 = ($qty_total_NG2 + $row["qty_NG"]);  
 	   
     
-	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."'";
+	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."'";
 	   $result_qqc2 = mysqli_query($dbc, $query_qqc2);
 	   
 	   while($data_qqc2 = mysqli_fetch_array($result_qqc2))

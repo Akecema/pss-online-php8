@@ -36,7 +36,7 @@ exit();
 $url = "display_consumable_request.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -144,11 +144,11 @@ if (bV >= 4) window.print();
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
-			$query_convert2 = "SELECT * FROM `ftp_pps` WHERE file_name = '".$_GET["name_file"]."'";
+			$query_convert2 = "SELECT * FROM `ftp_pps` WHERE file_name = '".db_esc($dbc, $_GET["name_file"])."'";
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
@@ -206,7 +206,7 @@ if (bV >= 4) window.print();
 	
 	//********** END CONDITION **************
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail AS MR WHERE MR.status_pps = '".$rst_sta2["status_desc"]."'".$where_sql;
+   $query8 = "SELECT COUNT(*) FROM pps_detail AS MR WHERE MR.status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."'".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -237,7 +237,7 @@ $message = NULL; // create an empty new variable.
    
     //--------- pps detail ------------
 	 
-	   $query_pps = "SELECT * FROM pps_detail WHERE upload_id = '".$uid."'";
+	   $query_pps = "SELECT * FROM pps_detail WHERE upload_id = '".db_esc($dbc, $uid)."'";
 	   $result_pps = mysqli_query($dbc, $query_pps);
 	  
 	  while($data_pps = mysqli_fetch_array($result_pps))
@@ -246,12 +246,12 @@ $message = NULL; // create an empty new variable.
 		  
 	  //---------update cancellation--------------------------
 	 
-	$query_cancel = "UPDATE pps_detail SET status_pps = '".$rst_sta4["status_desc"]."' WHERE upload_id = '".$uid."'";
+	$query_cancel = "UPDATE pps_detail SET status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."' WHERE upload_id = '".db_esc($dbc, $uid)."'";
 	$result_cancel = mysqli_query($dbc, $query_cancel);
 		  
 		   //insert into table pps_detail_cancellation-------------
 	
-$query_data2 = "INSERT INTO pps_cancellation (id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload,user_create, date_create, user_update, date_update, user_posting, date_posting, user_cancel, date_cancel, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('".$data_pps["id"]."','".$data_pps["ref_id"]."','".$data_pps["plan_no"]."','".$data_pps["upload_id"]."','".$data_pps["model_code"]."','".$data_pps["month_plan"]."','".$data_pps["material_no"]."','".$data_pps["qty_plan"]."','".$data_pps["qty_actual"]."','".$rst_sta4["status_desc"]."','".$data_pps["comp_code"]."','".$data_pps["work_center"]."','".$data_pps["shift_pps1"]."','".$data_pps["shift_pps2"]."','".$data_pps["date_plan"]."','N','".$data_pps["user_upload"]."','".$data_pps["date_upload"]."','".$data_pps["user_create"]."','".$data_pps["date_create"]."','".$data_pps["user_update"]."','".$data_pps["date_update"]."','".$data_pps["user_posting"]."','".$data_pps["date_posting"]."','".$username."',NOW(),'".$data_pps["plan_category"]."','".$data_pps["id_factory_pps"]."','".$data_pps["rev_pps"]."','".$data_pps["seq_pps"]."','".$data_pps["man_hours"]."','".$data_pps["work_hours"]."')";
+$query_data2 = "INSERT INTO pps_cancellation (id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload,user_create, date_create, user_update, date_update, user_posting, date_posting, user_cancel, date_cancel, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('".db_esc($dbc, $data_pps["id"])."','".db_esc($dbc, $data_pps["ref_id"])."','".db_esc($dbc, $data_pps["plan_no"])."','".db_esc($dbc, $data_pps["upload_id"])."','".db_esc($dbc, $data_pps["model_code"])."','".db_esc($dbc, $data_pps["month_plan"])."','".db_esc($dbc, $data_pps["material_no"])."','".db_esc($dbc, $data_pps["qty_plan"])."','".db_esc($dbc, $data_pps["qty_actual"])."','".db_esc($dbc, $rst_sta4["status_desc"])."','".db_esc($dbc, $data_pps["comp_code"])."','".db_esc($dbc, $data_pps["work_center"])."','".db_esc($dbc, $data_pps["shift_pps1"])."','".db_esc($dbc, $data_pps["shift_pps2"])."','".db_esc($dbc, $data_pps["date_plan"])."','N','".db_esc($dbc, $data_pps["user_upload"])."','".db_esc($dbc, $data_pps["date_upload"])."','".db_esc($dbc, $data_pps["user_create"])."','".db_esc($dbc, $data_pps["date_create"])."','".db_esc($dbc, $data_pps["user_update"])."','".db_esc($dbc, $data_pps["date_update"])."','".db_esc($dbc, $data_pps["user_posting"])."','".db_esc($dbc, $data_pps["date_posting"])."','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $data_pps["plan_category"])."','".db_esc($dbc, $data_pps["id_factory_pps"])."','".db_esc($dbc, $data_pps["rev_pps"])."','".db_esc($dbc, $data_pps["seq_pps"])."','".db_esc($dbc, $data_pps["man_hours"])."','".db_esc($dbc, $data_pps["work_hours"])."')";
 $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));   
 
 				  
@@ -302,7 +302,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
    $no = 1;
    $sta_out = "";
    
-$query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R FROM pps_detail AS MR WHERE MR.status_pps = '".$rst_sta2["status_desc"]."' AND  MR.upload_id = '".$uid."' ".$where_sql." order by MR.plan_no ASC";
+$query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R FROM pps_detail AS MR WHERE MR.status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' AND  MR.upload_id = '".db_esc($dbc, $uid)."' ".$where_sql." order by MR.plan_no ASC";
 $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    while ($row2 = mysqli_fetch_array($result_display))

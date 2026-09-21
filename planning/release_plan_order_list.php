@@ -32,7 +32,7 @@ exit();
 }
 $url = "release_plan_order_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -288,7 +288,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -312,7 +312,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <select name="name_file" id="name_file" class="span11">
                 <option value="NULL" placeholder="Select Filename"> -- Select Filename --</option>
                 <?php
-                $query19 = "SELECT * FROM pps_detail AS DC, ftp_pps AS FP  WHERE FP.upload_id = DC.upload_id AND (DC.status_pps != '".$rst_sta4["status_desc"]."' AND DC.status_pps != '".$rst_sta13["status_desc"]."') GROUP BY FP.file_name ORDER BY FP.file_name ASC";
+                $query19 = "SELECT * FROM pps_detail AS DC, ftp_pps AS FP  WHERE FP.upload_id = DC.upload_id AND (DC.status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND DC.status_pps != '".db_esc($dbc, $rst_sta13["status_desc"])."') GROUP BY FP.file_name ORDER BY FP.file_name ASC";
                 $result19 = mysqli_query($dbc, $query19);
                 
                 while($row19=mysqli_fetch_array($result19)) 

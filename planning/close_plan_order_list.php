@@ -32,7 +32,7 @@ exit();
 }
 $url = "close_plan_order_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -287,7 +287,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta13["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -338,7 +338,7 @@ echo "window.location='close_plan_order_list2.php?date1=$dateF&&date2=$dateT&&fa
 
 
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail_close WHERE status_pps = '".$rst_sta13["status_desc"]."'";
+   $query8 = "SELECT COUNT(*) FROM pps_detail_close WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."'";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -349,7 +349,7 @@ echo "window.location='close_plan_order_list2.php?date1=$dateF&&date2=$dateT&&fa
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail_close WHERE status_pps = '".$rst_sta13["status_desc"]."' order by plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail_close WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' order by plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -413,7 +413,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		$sta = " ";
 	 }	
 		 
-	  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'";
+	  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.".db_esc($dbc, $row[16]).".'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p);
 	 

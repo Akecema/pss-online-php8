@@ -157,7 +157,7 @@ for($i=0;$i<= 1;$i++) // Loop to get all sheets in a file.
 					{
 	
 								
-			$query_1 = "INSERT INTO pps_upload(ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, user_upload, date_upload, user_create, date_create, user_update, date_update, plan_category, seq_pps1, seq_pps2) VALUES('','','".$upload_id."','".$model_code."','".$month_plan."','".$material_no."','','','New','".$data_setup["comp_code"]."','".$work_center."','".$shift_pps1."','".$shift_pps2."','".$date1."','$username',NOW(),'$username',NOW(),'','','".$plan_category."','".$seq_pps1."','".$seq_pps2."')";
+			$query_1 = "INSERT INTO pps_upload(ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, user_upload, date_upload, user_create, date_create, user_update, date_update, plan_category, seq_pps1, seq_pps2) VALUES('','','".db_esc($dbc, $upload_id)."','".$model_code."','".$month_plan."','".$material_no."','','','New','".db_esc($dbc, $data_setup["comp_code"])."','".$work_center."','".$shift_pps1."','".$shift_pps2."','".db_esc($dbc, $date1)."','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $plan_category)."','".$seq_pps1."','".$seq_pps2."')";
 			mysqli_query($dbc, $query_1);
 			
 			
@@ -201,14 +201,14 @@ echo "<br />Data Inserted in dababase";
 			$mon_plan = substr($row_db_pps["month_plan"],0,2);		
 			
 			 //---- check factory from work center -------// 
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$row_db_pps["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $row_db_pps["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
 			
 			 //----- check material existing in table material ------//
 			 
-			 $query_chk_mat = "SELECT * FROM table_material WHERE material_no = '".$row_db_pps["material_no"]."' AND bom_status = 'Y'";
+			 $query_chk_mat = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row_db_pps["material_no"])."' AND bom_status = 'Y'";
 			 $result_chk_mat = mysqli_query($dbc, $query_chk_mat); 
 			 $row_chk_mat = mysqli_fetch_array($result_chk_mat);
 			 
@@ -221,13 +221,13 @@ echo "<br />Data Inserted in dababase";
 				if($row_db_pps["shift_pps1"] != "") 
 				{
 				
-			$query_shift_day1 = "INSERT INTO pps_detail(id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('','".$row_db_pps["ref_id"]."','','".$row_db_pps["upload_id"]."','".$row_db_pps["model_code"]."','".$mon_plan."','".$row_db_pps["material_no"]."','".$row_db_pps["shift_pps1"]."','','New','".$row_db_pps["comp_code"]."','".$row_db_pps["work_center"]."','D/S','','".$row_db_pps["date_plan"]."','Y','".$row_db_pps["user_upload"]."','".$row_db_pps["date_upload"]."','".$row_db_pps["user_create"]."','".$row_db_pps["date_create"]."','','','','','','','".$row_db_pps["plan_category"]."','".$row_convert["id_factory"]."','','".$row_db_pps["seq_pps1"]."','','')";
+			$query_shift_day1 = "INSERT INTO pps_detail(id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('','".db_esc($dbc, $row_db_pps["ref_id"])."','','".db_esc($dbc, $row_db_pps["upload_id"])."','".db_esc($dbc, $row_db_pps["model_code"])."','".db_esc($dbc, $mon_plan)."','".db_esc($dbc, $row_db_pps["material_no"])."','".db_esc($dbc, $row_db_pps["shift_pps1"])."','','New','".db_esc($dbc, $row_db_pps["comp_code"])."','".db_esc($dbc, $row_db_pps["work_center"])."','D/S','','".db_esc($dbc, $row_db_pps["date_plan"])."','Y','".db_esc($dbc, $row_db_pps["user_upload"])."','".db_esc($dbc, $row_db_pps["date_upload"])."','".db_esc($dbc, $row_db_pps["user_create"])."','".db_esc($dbc, $row_db_pps["date_create"])."','','','','','','','".db_esc($dbc, $row_db_pps["plan_category"])."','".db_esc($dbc, $row_convert["id_factory"])."','','".db_esc($dbc, $row_db_pps["seq_pps1"])."','','')";
 		   $result_shift_day1 = mysqli_query($dbc, $query_shift_day1);	
 				}
 		      
 			  if($row_db_pps["shift_pps2"] != "")
 				{
-				$query_shift_day2 = "INSERT INTO pps_detail(id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('','".$row_db_pps["ref_id"]."','','".$row_db_pps["upload_id"]."','".$row_db_pps["model_code"]."','".$mon_plan."','".$row_db_pps["material_no"]."','".$row_db_pps["shift_pps2"]."','','New','".$row_db_pps["comp_code"]."','".$row_db_pps["work_center"]."','','N/S','".$row_db_pps["date_plan"]."','Y','".$row_db_pps["user_upload"]."','".$row_db_pps["date_upload"]."','".$row_db_pps["user_create"]."','".$row_db_pps["date_create"]."','','','','','','','".$row_db_pps["plan_category"]."','".$row_convert["id_factory"]."','','".$row_db_pps["seq_pps2"]."','','')";
+				$query_shift_day2 = "INSERT INTO pps_detail(id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload, user_create, date_create, user_update, date_update, user_posting, date_posting, user_closed, date_closed, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('','".db_esc($dbc, $row_db_pps["ref_id"])."','','".db_esc($dbc, $row_db_pps["upload_id"])."','".db_esc($dbc, $row_db_pps["model_code"])."','".db_esc($dbc, $mon_plan)."','".db_esc($dbc, $row_db_pps["material_no"])."','".db_esc($dbc, $row_db_pps["shift_pps2"])."','','New','".db_esc($dbc, $row_db_pps["comp_code"])."','".db_esc($dbc, $row_db_pps["work_center"])."','','N/S','".db_esc($dbc, $row_db_pps["date_plan"])."','Y','".db_esc($dbc, $row_db_pps["user_upload"])."','".db_esc($dbc, $row_db_pps["date_upload"])."','".db_esc($dbc, $row_db_pps["user_create"])."','".db_esc($dbc, $row_db_pps["date_create"])."','','','','','','','".db_esc($dbc, $row_db_pps["plan_category"])."','".db_esc($dbc, $row_convert["id_factory"])."','','".db_esc($dbc, $row_db_pps["seq_pps2"])."','','')";
 			$result_shift_day2 = mysqli_query($dbc, $query_shift_day2);		
 					
 				}
@@ -271,19 +271,19 @@ echo "<br />Data Inserted in dababase";
 		
 			
 		  //-------------------------------delete table ftp_pps-------------------------------------
-		    $query_hsekeeping2 = "DELETE FROM ftp_pps WHERE upload_id = '".$upload_id."'";
+		    $query_hsekeeping2 = "DELETE FROM ftp_pps WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
 			$result_hsekeeping2 =  mysqli_query($dbc, $query_hsekeeping2);
 	  
 		  //------------------------end delete upload table ftp_pps---------------------------------	
 		  
 		   //-------------------------------delete table pps_detail-------------------------------------
-		    $query_hsekeeping3 = "DELETE FROM pps_detail WHERE upload_id = '".$upload_id."'";
+		    $query_hsekeeping3 = "DELETE FROM pps_detail WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
 			$result_hsekeeping3 =  mysqli_query($dbc, $query_hsekeeping3);
 	  
 		  //------------------------end delete upload table ftp_pps---------------------------------	
 			
 			//-------------------------------delete table pps_upload-------------------------------------
-		    $query_hsekeeping = "DELETE FROM pps_upload WHERE upload_id = '".$upload_id."'";
+		    $query_hsekeeping = "DELETE FROM pps_upload WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
 			$result_hsekeeping =  mysqli_query($dbc, $query_hsekeeping);
 	  
 		  //------------------------end delete upload table pps-upload---------------------------------	
@@ -299,7 +299,7 @@ echo "<br />Data Inserted in dababase";
 			
 			
 			//----checking have data in pps upload -> proceed to next stage
-			$query_db_pps_nxt = "SELECT * FROM pps_upload WHERE status_pps = 'New' and upload_id = '".$upload_id."'";
+			$query_db_pps_nxt = "SELECT * FROM pps_upload WHERE status_pps = 'New' and upload_id = '".db_esc($dbc, $upload_id)."'";
 			$result_db_pps_nxt = mysqli_query($dbc, $query_db_pps_nxt);
 			$row_db_pps_nxt = mysqli_fetch_array($result_db_pps_nxt);
 	       
@@ -308,7 +308,7 @@ echo "<br />Data Inserted in dababase";
 		   {
 			   
 		  //-------------------------------delete table pps_upload-------------------------------------
-		    $query_hsekeeping_f = "DELETE FROM pps_upload WHERE upload_id = '".$upload_id."'";
+		    $query_hsekeeping_f = "DELETE FROM pps_upload WHERE upload_id = '".db_esc($dbc, $upload_id)."'";
 			$result_hsekeeping_f =  mysqli_query($dbc, $query_hsekeeping_f);
 	  
 		  //------------------------end delete upload table pps-upload---------------------------------	   

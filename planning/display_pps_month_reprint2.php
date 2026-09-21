@@ -32,7 +32,7 @@ exit();
 }
 $url = "display_pps_month_reprint.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 
@@ -240,7 +240,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -258,7 +258,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta["status_desc"]."' OR status_pps = '".$rst_sta2["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta["status_desc"])."' OR status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -289,7 +289,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
               <td>  <select name="name_file" id="name_file">
                   <option value="NULL" placeholder="Select Filename"> -- Select Filename --</option>
                   <?php
-	               $query19 = "SELECT * FROM pps_detail AS DC, ftp_pps AS FP  WHERE FP.upload_id = DC.upload_id AND (DC.status_pps != '".$rst_sta4["status_desc"]."' AND DC.status_pps != '".$rst_sta13["status_desc"]."') GROUP BY FP.file_name ORDER BY FP.file_name ASC";
+	               $query19 = "SELECT * FROM pps_detail AS DC, ftp_pps AS FP  WHERE FP.upload_id = DC.upload_id AND (DC.status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND DC.status_pps != '".db_esc($dbc, $rst_sta13["status_desc"])."') GROUP BY FP.file_name ORDER BY FP.file_name ASC";
                    $result19 = mysqli_query($dbc, $query19);
   
                    while($row19=mysqli_fetch_array($result19)) 
@@ -344,11 +344,11 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM work_center_detail WHERE id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
-			$query_convert2 = "SELECT * FROM ftp_pps WHERE file_name = '".$_GET["name_file"]."'";
+			$query_convert2 = "SELECT * FROM ftp_pps WHERE file_name = '".db_esc($dbc, $_GET["name_file"])."'";
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
@@ -424,7 +424,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 
 
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps != '".$rst_sta["status_desc"]."' AND status_pps != '".$rst_sta4["status_desc"]."' AND status_pps != '".$rst_sta16["status_desc"]."') ".$where_sql;
+   $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."') ".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -435,7 +435,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE (status_pps != '".$rst_sta["status_desc"]."' AND status_pps != '".$rst_sta4["status_desc"]."' AND status_pps != '".$rst_sta16["status_desc"]."') ".$where_sql. " ORDER BY plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R FROM pps_detail WHERE (status_pps != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."') ".$where_sql. " ORDER BY plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 

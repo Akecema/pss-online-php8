@@ -192,11 +192,11 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 
  //convert 
 			
-			$query_convert = "SELECT * FROM work_center_detail WHERE id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
-			$query_convert2 = "SELECT * FROM ftp_pps WHERE file_name = '".$_GET["name_file"]."'";
+			$query_convert2 = "SELECT * FROM ftp_pps WHERE file_name = '".db_esc($dbc, $_GET["name_file"])."'";
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
@@ -265,7 +265,7 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
 
-$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K FROM pps_detail WHERE (status_pps != '".$rst_sta4["status_desc"]."' OR status_pps != '".$rst_sta16["status_desc"]."') AND status_pps != '".$rst_sta["status_desc"]."'".$where_sql. " GROUP BY work_center";
+$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K FROM pps_detail WHERE (status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' OR status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."') AND status_pps != '".db_esc($dbc, $rst_sta["status_desc"])."'".$where_sql. " GROUP BY work_center";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
  while ($db_rs = mysqli_fetch_array($rs))
@@ -317,7 +317,7 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 	
 	 //--------------get filename from table ftp_pps
  
- $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '".$db_rs["upload_id"]."'";
+ $query_ftp_pps = "SELECT * FROM ftp_pps WHERE upload_id = '".db_esc($dbc, $db_rs["upload_id"])."'";
  $result_ftp_pps = mysqli_query($dbc, $query_ftp_pps);
  $data_ftp_pps = mysqli_fetch_array($result_ftp_pps); 	
 	   
@@ -412,7 +412,7 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
       <tbody>
         <?php
 		
-	  $query_by_group = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail WHERE work_center = '".$db_rs["work_center"]."' ".$where_sql;
+	  $query_by_group = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') AS T, DATE_FORMAT(date_upload,'%d-%m-%Y %H:%i:%s') AS K from pps_detail WHERE work_center = '".db_esc($dbc, $db_rs["work_center"])."' ".$where_sql;
       $result_by_group = mysqli_query($dbc, $query_by_group);   //run the query.
 		
 		
@@ -441,12 +441,12 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 	 
 	   
 	     //---------get material header---------
-	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$rowA['material_no']."'";
+	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".db_esc($dbc, $rowA['material_no'])."'";
 		$result_mat_h = mysqli_query($dbc, $query_mat_h);
 		$data_mat_h = mysqli_fetch_array($result_mat_h);	
 		
 		  //---------get material detail---------
-	    $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '".$rowA['material_no']."' OR bill_component = '".$rowA['material_no']."')";
+	    $query_mat_d = "SELECT * FROM mat_master_detail WHERE (material = '".db_esc($dbc, $rowA['material_no'])."' OR bill_component = '".db_esc($dbc, $rowA['material_no'])."')";
 		$result_mat_d = mysqli_query($dbc, $query_mat_d);
 		$data_mat_d = mysqli_fetch_array($result_mat_d);	
 		

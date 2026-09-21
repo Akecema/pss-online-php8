@@ -32,7 +32,7 @@ exit();
 }
 $url = "close_plan_order_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -242,7 +242,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -260,7 +260,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta13["status_desc"]."' ORDER BY plan_no ASC";
+	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' ORDER BY plan_no ASC";
             $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -297,7 +297,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
@@ -349,7 +349,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	
 	//********** END CONDITION **************
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail_close AS MR WHERE MR.status_pps = '".$rst_sta13["status_desc"]."' AND MR.status = 'Y'".$where_sql;
+   $query8 = "SELECT COUNT(*) FROM pps_detail_close AS MR WHERE MR.status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' AND MR.status = 'Y'".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -360,7 +360,7 @@ function getXMLHTTP() { //fuction to return the xml http object
  
  
   
-$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_close AS MR WHERE MR.status_pps = '".$rst_sta13["status_desc"]."' AND MR.status = 'Y' ".$where_sql."order by MR.plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_close AS MR WHERE MR.status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' AND MR.status = 'Y' ".$where_sql."order by MR.plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -424,7 +424,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		$sta = " ";
 	 }	
 		 
-	  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'";
+	  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.".db_esc($dbc, $row[16]).".'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p);
 	 

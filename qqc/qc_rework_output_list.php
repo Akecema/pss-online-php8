@@ -37,7 +37,7 @@ exit();
 
 $url = "rework_output_list_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -174,7 +174,7 @@ chk[i].checked = false ;
  <?php
 	   $uid = $_GET["uid"];
 	
-	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_qqc = '$uid'";
+	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_qqc = '".db_esc($dbc, $uid)."'";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   $data_qqc = mysqli_fetch_array($result_qqc);
 	   
@@ -185,7 +185,7 @@ chk[i].checked = false ;
 	   
 	    //--------- qc detail (calculate total qty_qc receive from production) ------------
 	 
-	   $query_qqc_cal = "SELECT * FROM qqc_transaction WHERE qqc_doc_no = '".$data_qqc["qqc_doc_no"]."' AND bflush_no = '".$data_qqc["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
+	   $query_qqc_cal = "SELECT * FROM qqc_transaction WHERE qqc_doc_no = '".db_esc($dbc, $data_qqc["qqc_doc_no"])."' AND bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 	   $result_qqc_cal = mysqli_query($dbc, $query_qqc_cal);
 	   
 	    $qty_total_rec = 0.000;
@@ -396,7 +396,7 @@ $message = NULL; // create an empty new variable.
 	
  //insert into table qqc_transaction-------------
 	
-$query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".$data_qqc["id_tran"]."','".$data_qqc["qqc_doc_no"]."','".$ref."','".$data_qqc["bflush_no"]."','".$data_qqc["plan_no"]."','".$data_qqc["material_no"]."', '".$data_qqc["material_desc"]."','".$data_qqc["material_type"]."','".$data_qqc["qty_plan"]."','".$data_qqc["qty_actual"]."','".$data_qqc["qty_balance"]."','','".$data_qqc["qty_qc"]."','".$_POST["qty_qc_ok"]."','','".$rst_sta8["status_desc"]."','".$data_qqc["comp_code"]."', '".$data_qqc["work_center"]."', '".$data_qqc["shift_day"]."','".$data_qqc["date_plan"]."','$username',NOW(),'','','$username','".$_POST["date1"]."','".$t_time."','".$data_qqc["ploc_qc"]."','".$_POST["sloc"]."','".$ploc_qc."','','','','','','N','Y','','','')";
+$query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','','".db_esc($dbc, $data_qqc["qty_qc"])."','".db_esc($dbc, $_POST["qty_qc_ok"])."','','".db_esc($dbc, $rst_sta8["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $username)."','".db_esc($dbc, $_POST["date1"])."','".db_esc($dbc, $t_time)."','".db_esc($dbc, $data_qqc["ploc_qc"])."','".db_esc($dbc, $_POST["sloc"])."','".db_esc($dbc, $ploc_qc)."','','','','','','N','Y','','','')";
 $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
  
  
@@ -404,7 +404,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
 	
 	
 	
-	   $query_qqc_cal2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
+	   $query_qqc_cal2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 	   $result_qqc_cal2 = mysqli_query($dbc, $query_qqc_cal2);
 	   
 	    $qty_total_rec2 = 0.000;
@@ -442,7 +442,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
 	  }
 	  
 	//---update status_QC at qqc_detail_transaction--------
-	$query_upd_sta = "UPDATE qqc_detail_transaction SET status_QC = '".$status_new."' WHERE bflush_no = '".$data_qqc["bflush_no"]."'";
+	$query_upd_sta = "UPDATE qqc_detail_transaction SET status_QC = '".db_esc($dbc, $status_new)."' WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."'";
 	$result_upd_sta = mysqli_query($dbc, $query_upd_sta); 
 	
 	
@@ -673,14 +673,14 @@ $message = NULL; // create an empty new variable.
 		  
 	//insert into table qqc_transaction-------------
 	
-$query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".$data_qqc["id_tran"]."','".$data_qqc["qqc_doc_no"]."','".$ref."','".$data_qqc["bflush_no"]."','".$data_qqc["plan_no"]."','".$data_qqc["material_no"]."', '".$data_qqc["material_desc"]."','".$data_qqc["material_type"]."','".$data_qqc["qty_plan"]."','".$data_qqc["qty_actual"]."','".$data_qqc["qty_balance"]."','','".$data_qqc["qty_qc"]."','','".$_POST["qty_qc_NG"]."','".$rst_sta8["status_desc"]."','".$data_qqc["comp_code"]."', '".$data_qqc["work_center"]."', '".$data_qqc["shift_day"]."','".$data_qqc["date_plan"]."','$username',NOW(),'','','$username','".$_POST["date2"]."','".$t_time2."','".$ploc_qc."','".$data_qqc["ploc"]."','','".$type_reject."','".$reason_reject."','$username',NOW(),NOW(),'N','N','','','')";
+$query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','','".db_esc($dbc, $data_qqc["qty_qc"])."','','".db_esc($dbc, $_POST["qty_qc_NG"])."','".db_esc($dbc, $rst_sta8["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $username)."','".db_esc($dbc, $_POST["date2"])."','".db_esc($dbc, $t_time2)."','".db_esc($dbc, $ploc_qc)."','".db_esc($dbc, $data_qqc["ploc"])."','','".db_esc($dbc, $type_reject)."','".db_esc($dbc, $reason_reject)."','".db_esc($dbc, $username)."',NOW(),NOW(),'N','N','','','')";
 $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
  
 	
 	
 	//----check qqc_transaction total pending "0" ----------	
 	
-	   $query_qqc_cal2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
+	   $query_qqc_cal2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 	   $result_qqc_cal2 = mysqli_query($dbc, $query_qqc_cal2);
 	   
 	    $qty_total_rec2 = 0.000;
@@ -718,7 +718,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
 	  }
 	  
 	//---update status_QC at qqc_detail_transaction--------
-	$query_upd_sta = "UPDATE qqc_detail_transaction SET status_QC = '".$status_new."' WHERE bflush_no = '".$data_qqc["bflush_no"]."'";
+	$query_upd_sta = "UPDATE qqc_detail_transaction SET status_QC = '".db_esc($dbc, $status_new)."' WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."'";
 	$result_upd_sta = mysqli_query($dbc, $query_upd_sta);
 	
 	

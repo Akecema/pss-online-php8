@@ -36,7 +36,7 @@ exit();
 $url = "report_all_planning_module.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -143,7 +143,7 @@ if (bV >= 4) window.print();
  
   //--------- pps detail ------------
 	 
-	   $query_pps = "SELECT * FROM pps_detail WHERE id = '".$uid."'";
+	   $query_pps = "SELECT * FROM pps_detail WHERE id = '".db_esc($dbc, $uid)."'";
 	   $result_pps = mysqli_query($dbc, $query_pps);
 	   $data_pps = mysqli_fetch_array($result_pps);
  
@@ -184,16 +184,16 @@ if (bV >= 4) window.print();
    $no = 1;
    $sta_out = "";
    
-   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '$uid'";
+   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".db_esc($dbc, $uid)."'";
    $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    while ($row2 = mysqli_fetch_array($result_display))
    {
 	
-	 $query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".$row2["bflush_no"]."'";
+	 $query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".db_esc($dbc, $row2["bflush_no"])."'";
 $result_display3 = mysqli_query($dbc, $query_display3);   //run the query. 	
 	
-     $query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".$row2["bflush_no"]."'";
+     $query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".db_esc($dbc, $row2["bflush_no"])."'";
 $result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 
 

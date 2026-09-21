@@ -33,7 +33,7 @@ exit();
 $url = "list_ftp_pending2_NG_sap.php";
 
 
-$query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 $res = mysqli_fetch_array($result2);
 
@@ -201,13 +201,13 @@ if(is_dir($dir)){
 				 
 	//---check filename from table ftp goodtrans detail --------
 		
-	$query = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_goodtran_detail WHERE status_ftp = 'Y' AND file_name = '".$filename2."'";
+	$query = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_goodtran_detail WHERE status_ftp = 'Y' AND file_name = '".db_esc($dbc, $filename2)."'";
 	$rs = mysqli_query($dbc, $query);   //run the query.
 	$row_rs = mysqli_fetch_array($rs);   //how many material are there?
 				 
 	//---check material type in table material--------
 		
-	$query_mat_type = "SELECT * FROM table_material WHERE material_no = '".$row_rs["material_no"]."'";
+	$query_mat_type = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row_rs["material_no"])."'";
 	$rs_mat_type = mysqli_query($dbc, $query_mat_type);   //run the query.
 	$row_mat_type = mysqli_fetch_array($rs_mat_type);   //how many material are there?	
 	

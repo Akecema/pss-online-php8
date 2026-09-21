@@ -32,7 +32,7 @@ exit();
 }
 $url = "rework_output_list_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -261,7 +261,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -279,7 +279,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
+	        $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' ORDER BY plan_no ASC";
             $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -337,7 +337,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
@@ -395,7 +395,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	//********** END CONDITION **************
 
 								 
-   $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction AS MR, work_center_detail AS SR, pps_detail_transaction AS PD WHERE SR.id_work = MR.work_center AND MR.bflush_no = PD.bflush_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND PD.status_pps != '".$rst_sta14["status_desc"]."' AND MR.status_QC != '".$rst_sta4["status_desc"]."' AND MR.qty_balance != '0'".$where_sql;
+   $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction AS MR, work_center_detail AS SR, pps_detail_transaction AS PD WHERE SR.id_work = MR.work_center AND MR.bflush_no = PD.bflush_no AND MR.status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' AND PD.status_pps != '".db_esc($dbc, $rst_sta14["status_desc"])."' AND MR.status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.qty_balance != '0'".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -406,7 +406,7 @@ function getXMLHTTP() { //fuction to return the xml http object
  
  
   
-$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM qqc_detail_transaction AS MR, work_center_detail AS SR, pps_detail_transaction AS PD WHERE SR.id_work = MR.work_center AND MR.bflush_no = PD.bflush_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND PD.status_pps != '".$rst_sta14["status_desc"]."' AND MR.status_QC != '".$rst_sta4["status_desc"]."' AND MR.qty_balance != '0'".$where_sql." ORDER BY MR.plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM qqc_detail_transaction AS MR, work_center_detail AS SR, pps_detail_transaction AS PD WHERE SR.id_work = MR.work_center AND MR.bflush_no = PD.bflush_no AND MR.status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' AND PD.status_pps != '".db_esc($dbc, $rst_sta14["status_desc"])."' AND MR.status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.qty_balance != '0'".$where_sql." ORDER BY MR.plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -507,7 +507,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
    $qty_total_NG2 = 0.000;
    
   	 //-----checking QA/QC entering output production
-	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".$row["bflush_no"]."' AND plan_no = '".$row["plan_no"]."'";
+	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".db_esc($dbc, $row["bflush_no"])."' AND plan_no = '".db_esc($dbc, $row["plan_no"])."'";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   $data_qqc = mysqli_fetch_array($result_qqc);  
 	   
@@ -518,7 +518,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	     
 	   
 	 
-	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".$data_qqc["bflush_no"]."' AND plan_no = '".$data_qqc["plan_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
+	   $query_qqc2 = "SELECT * FROM qqc_transaction WHERE bflush_no = '".db_esc($dbc, $data_qqc["bflush_no"])."' AND plan_no = '".db_esc($dbc, $data_qqc["plan_no"])."' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 	   $result_qqc2 = mysqli_query($dbc, $query_qqc2);
 	
 	  

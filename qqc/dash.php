@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -172,17 +172,17 @@ jQuery(document).ready(function ($) {
  
  // ------------------------------  display dashboard ------------------------
  //status qqc in progress
-$query_in_progress = "SELECT COUNT(DISTINCT MR.plan_no) AS cnt FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
+$query_in_progress = "SELECT COUNT(DISTINCT MR.plan_no) AS cnt FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
 $rs_in_progress = mysqli_query($dbc, $query_in_progress);   //run the query.
 $num_in_progress = mysqli_fetch_assoc($rs_in_progress)['cnt'];   //how many material are there?
 
 // pending approval disposal
-$query_con_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != ''";
+$query_con_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != ''";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
 $num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are there?
 
 // approved disposal
-$query_approve_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != ''";
+$query_approve_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_disposal != '".db_esc($dbc, $rst_sta16["status_desc"])."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != ''";
 $rs_approve_req = mysqli_query($dbc, $query_approve_req);   //run the query.
 $num_approve_req = mysqli_fetch_assoc($rs_approve_req)['cnt'];   //how many material are there?
 
@@ -212,13 +212,13 @@ $num_approve_req = mysqli_fetch_assoc($rs_approve_req)['cnt'];   //how many mate
 		$percent_cancel = 0.00;
 		
 		//1. - production output IN PROGRESS
-	$query_mat_prog_open = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND qty_actual != ''";
+	$query_mat_prog_open = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND qty_actual != ''";
 	$rs_mat_prog_open = mysqli_query($dbc, $query_mat_prog_open);
 	$num_mat_prog_open = mysqli_fetch_assoc($rs_mat_prog_open)['cnt'];
 
 
 		//2.  - qqc transaction production output IN Progress
-	$query_mat_prog_close = "SELECT COUNT(*) AS cnt FROM qqc_detail_transaction WHERE status_QC = '".$rst_sta8["status_desc"]."' AND qty_balance != '0'";
+	$query_mat_prog_close = "SELECT COUNT(*) AS cnt FROM qqc_detail_transaction WHERE status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' AND qty_balance != '0'";
 	$rs_mat_prog_close = mysqli_query($dbc, $query_mat_prog_close);
 	$num_mat_prog_close = mysqli_fetch_assoc($rs_mat_prog_close)['cnt'];
 
@@ -232,7 +232,7 @@ $num_approve_req = mysqli_fetch_assoc($rs_approve_req)['cnt'];   //how many mate
 
 	    //4. - Disposal
 
-	$query_mat_prog_disposal = "SELECT COUNT(*) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND status_part = 'QC'";
+	$query_mat_prog_disposal = "SELECT COUNT(*) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_part = 'QC'";
 	$rs_mat_prog_disposal = mysqli_query($dbc, $query_mat_prog_disposal);
 	$num_mat_prog_disposal = mysqli_fetch_assoc($rs_mat_prog_disposal)['cnt'];
 	

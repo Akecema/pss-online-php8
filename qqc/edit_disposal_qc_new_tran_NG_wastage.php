@@ -37,7 +37,7 @@ exit();
 $url = "disposal_backflush_tran_NG.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -160,12 +160,12 @@ return "";
 
  $doc_disposal = $_GET["doc_disposal"];
   
-$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
+$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".db_esc($dbc, $doc_disposal)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 //detail info disposal 
 
-$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
+$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = '".db_esc($dbc, $doc_disposal)."'";
 $result_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
 $row_disposal = mysqli_fetch_array($result_disposal);
 
@@ -233,18 +233,18 @@ $message = NULL; // create an empty new variable.
 		
 //------------update remarks reject detail disposal-------------------
       
- $query_upd3 = "UPDATE reject_detail_disposal SET remarks = '".$string[$i]."', user_update = '".$username."', date_update = NOW() WHERE id_disposal = '".$cancel[$i]."'";
+ $query_upd3 = "UPDATE reject_detail_disposal SET remarks = '".db_esc($dbc, $string[$i])."', user_update = '".db_esc($dbc, $username)."', date_update = NOW() WHERE id_disposal = '".db_esc($dbc, $cancel[$i])."'";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
    //---------------------get data table reject_detail_disposal-------
-	  $query_all = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".$cancel[$i]."'";
+	  $query_all = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".db_esc($dbc, $cancel[$i])."'";
 	  $result_all = mysqli_query($dbc, $query_all);
 	  
 	  while($row_all = mysqli_fetch_array($result_all))
 	  {
 	
 	  // //----------------------update table wastage_disposal
-	  $query_wastage_update = "UPDATE wastage_transaction SET user_update = '".$username."', date_update = NOW(), remarks = '".$row_all["remarks"]."' WHERE id_wastage_tran = '".$row_all["uid"]."'";
+	  $query_wastage_update = "UPDATE wastage_transaction SET user_update = '".db_esc($dbc, $username)."', date_update = NOW(), remarks = '".db_esc($dbc, $row_all["remarks"])."' WHERE id_wastage_tran = '".db_esc($dbc, $row_all["uid"])."'";
 	  $result_wastage_update = mysqli_query($dbc, $query_wastage_update);		
 				
 	  }// end while loop
@@ -327,15 +327,15 @@ if (isset($message))
    while ($row = mysqli_fetch_array($rs))
    {
 		
-		$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
+		$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".db_esc($dbc, $row['type_wastage'])."' ORDER BY id_wastage ASC";
 		$result_type = mysqli_query($dbc, $query_type);
 		$row_type = mysqli_fetch_array($result_type); 
 		
-		$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
+		$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".db_esc($dbc, $row['reason_wastage'])."' ORDER BY id_reason_wastage ASC";
 		$result_reason = mysqli_query($dbc, $query_reason);
 		$row_reason = mysqli_fetch_array($result_reason);
 			
-		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
+		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat = mysqli_query($dbc, $query_mat);
 		$data_mat = mysqli_fetch_array($result_mat);	
 		

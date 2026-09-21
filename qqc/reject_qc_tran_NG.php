@@ -33,7 +33,7 @@ exit();
 }
 $url = "reject_qc_tran_NG.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -387,24 +387,24 @@ $message = NULL; // create an empty new variable.
 		//echo "</br>";
 		
 		//get data table pps_detail_transaction
-	  $query_info = "SELECT * FROM qqc_transaction WHERE id_qqc = '".$cancel[$i]."'";
+	  $query_info = "SELECT * FROM qqc_transaction WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."'";
 	  $result_info = mysqli_query($dbc, $query_info);
 	  $data_info = mysqli_fetch_array($result_info);
 	  
 	   //get data table mat_master_header
-	  $query_info2 = "SELECT * FROM mat_master_header WHERE material_no = '".$data_info["material_no"]."'";
+	  $query_info2 = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $data_info["material_no"])."'";
 	  $result_info2 = mysqli_query($dbc, $query_info2);
 	  $data_info2 = mysqli_fetch_array($result_info2);
 	  
 	  //get data table pps_detail_transaction
-	  $query_info3 = "SELECT * FROM pps_detail_transaction WHERE material_no = '".$data_info["material_no"]."'";
+	  $query_info3 = "SELECT * FROM pps_detail_transaction WHERE material_no = '".db_esc($dbc, $data_info["material_no"])."'";
 	  $result_info3 = mysqli_query($dbc, $query_info3);
 	  $data_info3 = mysqli_fetch_array($result_info3);
 	  
 				
 		//insert table reject_detail_disposal
 		
-		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center) VALUES('','".$data_info["qqc_no"]."','".$data_info["qqc_no"]."','".$data_info["qqc_no"]."','".$data_info["plan_no"]."','".$cancel[$i]."','".$data_info["material_no"]."', '".$data_info["material_desc"]."','".$data_info["material_type"]."','".$data_info3["model_code"]."','".$data_info["qty_plan"]."','".$data_info["qty_actual"]."','".$data_info["qty_balance"]."','".$data_info["qty_NG"]."','".$data_info["qty_qc"]."','".$data_info["qty_qc_ok"]."','".$data_info["qty_qc_NG"]."','".$data_info2["BUn"]."','".$data_info["comp_code"]."','".$data_info["work_center"]."','".$data_info["shift_day"]."','".$data_info["date_plan"]."','".$data_info["user_qc_posting"]."','".$data_info["date_qc_posting"]."','".$data_info["time_qc_posting"]."','".$rst_sta["status_desc"]."','".$data_info["ploc"]."','','".$data_info["ploc_qc"]."','".$data_info["type_qc_reject"]."','".$data_info["reason_qc_reject"]."','".$data_info["user_qc_reject"]."','".$data_info["date_qc_reject"]."','".$data_info["time_qc_reject"]."','','','','','','','".$username."',NOW(),'".$string[$i]."','','','','QC','','','','','','')";
+		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center) VALUES('','".db_esc($dbc, $data_info["qqc_no"])."','".db_esc($dbc, $data_info["qqc_no"])."','".db_esc($dbc, $data_info["qqc_no"])."','".db_esc($dbc, $data_info["plan_no"])."','".db_esc($dbc, $cancel[$i])."','".db_esc($dbc, $data_info["material_no"])."', '".db_esc($dbc, $data_info["material_desc"])."','".db_esc($dbc, $data_info["material_type"])."','".db_esc($dbc, $data_info3["model_code"])."','".db_esc($dbc, $data_info["qty_plan"])."','".db_esc($dbc, $data_info["qty_actual"])."','".db_esc($dbc, $data_info["qty_balance"])."','".db_esc($dbc, $data_info["qty_NG"])."','".db_esc($dbc, $data_info["qty_qc"])."','".db_esc($dbc, $data_info["qty_qc_ok"])."','".db_esc($dbc, $data_info["qty_qc_NG"])."','".db_esc($dbc, $data_info2["BUn"])."','".db_esc($dbc, $data_info["comp_code"])."','".db_esc($dbc, $data_info["work_center"])."','".db_esc($dbc, $data_info["shift_day"])."','".db_esc($dbc, $data_info["date_plan"])."','".db_esc($dbc, $data_info["user_qc_posting"])."','".db_esc($dbc, $data_info["date_qc_posting"])."','".db_esc($dbc, $data_info["time_qc_posting"])."','".db_esc($dbc, $rst_sta["status_desc"])."','".db_esc($dbc, $data_info["ploc"])."','','".db_esc($dbc, $data_info["ploc_qc"])."','".db_esc($dbc, $data_info["type_qc_reject"])."','".db_esc($dbc, $data_info["reason_qc_reject"])."','".db_esc($dbc, $data_info["user_qc_reject"])."','".db_esc($dbc, $data_info["date_qc_reject"])."','".db_esc($dbc, $data_info["time_qc_reject"])."','','','','','','','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $string[$i])."','','','','QC','','','','','','')";
 $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc));
 		
 		
@@ -412,7 +412,7 @@ $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc))
 		//update table pps_detail_transaction
 		
 		//update table qqc_transaction 
-		$query_update1 = "UPDATE qqc_transaction SET status = 'Y' WHERE id_qqc = '".$cancel[$i]."'";
+		$query_update1 = "UPDATE qqc_transaction SET status = 'Y' WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."'";
         $result_update1 = mysqli_query($dbc, $query_update1) or die (mysqli_error($dbc));
 				
 		
@@ -451,7 +451,7 @@ $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc))
 
  
 								 
-   $query8 = "SELECT COUNT(*) FROM qqc_transaction WHERE status = 'N' AND status_QC != '".$rst_sta4["status_desc"]."'";
+   $query8 = "SELECT COUNT(*) FROM qqc_transaction WHERE status = 'N' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -462,7 +462,7 @@ $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc))
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM qqc_transaction WHERE status = 'N' AND status_QC != '".$rst_sta4["status_desc"]."' ORDER BY plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM qqc_transaction WHERE status = 'N' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."' ORDER BY plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there? 
 
@@ -530,19 +530,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	}
 	
 	
-	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row['type_qc_reject']."' ORDER BY id_type ASC";
+	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".db_esc($dbc, $row['type_qc_reject'])."' ORDER BY id_type ASC";
     $result_type = mysqli_query($dbc, $query_type);
     $row_type = mysqli_fetch_array($result_type); 
 	
-	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row['reason_qc_reject']."' ORDER BY id_reject ASC";
+	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".db_esc($dbc, $row['reason_qc_reject'])."' ORDER BY id_reject ASC";
     $result_reason = mysqli_query($dbc, $query_reason);
     $row_reason = mysqli_fetch_array($result_reason);
 	
-	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
+	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
     $result_scan = mysqli_query($dbc, $query_scan);
     $row_scan = mysqli_fetch_array($result_scan);
 	
-	  $query_model = "SELECT * FROM pps_detail WHERE plan_no = '".$row['plan_no']."'";
+	  $query_model = "SELECT * FROM pps_detail WHERE plan_no = '".db_esc($dbc, $row['plan_no'])."'";
 	  $result_model = mysqli_query($dbc, $query_model);
 	  $data_model = mysqli_fetch_array($result_model);
 	 

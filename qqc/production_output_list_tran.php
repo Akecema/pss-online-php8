@@ -32,7 +32,7 @@ exit();
 }
 $url = "production_output_list_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -283,7 +283,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail AS PP, mat_master_header AS MM WHERE MM.material_no = PP.material_no AND PP.status_pps = '".$rst_sta7["status_desc"]."' AND MM.material_type = 'Z310' ORDER BY PP.plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail AS PP, mat_master_header AS MM WHERE MM.material_no = PP.material_no AND PP.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND MM.material_type = 'Z310' ORDER BY PP.plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -356,7 +356,7 @@ echo "window.location='production_output_list_tran2.php?date1=$dateF&&date2=$dat
  // echo $end_date_check;
 
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND qty_actual != '' AND material_type != 'Z110' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
+   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND qty_actual != '' AND material_type != 'Z110' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -367,7 +367,7 @@ echo "window.location='production_output_list_tran2.php?date1=$dateF&&date2=$dat
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND qty_actual != '' AND material_type != 'Z110' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') ORDER BY date_posting DESC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND qty_actual != '' AND material_type != 'Z110' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') ORDER BY date_posting DESC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -505,7 +505,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
                <?php
 			  
 			  //-------info qqc detail --------- 
-	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_tran = '".$row["id"]."' AND bflush_no = '".$row["bflush_no"]."' AND plan_no = '".$row["plan_no"]."' ";
+	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_tran = '".db_esc($dbc, $row["id"])."' AND bflush_no = '".db_esc($dbc, $row["bflush_no"])."' AND plan_no = '".db_esc($dbc, $row["plan_no"])."' ";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   $data_qqc = mysqli_fetch_array($result_qqc);
 

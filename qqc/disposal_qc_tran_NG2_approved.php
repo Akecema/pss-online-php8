@@ -32,7 +32,7 @@ exit();
 }
 $url = "disposal_qc_tran_NG.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -225,7 +225,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="doc_disposal_no" id="doc_disposal_no">
                   <option value="NULL" placeholder="Select Disposal Doc. No.">-Disposal Doc. No.-</option>
                   <?php
-	             $query9 = "SELECT * FROM reject_detail_disposal WHERE (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' AND status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' GROUP BY doc_disposal_no";
+	             $query9 = "SELECT * FROM reject_detail_disposal WHERE (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' AND status_disposal != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_disposal != '".db_esc($dbc, $rst_sta16["status_desc"])."' GROUP BY doc_disposal_no";
                    $result9 = mysqli_query($dbc, $query9);
   
                   while($row9=mysqli_fetch_array($result9)) 
@@ -279,7 +279,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	
 	//********** END CONDITION **************
 								 
-   $query8 = "SELECT * FROM reject_detail_disposal AS MR WHERE (MR.status_part = 'QC' OR MR.status_part = 'WQ') AND MR.doc_disposal_no != '' AND MR.status_disposal = '".$rst_sta3["status_desc"]."'".$where_sql."GROUP BY doc_disposal_no";
+   $query8 = "SELECT * FROM reject_detail_disposal AS MR WHERE (MR.status_part = 'QC' OR MR.status_part = 'WQ') AND MR.doc_disposal_no != '' AND MR.status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."'".$where_sql."GROUP BY doc_disposal_no";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    //$num_rows = mysqli_fetch_row($result8);
    $num_rows = mysqli_num_rows($result8);
@@ -291,7 +291,7 @@ function getXMLHTTP() { //fuction to return the xml http object
  
  
   
-$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal AS MR WHERE (MR.status_part = 'QC' OR MR.status_part = 'WQ') AND MR.doc_disposal_no != '' AND MR.status_disposal = '".$rst_sta3["status_desc"]."'".$where_sql." GROUP BY MR.doc_disposal_no ORDER BY MR.plan_no ASC $pages->limit";
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal AS MR WHERE (MR.status_part = 'QC' OR MR.status_part = 'WQ') AND MR.doc_disposal_no != '' AND MR.status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."'".$where_sql." GROUP BY MR.doc_disposal_no ORDER BY MR.plan_no ASC $pages->limit";
 $rs = mysqli_query($dbc, $query);   //run the query.
 //$num = mysqli_num_rows($rs);   //how many material are there?
 

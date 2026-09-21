@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -105,7 +105,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 
 <?php
 
-  $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
+  $query_sql = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $username)."' and status = 'AC'";
    $result_sql = mysqli_query($dbc, $query_sql);
    $info = mysqli_fetch_array($result_sql);
     
@@ -172,17 +172,17 @@ jQuery(document).ready(function ($) {
  
  // ------------------------------  display dashboard ------------------------
  //status qqc in progress
-$query_in_progress = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') AS R2 FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".$rst_sta8["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel') GROUP BY MR.plan_no";
+$query_in_progress = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') AS R2 FROM qqc_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel') GROUP BY MR.plan_no";
 $rs_in_progress = mysqli_query($dbc, $query_in_progress);   //run the query.
 $num_in_progress = mysqli_num_rows($rs_in_progress);   //how many material are there?
 
 // pending approval disposal
-$query_con_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_posting DESC";
+$query_con_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_posting DESC";
 $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
 $num_con_req = mysqli_num_rows($rs_con_req);   //how many material are there?
 
 // approved disposal
-$query_approve_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_posting DESC";
+$query_approve_req = "SELECT * FROM reject_detail_disposal WHERE status_disposal != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_disposal != '".db_esc($dbc, $rst_sta16["status_desc"])."' AND (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY date_posting DESC";
 $rs_approve_req = mysqli_query($dbc, $query_approve_req);   //run the query.
 $num_approve_req = mysqli_num_rows($rs_approve_req);   //how many material are there?
 

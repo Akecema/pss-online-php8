@@ -17,6 +17,8 @@
  */
 $factory = $_GET['factory'];
 include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 8);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";

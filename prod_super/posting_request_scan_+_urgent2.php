@@ -19,6 +19,8 @@ $username = $_SESSION['username'];
 date_default_timezone_set("Asia/Kuala_Lumpur");
 
 include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 3);
 include_once ("../classes/paginator.class2.php");
 require_once("../calendar/classes/tc_calendar.php");
 

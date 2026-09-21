@@ -17,6 +17,8 @@
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 6);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
 $rs_setup = mysqli_query($dbc, $query_setup);   //run the query.

@@ -17,6 +17,8 @@
  */
 $factory =intval($_GET['factory']);
 include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 6);
 
 $query4 = "SELECT * FROM work_center_detail WHERE id_factory = '$factory' ORDER BY id_work ASC";
 $result4 =mysqli_query($dbc, $query4);

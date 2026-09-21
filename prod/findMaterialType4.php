@@ -20,6 +20,8 @@ $material_no = $_GET['material_no'];
 $ploc = $_GET['ploc'];
 
 include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 2);
 
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";

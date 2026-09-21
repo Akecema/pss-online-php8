@@ -17,6 +17,8 @@
 session_start();
 $username = $_SESSION['username'];
 include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 2);
 include '../include/config_mail.php';
 
 //--------setup website page --------------------------

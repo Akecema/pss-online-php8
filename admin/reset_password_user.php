@@ -145,7 +145,7 @@ $message = NULL; // create an empty new variable.
 				 
 				 
 				 
-				 $newpass = md5($_POST['newpass']);
+				 $newpass = password_hash($_POST['newpass'], PASSWORD_DEFAULT);
 				 // $pass = md5($password);
 				 
 				  $query = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $user)."'";

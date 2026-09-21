@@ -167,12 +167,17 @@ $message = NULL; // create an empty new variable.
 				  	  
                  if($user && $password && $newpass) { // Everything's OK
 				 
-				 $newpass = md5($_POST['newpass']);
-				  $pass = md5($password);
+				 $newpass = password_hash($_POST['newpass'], PASSWORD_DEFAULT);
 				 
-				  $query = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $user)."' AND password = '".$pass."'";
+				  $query = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $user)."'";
 				  $result = mysqli_query($dbc, $query);
 				  $num = mysqli_num_rows($result);
+				  // Old password may be a legacy MD5 hash or bcrypt: verify in PHP, not by SQL equality.
+				  if ($num == 1) {
+				    $row_chk = mysqli_fetch_array($result);
+				    if (!password_matches((string) $password, (string) $row_chk['password'])) { $num = 0; }
+				    else { mysqli_data_seek($result, 0); }
+				  }
 				  
 				  if($num == 1 ) {
 				    $row = mysqli_fetch_array($result);

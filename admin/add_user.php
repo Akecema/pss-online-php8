@@ -216,8 +216,8 @@ if (empty($_POST['status']) || ($_POST['status'] == ""))
   $user_telno2 = escape_data($_POST['user_telno2']);
   $user_fax = escape_data($_POST['user_fax']);
   
-  $_POST['user_password'] = md5($_POST['user_password']);
- 	if (!get_magic_quotes_gpc()) {
+  $_POST['user_password'] = password_hash($_POST['user_password'], PASSWORD_DEFAULT);
+ 	{ // get_magic_quotes_gpc() was removed in PHP 8 (always off)
  		$_POST['user_password'] = addslashes($_POST['user_password']);
  		$user_id = addslashes($_POST['user_id']);
  			}

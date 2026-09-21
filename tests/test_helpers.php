@@ -43,5 +43,12 @@ check('upload name: traversal stripped', upload_safe_name('..\..\x/evil.xls', ['
 check('upload ext: lower-cased', upload_safe_ext('A.JPG', ['jpg']) === 'jpg');
 
 
+$bc = password_hash('S3cret!pw', PASSWORD_DEFAULT);
+check('password_matches: bcrypt ok', password_matches('S3cret!pw', $bc));
+check('password_matches: bcrypt wrong', !password_matches('nope', $bc));
+check('password_matches: legacy md5 ok', password_matches('S3cret!pw', md5('S3cret!pw')));
+check('password_matches: legacy md5 wrong', !password_matches('nope', md5('S3cret!pw')));
+check('bcrypt fits varchar(150) column', strlen($bc) <= 150);
+
 ob_end_flush();
 exit($fail === 0 ? 0 : 1);

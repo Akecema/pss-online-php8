@@ -172,3 +172,12 @@ function utf8_to_latin1(string $s): string
 {
     return mb_convert_encoding($s, 'ISO-8859-1', 'UTF-8');
 }
+
+/** Verify a plain password against a stored hash that may be legacy MD5 or bcrypt (password_hash). */
+function password_matches(string $plain, string $stored): bool
+{
+    if (password_get_info($stored)['algo'] !== null) {
+        return password_verify($plain, $stored);
+    }
+    return hash_equals($stored, md5($plain));
+}

@@ -82,3 +82,11 @@ Workflow, menus, forms, calculations, approvals, redirects and output are unchan
 1. Confirm `login_detail.password` length, then move all password writes to `password_hash()`.
 2. Enable `session.cookie_secure=1` once the site is HTTPS-only.
 3. Run a staging pass with each role: login, dashboard, one create/approve/print flow.
+## K. Crawl results (read-only DB session, PHP 8.3 built-in server, real data)
+Method: a scratch copy of the committed code with `SET SESSION TRANSACTION READ ONLY` (so no write could reach the DB); one real active user per role; every top-level page in the role's own folder requested with GET and no parameters; PHP fatals read from the error log.
+* **Before the PHP 8 fixes** (first 480 pages, admin + prod): 105 HTTP 500s. Dominant causes: `footer.php` re-query on a closed connection, drive-root `require` paths (`/tcpdf_barcodes_2d.php`), `mktime('')`, and `upload_safe_name(null)`.
+* **After the fixes:** admin fully crawled, prod about 75 %, plus about 190 pages from prod_super, ppc, ppc_super and part of the rest. **No HTTP 500 from any real page.** The 500s that remain are the include-only fragments requested directly (`content*.php`, `footer.php`, `top_modal_menu.php`, `left_*_menu.php`; they need the parent page's `$dbc`), which behaved the same before this work.
+* HTTP 400 on `*uploadProc.php` without `?file=`: intended (`upload_safe_name`).
+* Pre-existing PHP 8 fatals on parameter-less requests, not touched: `prod/user_edit.php:362` and `prod/findMaterialType4.php:68` (query built from an empty value returns `false`).
+* Some report/list pages exceed 12 s against the full data set (heavy queries); they were not re-timed.
+* Not covered: `supply`, `supply_super`, `planning_super` (no active user with those `level_id`s), and the second half of some role folders. Run the staging checklist in section J for those.

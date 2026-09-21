@@ -36,7 +36,7 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 
 $url = "close_MRIN_consumable_ppc.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -227,11 +227,11 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    while ($row2 = mysqli_fetch_array($rs))
    {
 	
-	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".db_esc($dbc, $row2[6])."' ORDER BY id_req ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row2[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2['user_create'])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 

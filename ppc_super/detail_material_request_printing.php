@@ -36,7 +36,7 @@ exit();
 $url = "posting_request_all.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -127,23 +127,23 @@ if (bV >= 4) window.print();
  $temp_mrin = $_GET["mrin_no"];
  $prod_order = $_GET["prod_order"];
 
-$queryu = "SELECT * from material_request WHERE temp_mrin = '$temp_mrin'";
+$queryu = "SELECT * from material_request WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
-$query_2 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '$temp_mrin'";
+$query_2 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $result_2 = mysqli_query($dbc, $query_2);   //run the query.
 $data_2 = mysqli_fetch_array($result_2);
 
- $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
+ $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $data_2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
+	$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".db_esc($dbc, $data_2["user_create"])."'";
 $result_k = mysqli_query($dbc, $query_k);
 $row_k = mysqli_fetch_array($result_k);
 
-$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '$username'";
+$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '".db_esc($dbc, $username)."'";
 $result_k2 = mysqli_query($dbc, $query_k2);
 $row_k2 = mysqli_fetch_array($result_k2);
 
@@ -221,17 +221,17 @@ $row_k2 = mysqli_fetch_array($result_k2);
 		//$user_no = $row[0]; 
  $no = sprintf('%03d', $no);
 		
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row[6]."'";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row[6])."'";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 
 		 
-   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row[6]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row[6])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
 		 
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row[5])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
 		  	 
@@ -273,7 +273,7 @@ $row_k2 = mysqli_fetch_array($result_k2);
        <td width="80"><div align="right">
 	   <?php 
 					
-		$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '".$row["temp_mrin"]."' AND prod_order = '".$row_scan["prod_order"]."' AND mvt_type = 311 AND material_no = '".$row4_p["bill_component"]."' AND status_posting != 'Cancel'";
+		$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '".db_esc($dbc, $row["temp_mrin"])."' AND prod_order = '".db_esc($dbc, $row_scan["prod_order"])."' AND mvt_type = 311 AND material_no = '".db_esc($dbc, $row4_p["bill_component"])."' AND status_posting != 'Cancel'";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 	//$row_tp = mysqli_fetch_assoc($result_tp); 
 		
@@ -323,11 +323,11 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
                           <p>&nbsp;</p> 
                  <?php
 		
-	$query_display_reason = "SELECT * from `material_request_cancel` WHERE temp_mrin = '$temp_mrin' AND status = 'Cancel'";
+	$query_display_reason = "SELECT * from `material_request_cancel` WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND status = 'Cancel'";
     $result_display_reason = mysqli_query($dbc, $query_display_reason);
     $row_display_reason = mysqli_fetch_array($result_display_reason);
 	
-	$query_reason_tbl = "SELECT * from `reason_req_cancel` WHERE id_cancel = '".$row_display_reason["reason_cancel"]."'";
+	$query_reason_tbl = "SELECT * from `reason_req_cancel` WHERE id_cancel = '".db_esc($dbc, $row_display_reason["reason_cancel"])."'";
 	 $result_reason_tbl = mysqli_query($dbc, $query_reason_tbl);
     $row_reason_tbl = mysqli_fetch_array($result_reason_tbl);
 	
@@ -345,11 +345,11 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
   }
 
 
-	$query_display_reason2 = "SELECT * from `material_request_close` WHERE temp_mrin = '$temp_mrin' AND status = 'Close'";
+	$query_display_reason2 = "SELECT * from `material_request_close` WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND status = 'Close'";
     $result_display_reason2 = mysqli_query($dbc, $query_display_reason2);
     $row_display_reason2 = mysqli_fetch_array($result_display_reason2);
 	
-	$query_reason_tbl2 = "SELECT * from `reason_req_close` WHERE id_close = '".$row_display_reason2["reason_close"]."'";
+	$query_reason_tbl2 = "SELECT * from `reason_req_close` WHERE id_close = '".db_esc($dbc, $row_display_reason2["reason_close"])."'";
 	 $result_reason_tbl2 = mysqli_query($dbc, $query_reason_tbl2);
     $row_reason_tbl2 = mysqli_fetch_array($result_reason_tbl2);
 	

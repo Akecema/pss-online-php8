@@ -131,15 +131,15 @@ ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs select
  $temp_mrin = $_GET["mrin_no"];
  $prod_order = $_GET["prod_order"];
 
-$queryu = "SELECT * from material_request WHERE temp_mrin = '$temp_mrin'";
+$queryu = "SELECT * from material_request WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
-$query_2 = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '$temp_mrin'";
+$query_2 = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $result_2 = mysqli_query($dbc, $query_2);   //run the query.
 $data_2 = mysqli_fetch_array($result_2);
 
-    $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
+    $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $data_2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 
@@ -231,19 +231,19 @@ $data_2 = mysqli_fetch_array($result_2);
 		{ $warna = $warnaGenap;}
 		else { $warna = $warnaGanjil; }	
    
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row[6]."'";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row[6])."'";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
    
   
 
 		 
-   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row[6]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row[6])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
 		 
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row[5])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
 		  	 
@@ -283,7 +283,7 @@ $data_2 = mysqli_fetch_array($result_2);
 	              <div align="right">
 	                <?php 
 					
-		$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '$row[temp_mrin]' AND prod_order = '$prod_order' AND mvt_type = 311 AND material_no = '$row4_p[bill_component]' AND status_posting != 'Cancel'";
+		$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '".db_esc($dbc, $row['temp_mrin'])."' AND prod_order = '".db_esc($dbc, $prod_order)."' AND mvt_type = 311 AND material_no = '".db_esc($dbc, $row4_p['bill_component'])."' AND status_posting != 'Cancel'";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 	//$row_tp = mysqli_fetch_assoc($result_tp); 
 		

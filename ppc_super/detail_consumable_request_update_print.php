@@ -36,7 +36,7 @@ exit();
 $warnaGenap = "#F4FBCA";   // warna blue grey
 $warnaGanjil = "#f8f8f8";  // warna putih
 
-$query_u = "SELECT * FROM user_detail WHERE username = '$username'";
+$query_u = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result_u = mysqli_query($dbc, $query_u);   //run the query.
 $data_u = mysqli_fetch_array($result_u);   //how many records are there? 
 
@@ -110,11 +110,11 @@ return $ss;
 	
 	
  
-    $query_update_print = "UPDATE consumable_request SET status_print = 'Y', status = 'Close', user_update = '".$data_u["user_no"]."', date_update = NOW() WHERE temp_mrin = '$temp_mrin'";
+    $query_update_print = "UPDATE consumable_request SET status_print = 'Y', status = 'Close', user_update = '".db_esc($dbc, $data_u["user_no"])."', date_update = NOW() WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 	$result_update_print = mysqli_query($dbc, $query_update_print);
 	
 	
- $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin' AND MR.status_print = 'Y'";
+ $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND MR.status_print = 'Y'";
 
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 		
@@ -123,12 +123,12 @@ return $ss;
 
     //---------------copy from consumable request table to consumable request close table
 	
-	 	    $query_mm3 = "SELECT * FROM `consumable_request` WHERE temp_mrin = '$temp_mrin' AND status = 'Close' AND id_req_con = '".$row2["id_req_con"]."'"; 
+	 	    $query_mm3 = "SELECT * FROM `consumable_request` WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND status = 'Close' AND id_req_con = '".db_esc($dbc, $row2["id_req_con"])."'"; 
         	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 		
-		$query_mm3_insert =  "INSERT INTO consumable_request_close(id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, reason_close, reason_close2) VALUES('".$row_mm3["id_req_con"]."','".$row_mm3["mrin_doc"]."','".$row_mm3["mrin_year"]."','".$row_mm3["temp_mrin"]."','".$row_mm3["id_con"]."','".$row_mm3["id_scan"]."','".$row_mm3["material_no"]."','".$row_mm3["con_qty"]."','".$row_mm3["con_uom"]."', '".$row_mm3["status_request"]."','".$row_mm3["status_print"]."','".$row_mm3["status_view"]."','".$row_mm3["factory"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_update"]."','".$row_mm3["date_update"]."','".$row_mm3["date_posting"]."','".$row_mm3["time_posting"]."','".$row_mm3["status"]."','".$row_mm3["date_require"]."','".$row_mm3["time_require"]."','','')";
+		$query_mm3_insert =  "INSERT INTO consumable_request_close(id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, reason_close, reason_close2) VALUES('".db_esc($dbc, $row_mm3["id_req_con"])."','".db_esc($dbc, $row_mm3["mrin_doc"])."','".db_esc($dbc, $row_mm3["mrin_year"])."','".db_esc($dbc, $row_mm3["temp_mrin"])."','".db_esc($dbc, $row_mm3["id_con"])."','".db_esc($dbc, $row_mm3["id_scan"])."','".db_esc($dbc, $row_mm3["material_no"])."','".db_esc($dbc, $row_mm3["con_qty"])."','".db_esc($dbc, $row_mm3["con_uom"])."', '".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["status_view"])."','".db_esc($dbc, $row_mm3["factory"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["date_require"])."','".db_esc($dbc, $row_mm3["time_require"])."','','')";
 $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
 
 } // end while loop

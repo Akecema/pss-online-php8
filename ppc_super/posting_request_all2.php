@@ -35,7 +35,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
 $url = "posting_request_all.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -220,7 +220,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -256,7 +256,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 				//convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
+			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			
 			while ($row_convert = mysqli_fetch_array($result_convert))
@@ -366,23 +366,23 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    while ($row2 = mysqli_fetch_array($rs))
    {
    
-   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
+   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."'";
    	$result_scan = mysqli_query($dbc, $query_scan);
    	$row_scan = mysqli_fetch_array($result_scan);
 	
-	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".db_esc($dbc, $row2[6])."' ORDER BY id_req ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row['user_create'])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row_scan["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row2[5])."'";
   	$result4_p = mysqli_query($dbc, $query4_p);
  	$row4_p = mysqli_fetch_array($result4_p); 
   
@@ -392,7 +392,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 	  $TOT = 0.000;
 	 $outs_qty = 0;
 	 
-	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '$row2[temp_mrin]' AND prod_order = '$row2[prod_order]' AND mvt_type = 311 AND status_posting = 'New' GROUP BY material_no";
+	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '".db_esc($dbc, $row2['temp_mrin'])."' AND prod_order = '".db_esc($dbc, $row2['prod_order'])."' AND mvt_type = 311 AND status_posting = 'New' GROUP BY material_no";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 	//$row_tp = mysqli_fetch_assoc($result_tp); 
 	
@@ -411,10 +411,10 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 	   if(($row["bom_qty"] == $tp_quantity) || ($row["bom_qty"] < $tp_quantity))
        {  
 	   
- $query_upd2 = "UPDATE post_detail_header SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row_tp["material_no"]."' ";
+ $query_upd2 = "UPDATE post_detail_header SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row_tp["material_no"])."' ";
  $result_upd2 = mysqli_query($dbc, $query_upd2); 
 	      
- $query_upd3 = "UPDATE material_request SET status = 'Close' WHERE temp_mrin = '".$row2["temp_mrin"]."' AND bom_component = '".$row_tp["material_no"]."' ";
+ $query_upd3 = "UPDATE material_request SET status = 'Close' WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND bom_component = '".db_esc($dbc, $row_tp["material_no"])."' ";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
        //--------------------------------------------------------------------
@@ -423,18 +423,18 @@ $rs = mysqli_query($dbc, $query);   //run the query.
         if($result_upd3)
 		 {
 		 
-		 $query_upd5 = "SELECT * FROM material_request WHERE temp_mrin = '".$row2["temp_mrin"]."'";
+		 $query_upd5 = "SELECT * FROM material_request WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."'";
 		 $result_upd5 = mysqli_query($dbc, $query_upd5) or trigger_error("SQL", E_USER_ERROR);
          $r5 = mysqli_num_rows($result_upd5);
 		 
-		 $query_upd4 = "SELECT * FROM material_request WHERE temp_mrin = '".$row2["temp_mrin"]."' AND status = 'Close'";
+		 $query_upd4 = "SELECT * FROM material_request WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND status = 'Close'";
 		 $result_upd4 = mysqli_query($dbc, $query_upd4) or trigger_error("SQL", E_USER_ERROR);
          $r4 = mysqli_num_rows($result_upd4);
 		 
 		   if($r4 == $r5)
 		  {	
 		  
-		  	$query_mm3 = "INSERT INTO material_request_close SELECT * FROM material_request WHERE temp_mrin = '".$row2["temp_mrin"]."'"; 
+		  	$query_mm3 = "INSERT INTO material_request_close SELECT * FROM material_request WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."'"; 
         	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 		  
 		  

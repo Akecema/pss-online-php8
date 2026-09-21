@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -78,7 +78,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 
 <?php
 
-  $query_sql = "SELECT * FROM login_detail WHERE username = '$username' and status = 'AC'";
+  $query_sql = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $username)."' and status = 'AC'";
    $result_sql = mysqli_query($dbc, $query_sql);
    $info = mysqli_fetch_array($result_sql);
     

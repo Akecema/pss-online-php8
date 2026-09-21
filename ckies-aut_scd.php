@@ -140,7 +140,8 @@
 	else 
  { 
  
- // if login is ok then we add a cookie 
+ // Login OK. No remember-me cookie is issued any more: it carried the password
+ // hash, and could never match a bcrypt hash after the rehash above anyway.
  	 $_POST['username'] = stripslashes($_POST['username']); 
  	 $hour = time() + 3600; 
  // These two cookies ARE the "remember me" credential checked in
@@ -149,8 +150,6 @@
  // plain HTTP (no Secure flag, no SameSite). Anyone who can read this cookie
  // can log in as this user for the next hour without a password. See
  // improvement report for a session-token-based alternative.
- setcookie('ID_my_site', $_POST['username'], $hour); 
- setcookie('Key_my_site', $_POST['pass'], $hour);	 
  
  //then redirect them to the members area 
 if ($info['level_id']== 1)
@@ -158,10 +157,9 @@ if ($info['level_id']== 1)
 
 // session 'index_admin.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		//include 'index_admin.php'; 
 		$url = 'index_admin.php'; 
 		if($ua['name'] == "Google Chrome")
@@ -178,11 +176,10 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		
 		include 'backjob_clean.php';
 		
@@ -201,11 +198,10 @@ $_SESSION["password"] = $password;
 		elseif ($info['level_id']== 3)
 		{
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		
 		include 'backjob_clean.php';
 		
@@ -224,10 +220,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		//include 'index_super.php';
 		$url4 = "index_ppc.php";
 		if($ua['name'] == "Google Chrome")
@@ -244,10 +239,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		//include 'index_super.php';
 		$url5 = "index_ppc_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -263,10 +257,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_supply.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url6 = "index_supply.php";
 		if($ua['name'] == "Google Chrome")
@@ -282,10 +275,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_supply.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url7 = "index_supply_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -302,10 +294,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 include 'backjob_clean.php';
 	
 		$url8 = "index_planning.php";
@@ -322,10 +313,9 @@ include 'backjob_clean.php';
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 include 'backjob_clean.php';	
 		$url9 = "index_planning_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -342,10 +332,9 @@ include 'backjob_clean.php';
 		{
 		
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url10 = "index_qqc.php";
 		if($ua['name'] == "Google Chrome")
@@ -360,10 +349,9 @@ $_SESSION["password"] = $password;
 		{
 		
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url11 = "index_qqc_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -378,10 +366,9 @@ $_SESSION["password"] = $password;
 		{
 		
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url12 = "index_ppc_store.php";
 		if($ua['name'] == "Google Chrome")

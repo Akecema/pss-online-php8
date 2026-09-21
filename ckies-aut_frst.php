@@ -130,10 +130,9 @@
 		{
 		// session 'index_admin.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 
 		//include 'index_admin.php'; 
 		$url = "index_admin.php";
@@ -153,11 +152,10 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
  
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 
  include 'backjob_clean.php';
 
@@ -178,11 +176,10 @@ $_SESSION["password"] = $password;
 		{
 
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
  
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 
  include 'backjob_clean.php';
 
@@ -201,10 +198,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		//include 'index_super.php';
 		$url4 = "index_ppc.php";
 		if($ua['name'] == "Google Chrome")
@@ -222,10 +218,9 @@ elseif ($info['level_id']== 5)
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		
 		$url5 = "index_ppc_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -242,10 +237,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 		
 		$url6 = "index_supply.php";
 		if($ua['name'] == "Google Chrome")
@@ -261,10 +255,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url7 = "index_supply_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -281,10 +274,9 @@ $_SESSION["password"] = $password;
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 
 include 'backjob_clean.php';
 	
@@ -301,10 +293,9 @@ include 'backjob_clean.php';
 		{
 		// session 'index_super.php
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 	include 'backjob_clean.php';
 	
@@ -322,10 +313,9 @@ $_SESSION["password"] = $password;
 		{
 		
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url10 = "index_qqc.php";
 		if($ua['name'] == "Google Chrome")
@@ -342,10 +332,9 @@ $_SESSION["password"] = $password;
 		{
 		
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url11 = "index_qqc_super.php";
 		if($ua['name'] == "Google Chrome")
@@ -361,10 +350,9 @@ $_SESSION["password"] = $password;
 		{
 		
 $username = $_POST["username"]; 
-$password = $_POST["pass"];
 session_start();
+session_regenerate_id(true); // new ID on login (session fixation)
  $_SESSION["username"] = $username;
-$_SESSION["password"] = $password;
 	
 		$url12 = "index_ppc_store.php";
 		if($ua['name'] == "Google Chrome")

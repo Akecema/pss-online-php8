@@ -37,7 +37,7 @@ $url = "rework_output_list_tran.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -262,7 +262,7 @@ $message = NULL; // create an empty new variable.
 	
 		
   $query_upd_detail = "UPDATE qqc_detail_transaction SET status_QC = '".db_esc($dbc, $rst_sta4["status_desc"])."', qqc_doc_no_ref = '".db_esc($dbc, $ref)."', user_cancel = '".db_esc($dbc, $username)."', date_cancel = NOW() WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."'";
-  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
+  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die(db_fail($dbc));
   
   
   	
@@ -273,7 +273,7 @@ $message = NULL; // create an empty new variable.
 		$data_ftp = mysqli_fetch_array($result_ftp);
 		
 		$query_q2 = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $data_ftp["material_no"])."'";
-        $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+        $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
         $ans3 = mysqli_fetch_array($result_q2);
 		
 		
@@ -281,7 +281,7 @@ $message = NULL; // create an empty new variable.
 		
 	
 $query_data_my = "INSERT INTO qqc_transaction_cancel(id_qqc, id_tran, qqc_doc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, qqc_doc_no_ref, user_cancel, date_cancel) VALUES('".db_esc($dbc, $data_ftp["id_qqc"])."','".db_esc($dbc, $data_ftp["id_tran"])."','".db_esc($dbc, $data_ftp["qqc_doc_no"])."','".db_esc($dbc, $data_ftp["bflush_no"])."','".db_esc($dbc, $data_ftp["plan_no"])."','".db_esc($dbc, $data_ftp["material_no"])."','".db_esc($dbc, $data_ftp["material_desc"])."','".db_esc($dbc, $data_ftp["material_type"])."','".db_esc($dbc, $data_ftp["qty_plan"])."','".db_esc($dbc, $data_ftp["qty_actual"])."','".db_esc($dbc, $data_ftp["qty_balance"])."','".db_esc($dbc, $data_ftp["qty_NG"])."','".db_esc($dbc, $data_ftp["qty_qc"])."','".db_esc($dbc, $data_ftp["qty_qc_ok"])."','".db_esc($dbc, $data_ftp["qty_qc_NG"])."','".db_esc($dbc, $rst_sta8["status_desc"])."','".db_esc($dbc, $data_ftp["comp_code"])."','".db_esc($dbc, $data_ftp["work_center"])."','".db_esc($dbc, $data_ftp["shift_day"])."','".db_esc($dbc, $data_ftp["date_plan"])."', '".db_esc($dbc, $data_ftp["user_create"])."','".db_esc($dbc, $data_ftp["date_create"])."','','','".db_esc($dbc, $username)."',NOW(),NOW(),'".db_esc($dbc, $data_ftp["ploc_qc"])."','".db_esc($dbc, $data_ftp["ploc"])."','".db_esc($dbc, $data_ftp["delivery_loc"])."','".db_esc($dbc, $data_ftp["type_qc_reject"])."','".db_esc($dbc, $data_ftp["reason_qc_reject"])."','".db_esc($dbc, $data_ftp["user_qc_reject"])."','".db_esc($dbc, $data_ftp["date_qc_reject"])."','".db_esc($dbc, $data_ftp["time_qc_reject"])."','Y','".db_esc($dbc, $data_ftp["qqc_doc_no_ref"])."','".db_esc($dbc, $username)."',NOW())";
-$result_data_my = mysqli_query($dbc, $query_data_my) or die (mysqli_error($dbc));
+$result_data_my = mysqli_query($dbc, $query_data_my) or die(db_fail($dbc));
 
 
   //------ftp text file for cancel from FromPortal2 to SAP ------- //
@@ -305,7 +305,7 @@ file_put_contents($file,$data);
 	//---------------delete data---------------------------------
 	
 	$query_delete = "DELETE FROM qqc_detail_transaction WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."'";
-	$result_delete = mysqli_query($dbc, $query_delete) or die (mysqli_error($dbc));
+	$result_delete = mysqli_query($dbc, $query_delete) or die(db_fail($dbc));
   
   	
 		

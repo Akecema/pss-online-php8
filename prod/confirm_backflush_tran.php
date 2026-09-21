@@ -32,7 +32,7 @@ exit();
 $url = "confirm_backflush_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -180,7 +180,7 @@ echo "<br>"; */
 
   //--------- check for closed planning order x bleh scan pps------------- 
     $query_check_pps = "SELECT * FROM pps_detail WHERE plan_no = '".db_esc($dbc, $part2)."'";
-	$result_check_pps = mysqli_query($dbc, $query_check_pps) or die (mysqli_error($dbc));
+	$result_check_pps = mysqli_query($dbc, $query_check_pps) or die(db_fail($dbc));
     $data_check_pps = mysqli_fetch_array($result_check_pps);
 	
 	if(($data_check_pps["status_pps"] == "Closed") || ($data_check_pps["status_pps"] == "Transfer QC"))
@@ -201,13 +201,13 @@ echo "<br>"; */
   $row3 = mysqli_fetch_array($result3); 
 				   
   $query_q2 = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $part1)."'";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
 				   
 
 //insert to scan_detail
 $query_db = "INSERT INTO scan_prod_planning (id_scan, pps_ref, factory, work_center, plan_no, material_no, material_desc, material_type, scan_date_plan, scan_plant, scan_shift, scan_qty, scan_uom, user_create, date_create, user_update, date_update, status_urgent) VALUES ('', '".db_esc($dbc, $pps_ref2)."', '".db_esc($dbc, $row3["id_factory"])."', '".db_esc($dbc, $part4)."', '".db_esc($dbc, $part2)."', '".db_esc($dbc, $part1)."', '".db_esc($dbc, $ans3["material_desc"])."', '".db_esc($dbc, $ans3["material_type"])."', '".db_esc($dbc, $part3)."', '".db_esc($dbc, $ans3["plant"])."', '".db_esc($dbc, $part5)."', '".db_esc($dbc, $part6)."', '".db_esc($dbc, $part7)."', '".db_esc($dbc, $user_no)."', NOW(),'','','N')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
              if($result)

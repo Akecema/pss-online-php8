@@ -148,7 +148,7 @@ $dcol25 = $dateArray2[2].'-'.$dateArray2[1].'-'.$dateArray2[0];
 
 //find header id form tbl header
 $queryM = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $col5)."' and status_BOM = 'Y' ";
-$resultM = mysqli_query($dbc, $queryM) or die (mysqli_error($dbc));
+$resultM = mysqli_query($dbc, $queryM) or die(db_fail($dbc));
 $resM = mysqli_fetch_array($resultM);
 $resrow = mysqli_num_rows($resultM);
 
@@ -201,7 +201,7 @@ if($resrow == 1)//header found
 	//select duplicate component from table material
 	/*$query_Mtr = "SELECT * FROM table_material WHERE material_no = '".$col5."' AND mat_type = '".$col7."' AND bom_status = 'Y'";*/
 	$query_Mtr = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $col17)."' AND bom_status = 'Y'";
-	$result_Mtr = mysqli_query($dbc, $query_Mtr)or die(mysqli_error($dbc));
+	$result_Mtr = mysqli_query($dbc, $query_Mtr)or die(db_fail($dbc));
 	$res_Mtr = mysqli_fetch_array($result_Mtr);
 	
 	
@@ -238,7 +238,7 @@ if($resrow == 1)//header found
 	{
 		/*$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".$col2."' AND mat_type = 'Z310' AND material_group = '".$col5."' AND bom_status = 'Y'";*/
 		$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".db_esc($dbc, $col17)."' AND bom_status = 'Y'";
-		$result_Mtrqc = mysqli_query($dbc, $query_Mtrqc)or die(mysqli_error($dbc));
+		$result_Mtrqc = mysqli_query($dbc, $query_Mtrqc)or die(db_fail($dbc));
 		$res_Mtrqc = mysqli_fetch_array($result_Mtrqc);
 		
 		
@@ -282,7 +282,7 @@ else
 
 /*//select duplicate component from table material
 $query_Mtr = "SELECT * FROM table_material WHERE material_no = '".$col5."' AND mat_type = '".$col7."' AND bom_status = 'Y'";
-$result_Mtr = mysqli_query($dbc, $query_Mtr)or die(mysqli_error($dbc));
+$result_Mtr = mysqli_query($dbc, $query_Mtr)or die(db_fail($dbc));
 $res_Mtr = mysqli_fetch_array($result_Mtr);
 
 

@@ -33,7 +33,7 @@ exit();
 $url = "disposal_production_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -305,7 +305,7 @@ echo "window.location='disposal_production_tran_NG2.php?date1=$dateF&&date2=$dat
    
 								 
    $query8 = "SELECT * FROM reject_detail_disposal WHERE (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' AND status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."' GROUP BY doc_disposal_no ORDER BY plan_no ASC";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    //$num_rows = mysqli_fetch_row($result8);
    $num_rows = mysqli_num_rows($result8);
 	

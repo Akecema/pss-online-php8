@@ -37,7 +37,7 @@ $url = "wip_request_urgent.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -275,7 +275,7 @@ if($material_no && $factory && $work_center) //everything ok
 
 //insert to scan_detail
 $query_db = "INSERT INTO `scan_detail_wip` (id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '', '".db_esc($dbc, $factory)."', '".db_esc($dbc, $work_center)."', '".db_esc($dbc, $prod_order)."', '".db_esc($dbc, $material_no)."', '', '', '".db_esc($dbc, $factory)."', '', '".db_esc($dbc, $user_no)."', NOW(),'','','Y')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
              if($result)

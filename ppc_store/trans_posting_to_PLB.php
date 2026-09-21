@@ -42,7 +42,7 @@ $currentdate = (date("Y-m-d"));
 $url = "trans_posting_to_PLB.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -234,14 +234,14 @@ echo "<br>";
 //print_r(explode('|', $str, -1));
 			   
   $query_q2 = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $part1)."'";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
 				   
 
 //insert to scan_tp_plb
 //----add for record [status = 'Y' will be generate trans posting running no]
 $query_db = "INSERT INTO scan_tp_plb(id_scan_tp, scan_doc, barcode_ref, plan_code, sloc_from, sloc_to, material_no, material_desc, scan_qty, scan_uom,  user_create, date_create, status) VALUES ('','".db_esc($dbc, $number)."','".db_esc($dbc, $barcode_ref2)."', '".db_esc($dbc, $ans3["plan_code"])."', 'W130', 'W132', '".strtoupper($part1)."', '".strtoupper($ans3["material_desc"])."', '', '".strtoupper($ans3["BUn"])."','".db_esc($dbc, $username)."', NOW(),'N')";
-$result_db = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result_db = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
  //-----------------------scan qty-----------------------

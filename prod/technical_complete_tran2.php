@@ -35,7 +35,7 @@ exit();
 $url = "technical_complete_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -436,11 +436,11 @@ $message = NULL; // create an empty new variable.
 		//update table pps_detail
 		
 	$query_close = "UPDATE pps_detail SET status_pps = '".db_esc($dbc, $rst_sta18["status_desc"])."', user_update = '".db_esc($dbc, $username)."', date_update = NOW(), user_closed = '".db_esc($dbc, $username)."', date_closed = NOW() WHERE id = '".db_esc($dbc, $cancel[$i])."'";
-        $result_close = mysqli_query($dbc, $query_close) or die (mysqli_error($dbc));
+        $result_close = mysqli_query($dbc, $query_close) or die(db_fail($dbc));
 		
 		//update table pps_detail_transaction
 		/*$query_close2 = "UPDATE pps_detail_transaction SET status_pps = '".$rst_sta14["status_desc"]."' WHERE pps_id = '$cancel[$i]'";
-        $result_close2 = mysqli_query($dbc, $query_close2) or die (mysqli_error($dbc));*/
+        $result_close2 = mysqli_query($dbc, $query_close2) or die(db_fail($dbc));*/
 		
 		//insert table pps_detail_close
 		
@@ -553,7 +553,7 @@ $message = NULL; // create an empty new variable.
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status = 'Y' AND (MR.status_pps != '".db_esc($dbc, $rst_sta13["status_desc"])."' AND MR.status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."' AND MR.status_pps != '".db_esc($dbc, $rst_sta18["status_desc"])."')".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

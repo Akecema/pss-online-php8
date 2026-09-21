@@ -36,7 +36,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 $url = "posting_request_all.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -435,7 +435,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		  {	
 		  
 		  	$query_mm3 = "INSERT INTO material_request_close SELECT * FROM material_request WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."'"; 
-        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
+        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die(db_fail($dbc));
 		  
 		  
 		    } // if $r4 == $r5

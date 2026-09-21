@@ -33,7 +33,7 @@ exit();
 $url = "cancellation_QC_output_list_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -401,7 +401,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 
 								 
    $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction AS MR, work_center_detail AS SR, pps_detail_transaction AS PD WHERE SR.id_work = MR.work_center AND MR.bflush_no = PD.bflush_no AND (MR.status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' OR MR.status_QC = '".db_esc($dbc, $rst_sta11["status_desc"])."')  AND PD.status_pps != '".db_esc($dbc, $rst_sta14["status_desc"])."' AND MR.status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.qty_balance != '0'".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

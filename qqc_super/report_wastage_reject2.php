@@ -34,7 +34,7 @@ exit();
 $url = "report_wastage_reject.php";
 
 $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -353,7 +353,7 @@ return "";
 	//********** END CONDITION **************
 				 
 	$query8 = "SELECT COUNT(*) FROM  reject_detail_disposal AS MR WHERE MR.status_part = 'WQ' AND MR.qty_wastage != '' AND MR.doc_disposal_no != '' ".$where_sql;
-	$result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+	$result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
 	$num_rows = mysqli_fetch_row($result8);
 	
 	$pages = new Paginator;

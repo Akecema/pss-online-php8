@@ -74,7 +74,7 @@ $where_sql =  $wheresql_01 .$wheresql_02 ;
 //------------------------------------count-------------------\\
 
 $query8 = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') AS R2 FROM ftp_goodtran_detail WHERE status_ftp = 'Y'" .$where_sql;
-$result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+$result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
 $num_rows = mysqli_num_rows($result8);
 
 

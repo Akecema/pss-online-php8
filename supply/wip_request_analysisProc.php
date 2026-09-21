@@ -33,7 +33,7 @@ $url = "wip_request_analysis.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -340,7 +340,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 
 								 
    $query8 = "SELECT *,DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'New'" .$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
      $num_8 = mysqli_fetch_row($result8);
      $num_rows = mysqli_num_rows($result8);
    

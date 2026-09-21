@@ -33,7 +33,7 @@ exit();
 $url = "disposal_qc_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -280,7 +280,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	//********** END CONDITION **************
 								 
    $query8 = "SELECT * FROM reject_detail_disposal AS MR WHERE (MR.status_part = 'QC' OR MR.status_part = 'WQ') AND MR.doc_disposal_no != '' AND MR.status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."'".$where_sql."GROUP BY doc_disposal_no";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    //$num_rows = mysqli_fetch_row($result8);
    $num_rows = mysqli_num_rows($result8);
 

@@ -38,7 +38,7 @@ $url = "report_PPC_consumable.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -232,7 +232,7 @@ $row_k2 = mysqli_fetch_array($result_k2);
    
   //------------------cost center --------------------//
    $query_cost_center = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $row["id_work"])."'";
-   $result_cost_center = mysqli_query($dbc, $query_cost_center) or die (mysqli_error($dbc));
+   $result_cost_center = mysqli_query($dbc, $query_cost_center) or die(db_fail($dbc));
    $row_cost_center = mysqli_fetch_array($result_cost_center);
 		
 		 ?>

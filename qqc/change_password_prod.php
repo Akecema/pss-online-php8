@@ -184,11 +184,11 @@ $message = NULL; // create an empty new variable.
 				
 				
 				  $query12 = "UPDATE login_detail SET password = '".db_esc($dbc, $newpass)."', status_pass = 'Y', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
-				  $result12 = mysqli_query($dbc, $query12) or die (mysqli_error($dbc));
+				  $result12 = mysqli_query($dbc, $query12) or die(db_fail($dbc));
 				
 				//----------------------------------------------	
 			       $query2 = "UPDATE user_detail SET password = '".db_esc($dbc, $newpass)."', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
-				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+				  $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  
@@ -237,7 +237,7 @@ $message = NULL; // create an empty new variable.
  
  
 			  $query_dt = "UPDATE login_detail set expired_pass_date = '$end_date_check' where username='".db_esc($dbc, $row["username"])."'";
-		      $result_dt = mysqli_query($dbc, $query_dt) or die (mysqli_error($dbc));
+		      $result_dt = mysqli_query($dbc, $query_dt) or die(db_fail($dbc));
 			
 			
 

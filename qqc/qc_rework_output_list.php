@@ -38,7 +38,7 @@ exit();
 $url = "rework_output_list_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -397,7 +397,7 @@ $message = NULL; // create an empty new variable.
  //insert into table qqc_transaction-------------
 	
 $query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','','".db_esc($dbc, $data_qqc["qty_qc"])."','".db_esc($dbc, $_POST["qty_qc_ok"])."','','".db_esc($dbc, $rst_sta8["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $username)."','".db_esc($dbc, $_POST["date1"])."','".db_esc($dbc, $t_time)."','".db_esc($dbc, $data_qqc["ploc_qc"])."','".db_esc($dbc, $_POST["sloc"])."','".db_esc($dbc, $ploc_qc)."','','','','','','N','Y','','','')";
-$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
+$result_data2 = mysqli_query($dbc, $query_data2) or die(db_fail($dbc));
  
  
 	//----check qqc_transaction total pending "0" ----------	
@@ -674,7 +674,7 @@ $message = NULL; // create an empty new variable.
 	//insert into table qqc_transaction-------------
 	
 $query_data2 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','','".db_esc($dbc, $data_qqc["qty_qc"])."','','".db_esc($dbc, $_POST["qty_qc_NG"])."','".db_esc($dbc, $rst_sta8["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $username)."','".db_esc($dbc, $_POST["date2"])."','".db_esc($dbc, $t_time2)."','".db_esc($dbc, $ploc_qc)."','".db_esc($dbc, $data_qqc["ploc"])."','','".db_esc($dbc, $type_reject)."','".db_esc($dbc, $reason_reject)."','".db_esc($dbc, $username)."',NOW(),NOW(),'N','N','','','')";
-$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
+$result_data2 = mysqli_query($dbc, $query_data2) or die(db_fail($dbc));
  
 	
 	

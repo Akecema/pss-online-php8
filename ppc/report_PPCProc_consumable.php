@@ -38,7 +38,7 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 $url = "report_PPC_consumable.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -235,7 +235,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 
 								 
    $query8 = "SELECT *,DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status != 'Cancel'" .$where_sql."GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC,MR.temp_mrin ASC";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
  //  $num_8 = mysqli_fetch_row($result8);
    $num_rows = mysqli_num_rows($result8);
    

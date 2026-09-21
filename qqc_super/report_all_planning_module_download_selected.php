@@ -129,7 +129,7 @@ $namaFile = "Report Planned Order_".$date_tdy.".xls";
 			
 		
     $query8 = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 FROM pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."')".$where_sql. " ORDER BY MR.plan_no ASC";
-  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   $num_rows = mysqli_num_rows($result8);
 
 

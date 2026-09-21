@@ -121,10 +121,10 @@ $message = NULL; // create an empty new variable.
 					 $p2 = password_hash($p, PASSWORD_DEFAULT);
 					 	
 				  $query2 = "UPDATE user_detail set password = '$p2', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
-				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+				  $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 				  
 				$query_login = "UPDATE login_detail SET password = '$p2', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
-				$result_login = mysqli_query($dbc, $query_login) or die (mysqli_error($dbc));
+				$result_login = mysqli_query($dbc, $query_login) or die(db_fail($dbc));
 				  
 			
 			      // NOTE: if this branch runs (no email on file), execution falls

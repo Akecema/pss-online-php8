@@ -32,7 +32,7 @@ exit();
 $url = "report_prod_consumable.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -234,7 +234,7 @@ visibility:hidden;
  
 
  $query8 = "SELECT * FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status != 'Cancel'" .$where_sql."GROUP BY MR.id_scan ORDER BY MR.id_req_con ASC";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_num_rows($result8);
    
    $pages = new Paginator;

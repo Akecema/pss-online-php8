@@ -42,7 +42,7 @@ $currentdate = (date("Y-m-d"));
 $url = "trans_posting_to_store.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -244,7 +244,7 @@ echo "<br>"; */
 			$create_dt = ($yy2.'-'.$mm2.'-'.$dd2);
 				   
   $query_q2 = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $part4)."'";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
   
   
@@ -252,7 +252,7 @@ echo "<br>"; */
   
 //insert to scan_tp_store
 $query_db = "INSERT INTO scan_tp_store(id_scan_tp, scan_doc, barcode_ref, doc_no, plan_code, scan_sloc, material_no, material_desc, plan_no, scan_shift, scan_qty, scan_uom, scan_date_posting, scan_date_create, slip_no, user_create, date_create, status) VALUES ('','".db_esc($dbc, $number)."','".db_esc($dbc, $barcode_ref2)."', '".db_esc($dbc, $part1)."', '".db_esc($dbc, $part2)."', '".strtoupper($part3)."', '".strtoupper($part4)."', '".strtoupper($ans3["material_desc"])."', '".strtoupper($part5)."', '".strtoupper($part6)."', '".db_esc($dbc, $part7)."', '".strtoupper($part8)."', '".db_esc($dbc, $post_dt)."', '".db_esc($dbc, $create_dt)."', '".strtolower($part12)."', '".db_esc($dbc, $username)."', NOW(),'N')";
-$result_db = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result_db = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 //----add for record [status = 'Y' will be generate trans posting running no]
 

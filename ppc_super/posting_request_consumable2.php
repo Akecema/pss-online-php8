@@ -35,7 +35,7 @@ exit();
 $url = "posting_request_consumable.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -306,7 +306,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 
 								 
    $query8 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R2 FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status_request = 'Y' AND (MR.date_require >= '$start_date_check_draft' AND MR.date_require <= '$end_date_check_draft') ".$where_sql." GROUP BY MR.temp_mrin ORDER BY MR.id_con ASC";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_num_rows($result8); 
  
    $pages = new Paginator;
@@ -405,7 +405,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 	   
 	   
 	  $sql2 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin, SD.cost_center ORDER BY MR.date_require DESC,MR.time_require DESC";
-      $result2 = mysqli_query($dbc, $sql2) or die(mysqli_error($dbc));
+      $result2 = mysqli_query($dbc, $sql2) or die(db_fail($dbc));
 	  
 	  while ($list = mysqli_fetch_array($result2)) {
    
@@ -449,7 +449,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		 {
 		 
 		   $query_upd4 = "SELECT * FROM consumable_request WHERE temp_mrin = '".db_esc($dbc, $list["temp_mrin"])."' AND status = 'Close'";
-		   $result_upd4 = mysqli_query($dbc, $query_upd4) or die(mysqli_error($dbc));
+		   $result_upd4 = mysqli_query($dbc, $query_upd4) or die(db_fail($dbc));
 		   $row_upd4 = mysqli_num_rows($result_upd4); 
         // $r4 = mysqli_num_rows($result_upd4);
 		 
@@ -462,12 +462,12 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		   {
 			
 			$query_mm3 = "SELECT * FROM consumable_request WHERE temp_mrin = '".db_esc($dbc, $list["temp_mrin"])."' AND status = 'Close' AND material_no = '".db_esc($dbc, $row_tp["material_no"])."'"; 
-        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
+        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die(db_fail($dbc));
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 			
 			$query_mm3_insert =  "INSERT INTO consumable_request_close(id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, reason_close, reason_close2, id_work) VALUES('".db_esc($dbc, $row_mm3["id_req_con"])."','".db_esc($dbc, $row_mm3["mrin_doc"])."','".db_esc($dbc, $row_mm3["mrin_year"])."','".db_esc($dbc, $row_mm3["temp_mrin"])."','".db_esc($dbc, $row_mm3["id_con"])."','".db_esc($dbc, $row_mm3["id_scan"])."','".db_esc($dbc, $row_mm3["material_no"])."','".db_esc($dbc, $row_mm3["con_qty"])."', '".db_esc($dbc, $row_mm3["con_uom"])."','".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."', '".db_esc($dbc, $row_mm3["status_view"])."','".db_esc($dbc, $row_mm3["factory"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["date_require"])."','".db_esc($dbc, $row_mm3["time_require"])."','6','','".db_esc($dbc, $row_mm3["id_work"])."')";
-$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
+$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die(db_fail($dbc));
 			
 				  
 		  

@@ -111,7 +111,7 @@ $where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03.$wheresql_04 .$wheresql_0
 //********** END CONDITION **************
 
 $query8 = "SELECT COUNT(*) FROM reject_detail_disposal AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_part = 'WS' AND MR.qty_wastage != '' AND MR.doc_disposal_no != '' ".$where_sql;
-$result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+$result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
 $num_rows = mysqli_fetch_row($result8);
 
 //---------------------------end count

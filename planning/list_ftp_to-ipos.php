@@ -35,7 +35,7 @@ exit();
 $url = "list_ftp_to-ipos.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";

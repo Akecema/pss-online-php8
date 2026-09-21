@@ -31,7 +31,7 @@ exit();
 $url = "add_vendor_account.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -117,13 +117,13 @@ $message = NULL; // create an empty new variable.
     //----user created -----
 
     $query_create = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row[13])."'";
-    $result_create = mysqli_query($dbc, $query_create) or die (mysqli_error($dbc));
+    $result_create = mysqli_query($dbc, $query_create) or die(db_fail($dbc));
     $data_create = mysqli_fetch_array($result_create);
 	
 	//----user updated -----
 
     $query_update = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row[15])."'";
-    $result_update = mysqli_query($dbc, $query_update) or die (mysqli_error($dbc));
+    $result_update = mysqli_query($dbc, $query_update) or die(db_fail($dbc));
     $data_update = mysqli_fetch_array($result_update);
 	
 	if($row[17] == "Y")

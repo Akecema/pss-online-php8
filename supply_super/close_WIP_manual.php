@@ -36,7 +36,7 @@ date_default_timezone_set('Asia/Bangkok');
 $url = "display_request_wip_close.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -270,7 +270,7 @@ $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM wip_req
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 			$query_mm3_insert =  "INSERT INTO wip_request_close(id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_close, reason_close2) VALUES('".db_esc($dbc, $row_mm3["id_req_wip"])."','".db_esc($dbc, $row_mm3["mrin_doc_wip"])."','".db_esc($dbc, $row_mm3["mrin_year_wip"])."','".db_esc($dbc, $temp_mrin)."','".db_esc($dbc, $row_mm3["id_hdr_wip"])."','".db_esc($dbc, $row_mm3["id_dtl_wip"])."','".db_esc($dbc, $row_mm3["id_scan_wip"])."','".db_esc($dbc, $row_mm3["bom_id_wip"])."','".db_esc($dbc, $row_mm3["bom_qty_wip"])."', '".db_esc($dbc, $row_mm3["bom_oum_wip"])."','".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["bom_component"])."','".db_esc($dbc, $row_mm3["date_mrin"])."','".db_esc($dbc, $row_mm3["time_mrin"])."','".db_esc($dbc, $_POST["reason_close"])."','".db_esc($dbc, $_POST["reason_close2"])."')";
-/*$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
+/*$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die(db_fail($dbc));
 */	  
 			$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert);
 

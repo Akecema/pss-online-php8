@@ -32,7 +32,7 @@ exit();
 $url = "material_request_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -182,13 +182,13 @@ echo "<br>"; */
   $row3 = mysqli_fetch_array($result3); 
 				   
   $query_q2 = "SELECT * FROM mat_master_detail WHERE (material = '".db_esc($dbc, $part1)."' OR bill_component = '".db_esc($dbc, $part1)."')";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
 				   
 
 //insert to scan_detail
 $query_db = "INSERT INTO scan_detail(id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '".db_esc($dbc, $pps_ref2)."', '".db_esc($dbc, $row3["id_factory"])."', '".db_esc($dbc, $part4)."', '".db_esc($dbc, $part2)."', '".db_esc($dbc, $part1)."', '".db_esc($dbc, $part7)."', '".db_esc($dbc, $ans3["plant"])."', '".db_esc($dbc, $ans3["sloc"])."', '".db_esc($dbc, $part6)."', '".db_esc($dbc, $user_no)."', NOW(),'','','N')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
              if($result)

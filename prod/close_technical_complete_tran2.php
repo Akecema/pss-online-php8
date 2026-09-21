@@ -35,7 +35,7 @@ exit();
 $url = "close_technical_complete_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -398,7 +398,7 @@ return "";
 	//********** END CONDITION **************
 								 
    $query8 = "SELECT * FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' AND MR.status = 'Y'".$where_sql."GROUP BY MR.plan_no";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   //$num_rows = mysqli_fetch_row($result8);
    $num_rows = mysqli_num_rows($result8);
 

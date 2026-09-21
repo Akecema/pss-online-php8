@@ -269,7 +269,7 @@ visibility:hidden;
 
 								 
     $query8 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') ".$where_sql."  GROUP BY MR.temp_mrin";
-	   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+	   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
      //$num_8 = mysqli_fetch_row($result8);
      $num_rows = mysqli_num_rows($result8);
 

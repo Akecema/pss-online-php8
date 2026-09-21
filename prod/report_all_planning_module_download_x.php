@@ -51,7 +51,7 @@ $namaFile = "Report Planned Order_".$date_tdy.".xls";
 			
 		
     $query8 = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM pps_detail ORDER BY plan_no ASC";
-  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   $num_rows = mysqli_num_rows($result8);
 
 

@@ -31,7 +31,7 @@ exit();
 $url = "type_wastage_table.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
@@ -131,7 +131,7 @@ if (empty($_POST['status_wastage']))
 //register the user in the db.
 $query_db = "INSERT INTO type_wastage_detail(id_wastage,wastage_desc,status_wastage) VALUES
                                 ('','".db_esc($dbc, $wastage_desc)."','".db_esc($dbc, $status_wastage)."')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
              if($result)

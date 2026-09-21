@@ -150,3 +150,25 @@ function upload_safe_ext(string $name, array $allowedExt): string
 {
     return strtolower(pathinfo(upload_safe_name($name, $allowedExt), PATHINFO_EXTENSION));
 }
+
+/**
+ * For "or die(...)" on a failed query: log the real MySQL error server-side and
+ * return a generic message, so SQL text, table names and paths never reach users.
+ */
+function db_fail(mysqli $dbc): string
+{
+    error_log('PSS Online SQL error [' . ($_SERVER['SCRIPT_NAME'] ?? 'cli') . ']: ' . mysqli_error($dbc));
+    return 'A database error occurred. Please try again or contact the System Administrator.';
+}
+
+/** ISO-8859-1 -> UTF-8 (replacement for utf8_encode(), deprecated in PHP 8.2). */
+function latin1_to_utf8(string $s): string
+{
+    return mb_convert_encoding($s, 'UTF-8', 'ISO-8859-1');
+}
+
+/** UTF-8 -> ISO-8859-1 (replacement for utf8_decode(), deprecated in PHP 8.2). */
+function utf8_to_latin1(string $s): string
+{
+    return mb_convert_encoding($s, 'ISO-8859-1', 'UTF-8');
+}

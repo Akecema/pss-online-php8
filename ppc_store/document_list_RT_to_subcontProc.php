@@ -41,7 +41,7 @@ $year = $today['year'];
 $url = "document_list_TP_to_store.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -340,7 +340,7 @@ return "";
    $count_record = "";
 								 
    $query8 = "SELECT * FROM ret_subcont_detail WHERE status_tran = 'Y' ".$where_sql."GROUP BY doc_tp";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
    $num = mysqli_num_rows($result8);  
 
@@ -350,7 +350,7 @@ return "";
    $pages->paginate();
    
    $query8a = "SELECT * FROM ret_subcont_cancel WHERE status_tran = 'Y' ".$where_sql."GROUP BY doc_tp";
-   $result8a = mysqli_query($dbc, $query8a) or die(mysqli_error($dbc));
+   $result8a = mysqli_query($dbc, $query8a) or die(db_fail($dbc));
    $num_rows_8a = mysqli_num_rows($result8a);
  
    //---------------------------end count

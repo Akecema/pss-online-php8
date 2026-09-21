@@ -34,7 +34,7 @@ $url = "list_ftp_pending2_sap.php";
 
 
 $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 
 	
@@ -175,14 +175,14 @@ if(is_dir($dir)){
            <table width="99%" border="0" cellspacing="2">
   <tr>
     <td width="43%"><?php echo $filename2; ?></td>
-    <td width="57%"><?php echo date ("d-m-Y H:i:s", filemtime(utf8_decode($dir."/".$file))); ?></td>
+    <td width="57%"><?php echo date ("d-m-Y H:i:s", filemtime(utf8_to_latin1($dir."/".$file))); ?></td>
   </tr>
 </table>
 <?php  
              
                  /*   echo $filename2;
                     echo " - ";  echo "&nbsp;&nbsp;";                  
-                    echo "Date modified: " . date ("d-m-Y H:i:s", filemtime(utf8_decode($dir."/".$file)));
+                    echo "Date modified: " . date ("d-m-Y H:i:s", filemtime(utf8_to_latin1($dir."/".$file)));
                     echo "<br>";    */
              }             
 	

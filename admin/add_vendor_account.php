@@ -31,7 +31,7 @@ exit();
 $url = "add_vendor_account.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
@@ -238,7 +238,7 @@ if (empty($_POST["status_subcont"]) || ($_POST["status_subcont"] == ""))
 //insert vendor detail
 
 $query_db = "INSERT INTO vendor_detail(vendor_code,vendor_name,add_no1,add_no2,post_code,post_city,post_region,post_country,search_term,tphone,fax_no,payment_method,term_payment,user_create,date_create,user_update,date_update,status_acc,status_subcont) VALUES('".strtoupper($vendor_code)."','".strtoupper($vendor_name)."','".db_esc($dbc, $add_no1)."','".db_esc($dbc, $add_no2)."','".db_esc($dbc, $post_code)."','".db_esc($dbc, $post_city)."','".db_esc($dbc, $post_region)."','".db_esc($dbc, $post_country)."','".strtoupper($search_term)."','".db_esc($dbc, $tphone)."','".db_esc($dbc, $fax_no)."','".strtoupper($payment_method)."','".strtoupper($term_payment)."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $status_acc)."','".db_esc($dbc, $status_subcont)."')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
              if($result)

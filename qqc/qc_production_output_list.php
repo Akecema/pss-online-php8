@@ -37,7 +37,7 @@ $url = "production_output_list_tran.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -302,7 +302,7 @@ $message = NULL; // create an empty new variable.
  //insert into table qqc_detail_transaction-------------
 	
 $query_data2 = "INSERT INTO qqc_detail_transaction (id_qqc, id_tran, qqc_doc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, qqc_doc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $uid)."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_pps["bflush_no"])."','".db_esc($dbc, $data_pps["plan_no"])."','".db_esc($dbc, $data_pps["material_no"])."', '".db_esc($dbc, $data_pps["material_desc"])."','".db_esc($dbc, $data_pps["material_type"])."','".db_esc($dbc, $data_pps["qty_plan"])."','".db_esc($dbc, $qty_final)."','".db_esc($dbc, $qty_bal)."','','".db_esc($dbc, $_POST["qty_qc"])."','','','".db_esc($dbc, $status_new)."','".db_esc($dbc, $data_pps["comp_code"])."', '".db_esc($dbc, $data_pps["work_center"])."', '".$sta."','".db_esc($dbc, $data_pps["date_plan"])."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $username)."',NOW(),NOW(),'".db_esc($dbc, $ploc_qc)."','".db_esc($dbc, $data_pps["ploc"])."','','','','','','','N','','','')";
-$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
+$result_data2 = mysqli_query($dbc, $query_data2) or die(db_fail($dbc));
  
 
        $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_qqc = '".mysqli_insert_id($dbc)."'";
@@ -401,7 +401,7 @@ file_put_contents($file_rcv,$data_rcv);
         //-------------insert data into table qqc_transaction-------------
 		  
 		$query_data3 = "INSERT INTO qqc_transaction (id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $ref_2)."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','','".db_esc($dbc, $data_qqc["qty_qc"])."','".db_esc($dbc, $data_qqc["qty_qc"])."','','".db_esc($dbc, $rst_sta8["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $username)."',NOW(),'','','".db_esc($dbc, $username)."',NOW(),NOW(),'".db_esc($dbc, $ploc_qc)."','".db_esc($dbc, $data_qqc["ploc"])."','','','','','','','N','Y','','','')";
-$result_data3 = mysqli_query($dbc, $query_data3) or die (mysqli_error($dbc));  
+$result_data3 = mysqli_query($dbc, $query_data3) or die(db_fail($dbc));  
 
         
         //----------create text file sent ftp to SAP[comp code][5][running no]--------------
@@ -410,7 +410,7 @@ $result_data3 = mysqli_query($dbc, $query_data3) or die (mysqli_error($dbc));
    $data_ftp = mysqli_fetch_array($result_ftp);
    
    $query_q2 = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $data_ftp["material_no"])."'";
-   $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+   $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
    $ans3 = mysqli_fetch_array($result_q2);
 
 

@@ -39,7 +39,7 @@ exit();
 	  $next_date = date('Y-m-d H:i:s', strtotime($current_date .' +1 day'));
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -185,10 +185,10 @@ if (bV >= 4) window.print();
       //  echo ($i+1) . '- ' . $cancel[$i] . '<br>'; 
 		 
 		  $query_m23 = "DELETE FROM `scan_detail_wip` WHERE id_scan = '".db_esc($dbc, $cancel[$i])."'";
-		  $result_m23 = mysqli_query($dbc, $query_m23) or die (mysqli_error($dbc));
+		  $result_m23 = mysqli_query($dbc, $query_m23) or die(db_fail($dbc));
 		 
 		  $query_m24 = "DELETE FROM `wip_request` WHERE id_scan_wip = '".db_esc($dbc, $cancel[$i])."'";
-		  $result_m24 = mysqli_query($dbc, $query_m24) or die (mysqli_error($dbc));
+		  $result_m24 = mysqli_query($dbc, $query_m24) or die(db_fail($dbc));
 	  
 	    }
 		
@@ -403,7 +403,7 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
 		  $current_date = (date("Y-m-d"));
 
   $query8 = "SELECT COUNT(*) FROM wip_request AS MR, mat_master_detail as MD, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND MD.id_dtl = MR.id_dtl_wip AND SD.status_urgent = 'Y' AND MR.status_request = 'N' AND ((MD.material LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%') OR (MD.bill_component LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%')) AND MR.user_create = '".db_esc($dbc, $res["user_no"])."' AND ((MR.date_mrin >= '$current_date') AND (MR.date_mrin <= '$next_date')) ORDER BY MR.id_req_wip ASC";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8); 
 
 

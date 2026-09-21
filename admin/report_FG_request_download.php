@@ -52,7 +52,7 @@ $namaFile = "FG/SFG_".$date_filename."Download.xls";
 
 
     $query8 = "SELECT * FROM mat_master_header ORDER BY material_no ASC";
-    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+    $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
     $num_rows = mysqli_num_rows($result8);
 
 

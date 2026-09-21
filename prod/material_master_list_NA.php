@@ -32,7 +32,7 @@ exit();
 $url = "material_master_list.php";
 
 $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 
 	
@@ -116,7 +116,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <?php
 
 $query8 = "SELECT COUNT(*) FROM mat_master_header WHERE status_BOM = 'N' ";
-$result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+$result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
 $num_rows = mysqli_fetch_row($result8); 
 
 $pages = new Paginator;

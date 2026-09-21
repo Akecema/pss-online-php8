@@ -34,7 +34,7 @@ exit();
 $url = "reject_backflush_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -409,7 +409,7 @@ $message = NULL; // create an empty new variable.
 	//insert table reject_detail_disposal
 		
 	$query_insert2 = "INSERT INTO reject_detail_disposal(id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center,id_factory, disposal_no_ref,user_cancel, date_cancel) VALUES('','".db_esc($dbc, $ref)."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_info["bflush_no"])."','".db_esc($dbc, $data_info["plan_no"])."','".db_esc($dbc, $cancel[$i])."','".db_esc($dbc, $data_info["material_no"])."', '".db_esc($dbc, $data_info["material_desc"])."','".db_esc($dbc, $data_info["material_type"])."','".db_esc($dbc, $data_info["model_code"])."','".db_esc($dbc, $data_info["qty_plan"])."','".db_esc($dbc, $data_info["qty_actual"])."','".db_esc($dbc, $data_info["qty_balance"])."','".db_esc($dbc, $data_info["qty_NG"])."','','','','".db_esc($dbc, $data_info2["BUn"])."','2200','".db_esc($dbc, $data_info["work_center"])."','".$sta."','".db_esc($dbc, $data_info["date_plan"])."','".db_esc($dbc, $data_info["user_posting"])."','".db_esc($dbc, $data_info["date_posting"])."','".db_esc($dbc, $data_info["time_posting"])."','".db_esc($dbc, $rst_sta["status_desc"])."','".db_esc($dbc, $ploc)."','".db_esc($dbc, $data_info["ploc"])."','','".db_esc($dbc, $data_info["type_reject"])."','".db_esc($dbc, $data_info["reason_reject"])."','".db_esc($dbc, $data_info["user_reject"])."','".db_esc($dbc, $data_info["date_reject"])."','".db_esc($dbc, $data_info["time_reject"])."','','','','','','','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $string[$i])."','','','','PR','','','','','','','','','','')";
-$result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc));
+$result_insert2 = mysqli_query($dbc, $query_insert2) or die(db_fail($dbc));
 		
 		
 		
@@ -419,12 +419,12 @@ $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc))
 		
 			//update table pps_detail_transaction
 		$query_update2 = "UPDATE pps_detail_transaction SET status = 'Y' WHERE id = '".db_esc($dbc, $cancel[$i])."'";
-        $result_update2 = mysqli_query($dbc, $query_update2) or die (mysqli_error($dbc));
+        $result_update2 = mysqli_query($dbc, $query_update2) or die(db_fail($dbc));
 		
 		
 		//update table qqc_transaction 
 		/*$query_update1 = "UPDATE qqc_transaction SET status = 'Y' WHERE id = '".$cancel[$i]."'";
-        $result_update1 = mysqli_query($dbc, $query_update1) or die (mysqli_error($dbc));*/
+        $result_update1 = mysqli_query($dbc, $query_update1) or die(db_fail($dbc));*/
 		
 		  
 			}// end for loop
@@ -504,7 +504,7 @@ $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc))
  
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status = 'N' AND MR.bflush_no_ref = ''".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

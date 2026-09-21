@@ -246,7 +246,7 @@ if((empty($_POST["work_center"])) || ($_POST["work_center"] == "NULL"))
   
 
 $query_data = "SELECT * FROM consumable_detail WHERE id_con = '".db_esc($dbc, $material_no)."'";
-$result_data = mysqli_query($dbc, $query_data) or die (mysqli_error($dbc));
+$result_data = mysqli_query($dbc, $query_data) or die(db_fail($dbc));
 $row_data = mysqli_fetch_array($result_data);
 
 	   //create ID scan
@@ -281,7 +281,7 @@ $row_create_id = mysqli_fetch_row($result_create_id);
    
 //insert to scan_detail
 $query_db = "INSERT INTO `consumable_request` (id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, id_work) VALUES ('".mysqli_insert_id($dbc)."', '', '','', '".db_esc($dbc, $material_no)."', '".db_esc($dbc, $lastID)."','".db_esc($dbc, $row_data["material_no"])."', '".db_esc($dbc, $con_qty)."', '".db_esc($dbc, $row_data["BUn"])."', 'N', 'N','N','".db_esc($dbc, $factory)."', '".db_esc($dbc, $user_no)."', NOW(),'','','','','New','".db_esc($dbc, $date1)."','".db_esc($dbc, $t_time)."','".db_esc($dbc, $work_center)."')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
 

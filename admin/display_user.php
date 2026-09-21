@@ -31,7 +31,7 @@ exit();
 $url = "add_user.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -117,7 +117,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 
 								 
    $query8 = "SELECT COUNT(*) FROM user_detail where level_id != '1' or level_id != '2' order by user_no ASC";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

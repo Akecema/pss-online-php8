@@ -37,7 +37,7 @@ $url = "cancellation_QC_output_list_tran.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -224,7 +224,7 @@ $message = NULL; // create an empty new variable.
   //echo $data_info["qqc_doc_no"];
   
   $query_upd_detail2 = "UPDATE qqc_detail_transaction SET status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' WHERE id_qqc = '".db_esc($dbc, $data_info["id_tran"])."' AND qqc_doc_no = '".db_esc($dbc, $data_info["qqc_doc_no"])."'";
-  $result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2) or die (mysqli_error($dbc));
+  $result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2) or die(db_fail($dbc));
   
   		$query_ftp = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as J, DATE_FORMAT(date_cancel,'%Y-%m-%d') as J2, DATE_FORMAT(date_cancel,'%H:%i:%s') as J3 FROM qqc_transaction WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."' AND qqc_doc_no = '".db_esc($dbc, $data_info["qqc_doc_no"])."'";
 		$result_ftp = mysqli_query($dbc, $query_ftp);   //run the query.
@@ -280,7 +280,7 @@ $message = NULL; // create an empty new variable.
 		
 		
   $query_upd_detail = "UPDATE qqc_transaction SET status_QC = '".db_esc($dbc, $rst_sta4["status_desc"])."', qqc_no_ref = '".db_esc($dbc, $ref)."', user_cancel = '".db_esc($dbc, $username)."', date_cancel = NOW() WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."'";
-  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
+  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die(db_fail($dbc));
   
 
 	
@@ -305,7 +305,7 @@ file_put_contents($file,$data);
  
  
    $query_copy = "INSERT INTO qqc_transaction_cancel2(id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $data_qqc["qqc_no"])."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','".db_esc($dbc, $data_qqc["qty_NG"])."','".db_esc($dbc, $data_qqc["qty_qc"])."','".db_esc($dbc, $data_qqc["qty_qc_ok"])."','".db_esc($dbc, $data_qqc["qty_qc_NG"])."','".db_esc($dbc, $rst_sta4["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $data_qqc["user_create"])."','".db_esc($dbc, $data_qqc["date_create"])."','".db_esc($dbc, $data_qqc["user_update"])."','".db_esc($dbc, $data_qqc["date_update"])."','".db_esc($dbc, $data_qqc["user_qc_posting"])."','".db_esc($dbc, $data_qqc["date_qc_posting"])."','".db_esc($dbc, $data_qqc["time_qc_posting"])."','".db_esc($dbc, $data_qqc["ploc_qc"])."','".db_esc($dbc, $data_qqc["ploc"])."','".db_esc($dbc, $data_qqc["delivery_loc"])."','".db_esc($dbc, $data_qqc["type_qc_reject"])."','".db_esc($dbc, $data_qqc["reason_qc_reject"])."','".db_esc($dbc, $data_qqc["user_qc_reject"])."','".db_esc($dbc, $data_qqc["date_qc_reject"])."','".db_esc($dbc, $data_qqc["time_qc_reject"])."','Y','Y','".db_esc($dbc, $data_qqc["qqc_no_ref"])."','".db_esc($dbc, $data_qqc["user_cancel"])."','".db_esc($dbc, $data_qqc["date_cancel"])."')";
-   $result_copy = mysqli_query($dbc, $query_copy) or die (mysqli_error('Update Cancel Transaction'));
+   $result_copy = mysqli_query($dbc, $query_copy) or die(db_fail($dbc));
  
  
  
@@ -364,7 +364,7 @@ file_put_contents($file,$data);
 	
 	
 	  $query_upd_detail = "UPDATE qqc_transaction SET status_QC = '".db_esc($dbc, $rst_sta4["status_desc"])."', qqc_no_ref = '".db_esc($dbc, $ref_2)."', user_cancel = '".db_esc($dbc, $username)."', date_cancel = NOW() WHERE id_qqc = '".db_esc($dbc, $cancel[$i])."'";
-  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
+  $result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die(db_fail($dbc));
   
 		
 	 $data2 .= $data_ftp["qqc_doc_no"].";".$ref_2.";".$data_ftp["qqc_no"].";".$data_ftp["comp_code"].";".$data_ftp['material_no'].";552;".$data_ftp['qty_qc_NG'].";".$ans3['BUn'].";".$data_ftp['ploc_qc'].";".$data_ftp['ploc'].";".$data_ftp['J2'].";".$data_ftp['user_cancel']."\r\n";
@@ -388,7 +388,7 @@ file_put_contents($file,$data2);
  
  
    $query_copy = "INSERT INTO qqc_transaction_cancel2(id_qqc, id_tran, qqc_doc_no, qqc_no, bflush_no, plan_no, material_no, material_desc, material_type, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, status_QC, comp_code, work_center, shift_day, date_plan, user_create, date_create, user_update, date_update, user_qc_posting, date_qc_posting, time_qc_posting, ploc_qc, ploc, delivery_loc, type_qc_reject, reason_qc_reject, user_qc_reject, date_qc_reject, time_qc_reject, status_ftp_fgtran, status, qqc_no_ref, user_cancel, date_cancel) VALUES('','".db_esc($dbc, $data_qqc["id_tran"])."','".db_esc($dbc, $data_qqc["qqc_doc_no"])."','".db_esc($dbc, $data_qqc["qqc_no"])."','".db_esc($dbc, $data_qqc["bflush_no"])."','".db_esc($dbc, $data_qqc["plan_no"])."','".db_esc($dbc, $data_qqc["material_no"])."', '".db_esc($dbc, $data_qqc["material_desc"])."','".db_esc($dbc, $data_qqc["material_type"])."','".db_esc($dbc, $data_qqc["qty_plan"])."','".db_esc($dbc, $data_qqc["qty_actual"])."','".db_esc($dbc, $data_qqc["qty_balance"])."','".db_esc($dbc, $data_qqc["qty_NG"])."','".db_esc($dbc, $data_qqc["qty_qc"])."','".db_esc($dbc, $data_qqc["qty_qc_ok"])."','".db_esc($dbc, $data_qqc["qty_qc_NG"])."','".db_esc($dbc, $rst_sta4["status_desc"])."','".db_esc($dbc, $data_qqc["comp_code"])."', '".db_esc($dbc, $data_qqc["work_center"])."', '".db_esc($dbc, $data_qqc["shift_day"])."','".db_esc($dbc, $data_qqc["date_plan"])."','".db_esc($dbc, $data_qqc["user_create"])."','".db_esc($dbc, $data_qqc["date_create"])."','".db_esc($dbc, $data_qqc["user_update"])."','".db_esc($dbc, $data_qqc["date_update"])."','".db_esc($dbc, $data_qqc["user_qc_posting"])."','".db_esc($dbc, $data_qqc["date_qc_posting"])."','".db_esc($dbc, $data_qqc["time_qc_posting"])."','".db_esc($dbc, $data_qqc["ploc_qc"])."','".db_esc($dbc, $data_qqc["ploc"])."','".db_esc($dbc, $data_qqc["delivery_loc"])."','".db_esc($dbc, $data_qqc["type_qc_reject"])."','".db_esc($dbc, $data_qqc["reason_qc_reject"])."','".db_esc($dbc, $data_qqc["user_qc_reject"])."','".db_esc($dbc, $data_qqc["date_qc_reject"])."','".db_esc($dbc, $data_qqc["time_qc_reject"])."','Y','Y','".db_esc($dbc, $data_qqc["qqc_no_ref"])."','".db_esc($dbc, $data_qqc["user_cancel"])."','".db_esc($dbc, $data_qqc["date_cancel"])."')";
-   $result_copy = mysqli_query($dbc, $query_copy) or die (mysqli_error('Update Cancel Transaction'));
+   $result_copy = mysqli_query($dbc, $query_copy) or die(db_fail($dbc));
 
      //update count_max----------------------------------------
 		

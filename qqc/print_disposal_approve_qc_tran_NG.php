@@ -38,7 +38,7 @@ $url = "disposal_backflush_tran_NG.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -276,11 +276,11 @@ function prepopulate($name)
 		$data_mat = mysqli_fetch_array($result_mat);	
 		
 		$query_disposal2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row["user_disposal"])."'";
-        $result_disposal2 = mysqli_query($dbc, $query_disposal2) or die (mysqli_error($dbc));
+        $result_disposal2 = mysqli_query($dbc, $query_disposal2) or die(db_fail($dbc));
         $res_disposal2 = mysqli_fetch_array($result_disposal2);
 		
 		$query_approve = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row["approve_by"])."'";
-        $result_approve = mysqli_query($dbc, $query_approve) or die (mysqli_error($dbc));
+        $result_approve = mysqli_query($dbc, $query_approve) or die(db_fail($dbc));
         $res_approve = mysqli_fetch_array($result_approve);
 		
 

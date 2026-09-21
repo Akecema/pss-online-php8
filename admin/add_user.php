@@ -31,7 +31,7 @@ exit();
 $url = "add_user.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -228,11 +228,11 @@ if ($vendor_no && $user_id && $upw && $user_fullname && $department && $designat
 
 //register the user in the db.
 $query_db = "INSERT INTO user_detail (vendor_no,staff_ID,username,password,user_fullname,department,designation,company,user_telno1,user_telno2,user_fax,user_email,user_created,date_created,status,level_id,user_update,date_update,last_login,status_failed,date_failed) VALUES('".db_esc($dbc, $vendor_no)."','".db_esc($dbc, $user_id)."','".db_esc($dbc, $user_id)."','".db_esc($dbc, $_POST['user_password'])."','".db_esc($dbc, $user_fullname)."','".db_esc($dbc, $department)."','".db_esc($dbc, $designation)."','".db_esc($dbc, $company)."','".db_esc($dbc, $user_telno1)."','".db_esc($dbc, $user_telno2)."','".db_esc($dbc, $user_fax)."','".db_esc($dbc, $user_email)."','".db_esc($dbc, $username)."',now(),'".db_esc($dbc, $status)."','".db_esc($dbc, $level_id)."','','','','N','')";
-$result = mysqli_query($dbc, $query_db) or die(mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 //login detail
 $query_login = "INSERT INTO login_detail (staff_ID, username, password, company, user_email, user_created, date_created, status, level_id, user_update, date_update, last_login, expired_pass_date, status_pass) VALUES('".strtoupper($user_id)."','".strtoupper($user_id)."', '".db_esc($dbc, $_POST['user_password'])."', '".db_esc($dbc, $company)."', '".db_esc($dbc, $user_email)."', '".db_esc($dbc, $username)."', NOW(), '".db_esc($dbc, $status)."', '".db_esc($dbc, $level_id)."','','','','','N')";
-$result_login = mysqli_query($dbc, $query_login) or die (mysqli_error($dbc));
+$result_login = mysqli_query($dbc, $query_login) or die(db_fail($dbc));
 
 
 

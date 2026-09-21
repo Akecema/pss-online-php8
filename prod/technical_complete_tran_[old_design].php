@@ -35,7 +35,7 @@ exit();
 $url = "technical_complete_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -402,7 +402,7 @@ $message = NULL; // create an empty new variable.
 		
 		
 		$query_q2 = "UPDATE pps_detail_transaction SET status_pps = 'Closed' WHERE id = '".db_esc($dbc, $cancel[$i])."'";
-        $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+        $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
      
 		
 		  
@@ -425,7 +425,7 @@ $message = NULL; // create an empty new variable.
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND status = 'Y' AND qty_actual != ''";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

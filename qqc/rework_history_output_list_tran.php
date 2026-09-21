@@ -33,7 +33,7 @@ exit();
 $url = "rework_history_output_list_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -349,7 +349,7 @@ echo "window.location='rework_history_output_list_tran2.php?date1=$dateF&&date2=
 	 // echo $end_date_check;
 								 
    $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction WHERE status_QC = '".db_esc($dbc, $rst_sta11["status_desc"])."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

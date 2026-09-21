@@ -80,7 +80,7 @@ $namaFile = "ST Manual Upload Report.xls";
 
 
   $query8 = "SELECT *,DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM ftp_detail_consumable AS MR WHERE MR.mrin_no != '' " .$where_sql;
-  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   $num_rows = mysqli_num_rows($result8);
 
 

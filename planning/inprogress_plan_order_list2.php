@@ -33,7 +33,7 @@ exit();
 $url = "inprogress_plan_order_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -383,7 +383,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 	//********** END CONDITION **************
 
 
-    ini_set('display_errors', 1);
+    ini_set('display_errors', 0);
 	error_reporting(~0);
 
 	$strKeyword = null;

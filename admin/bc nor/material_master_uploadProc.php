@@ -116,7 +116,7 @@ $dcol12 = $dateArray[2].'-'.$dateArray[1].'-'.$dateArray[0];
 //select duplicate material from header
 /*$query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".$col2."' AND material_type = '".$col4."' AND bom = '".$col8."' AND status_BOM = 'Y'";*/
 $query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $col2)."' AND status_BOM = 'Y'";
-$result_Ms = mysqli_query($dbc, $query_Ms)or die(mysqli_error($dbc));
+$result_Ms = mysqli_query($dbc, $query_Ms)or die(db_fail($dbc));
 $res_Ms = mysqli_fetch_array($result_Ms);
 
 
@@ -149,7 +149,7 @@ else
 //select duplicate material from table material
 /*$query_Mtr = "SELECT * FROM table_material WHERE material_no = '".$col2."' AND mat_type = '".$col4."' AND bom_status = 'Y'";*/
 $query_Mtr = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $col2)."' AND bom_status = 'Y'";
-$result_Mtr = mysqli_query($dbc, $query_Mtr)or die(mysqli_error($dbc));
+$result_Mtr = mysqli_query($dbc, $query_Mtr)or die(db_fail($dbc));
 $res_Mtr = mysqli_fetch_array($result_Mtr);
 
 
@@ -185,7 +185,7 @@ if($col4 == 'Z310')
 {
 	/*$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".$col2."' AND mat_type = 'Z310' AND material_group = '".$col5."' AND bom_status = 'Y'";*/
 	$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".db_esc($dbc, $col2)."' AND bom_status = 'Y'";
-	$result_Mtrqc = mysqli_query($dbc, $query_Mtrqc)or die(mysqli_error($dbc));
+	$result_Mtrqc = mysqli_query($dbc, $query_Mtrqc)or die(db_fail($dbc));
 	$res_Mtrqc = mysqli_fetch_array($result_Mtrqc);
 	
 	if($res_Mtrqc > 0)

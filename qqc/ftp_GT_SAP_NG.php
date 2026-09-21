@@ -45,7 +45,7 @@ $data = "";
     $row_reason = mysqli_fetch_array($result_reason);
 	
 	$query_q2 = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $data_ftp["material_no"])."'";
-    $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+    $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
     $ans3 = mysqli_fetch_array($result_q2);
 
 	

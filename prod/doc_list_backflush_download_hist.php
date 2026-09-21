@@ -74,7 +74,7 @@ $namaFile = "Backflush Document List_".$date_tdy2.".xls";
 			
 		
     $query8 = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction_v1 WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') order by plan_no ASC";
-  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   $num_rows = mysqli_num_rows($result8);
 
 

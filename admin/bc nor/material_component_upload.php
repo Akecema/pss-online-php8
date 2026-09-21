@@ -39,7 +39,7 @@ exit();
 $url = "material_component_upload.php";
 
 $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
@@ -209,7 +209,7 @@ elseif(in_array($fileType, $allowed))
 	//insert table upload_mb52
 
 	/*$query_upload = "INSERT INTO upload_mm60(id_upload,file_name,file_size,file_type,date_upload,pic_upload, status_upload) VALUES ('','".$_FILES["fileUpload"]["name"]."', '".$_FILES["fileUpload"]["size"]."', '".$_FILES["fileUpload"]["type"]."',NOW(),'".$data_u["staff_ID"]."','Y')";		
-	$result_upload = mysqli_query($dbc, $query_upload) or die (mysqli_error($dbc));*/
+	$result_upload = mysqli_query($dbc, $query_upload) or die(db_fail($dbc));*/
 }  
  
 

@@ -182,7 +182,7 @@ $message = NULL; // create an empty new variable.
 					//Make the query
 			
 		          $query2 = "UPDATE user_detail set password = '".db_esc($dbc, $newpass)."' where username='".db_esc($dbc, $row["username"])."'";
-				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+				  $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  

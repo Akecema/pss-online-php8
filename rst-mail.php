@@ -18,9 +18,9 @@
 // unauthenticated visitor (included via ckies-aut_frst.php/ckies-aut_scd.php
 // after 5 failed logins in 24h). Now parameterised. Locks the account
 // (status_failed='Y') and emails the user's registered address to notify them.
-$stmt_update_fail = mysqli_prepare($dbc, "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = ?, date_update = NOW() where username = ?") or die(mysqli_error($dbc));
+$stmt_update_fail = mysqli_prepare($dbc, "UPDATE user_detail SET status_failed = 'Y', date_failed = NOW(), user_update = ?, date_update = NOW() where username = ?") or die(db_fail($dbc));
 					  mysqli_stmt_bind_param($stmt_update_fail, "ss", $row["username"], $_POST["username"]);
-					  $result_update_fail = mysqli_stmt_execute($stmt_update_fail) or die (mysqli_error($dbc));
+					  $result_update_fail = mysqli_stmt_execute($stmt_update_fail) or die(db_fail($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  

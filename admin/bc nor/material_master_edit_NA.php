@@ -29,7 +29,7 @@ exit();
 
 
 $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 
 	
@@ -316,11 +316,11 @@ if($_POST['status_BOM'] == 'Y')
 			{
 				//upd tbl component
 				$updcp = "UPDATE mat_master_detail SET bom_status = '".$_POST['bom_status']."' WHERE id_hdr = '".$id_hdr."'";
-				$rst_updcp = mysqli_query($dbc, $updcp) or die(mysqli_error($dbc)); 
+				$rst_updcp = mysqli_query($dbc, $updcp) or die(db_fail($dbc)); 
 
 				//upd tbl material
 				$updtb = "UPDATE table_material SET bom_status = '".$_POST['bom_status']."' WHERE material_no = '".$row_CP2["bill_component"]."' "; 
-				$rst_updtb = mysqli_query($dbc, $updtb) or die(mysqli_error($dbc));
+				$rst_updtb = mysqli_query($dbc, $updtb) or die(db_fail($dbc));
 					
 			}*/
 	

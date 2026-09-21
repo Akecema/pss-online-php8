@@ -37,7 +37,7 @@ $url = "display_consumable_request.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -207,7 +207,7 @@ if (bV >= 4) window.print();
 	//********** END CONDITION **************
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail AS MR WHERE MR.status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."'".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
@@ -252,7 +252,7 @@ $message = NULL; // create an empty new variable.
 		   //insert into table pps_detail_cancellation-------------
 	
 $query_data2 = "INSERT INTO pps_cancellation (id, ref_id, plan_no, upload_id, model_code, month_plan, material_no, qty_plan, qty_actual, status_pps, comp_code, work_center, shift_pps1, shift_pps2, date_plan, status, user_upload, date_upload,user_create, date_create, user_update, date_update, user_posting, date_posting, user_cancel, date_cancel, plan_category, id_factory_pps, rev_pps, seq_pps, man_hours, work_hours) VALUES('".db_esc($dbc, $data_pps["id"])."','".db_esc($dbc, $data_pps["ref_id"])."','".db_esc($dbc, $data_pps["plan_no"])."','".db_esc($dbc, $data_pps["upload_id"])."','".db_esc($dbc, $data_pps["model_code"])."','".db_esc($dbc, $data_pps["month_plan"])."','".db_esc($dbc, $data_pps["material_no"])."','".db_esc($dbc, $data_pps["qty_plan"])."','".db_esc($dbc, $data_pps["qty_actual"])."','".db_esc($dbc, $rst_sta4["status_desc"])."','".db_esc($dbc, $data_pps["comp_code"])."','".db_esc($dbc, $data_pps["work_center"])."','".db_esc($dbc, $data_pps["shift_pps1"])."','".db_esc($dbc, $data_pps["shift_pps2"])."','".db_esc($dbc, $data_pps["date_plan"])."','N','".db_esc($dbc, $data_pps["user_upload"])."','".db_esc($dbc, $data_pps["date_upload"])."','".db_esc($dbc, $data_pps["user_create"])."','".db_esc($dbc, $data_pps["date_create"])."','".db_esc($dbc, $data_pps["user_update"])."','".db_esc($dbc, $data_pps["date_update"])."','".db_esc($dbc, $data_pps["user_posting"])."','".db_esc($dbc, $data_pps["date_posting"])."','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $data_pps["plan_category"])."','".db_esc($dbc, $data_pps["id_factory_pps"])."','".db_esc($dbc, $data_pps["rev_pps"])."','".db_esc($dbc, $data_pps["seq_pps"])."','".db_esc($dbc, $data_pps["man_hours"])."','".db_esc($dbc, $data_pps["work_hours"])."')";
-$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));   
+$result_data2 = mysqli_query($dbc, $query_data2) or die(db_fail($dbc));   
 
 				  
 		  

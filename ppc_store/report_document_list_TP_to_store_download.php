@@ -116,11 +116,11 @@ $namaFile = "Transfer to STORE_".$date_tdy.".xls";
  $count_record = "";	
 		
   $query8 = "SELECT * FROM tp_store_detail WHERE status_tran = 'Y' ".$where_sql."GROUP BY doc_tp";
-  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   $num_rows = mysqli_num_rows($result8);
 
   $query8a = "SELECT * FROM tp_store_cancel WHERE status_tran = 'Y' ".$where_sql."GROUP BY doc_tp";
-  $result8a = mysqli_query($dbc, $query8a) or die(mysqli_error($dbc));
+  $result8a = mysqli_query($dbc, $query8a) or die(db_fail($dbc));
   $num_rows_8a = mysqli_num_rows($result8a);
 
 //---------------------------end count

@@ -37,7 +37,7 @@ $url = "material_request_urgent.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -375,12 +375,12 @@ if($comp_quantity && $time1 && $time2 && $date1 && $cancel) //everything ok
    
  
   $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '".db_esc($dbc, $cancel2[$i])."'";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
   
 //register the user in the db.
 $query_db2 = "INSERT INTO material_request (id_req, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','".db_esc($dbc, $ans3['id_hdr'])."','".db_esc($dbc, $ans3['id_dtl'])."','".db_esc($dbc, $uid)."','".db_esc($dbc, $cancel2[$i])."','".db_esc($dbc, $string[$i])."', '".db_esc($dbc, $ans3['comp_unit'])."','N','N','".db_esc($dbc, $res['user_no'])."',NOW(),'','','','','New','".db_esc($dbc, $ans3['bill_component'])."','".db_esc($dbc, $_POST["date1"])."','".db_esc($dbc, $t_time)."')";
-$result_db2 = mysqli_query($dbc, $query_db2) or die (mysqli_error($dbc));
+$result_db2 = mysqli_query($dbc, $query_db2) or die(db_fail($dbc));
  
 
 
@@ -534,13 +534,13 @@ $message = NULL; // create an empty new variable.
    
  
   $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '".db_esc($dbc, $cancel2[$i])."'";
-  $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
+  $result_q2 = mysqli_query($dbc, $query_q2) or die(db_fail($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
   
 
 //register the user in the db.
 $query_db2 = "INSERT INTO material_request (id_req, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','".db_esc($dbc, $ans3['id_hdr'])."','".db_esc($dbc, $ans3['id_dtl'])."','".db_esc($dbc, $uid)."','".db_esc($dbc, $cancel2[$i])."','".db_esc($dbc, $string[$i])."', '".db_esc($dbc, $ans3['comp_unit'])."','N','N','".db_esc($dbc, $res['user_no'])."',NOW(),'','','','','New','".db_esc($dbc, $ans3['bill_component'])."','".db_esc($dbc, $_POST["date1"])."','".db_esc($dbc, $t_time)."')";
-$result_db2 = mysqli_query($dbc, $query_db2) or die (mysqli_error($dbc));
+$result_db2 = mysqli_query($dbc, $query_db2) or die(db_fail($dbc));
 
    } // end while loop	
    

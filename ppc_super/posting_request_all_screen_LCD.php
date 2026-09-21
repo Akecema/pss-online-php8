@@ -33,7 +33,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 $url = "posting_request_all_screen_LCD.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -225,12 +225,12 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		   {
 		  
 		  $query_mm3 = "SELECT * FROM `material_request` WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND status = 'Close' AND bom_component = '".db_esc($dbc, $row_tp["material_no"])."'"; 
-        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
+        	$result_mm3 = mysqli_query($dbc, $query_mm3) or die(db_fail($dbc));
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 			
 			$query_mm3_insert =  "INSERT INTO material_request_close(id_req, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_close, reason_close2) VALUES('".db_esc($dbc, $row_mm3["id_req"])."','".db_esc($dbc, $row_mm3["mrin_doc"])."','".db_esc($dbc, $row_mm3["mrin_year"])."','".db_esc($dbc, $row_mm3["temp_mrin"])."','".db_esc($dbc, $row_mm3["id_hdr"])."','".db_esc($dbc, $row_mm3["id_dtl"])."','".db_esc($dbc, $row_mm3["id_scan"])."','".db_esc($dbc, $row_mm3["bom_id"])."','".db_esc($dbc, $row_mm3["bom_qty"])."', '".db_esc($dbc, $row_mm3["bom_oum"])."','".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["bom_component"])."','".db_esc($dbc, $row_mm3["date_mrin"])."','".db_esc($dbc, $row_mm3["time_mrin"])."','6','')";
-$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
+$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die(db_fail($dbc));
 			
 		  
 		  

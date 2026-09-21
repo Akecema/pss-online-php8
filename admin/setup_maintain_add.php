@@ -35,7 +35,7 @@ exit();
 $url = "setup_maintain_add.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -205,7 +205,7 @@ if(empty($_POST['status_system']) || ($_POST['status_system'] == ""))
    
 	   //Add the record to the database
 	   $query = "INSERT INTO sys_setup_maintain(id_setup, title_desc, logo_name, logo_comp, urls_system, smtp_account, email_account, ftp_ip, date_create, user_create, date_update, user_update, status_system, comp_code) VALUES('','".db_esc($dbc, $title_desc)."','".db_esc($dbc, $_FILES['upload']['name'])."','','".db_esc($dbc, $urls_system)."','".db_esc($dbc, $smtp_account)."', '".db_esc($dbc, $email_account)."', '".db_esc($dbc, $ftp_ip)."',NOW(),'".db_esc($dbc, $username)."','','','".db_esc($dbc, $status_system)."','".db_esc($dbc, $comp_code)."')";
-	   $result = mysqli_query($dbc, $query) or die (mysqli_error($dbc));   
+	   $result = mysqli_query($dbc, $query) or die(db_fail($dbc));   
 	  
 	   if($result) {
 	   //create the filename
@@ -217,13 +217,13 @@ if(empty($_POST['status_system']) || ($_POST['status_system'] == ""))
 		 
 		 
 		    $query_update2 = "UPDATE sys_setup_maintain SET logo_comp = '".db_esc($dbc, $uid)."' WHERE id_setup = '".db_esc($dbc, $uid)."'";
-			$result_update2 = mysqli_query($dbc, $query_update2) or die (mysqli_error($dbc));   
+			$result_update2 = mysqli_query($dbc, $query_update2) or die(db_fail($dbc));   
 		 
 		 //--------update table sys_setup_maintain ----------------
 		  if($status_system == "AC")
 		  {
 			$query_update1 = "UPDATE sys_setup_maintain SET status_system = 'NA' WHERE logo_comp != '".db_esc($dbc, $uid)."'";
-			$result_update1 = mysqli_query($dbc, $query_update1) or die (mysqli_error($dbc));   
+			$result_update1 = mysqli_query($dbc, $query_update1) or die(db_fail($dbc));   
 	       
 		  }
 		 

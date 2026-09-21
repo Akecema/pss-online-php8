@@ -146,7 +146,7 @@ $namaFile = "Backflush Document List_".$date_tdy2.".xls";
 			
 		
     $query8 = "SELECT * FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."')".$where_sql;
-  $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+  $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
   $num_rows = mysqli_num_rows($result8);
 
 

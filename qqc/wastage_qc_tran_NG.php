@@ -35,7 +35,7 @@ exit();
 $url = "wastage_qc_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -557,12 +557,12 @@ $message = NULL; // create an empty new variable.
 	  //insert table wastage_transaction
 		
 		$query_wastage = "INSERT INTO wastage_transaction (id_wastage_tran, material_no, material_desc, material_type, model_code, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, remark_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center) VALUES('','".db_esc($dbc, $_POST["material_no"])."','".db_esc($dbc, $data_info2["material_desc"])."','Z310','".db_esc($dbc, $_POST["model_code"])."','".db_esc($dbc, $_POST["UOM_unit"])."','2200','','','','".db_esc($dbc, $username)."',NOW(),'','".db_esc($dbc, $rst_sta["status_desc"])."','".db_esc($dbc, $data_info3["sloc"])."','".db_esc($dbc, $_POST["ploc"])."','','".db_esc($dbc, $_POST["qty_wastage"])."','".db_esc($dbc, $_POST["type_wastage"])."','".db_esc($dbc, $_POST["reason_wastage"])."', '".db_esc($dbc, $username)."','".db_esc($dbc, $_POST["date1"])."',NOW(),'','','','','','','','WQ','','','','','','IPS12203')";
-		$result_wastage = mysqli_query($dbc, $query_wastage) or die (mysqli_error($dbc));   
+		$result_wastage = mysqli_query($dbc, $query_wastage) or die(db_fail($dbc));   
 		   
 		//insert table reject_detail_disposal
 		
 		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center, id_factory) VALUES('','','','','','".mysqli_insert_id($dbc)."','".db_esc($dbc, $_POST["material_no"])."', '".db_esc($dbc, $data_info2["material_desc"])."','Z310','".db_esc($dbc, $_POST["model_code"])."','','','','','','','','".db_esc($dbc, $_POST["UOM_unit"])."','2200','','','','".db_esc($dbc, $username)."',NOW(),'','".db_esc($dbc, $rst_sta["status_desc"])."','".db_esc($dbc, $data_info3["sloc"])."','".db_esc($dbc, $_POST["ploc"])."','','','','','','','".db_esc($dbc, $_POST["qty_wastage"])."','".db_esc($dbc, $_POST["type_wastage"])."','".db_esc($dbc, $_POST["reason_wastage"])."', '".db_esc($dbc, $username)."','".db_esc($dbc, $_POST["date1"])."',NOW(),'','','','','','','WQ','','','','','','IPS12203','".db_esc($dbc, $_POST["factory"])."')";
-$result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc));
+$result_insert2 = mysqli_query($dbc, $query_insert2) or die(db_fail($dbc));
 		   
 	   }
 	   
@@ -744,7 +744,7 @@ file_put_contents($file,$data);
  
 								 
    $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_part = 'WQ' AND doc_disposal_no = ''";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
@@ -755,7 +755,7 @@ file_put_contents($file,$data);
  
   
 $query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_part = 'WQ' AND doc_disposal_no = '' order by plan_no ASC";
-$rs = mysqli_query($dbc, $query) or die(mysqli_error($dbc));  //run the query.
+$rs = mysqli_query($dbc, $query) or die(db_fail($dbc));  //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
 

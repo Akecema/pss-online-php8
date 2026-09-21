@@ -79,7 +79,7 @@ $namaFile = "QA/QC Disposal Report.xls";
 
 
   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE (status_part = 'QC' OR status_part = 'WQ') AND doc_disposal_no != '' AND status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."'";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
 

@@ -37,7 +37,7 @@ $url = "cancellation_list_backflush_tran.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -204,7 +204,7 @@ $message = NULL; // create an empty new variable.
 	 //insert into table pps_detail_cancellation-------------
 	
 $query_data2 = "INSERT INTO pps_detail_cancellation(id,pps_id,ref_id,bflush_no,plan_no,id_scan,upload_id,model_code,month_plan,material_no,material_desc,material_type,qty_plan,qty_actual,qty_balance,qty_NG,status_pps,comp_code,work_center,shift_pps1,shift_pps2,date_plan,status,user_upload,date_upload,user_create,date_create,user_update,date_update,user_posting,date_posting,time_posting,ploc,delivery_loc,type_reject,reason_reject,user_reject,date_reject,time_reject,status_ftp_bflush,bflush_no_ref,user_cancel,date_cancel) VALUES('".db_esc($dbc, $data_pps["id"])."','".db_esc($dbc, $data_pps["pps_id"])."','".db_esc($dbc, $data_pps["ref_id"])."','".db_esc($dbc, $data_pps["bflush_no"])."','".db_esc($dbc, $data_pps["plan_no"])."','".db_esc($dbc, $data_pps["id_scan"])."','".db_esc($dbc, $data_pps["upload_id"])."','".db_esc($dbc, $data_pps["model_code"])."','".db_esc($dbc, $data_pps["month_plan"])."','".db_esc($dbc, $data_pps["material_no"])."','".db_esc($dbc, $data_pps["material_desc"])."','".db_esc($dbc, $data_pps["material_type"])."','".db_esc($dbc, $data_pps["qty_plan"])."','".db_esc($dbc, $data_pps["qty_actual"])."','".db_esc($dbc, $data_pps["qty_balance"])."','".db_esc($dbc, $data_pps["qty_NG"])."','".db_esc($dbc, $rst_sta4["status_desc"])."','".db_esc($dbc, $data_pps["comp_code"])."','".db_esc($dbc, $data_pps["work_center"])."','".db_esc($dbc, $data_pps["shift_pps1"])."','".db_esc($dbc, $data_pps["shift_pps2"])."','".db_esc($dbc, $data_pps["date_plan"])."','N','".db_esc($dbc, $data_pps["user_upload"])."','".db_esc($dbc, $data_pps["date_upload"])."','".db_esc($dbc, $data_pps["user_create"])."','".db_esc($dbc, $data_pps["date_create"])."','".db_esc($dbc, $data_pps["user_update"])."','".db_esc($dbc, $data_pps["date_update"])."','".db_esc($dbc, $data_pps["user_posting"])."','".db_esc($dbc, $data_pps["date_posting"])."','".db_esc($dbc, $data_pps["time_posting"])."','".db_esc($dbc, $data_pps["ploc"])."','".db_esc($dbc, $data_pps["delivery_loc"])."','".db_esc($dbc, $data_pps["type_reject"])."','".db_esc($dbc, $data_pps["reason_reject"])."','".db_esc($dbc, $data_pps["user_reject"])."','".db_esc($dbc, $data_pps["date_reject"])."','".db_esc($dbc, $data_pps["time_reject"])."','Y','".db_esc($dbc, $ref)."','".db_esc($dbc, $username)."',NOW())";
-$result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));   
+$result_data2 = mysqli_query($dbc, $query_data2) or die(db_fail($dbc));   
 
    //---------update cancellation--------------------------
 	 
@@ -222,7 +222,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
 	  {
 		  
 	$query_upd_detail = "UPDATE pps_detail SET status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' WHERE plan_no = '".db_esc($dbc, $data_pps["plan_no"])."'";
-	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
+	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die(db_fail($dbc));
 	
 	  }
 		  

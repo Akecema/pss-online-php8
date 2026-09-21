@@ -33,7 +33,7 @@ exit();
 $url = "display_pps_month_reprint.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 
 //--------setup website page --------------------------
@@ -425,7 +425,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail WHERE (status_pps != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."') ".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

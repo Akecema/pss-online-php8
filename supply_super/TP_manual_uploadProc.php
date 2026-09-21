@@ -33,7 +33,7 @@ $url = "TP_manual_upload.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -242,7 +242,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 
 								 
    $query8 = "SELECT *,DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM ftp_detail AS MR WHERE MR.mrin_no != '' " .$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
      $num_8 = mysqli_fetch_row($result8);
      $num_rows = mysqli_num_rows($result8);
    

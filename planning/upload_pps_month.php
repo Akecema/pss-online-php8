@@ -38,7 +38,7 @@ exit();
  $url = "upload_pps_month.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -216,7 +216,7 @@ $message = NULL; // create an empty new variable.
 	   //Add the record to the database
 	   
 	    $query = "INSERT INTO ftp_pps(upload_id, id_file, file_name, file_size, file_type, date_plan, user_upload, date_upload, user_update, date_update) VALUES('','','".db_esc($dbc, $_FILES['upload']['name'])."','".db_esc($dbc, $_FILES['upload']['size'])."','".db_esc($dbc, $_FILES['upload']['type'])."','".db_esc($dbc, $date_plan)."','".db_esc($dbc, $username)."',NOW(),'','')";
-	   $result = mysqli_query($dbc, $query) or die (mysqli_error($dbc));   
+	   $result = mysqli_query($dbc, $query) or die(db_fail($dbc));   
 	   
 	  
 	   if($result) {
@@ -228,7 +228,7 @@ $message = NULL; // create an empty new variable.
 		 
 		 
 		    $query_update2 = "UPDATE ftp_pps SET id_file = '".db_esc($dbc, $uid)."' WHERE upload_id = '".db_esc($dbc, $uid)."'";
-			$result_update2 = mysqli_query($dbc, $query_update2) or die (mysqli_error($dbc));   
+			$result_update2 = mysqli_query($dbc, $query_update2) or die(db_fail($dbc));   
 		 
 		 
 	 if(move_uploaded_file($_FILES['upload']['tmp_name'], "upload_pps/$filename"))  {

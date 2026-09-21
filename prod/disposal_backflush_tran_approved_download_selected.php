@@ -105,7 +105,7 @@ $namaFile = "Production Disposal Report.xls";
 	//********** END CONDITION **************
 
   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != '' AND status_disposal != '".db_esc($dbc, $rst_sta4["status_desc"])."'".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
 

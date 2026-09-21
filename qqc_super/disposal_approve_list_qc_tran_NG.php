@@ -33,7 +33,7 @@ exit();
 $url = "disposal_approve_list_qc_tran_NG.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -287,7 +287,7 @@ echo "window.location='disposal_approve_list_qc_tran_NG2.php?date1=$dateF&&date2
    
 								 
    $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."' AND status_part = 'QC' AND doc_disposal_no != ''";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

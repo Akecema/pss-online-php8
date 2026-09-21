@@ -33,7 +33,7 @@ exit();
 $url = "add_user.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -158,10 +158,10 @@ $message = NULL; // create an empty new variable.
 					//Make the query
 			
 		          $query2 = "UPDATE user_detail set password = '".db_esc($dbc, $newpass)."' where user_no ='".db_esc($dbc, $row["user_no"])."'";
-				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+				  $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 				  
 				  $query12 = "UPDATE login_detail SET password = '".db_esc($dbc, $newpass)."', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
-				  $result12 = mysqli_query($dbc, $query12) or die (mysqli_error($dbc));
+				  $result12 = mysqli_query($dbc, $query12) or die(db_fail($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
 				  

@@ -33,7 +33,7 @@ exit();
 $url = "production_output_list_tran.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -373,7 +373,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND qty_actual != '' AND material_type != 'Z110' ".$where_sql;
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;
@@ -515,7 +515,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 			  
 			  //-------info qqc detail --------- 
 	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE id_tran = '".db_esc($dbc, $row["id"])."' AND bflush_no = '".db_esc($dbc, $row["bflush_no"])."'";
-	   $result_qqc = mysqli_query($dbc, $query_qqc) or die (mysqli_error($dbc));
+	   $result_qqc = mysqli_query($dbc, $query_qqc) or die(db_fail($dbc));
 	   $data_qqc = mysqli_fetch_array($result_qqc);
 
 	     if($data_qqc == 0) { //If it ran ok

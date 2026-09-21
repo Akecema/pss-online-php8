@@ -32,7 +32,7 @@ exit();
 $url = "wip_request_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -186,7 +186,7 @@ echo "<br>";
  
 //insert to scan_detail
 $query_db = "INSERT INTO `scan_detail_wip` (id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '".db_esc($dbc, $pps_ref2)."', '".db_esc($dbc, $row3[2])."', '".db_esc($dbc, $part7)."', '".db_esc($dbc, $part1)."', '".db_esc($dbc, $part2)."', '".db_esc($dbc, $part3)."', '".db_esc($dbc, $part4)."', '".db_esc($dbc, $part5)."', '".db_esc($dbc, $part6)."', '".db_esc($dbc, $user_no)."', NOW(),'','','N')";
-$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
+$result = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 
 
              if($result)

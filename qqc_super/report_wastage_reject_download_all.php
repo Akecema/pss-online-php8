@@ -54,7 +54,7 @@ $namaFile = "Wastage Reject Report.xls";
 //-------Count all results------------------------
 
 $query8 = "SELECT COUNT(*) FROM reject_detail_disposal AS MR WHERE MR.status_part = 'WQ' AND MR.qty_wastage != '' AND MR.doc_disposal_no != '' AND (date_posting >= '$start_date_check' AND date_posting <= '$end_date_check') ";
-$result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+$result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
 $num_rows = mysqli_fetch_row($result8);
 
 //---------------------------end count

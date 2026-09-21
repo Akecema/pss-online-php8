@@ -37,7 +37,7 @@ $url = "wastage_qc_tran_NG.php";
 
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 	
 $today = getdate();
@@ -161,7 +161,7 @@ $message = NULL; // create an empty new variable.
     // echo $uid;
    
     $query_upd_detail = "UPDATE reject_detail_disposal SET status_disposal = '".db_esc($dbc, $rst_sta16["status_desc"])."' WHERE id_disposal = '".db_esc($dbc, $uid)."'";
-	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
+	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die(db_fail($dbc));
 	
 	//-----------select statement--------------
 	$query_state = "SELECT * FROM reject_detail_disposal WHERE id_disposal = '".db_esc($dbc, $uid)."' ORDER BY id_disposal ASC";
@@ -171,7 +171,7 @@ $message = NULL; // create an empty new variable.
 
 	//---------------
 	  $query_upd_detail2 = "UPDATE wastage_transaction SET status_disposal = '".db_esc($dbc, $rst_sta16["status_desc"])."' WHERE id_wastage_tran = '".db_esc($dbc, $row_state["uid"])."'";
-	  $result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2) or die (mysqli_error($dbc));
+	  $result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2) or die(db_fail($dbc));
 		
 	  if(($result_upd_detail > 0) && ($result_upd_detail2 > 0))
 	  {	

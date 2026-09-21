@@ -33,7 +33,7 @@ exit();
 $url = "close_plan_order_list.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -339,7 +339,7 @@ echo "window.location='close_plan_order_list2.php?date1=$dateF&&date2=$dateT&&fa
 
 								 
    $query8 = "SELECT COUNT(*) FROM pps_detail_close WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."'";
-   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
+   $result8 = mysqli_query($dbc, $query8) or die(db_fail($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
    $pages = new Paginator;

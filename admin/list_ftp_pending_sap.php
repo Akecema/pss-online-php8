@@ -33,7 +33,7 @@ exit();
 $url = "list_ftp_pending_sap.php";
 
     $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-    $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+    $result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
 $query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
@@ -191,14 +191,14 @@ if(is_dir($dir)){
     <td width="20%"><?php echo $row_rs["material_no"]; ?></td>
     <td width="20%"><?php echo $row_rs["qty_ftp"]; ?></td>
     <td width="20%"><?php echo $row_mat_type["mat_type"]; ?></td>
-    <td width="20%"><?php echo date ("d-m-Y H:i:s", filemtime(utf8_decode($dir."/".$file))); ?></td>
+    <td width="20%"><?php echo date ("d-m-Y H:i:s", filemtime(utf8_to_latin1($dir."/".$file))); ?></td>
   </tr>
 </table>
 <?php  
              
                  /*   echo $filename2;
                     echo " - ";  echo "&nbsp;&nbsp;";                  
-                    echo "Date modified: " . date ("d-m-Y H:i:s", filemtime(utf8_decode($dir."/".$file)));
+                    echo "Date modified: " . date ("d-m-Y H:i:s", filemtime(utf8_to_latin1($dir."/".$file)));
                     echo "<br>";    */
              }             
 	

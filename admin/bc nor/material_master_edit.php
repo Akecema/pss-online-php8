@@ -29,7 +29,7 @@ exit();
 
 
 $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
-$result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
+$result2 = mysqli_query($dbc, $query2) or die(db_fail($dbc));
 $res = mysqli_fetch_array($result2);
 	
 //--------setup website page --------------------------
@@ -424,7 +424,7 @@ if($material_desc && $material_type && $plant && $bom && $bom_usage && $part_sid
 			
 			//check if exist
 			$searchDz3 = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row[1])."' AND status_BOM = '".db_esc($dbc, $_POST['status_BOM'])."'  ";
-			$rst_searchDz3 = mysqli_query($dbc, $searchDz3) or die(mysqli_error($dbc));   
+			$rst_searchDz3 = mysqli_query($dbc, $searchDz3) or die(db_fail($dbc));   
 			$result_searchDz3 = mysqli_fetch_array($rst_searchDz3);
 		
 			if($result_searchDz3 > 0)
@@ -581,11 +581,11 @@ if($material_desc && $material_type && $plant && $bom && $bom_usage && $part_sid
 			{
 				//upd tbl component
 				$updcp = "UPDATE mat_master_detail SET bom_status = '".db_esc($dbc, $_POST['status_BOM'])."' WHERE id_hdr = '".db_esc($dbc, $id_hdr)."' "; 
-				$rst_updcp = mysqli_query($dbc, $updcp) or die(mysqli_error($dbc)); 
+				$rst_updcp = mysqli_query($dbc, $updcp) or die(db_fail($dbc)); 
 
 				//upd tbl material
 				$updtb = "UPDATE table_material SET bom_status = '".db_esc($dbc, $_POST['status_BOM'])."' WHERE material_no = '".db_esc($dbc, $result_sc["bill_component"])."' "; 
-				$rst_updtb = mysqli_query($dbc, $updtb) or die(mysqli_error($dbc));
+				$rst_updtb = mysqli_query($dbc, $updtb) or die(db_fail($dbc));
 					
 			}
 			
@@ -643,7 +643,7 @@ if($material_desc && $material_type && $plant && $bom && $bom_usage && $part_sid
 				
 				//check if exist
 				/*$searchDz3C = "SELECT * FROM mat_master_detail WHERE id_hdr = '".$id_hdr."'  ";
-				$rst_searchDz3C = mysqli_query($dbc, $searchDz3C) or die(mysqli_error($dbc));   
+				$rst_searchDz3C = mysqli_query($dbc, $searchDz3C) or die(db_fail($dbc));   
 				$searchDz3C = mysqli_fetch_array($rst_searchDz3C);*/
 				
 				$searchzD3C = "SELECT * FROM table_material_qc WHERE material_no = '".db_esc($dbc, $result_sc["bill_component"])."' ";

@@ -28,5 +28,15 @@ check('csrf accepts matching token', csrf_valid('abc123'));
 check('csrf rejects wrong/missing/non-string', !csrf_valid('zzz') && !csrf_valid(null) && !csrf_valid(['abc123']));
 check('csrf_field contains escaped token', str_contains(csrf_field(), 'value="abc123"'));
 
+
+$H = ['pss.example.com'];
+check('origin: same host ok', origin_matches_host('https://pss.example.com', null, $H));
+check('origin: other host rejected', !origin_matches_host('https://evil.com', null, $H));
+check('origin: referer fallback ok', origin_matches_host(null, 'https://pss.example.com/x?y=1', $H));
+check('origin: referer other host rejected', !origin_matches_host(null, 'https://evil.com/x', $H));
+check('origin: none present allowed (non-browser)', origin_matches_host(null, null, $H));
+check('origin: "null" origin rejected', !origin_matches_host('null', null, $H));
+check('origin: lookalike host rejected', !origin_matches_host('https://pss.example.com.evil.com', null, $H));
+
 ob_end_flush();
 exit($fail === 0 ? 0 : 1);

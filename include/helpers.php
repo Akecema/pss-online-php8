@@ -83,3 +83,45 @@ function csrf_require(): void
         exit('Forbidden: invalid or missing CSRF token.');
     }
 }
+
+/**
+ * Same-origin test for state-changing requests (CSRF defence that needs no
+ * per-form token, so it also covers AJAX and legacy forms). A request with no
+ * Origin and no Referer (non-browser client) is allowed; a browser always sends
+ * at least one on a cross-site POST, so a mismatch means a foreign page.
+ *
+ * @param list<string> $allowedHosts host names this app answers to (no port)
+ */
+function origin_matches_host(?string $origin, ?string $referer, array $allowedHosts): bool
+{
+    $source = ($origin !== null && $origin !== '' && $origin !== 'null') ? $origin : $referer;
+    if ($source === null || $source === '') {
+        return $origin !== 'null';
+    }
+    $host = parse_url($source, PHP_URL_HOST);
+    if (!is_string($host) || $host === '') {
+        return false;
+    }
+    return in_array(strtolower($host), array_map('strtolower', $allowedHosts), true);
+}
+
+/** Reject a cross-origin POST. Call once from config.php. */
+function require_same_origin(): void
+{
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        return;
+    }
+    $hosts = [];
+    foreach (['HTTP_HOST', 'HTTP_X_FORWARDED_HOST', 'SERVER_NAME'] as $key) {
+        foreach (explode(',', (string) ($_SERVER[$key] ?? '')) as $part) {
+            $part = trim($part);
+            if ($part !== '') {
+                $hosts[] = preg_replace('/:\d+$/', '', $part);
+            }
+        }
+    }
+    if (!origin_matches_host($_SERVER['HTTP_ORIGIN'] ?? null, $_SERVER['HTTP_REFERER'] ?? null, $hosts)) {
+        http_response_code(403);
+        exit('Forbidden: cross-site request rejected.');
+    }
+}

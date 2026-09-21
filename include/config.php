@@ -52,3 +52,6 @@ mysqli_set_charset($dbc, 'utf8');
 
 // Shared helpers (h(), db_esc(), db_query_params(), CSRF) for every page that includes this file.
 require_once __DIR__ . '/helpers.php';
+if (PHP_SAPI !== 'cli') {
+    require_same_origin(); // POSTs must come from this site (CSRF defence)
+}

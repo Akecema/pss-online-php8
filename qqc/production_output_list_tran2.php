@@ -324,31 +324,31 @@ function getXMLHTTP() { //fuction to return the xml http object
                 if ($dateF  == "0000-00-00" ){
                      $wheresql_01 = "";}
                 else {
-                     $wheresql_01 = " AND (MR.date_plan >= '$dateF')";}  
+                     $wheresql_01 = " AND (MR.date_plan >= '".db_esc($dbc, $dateF)."')";}  
 					 
 		// 2. DateT
                 if($dateT == "0000-00-00") {
                      $wheresql_02 = ""; }
                 else {
-                      $wheresql_02 = " AND (MR.date_plan <= '$dateT')"; }	
+                      $wheresql_02 = " AND (MR.date_plan <= '".db_esc($dbc, $dateT)."')"; }	
 					  		 
 		 //3. Factory 
                 if ($factory == "NULL"){ 
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND SR.id_factory = '$factory'"; } 
+                    $wheresql_03 = " AND SR.id_factory = '".db_esc($dbc, $factory)."'"; } 
 					
           //4. Work Center
                 if ($work_center == "NULL" ){
                     $wheresql_04 = ""; }
                 else {
-					$wheresql_04 = " AND MR.work_center = '$work_center'"; }
+					$wheresql_04 = " AND MR.work_center = '".db_esc($dbc, $work_center)."'"; }
    
 	       //5. Planned Order No.
                 if ($plan_no == "NULL"){ 
                     $wheresql_05 = ""; }
                 else {
-                    $wheresql_05 = " AND MR.plan_no = '$plan_no'"; }  	
+                    $wheresql_05 = " AND MR.plan_no = '".db_esc($dbc, $plan_no)."'"; }  	
 					
 		 
 		  //6. Shift
@@ -357,14 +357,14 @@ function getXMLHTTP() { //fuction to return the xml http object
                 else {
 					// $wheresql_06 = ""; }
 					
-                    $wheresql_06 = " AND ((MR.shift_pps1 = '$shift_ops') OR (MR.shift_pps2 = '$shift_ops')) "; } 
+                    $wheresql_06 = " AND ((MR.shift_pps1 = '".db_esc($dbc, $shift_ops)."') OR (MR.shift_pps2 = '".db_esc($dbc, $shift_ops)."')) "; } 
 					
 					
 		   //7. Model Code
                 if ($model_code == "NULL"){ 
                     $wheresql_07 = ""; }
                 else {
-                    $wheresql_07 = " AND MR.model_code = '$model_code'"; }   	
+                    $wheresql_07 = " AND MR.model_code = '".db_esc($dbc, $model_code)."'"; }   	
 						 			
 				
 				$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05 .$wheresql_06 .$wheresql_07;	

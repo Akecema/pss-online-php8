@@ -371,38 +371,38 @@ return "";
 	if($dateF == "0000-00-00") {
 		 $wheresql_01 = ""; }
 	else {
-		  $wheresql_01 = " AND (MR.date_posting >= '$dateF' )"; }
+		  $wheresql_01 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)."' )"; }
 		  
 	// 2. DateT
 	if($dateT == "0000-00-00") {
 		 $wheresql_02 = ""; }
 	else {
-		  $wheresql_02 = " AND (MR.date_posting <= '$dateT' )"; }
+		  $wheresql_02 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)."' )"; }
 				 
 	//3. Factory 
 	if ($factory == "NULL"){ 
 		$wheresql_03 = ""; }
 	else {
 		//$wheresql_03 = " AND SR.id_factory = '".$row_convert["id_factory"]."'"; } 
-		$wheresql_03 = " AND MR.id_factory = '$factory' "; } 
+		$wheresql_03 = " AND MR.id_factory = '".db_esc($dbc, $factory)."' "; } 
 		
 	//4. Work Center
 	if ($work_center == "" ){
 		$wheresql_04 = ""; }
 	else {
-		$wheresql_04 = " AND MR.work_center = '$work_center'"; }
+		$wheresql_04 = " AND MR.work_center = '".db_esc($dbc, $work_center)."'"; }
 		
 	//5. document no
 	if ($docF == "NULL" ){
 		$wheresql_05 = ""; }
 	else {
-		$wheresql_05 = " AND MR.doc_disposal_no >= '$docF'"; }
+		$wheresql_05 = " AND MR.doc_disposal_no >= '".db_esc($dbc, $docF)."'"; }
 	
 	//6. document no
 	if ($docT == "NULL" ){
 		$wheresql_06 = ""; }
 	else {
-		$wheresql_06 = " AND MR.doc_disposal_no <= '$docT'"; }
+		$wheresql_06 = " AND MR.doc_disposal_no <= '".db_esc($dbc, $docT)."'"; }
 		
 
 	$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03.$wheresql_04 .$wheresql_05 .$wheresql_06;	

@@ -76,25 +76,25 @@ $namaFile = "Rework Reject Report.xls";
                 if($dateF == "0000-00-00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (MR.date_posting >= '$dateF 00:00:00' ) "; }
+                      $wheresql_01 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)." 00:00:00' ) "; }
 							 
 			   // 2. DateT
 				if($dateT == "0000-00-00") {
 					 $wheresql_02 = ""; }
 				else {
-					  $wheresql_02 = " AND (MR.date_posting <= '$dateT 00:00:00' ) "; }
+					  $wheresql_02 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)." 00:00:00' ) "; }
 						
 				//3. Factory 
 				if ($factory == "NULL"){ 
 					$wheresql_03 = ""; }
 				else {
-					$wheresql_03 = " AND SR.id_factory = '".$row_convert["id_factory"]."'"; } 
+					$wheresql_03 = " AND SR.id_factory = '".db_esc($dbc, $row_convert["id_factory"])."'"; } 
 					
 				//4. Work Center
 				if ($work_center == "NULL" ){
 					$wheresql_04 = ""; }
 				else {
-					$wheresql_04 = " AND MR.work_center = '$work_center'"; }
+					$wheresql_04 = " AND MR.work_center = '".db_esc($dbc, $work_center)."'"; }
 		
 		
 

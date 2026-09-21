@@ -249,18 +249,18 @@ function getXMLHTTP() { //fuction to return the xml http object
                 if($dateF == "0000-00-00 00:00:00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (MR.date_disposal LIKE '$dateF%')"; }
+                      $wheresql_01 = " AND (MR.date_disposal LIKE '".db_esc($dbc, $dateF)."%')"; }
 		  //2. DateT 
                 if ($dateT  == "0000-00-00 00:00:00" ){
                      $wheresql_02 = "";}
                 else {
-                     $wheresql_02 = " AND (MR.date_disposal LIKE '$dateT%')";}  
+                     $wheresql_02 = " AND (MR.date_disposal LIKE '".db_esc($dbc, $dateT)."%')";}  
 					 
 		 //3. Doc. Disposal No. 
                 if ($doc_disposal_no == "NULL"){ 
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND MR.doc_disposal_no = '".$doc_disposal_no."'"; } 
+                    $wheresql_03 = " AND MR.doc_disposal_no = '".db_esc($dbc, $doc_disposal_no)."'"; } 
 		
 				
 				$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03;	

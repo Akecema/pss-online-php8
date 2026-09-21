@@ -209,24 +209,24 @@ $data_setup = mysqli_fetch_array($rs_setup);
                 if($temp_mrin == "") {
                      $wheresql_01 = ''; }
                 else {
-                      $wheresql_01 = " AND MR.temp_mrin = '$temp_mrin'"; }
+                      $wheresql_01 = " AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'"; }
 		  // 2. dateF
                 if ($dateF == "0000-00-00" ){
                     $wheresql_02 = ''; }
                 else {
-                    $wheresql_02 = " AND (MR.date_posting >= '$dateF')"; }      
+                    $wheresql_02 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')"; }      
                                                 
 		 // 3. dateT
                 if ($dateT == "0000-00-00" ){
                     $wheresql_03 = ''; }
                 else {
-                    $wheresql_03 = " AND (MR.date_posting <= '$dateT')"; }          
+                    $wheresql_03 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')"; }          
                                 
           //4. factory
                 if ($factory == "NULL" ){
                     $wheresql_04 = ''; }
                 else {
-					$wheresql_04 = " AND MR.factory = '$factory'"; }
+					$wheresql_04 = " AND MR.factory = '".db_esc($dbc, $factory)."'"; }
    
 	   
 			$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04;

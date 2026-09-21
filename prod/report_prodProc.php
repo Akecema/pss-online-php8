@@ -280,36 +280,36 @@ function getXMLHTTP() { //fuction to return the xml http object
                 if($dateT == "0000-00-00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (MR.date_posting <= '$dateT')"; }
+                      $wheresql_01 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')"; }
 		  //2. DateF 
                 if ($dateF  == "0000-00-00" ){
                      $wheresql_02 = "";}
                 else {
-                     $wheresql_02 = " AND (MR.date_posting >= '$dateF')";}
+                     $wheresql_02 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";}
                                                 
 		 // 3. material no
                 if ($material_no== "" ){
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND MR.id_hdr = '$row_convert[id_hdr]'"; }          
+                    $wheresql_03 = " AND MR.id_hdr = '".db_esc($dbc, $row_convert['id_hdr'])."'"; }          
                                 
           //4. Work Center
                 if ($work_center == "NULL" ){
                     $wheresql_04 = ""; }
                 else {
-					$wheresql_04 = " AND SD.work_center = '$work_center'"; }
+					$wheresql_04 = " AND SD.work_center = '".db_esc($dbc, $work_center)."'"; }
    
 	       //5. Production Order
                 if ($prod_order == ""){ 
                     $wheresql_05 = ""; }
                 else {
-                    $wheresql_05 = " AND SD.prod_order = '$prod_order'"; }  	
+                    $wheresql_05 = " AND SD.prod_order = '".db_esc($dbc, $prod_order)."'"; }  	
 					
 		   //6. Factory 
                 if ($factory == "NULL"){ 
                     $wheresql_06 = ""; }
                 else {
-                    $wheresql_06 = " AND SD.factory = '$factory'"; }  			
+                    $wheresql_06 = " AND SD.factory = '".db_esc($dbc, $factory)."'"; }  			
 	       	
      
 	 $where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05 .$wheresql_06;	

@@ -267,45 +267,45 @@ return "";
                 if ($dateF  == "0000-00-00" ){
                      $wheresql_01 = "";}
                 else {
-                     $wheresql_01 = " AND (posting_date >= '$dateF')";}  
+                     $wheresql_01 = " AND (posting_date >= '".db_esc($dbc, $dateF)."')";}  
 		 
 		 // 2. DateT
                 if($dateT == "0000-00-00") {
                      $wheresql_02 = ""; }
                 else {
-                      $wheresql_02 = " AND (posting_date <= '$dateT')"; }
+                      $wheresql_02 = " AND (posting_date <= '".db_esc($dbc, $dateT)."')"; }
 		
 		 //3. doc tp from
                 if ($doc_tp_from == ""){ 
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND doc_tp >= '$doc_tp_from'"; } 
+                    $wheresql_03 = " AND doc_tp >= '".db_esc($dbc, $doc_tp_from)."'"; } 
 					
           //4. doc tp to
                 if ($doc_tp_to  == "" ){
                     $wheresql_04 = ""; }
                 else {
-					$wheresql_04 = " AND doc_tp <= '$doc_tp_tp'"; }
+					$wheresql_04 = " AND doc_tp <= '".db_esc($dbc, $doc_tp_tp)."'"; }
    
 		  //5. Shift
                 if ($shift_day == "NULL"){ 
                     $wheresql_05 = ""; }
                 else {
 				
-                    $wheresql_05 = " AND shift_day = '$shift_day'"; }  
+                    $wheresql_05 = " AND shift_day = '".db_esc($dbc, $shift_day)."'"; }  
 					
 		  //6. Material No.
                 if ($material_no == ""){ 
                     $wheresql_06 = ""; }
                 else {
-                    $wheresql_06 = " AND material_no = '$material_no'"; }  
+                    $wheresql_06 = " AND material_no = '".db_esc($dbc, $material_no)."'"; }  
 					
 					
 		  //7. Vendor No.
                 if ($vendor_no == "NULL"){ 
                   $wheresql_07 = ""; }
                 else {
-                    $wheresql_07 = " AND vendor_no = '$vendor_no'"; } 			 			
+                    $wheresql_07 = " AND vendor_no = '".db_esc($dbc, $vendor_no)."'"; } 			 			
 				
 		$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05 .$wheresql_06 .$wheresql_07;	
 	

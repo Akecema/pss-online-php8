@@ -279,268 +279,268 @@ visibility:hidden;
 	// 1. Date T
 	if($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting <= '$dateT')"; 	
+		$where_sql .= "AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')"; 	
 	}	
 	// 2. Date F
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting >= '$dateF')";
+		$where_sql .= "AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";
 	}
 	//3. temp_mrin 
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 	}	
 	//4. work center
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}	
 	// 5. prod order
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."'";
 	}
 	// 6. factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 7. prod_order &&  factory
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 8. work_center && factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 9. date to && factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting <= '$dateT') AND SD.factory = '$factory'";
+		$where_sql .= "AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 10. temp_mrin && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 11. temp_mrin && dateF && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 12.  temp_mrin && work_center && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 13. date to && work_center && factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 14. temp_mrin && date to && factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 15. dateF && dateT && factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting between '$dateF' and '$dateT') AND SD.factory = '$factory'";
+		$where_sql .= "AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 16. prod_order && work_center && factory
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 17. prod_order && temp_mrin && factory
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 18. prod_order && temp_mrin && date to && factory
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 19. prod_order && temp_mrin && dateF && factory
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 20. temp_mrin && dateF && dateT && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 21. temp_mrin && dateT && work_center && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 22. prod_order && dateT && work_center && factory
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 23. temp_mrin && dateF && work_center && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 24 dateF && dateT && work_center && factory
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 25. prod_order && temp_mrin && work_center && factory
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 26. temp_mrin && dateF && dateT && work_center && factory
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 27. prod_order && temp_mrin && dateF && dateT && factory
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	// 28. prod_order  && dateF && dateT && work_center && factory
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 	//29. work_center & date F & date to
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{	
-		$where_sql .= "AND SD.work_center = '$work_center' AND (MR.date_posting between '$dateF' and '$dateT')";
+		$where_sql .= "AND SD.work_center = '".db_esc($dbc, $work_center)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."')";
 	}	
 	
 	//30. temp_mrin  & date F & date to
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{	
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT')";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."')";
 	}
 	//31. temp_mrin  & date F & date to & work_center
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{	
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//32. Date F & Date T	
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting between '$dateF' and '$dateT')";
+		$where_sql .= "AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."')";
 	}
 	//33. temp_mrin  & date T
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{	
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT')";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')";
 	}
 		//33.a  temp_mrin  & work_center
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{	
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	
 	//34. temp_mrin  & date F
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{	
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF')";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";
 	}
 		
 	//35.prod_order  && temp_mrin  
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 	}	
 	//36. prod_order & date F & date T
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting between '$dateF' and '$dateT')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."')";
 	}
 	//37. prod_order & date T
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting <= '$dateT')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')";
 	}
 	//38. prod_order & date F
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting >= '$dateF')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";
 	}
 	
 	//39. date T & work_center
 	elseif($prod_order == '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//40. prod_order  & date to & work_center
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//41. prod_order  & work_center
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF == '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//42. prod_order  & temp_mrin  & work_center
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//43. temp_mrin  & date T & work_center
 	elseif($prod_order == '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//44. prod_order & temp_mrin  & date T
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF == '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting <= '$dateT')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')";
 	}
 	//45. prod_order & temp_mrin  & date F
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";
 	}
 	//46. prod order & work center & date F
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND SD.work_center = '$work_center' AND (MR.date_posting >= '$dateF')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND SD.work_center = '".db_esc($dbc, $work_center)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";
 	}
 	//47. prod_order & date F & date T & work_center
 	elseif($prod_order != '' && $temp_mrin == '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//48. prod_order  & temp_mrin  & date F & work_center
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT == '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting >= '$dateF') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting >= '".db_esc($dbc, $dateF)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	//49. prod_order & temp_mrin  & date F & date T
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center == "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT')";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."')";
 	}
 	
 	//50. prod_order  & temp_mrin  & date F & date T & work_center
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory == "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."'";
 	}
 	
 	//51. prod_order  & temp_mrin & date F & date T & work_center & factory
 	elseif($prod_order != '' && $temp_mrin != '' && $dateF != '0000-00-00' && $dateT != '0000-00-00' && $work_center != "NULL" && $factory != "NULL")
 	{
-		$where_sql .= "AND SD.prod_order = '$prod_order' AND MR.temp_mrin = '$temp_mrin' AND (MR.date_posting between '$dateF' and '$dateT') AND SD.work_center = '$work_center' AND SD.factory = '$factory'";
+		$where_sql .= "AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND (MR.date_posting between '".db_esc($dbc, $dateF)."' and '".db_esc($dbc, $dateT)."') AND SD.work_center = '".db_esc($dbc, $work_center)."' AND SD.factory = '".db_esc($dbc, $factory)."'";
 	}
 		
 	//52. x select apa2

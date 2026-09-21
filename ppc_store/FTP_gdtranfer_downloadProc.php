@@ -192,13 +192,13 @@ $data_setup = mysqli_fetch_array($rs_setup);
 		if ($dateF == "0000-00-00" ){
 			$wheresql_01 = ""; }
 		else {
-			$wheresql_01 = " AND posting_date >= '$dateF'"; }      
+			$wheresql_01 = " AND posting_date >= '".db_esc($dbc, $dateF)."'"; }      
 										
 		// 2. dateT
 		if ($dateT == "0000-00-00" ){
 			$wheresql_02 = ""; }
 		else {
-			$wheresql_02 = " AND posting_date <= '$dateT' "; }          
+			$wheresql_02 = " AND posting_date <= '".db_esc($dbc, $dateT)."' "; }          
 						
 		
 		$where_sql =  $wheresql_01 .$wheresql_02 ;

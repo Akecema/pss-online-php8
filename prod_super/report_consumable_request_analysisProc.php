@@ -64,30 +64,30 @@ $namaFile = "Consumable Request Analysis Report.xls";
                 if($material_no == "NULL") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND MR.material_no = '$material_no'"; }
+                      $wheresql_01 = " AND MR.material_no = '".db_esc($dbc, $material_no)."'"; }
 		  // 2. dateF
                 if ($dateF == "0000-00-00" ){
                     $wheresql_02 = ""; }
                 else {
-                    $wheresql_02 = " AND (MR.date_require >= '$dateF')"; }      
+                    $wheresql_02 = " AND (MR.date_require >= '".db_esc($dbc, $dateF)."')"; }      
                                                 
 		 // 3. dateT
                 if ($dateT == "0000-00-00" ){
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND (MR.date_require <= '$dateT')"; }          
+                    $wheresql_03 = " AND (MR.date_require <= '".db_esc($dbc, $dateT)."')"; }          
                                 
           //4. factory
                 if ($factory == "NULL" ){
                     $wheresql_04 = ""; }
                 else {
-					$wheresql_04 = " AND MR.factory = '$factory'"; }
+					$wheresql_04 = " AND MR.factory = '".db_esc($dbc, $factory)."'"; }
 					
 		 //5. status
                 if ($status == "NULL" ){
                     $wheresql_05 = ""; }
                 else {
-					$wheresql_05 = " AND MR.status = '$status'"; }
+					$wheresql_05 = " AND MR.status = '".db_esc($dbc, $status)."'"; }
    
 	   
 			$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05;

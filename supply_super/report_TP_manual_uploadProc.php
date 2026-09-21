@@ -63,18 +63,18 @@ $namaFile = "TP Manual Upload Report.xls";
                 if($material_no == "NULL") {
                      $wheresql_01 = ''; }
                 else {
-                      $wheresql_01 = " AND MR.material_no = '$material_no'"; }
+                      $wheresql_01 = " AND MR.material_no = '".db_esc($dbc, $material_no)."'"; }
 		  // 2. dateF
                 if ($dateF == "0000-00-00" ){
                     $wheresql_02 = ''; }
                 else {
-                    $wheresql_02 = " AND (MR.date_posting >= '$dateF')"; }      
+                    $wheresql_02 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')"; }      
                                                 
 		 // 3. dateT
                 if ($dateT == "0000-00-00" ){
                     $wheresql_03 = ''; }
                 else {
-                    $wheresql_03 = " AND (MR.date_posting <= '$dateT')"; }          
+                    $wheresql_03 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')"; }          
                                 
        
 	   

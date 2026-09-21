@@ -447,19 +447,19 @@ $result_insert2 = mysqli_query($dbc, $query_insert2) or die (mysqli_error($dbc))
                 if($dateF == "0000-00-00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (MR.date_plan >= '$dateF')"; }
+                      $wheresql_01 = " AND (MR.date_plan >= '".db_esc($dbc, $dateF)."')"; }
 							 
 		 //2. Factory 
                 if ($factory == "NULL"){ 
                     $wheresql_02 = ""; }
                 else {
-                    $wheresql_02 = " AND SR.id_factory = '".$row_convert["id_factory"]."'"; } 
+                    $wheresql_02 = " AND SR.id_factory = '".db_esc($dbc, $row_convert["id_factory"])."'"; } 
 					
           //3. Work Center
                 if ($work_center == "NULL" ){
                     $wheresql_03 = ""; }
                 else {
-					$wheresql_03 = " AND MR.work_center = '$work_center'"; }
+					$wheresql_03 = " AND MR.work_center = '".db_esc($dbc, $work_center)."'"; }
    
 				
 				$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03;	

@@ -224,25 +224,25 @@ visibility:hidden;
                 if($dateT == "0000-00-00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (MR.date_posting <= '$dateT')"; }
+                      $wheresql_01 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)."')"; }
 		  //2. DateF 
                 if ($dateF  == "0000-00-00" ){
                      $wheresql_02 = "";}
                 else {
-                     $wheresql_02 = " AND (MR.date_posting >= '$dateF')";}
+                     $wheresql_02 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)."')";}
                                                 
 		 // 3. Temp MRIN
                 if ($temp_mrin == "" ){
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND MR.temp_mrin = '$temp_mrin'"; }          
+                    $wheresql_03 = " AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'"; }          
                                 
        				
 		   //4. Factory 
                 if ($factory == "NULL"){ 
                     $wheresql_04 = ""; }
                 else {
-                    $wheresql_04 = " AND MR.factory = '$factory'"; }  			
+                    $wheresql_04 = " AND MR.factory = '".db_esc($dbc, $factory)."'"; }  			
 	       	
 	                                        
 				

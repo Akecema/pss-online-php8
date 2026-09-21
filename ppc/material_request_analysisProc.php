@@ -313,36 +313,36 @@ function getXMLHTTP() { //fuction to return the xml http object
                 if($dateT == "0000-00-00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (MR.date_mrin <= '$dateT')"; }
+                      $wheresql_01 = " AND (MR.date_mrin <= '".db_esc($dbc, $dateT)."')"; }
 		  //2. DateF 
                 if ($dateF  == "0000-00-00" ){
                      $wheresql_02 = "";}
                 else {
-                     $wheresql_02 = " AND (MR.date_mrin >= '$dateF')";}
+                     $wheresql_02 = " AND (MR.date_mrin >= '".db_esc($dbc, $dateF)."')";}
                                                 
 		 // 3. Status
                 if ($status == "NULL" ){
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND MR.status = '$status'"; }          
+                    $wheresql_03 = " AND MR.status = '".db_esc($dbc, $status)."'"; }          
                                 
           //4. Work Center
                 if ($work_center == "NULL" ){
                     $wheresql_04 = ""; }
                 else {
-					$wheresql_04 = " AND SD.work_center = '$work_center'"; }
+					$wheresql_04 = " AND SD.work_center = '".db_esc($dbc, $work_center)."'"; }
    
 	       //5. Material No.
                 if ($material_no == "NULL"){ 
                     $wheresql_05 = ""; }
                 else {
-                    $wheresql_05 = " AND MR.bom_component = '$material_no'"; }  	
+                    $wheresql_05 = " AND MR.bom_component = '".db_esc($dbc, $material_no)."'"; }  	
 					
 		   //6. Factory 
                 if ($factory == "NULL"){ 
                     $wheresql_06 = ""; }
                 else {
-                    $wheresql_06 = " AND SD.factory = '$factory'"; }  			
+                    $wheresql_06 = " AND SD.factory = '".db_esc($dbc, $factory)."'"; }  			
 	       	
 	                                        
 				

@@ -211,30 +211,30 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
                 if($dateT == "0000-00-00") {
                      $wheresql_01 = ""; }
                 else {
-                      $wheresql_01 = " AND (date_plan <= '$dateT')"; }
+                      $wheresql_01 = " AND (date_plan <= '".db_esc($dbc, $dateT)."')"; }
 		  //2. DateF 
                 if ($dateF  == "0000-00-00" ){
                      $wheresql_02 = "";}
                 else {
-                     $wheresql_02 = " AND (date_plan >= '$dateF')";}  
+                     $wheresql_02 = " AND (date_plan >= '".db_esc($dbc, $dateF)."')";}  
 					 
 		 //3. Factory 
                 if ($factory == "NULL"){ 
                     $wheresql_03 = ""; }
                 else {
-                    $wheresql_03 = " AND id_factory_pps = '$factory'"; } 
+                    $wheresql_03 = " AND id_factory_pps = '".db_esc($dbc, $factory)."'"; } 
 					
           //4. Work Center
                 if ($work_center == "NULL" ){
                     $wheresql_04 = ""; }
                 else {
-					$wheresql_04 = " AND work_center = '$work_center'"; }
+					$wheresql_04 = " AND work_center = '".db_esc($dbc, $work_center)."'"; }
    
 	       //5. Planned Order No.
                 if ($plan_no == "NULL"){ 
                     $wheresql_05 = ""; }
                 else {
-                    $wheresql_05 = " AND plan_no = '$plan_no'"; }  	
+                    $wheresql_05 = " AND plan_no = '".db_esc($dbc, $plan_no)."'"; }  	
 					
 		 
 		  //6. Shift
@@ -243,19 +243,19 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
                 else {
 					// $wheresql_06 = ""; }
 					
-                    $wheresql_06 = " AND ((shift_pps1 = '$shift_ops') OR (shift_pps2 = '$shift_ops')) "; }  		 				                                             
+                    $wheresql_06 = " AND ((shift_pps1 = '".db_esc($dbc, $shift_ops)."') OR (shift_pps2 = '".db_esc($dbc, $shift_ops)."')) "; }  		 				                                             
 		 // 7. Status
                 if ($status == "NULL" ){
                     $wheresql_07 = ""; }
                 else {
-                    $wheresql_07 = " AND status_pps = '$status'"; }      
+                    $wheresql_07 = " AND status_pps = '".db_esc($dbc, $status)."'"; }      
 					
 					
 		 // 8. File name
                 if ($name_file == "NULL" ){
                     $wheresql_08 = ""; }
                 else {
-                    $wheresql_08 = " AND upload_id = '".$row_convert2["upload_id"]."'"; }        	
+                    $wheresql_08 = " AND upload_id = '".db_esc($dbc, $row_convert2["upload_id"])."'"; }        	
 	                                        
 				
 				$where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05 .$wheresql_06 .$wheresql_07 .$wheresql_08;	

@@ -64,26 +64,26 @@ $namaFile = "Wastage Reject Report.xls";
 	if($dateF == "0000-00-00") {
 		 $wheresql_01 = ""; }
 	else {
-		  $wheresql_01 = " AND (MR.date_posting >= '$dateF% 00:00:00' )"; }
+		  $wheresql_01 = " AND (MR.date_posting >= '".db_esc($dbc, $dateF)."% 00:00:00' )"; }
 		  
 	// 2. DateT
 	if($dateT == "0000-00-00") {
 		 $wheresql_02 = ""; }
 	else {
-		  $wheresql_02 = " AND (MR.date_posting <= '$dateT 00:00:00' )"; }
+		  $wheresql_02 = " AND (MR.date_posting <= '".db_esc($dbc, $dateT)." 00:00:00' )"; }
 			
 	//3. Disposal Doc. No.
 	if ($disposal_doc == "NULL"){ 
 		$wheresql_03 = ""; }
 	else {
-		$wheresql_03 = " AND MR.doc_disposal_no >= '".$disposal_doc."'"; } 
+		$wheresql_03 = " AND MR.doc_disposal_no >= '".db_esc($dbc, $disposal_doc)."'"; } 
 		
 	
 	//4. Disposal Doc. No. To
 	if ($disposal_doc2 == "NULL"){ 
 		$wheresql_04 = ""; }
 	else {
-		$wheresql_04 = " AND MR.doc_disposal_no <= '".$disposal_doc2."'"; } 
+		$wheresql_04 = " AND MR.doc_disposal_no <= '".db_esc($dbc, $disposal_doc2)."'"; } 
 		
 			
 

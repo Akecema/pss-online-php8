@@ -160,7 +160,7 @@ $data_2 = mysqli_fetch_array($result_2);
         <tr>
           <th>MRIN No</th>
           <th>:</th>
-          <th><?php echo $temp_mrin; ?></th>
+          <th><?php echo h($temp_mrin); ?></th>
           <th>Factory</th>
           <th>:</th>
           <th><?php echo $data_2["factory"];  ?></th>

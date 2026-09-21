@@ -280,7 +280,7 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
                <td height="28">&nbsp;</td>
                <td width="287" height="28">&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
                 <td width="87" height="28"><div align="right">
-                <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo $_POST["bom_qty"][$i]; }else{  echo $row["bom_qty"];   } ?>" size="10"/>
+                <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo $row["bom_qty"];   } ?>" size="10"/>
               &nbsp;</div></td>
                 <td width="99" height="28"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
                 <td width="60" height="28">&nbsp;<font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font>

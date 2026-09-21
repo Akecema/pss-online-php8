@@ -325,7 +325,7 @@ if (isset($message))
             <div class="control-group">
               <label class="control-label">Choose File : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
- <input name="upload" type="file" class="textbox" value="<?php if(isset($_POST['upload'])) echo $_POST['upload']; ?>"maxlength="200" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /> 
+ <input name="upload" type="file" class="textbox" value="<?php if(isset($_POST['upload'])) echo h($_POST['upload']); ?>"maxlength="200" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /> 
                <p><span class="style3">File must be less than 5MB.</span> </br>
                <span class="style3">Allowed file type : MS Excel (Format file .xls)</span> </p>
             </div>

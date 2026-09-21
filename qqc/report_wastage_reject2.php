@@ -378,7 +378,7 @@ return "";
     <tr>
         <td width="1%">&nbsp;</td> 
         <td width="85%"> <div class="small-nav"></div></td> 
-          <td width="7%"><a href="report_wastage_reject_download.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&disposal_doc=<?php echo $disposal_doc; ?>&&disposal_doc2=<?php echo $disposal_doc2; ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
+          <td width="7%"><a href="report_wastage_reject_download.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&disposal_doc=<?php echo h($disposal_doc); ?>&&disposal_doc2=<?php echo h($disposal_doc2); ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
          <td width="7%"><img src="../img/print2.jpg" width="48" height="48" onClick="window.print()" title="Print"/></td>
       </tr>
     </table>      

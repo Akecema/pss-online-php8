@@ -238,9 +238,9 @@ return "";
               
                <tr>
                  <th>Material Document No. From  :</th>
-                 <td><input name="doc_tp_from" type="text" id="doc_tp_from" size="50" class="span11"  value="<?php if (isset($_POST["doc_tp_from"])) { echo $_POST["doc_tp_from"]; } ?>"/></td>
+                 <td><input name="doc_tp_from" type="text" id="doc_tp_from" size="50" class="span11"  value="<?php if (isset($_POST["doc_tp_from"])) { echo h($_POST["doc_tp_from"]); } ?>"/></td>
                  <th>Material Document No. To :</th>
-                 <td><input name="doc_tp_to" type="text" id="doc_tp_to" size="50" class="span11"  value="<?php if (isset($_POST["doc_tp_to"])) { echo $_POST["doc_tp_to"]; } ?>"/></td>
+                 <td><input name="doc_tp_to" type="text" id="doc_tp_to" size="50" class="span11"  value="<?php if (isset($_POST["doc_tp_to"])) { echo h($_POST["doc_tp_to"]); } ?>"/></td>
                </tr>
                <tr>
               <th>Vendor  :</th>
@@ -290,7 +290,7 @@ return "";
                </tr>
                <tr>
                  <th>Part No. :</th>
-                 <td><input name="material_no" type="text" id="material_no" size="50" class="span11" value="<?php if (isset($_POST["material_no"])) { echo $_POST["material_no"]; } ?>"/></td>
+                 <td><input name="material_no" type="text" id="material_no" size="50" class="span11" value="<?php if (isset($_POST["material_no"])) { echo h($_POST["material_no"]); } ?>"/></td>
                  <th>&nbsp;</th>
                  <td><input name="Submit" type="submit" value="Search" class="btn btn btn-info"></td>
                </tr>

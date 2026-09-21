@@ -142,9 +142,9 @@ $data_setup = mysqli_fetch_array($rs_setup);
                       </tr>
                       <tr>
                         <th>MRIN No : </th>
-                        <td><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" value="<?php echo $_GET["temp_mrin"]; ?>"  /></td>
+                        <td><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" value="<?php echo h($_GET["temp_mrin"]); ?>"  /></td>
                         <th>Production Order :</th>
-                        <td colspan="2"><input name="prod_order" type="text" id="prod_order" size="25" class="span11" value="<?php echo $_GET["prod_order"]; ?>"/></td>
+                        <td colspan="2"><input name="prod_order" type="text" id="prod_order" size="25" class="span11" value="<?php echo h($_GET["prod_order"]); ?>"/></td>
                       </tr>
                       <tr>
                         <th>Factory :</th>

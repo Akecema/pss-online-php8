@@ -408,9 +408,9 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 1.0, 'black');
 
  ?>
 </div>
-<input type="hidden" name="upload_id" value="<?php echo $upload_id; ?>">
+<input type="hidden" name="upload_id" value="<?php echo h($upload_id); ?>">
 <input type="button" id="btnprint" value="Print this Page" onclick="print_page()" class="btn btn-success"/>
-<input type="button" id="btnprintPDF" value="PDF" onclick="location.href='detail_pps_sheet_print_all_pdf2.php?upload_id=<?php echo $upload_id;?>';" class="btn btn-danger"/>
+<input type="button" id="btnprintPDF" value="PDF" onclick="location.href='detail_pps_sheet_print_all_pdf2.php?upload_id=<?php echo h($upload_id);?>';" class="btn btn-danger"/>
 
 <input type="button" onclick="parent.window.close();" value="Close [x]" class="btn btn-warning"/>
 

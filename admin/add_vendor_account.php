@@ -287,79 +287,79 @@ echo '<div class="alert alert-error">', $message, '</div>';
            <div class="control-group">
               <label class="control-label">Vendor Code : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="vendor_code" type="text" id="vendor_code" size="20" maxlength="8" value="<?php if(isset($_POST['vendor_code'])) echo $_POST['vendor_code']; ?>" class="span5" placeholder="Enter Vendor Code" />
+                <input name="vendor_code" type="text" id="vendor_code" size="20" maxlength="8" value="<?php if(isset($_POST['vendor_code'])) echo h($_POST['vendor_code']); ?>" class="span5" placeholder="Enter Vendor Code" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Vendor Name : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="vendor_name" type="text" class="span11" id="vendor_name" size="55" value="<?php if(isset($_POST['vendor_name'])) echo $_POST['vendor_name']; ?>"  placeholder="Enter Vendor Name" />
+               <input name="vendor_name" type="text" class="span11" id="vendor_name" size="55" value="<?php if(isset($_POST['vendor_name'])) echo h($_POST['vendor_name']); ?>"  placeholder="Enter Vendor Name" />
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">Search Term : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="search_term" type="text" class="span5" id="search_term" size="20" maxlength="20" value="<?php if(isset($_POST['search_term'])) echo $_POST['search_term']; ?>" placeholder="Enter Search Term"/>
+             <input name="search_term" type="text" class="span5" id="search_term" size="20" maxlength="20" value="<?php if(isset($_POST['search_term'])) echo h($_POST['search_term']); ?>" placeholder="Enter Search Term"/>
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Address No. 1 : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-         <input name="add_no1" type="text" class="span11" id="add_no1" size="20" value="<?php if(isset($_POST['add_no1'])) echo $_POST['add_no1']; ?>" placeholder="Enter Address No. 1" />
+         <input name="add_no1" type="text" class="span11" id="add_no1" size="20" value="<?php if(isset($_POST['add_no1'])) echo h($_POST['add_no1']); ?>" placeholder="Enter Address No. 1" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Address No. 2 :<font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                 <input name="add_no2" type="text" class="span11" placeholder="Enter Address No. 2"id="add_no2" size="20" value="<?php if(isset($_POST['add_no2'])) echo $_POST['add_no2']; ?>" />
+                 <input name="add_no2" type="text" class="span11" placeholder="Enter Address No. 2"id="add_no2" size="20" value="<?php if(isset($_POST['add_no2'])) echo h($_POST['add_no2']); ?>" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Postcode : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="post_code" type="text" class="span5" id="post_code" size="20" maxlength="15" value="<?php if(isset($_POST['post_code'])) echo $_POST['post_code']; ?>" placeholder="Enter Postcode"/>
+             <input name="post_code" type="text" class="span5" id="post_code" size="20" maxlength="15" value="<?php if(isset($_POST['post_code'])) echo h($_POST['post_code']); ?>" placeholder="Enter Postcode"/>
             </div>
             </div>
                <div class="control-group">
               <label class="control-label">City : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="post_city" type="text" class="span11" id="post_city" size="20" value="<?php if(isset($_POST['post_city'])) echo $_POST['post_city']; ?>" placeholder="Enter City"/>
+             <input name="post_city" type="text" class="span11" id="post_city" size="20" value="<?php if(isset($_POST['post_city'])) echo h($_POST['post_city']); ?>" placeholder="Enter City"/>
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">Region : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="post_region" type="text" class="span11" id="post_region" size="20" value="<?php if(isset($_POST['post_region'])) echo $_POST['post_region']; ?>" placeholder="Enter Region"/>
+             <input name="post_region" type="text" class="span11" id="post_region" size="20" value="<?php if(isset($_POST['post_region'])) echo h($_POST['post_region']); ?>" placeholder="Enter Region"/>
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">Country : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="post_country" type="text" class="span11" id="post_country" size="20" value="<?php if(isset($_POST['post_country'])) echo $_POST['post_country']; ?>" placeholder="Enter Country"/>
+             <input name="post_country" type="text" class="span11" id="post_country" size="20" value="<?php if(isset($_POST['post_country'])) echo h($_POST['post_country']); ?>" placeholder="Enter Country"/>
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Phone No. : </label>
              <div class="controls">
-             <input name="tphone" type="text" class="span5" id="tphone" size="20" maxlength="15" value="<?php if(isset($_POST['tphone'])) echo $_POST['tphone']; ?>" placeholder="Enter Phone No."/>
+             <input name="tphone" type="text" class="span5" id="tphone" size="20" maxlength="15" value="<?php if(isset($_POST['tphone'])) echo h($_POST['tphone']); ?>" placeholder="Enter Phone No."/>
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Fax No. : </label>
              <div class="controls">
-             <input name="fax_no" type="text" class="span5" id="fax_no" size="20" maxlength="15" value="<?php if(isset($_POST['fax_no'])) echo $_POST['fax_no']; ?>" placeholder="Enter Fax No."/>
+             <input name="fax_no" type="text" class="span5" id="fax_no" size="20" maxlength="15" value="<?php if(isset($_POST['fax_no'])) echo h($_POST['fax_no']); ?>" placeholder="Enter Fax No."/>
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">Payment Method : </label>
              <div class="controls">
-             <input name="payment_method" type="text" class="span5" id="payment_method" size="20" maxlength="15" value="<?php if(isset($_POST['payment_method'])) echo $_POST['payment_method']; ?>" placeholder="Enter Payment Method"/>
+             <input name="payment_method" type="text" class="span5" id="payment_method" size="20" maxlength="15" value="<?php if(isset($_POST['payment_method'])) echo h($_POST['payment_method']); ?>" placeholder="Enter Payment Method"/>
             </div>
             </div>
               <div class="control-group">
               <label class="control-label">Term Payment : </label>
              <div class="controls">
-             <input name="term_payment" type="text" class="span5" id="term_payment" size="20" maxlength="15" value="<?php if(isset($_POST['term_payment'])) echo $_POST['term_payment']; ?>" placeholder="Enter Term Payment"/>
+             <input name="term_payment" type="text" class="span5" id="term_payment" size="20" maxlength="15" value="<?php if(isset($_POST['term_payment'])) echo h($_POST['term_payment']); ?>" placeholder="Enter Term Payment"/>
             </div>
             </div>
              <div class="control-group">

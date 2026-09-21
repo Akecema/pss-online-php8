@@ -441,7 +441,7 @@ if(isset($_POST["cancel"])) {
 				
 				  }
 	   
-   // echo $_POST["scan_qty"][$i]; 
+   // echo h($_POST["scan_qty"][$i]); 
 	   
 	}
 	
@@ -678,7 +678,7 @@ exit();
 ?></td>
                   <th width="17%">Prepared by :</th>
                   <td width="32%" colspan="3">
-                 <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo $_POST["prepared_by"]; } ?>"/></td>
+                 <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo h($_POST["prepared_by"]); } ?>"/></td>
                 </tr>
                
                <tr>
@@ -715,7 +715,7 @@ exit();
 	 <?php if(($_POST["submit3"] == true) || ($_POST["submit4"] == true)) 
 		{  
 		?> 
-		<option value="<?php echo $_POST["time1"]; ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>			
+		<option value="<?php echo h($_POST["time1"]); ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>			
      <?php
 	 }else{
 	 ?><option value="NULL" placeholder="HOURS">&nbsp;</option> 
@@ -732,7 +732,7 @@ exit();
      <?php if(($_POST["submit3"] == true) || ($_POST["submit4"] == true)) 
 		{  
 		?> 
-		<option value="<?php echo $_POST["time2"]; ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>			
+		<option value="<?php echo h($_POST["time2"]); ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>			
      <?php
 	 }else{
 	 ?><option value="NULL" placeholder="MINUTES">&nbsp;</option> 
@@ -746,9 +746,9 @@ exit();
                </tr>
                <tr>
                  <th>Driver Name :</th>
-                 <td colspan="3"><input name="driver_by" type="text" id="driver_by" size="25" class="span11"  value="<?php if (isset($_POST["driver_by"])) { echo $_POST["driver_by"]; } ?>"/></td>
+                 <td colspan="3"><input name="driver_by" type="text" id="driver_by" size="25" class="span11"  value="<?php if (isset($_POST["driver_by"])) { echo h($_POST["driver_by"]); } ?>"/></td>
                  <th>Plate Number :</th>
-                 <td colspan="2"><input name="plate_no" type="text" id="plate_no" size="50" class="span11"  value="<?php if (isset($_POST["plate_no"])) { echo $_POST["plate_no"]; } ?>"/></td>
+                 <td colspan="2"><input name="plate_no" type="text" id="plate_no" size="50" class="span11"  value="<?php if (isset($_POST["plate_no"])) { echo h($_POST["plate_no"]); } ?>"/></td>
                </tr>
               
               </table>

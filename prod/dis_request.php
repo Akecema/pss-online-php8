@@ -473,7 +473,7 @@ if ($num > 0) {
           <td width="154">&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
           <td width="200"><?php  echo $row4_p["material_desc_c"]; ?></td>
           <td width="144"><div align="right">
-	 <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo $_POST["bom_qty"][$i]; }else{  echo $row["bom_qty"];   } ?>" class="span8" />	
+	 <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo $row["bom_qty"];   } ?>" class="span8" />	
 				
 				&nbsp;</div></td>
           <td width="80"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>

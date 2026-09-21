@@ -626,7 +626,7 @@ if (isset($message))
                     <?php if(($_POST["confirm_button"] == true)) 
 		{  
 		?>
-                    <option value="<?php echo $_POST["time1"]; ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>
+                    <option value="<?php echo h($_POST["time1"]); ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>
                     <?php
 	 }else{
 	 ?>
@@ -643,7 +643,7 @@ if (isset($message))
                     <?php if(($_POST["confirm_button"] == true)) 
 		{  
 		?>
-                    <option value="<?php echo $_POST["time2"]; ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>
+                    <option value="<?php echo h($_POST["time2"]); ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>
                     <?php
 	 }else{
 	 ?>
@@ -709,7 +709,7 @@ if (isset($message))
               <tr>
                 <td height="35">Quantity</td>
                 <td height="35">:</td>
-                <td height="35" colspan="5"><input name="con_qty" type="text" value="<?php if(isset($_POST["con_qty"])) { echo $_POST["con_qty"]; } ?>" size="10"/>
+                <td height="35" colspan="5"><input name="con_qty" type="text" value="<?php if(isset($_POST["con_qty"])) { echo h($_POST["con_qty"]); } ?>" size="10"/>
                 <font color="#006699">*</font>
                 </td>
               </tr>

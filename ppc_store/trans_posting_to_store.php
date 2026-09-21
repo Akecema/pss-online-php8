@@ -619,7 +619,7 @@ exit();
 ?></td>
                   <th width="17%">Prepared by :</th>
                   <td colspan="2">
-                <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo $_POST["prepared_by"]; } ?>"/></td>
+                <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo h($_POST["prepared_by"]); } ?>"/></td>
               </tr>
                
                <tr>

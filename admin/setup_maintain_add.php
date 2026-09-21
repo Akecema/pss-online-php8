@@ -323,39 +323,39 @@ if (isset($message))
               <label class="control-label">URLs : <font color="#FF0000"><b> *</b></font></label>
            
               <div class="controls">
-              <input name="urls_system" type="text" class="span11" id="urls_system" size="20" value="<?php if(isset($_POST['urls_system'])) echo $_POST['urls_system']; ?>"  placeholder="Enter URLs System"/>
+              <input name="urls_system" type="text" class="span11" id="urls_system" size="20" value="<?php if(isset($_POST['urls_system'])) echo h($_POST['urls_system']); ?>"  placeholder="Enter URLs System"/>
   
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Logo Company : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
- <input name="upload" type="file" class="textbox" value="<?php if(isset($_POST['upload'])) echo $_POST['upload']; ?>"maxlength="200" accept="image/x-png,image/gif,image/jpeg" /> 
+ <input name="upload" type="file" class="textbox" value="<?php if(isset($_POST['upload'])) echo h($_POST['upload']); ?>"maxlength="200" accept="image/x-png,image/gif,image/jpeg" /> 
               <p><span class="style3">Limit the size of an attachment is 2M.</span> </p>
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">Company Code : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="comp_code" type="text" class="span5" id="comp_code"  placeholder="Enter Company Code" value="<?php if(isset($_POST['comp_code'])) echo $_POST['comp_code']; ?>" size="20" maxlength="10"/>
+             <input name="comp_code" type="text" class="span5" id="comp_code"  placeholder="Enter Company Code" value="<?php if(isset($_POST['comp_code'])) echo h($_POST['comp_code']); ?>" size="20" maxlength="10"/>
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">SMTP Mail : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="smtp_account" type="text" class="span11" id="smtp_account" size="20"  value="<?php if(isset($_POST['smtp_account'])) echo $_POST['smtp_account']; ?>"  placeholder="Enter SMTP Mail"/>
+             <input name="smtp_account" type="text" class="span11" id="smtp_account" size="20"  value="<?php if(isset($_POST['smtp_account'])) echo h($_POST['smtp_account']); ?>"  placeholder="Enter SMTP Mail"/>
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">E-mail System : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="email_account" type="text" class="span11" id="email_account" size="60" maxlength="200" value="<?php if(isset($_POST['email_account'])) echo $_POST['email_account']; ?>" placeholder="Enter E-mail System" />
+             <input name="email_account" type="text" class="span11" id="email_account" size="60" maxlength="200" value="<?php if(isset($_POST['email_account'])) echo h($_POST['email_account']); ?>" placeholder="Enter E-mail System" />
             </div>
             </div>
              <div class="control-group">
               <label class="control-label">FTP IP : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="ftp_ip" type="text" class="span5" id="ftp_ip" size="20" value="<?php if(isset($_POST['ftp_ip'])) echo $_POST['ftp_ip']; ?>"  placeholder="Enter FTP IP"/>
+             <input name="ftp_ip" type="text" class="span5" id="ftp_ip" size="20" value="<?php if(isset($_POST['ftp_ip'])) echo h($_POST['ftp_ip']); ?>"  placeholder="Enter FTP IP"/>
             </div>
             </div>
             

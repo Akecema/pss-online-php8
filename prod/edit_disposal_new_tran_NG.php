@@ -290,7 +290,7 @@ if (isset($message))
    
           
               <!-- End Box Head -->
-          <form name="myform" action="edit_disposal_new_tran_NG.php?doc_disposal=<?php echo $doc_disposal; ?>" method="post" >
+          <form name="myform" action="edit_disposal_new_tran_NG.php?doc_disposal=<?php echo h($doc_disposal); ?>" method="post" >
             <!-- Form -->
             <div class="form">
              <table width="1100" class="table table-bordered">
@@ -406,7 +406,7 @@ onClick="Check(document.myform.cancel)"> <?php  echo $row["id_disposal"]; ?></td
                <table width="1100">
                 <tr>
                 <th width="80" class="ac style3">      
-         <input type="submit" onClick="return confirm('Are you sure you want to edit this disposal? : <?php echo $doc_disposal; ?>?');" name="Submit2" id="button" value="Save" class="btn btn-success"/>
+         <input type="submit" onClick="return confirm('Are you sure you want to edit this disposal? : <?php echo h($doc_disposal); ?>?');" name="Submit2" id="button" value="Save" class="btn btn-success"/>
                 </th>
                  <th width="60" class="ac style3"><input  name="btnback" type="button" id="btnCancel" class="btn btn-warning" value="BACK" onclick="javascript:parent.tb_remove();" /></th>
                  <th height="28" class="ac style3">&nbsp;</th>   

@@ -420,7 +420,7 @@ file_put_contents($file,$data2);
   </tr>
 </table>
 <p>&nbsp;</p> 
-   <form action="cancel_qc_rework_output_QC_ok.php?uid=<?php echo $uid; ?>" method="post" name="myform" id="myform">     
+   <form action="cancel_qc_rework_output_QC_ok.php?uid=<?php echo h($uid); ?>" method="post" name="myform" id="myform">     
   <table class="table table-bordered data-table">
     <thead>
       <tr>

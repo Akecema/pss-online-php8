@@ -150,7 +150,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 <tr>
     <td width="1%">&nbsp;</td> 
     <td width="85%"> <div class="small-nav"></div></td> 
-      <td width="7%"><a href="report_BOM_request_download_search.php?txtKeyword=<?php echo $_GET["txtKeyword"]; ?>"><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
+      <td width="7%"><a href="report_BOM_request_download_search.php?txtKeyword=<?php echo h($_GET["txtKeyword"]); ?>"><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
      <td width="7%">&nbsp;</td>
    
   </tr>

@@ -254,7 +254,7 @@ $row_data = mysqli_fetch_array($result_data);
 
  // $_SESSION['lastID'] = $lastID;
 
- //echo $_GET["lastID"];
+ //echo h($_GET["lastID"]);
    
 //insert to scan_detail
 $query_db = "INSERT INTO `consumable_request` (id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, id_work) VALUES ('".mysqli_insert_id($dbc)."', '', '','', '".db_esc($dbc, $material_no)."', '".db_esc($dbc, $lastID)."','".db_esc($dbc, $row_data["material_no"])."', '".db_esc($dbc, $con_qty)."', '".db_esc($dbc, $row_data["BUn"])."', 'N', 'N', 'N', '".db_esc($dbc, $factory)."', '".db_esc($dbc, $user_no)."', NOW(),'','','','','New','".db_esc($dbc, $date1)."','".db_esc($dbc, $t_time)."','".db_esc($dbc, $work_center)."')";
@@ -437,9 +437,9 @@ if (isset($message))
                  <td height="10" colspan="2"><div align="right">
                      <input name="saveT" type="submit" id="submit" value="+ Add Consumable Item" class="btn btn-warning" onclick="return confirm('Confirm to add request?');" />
                      <input name="lastID" type="hidden" value="<?php echo $lastID; ?>">
-                     <input name="date1" type="hidden" value="<?php echo $date1; ?>">
-                     <input name="t_time" type="hidden" value="<?php echo $t_time; ?>">
-                     <input name="factory" type="hidden" value="<?php echo $factory; ?>">
+                     <input name="date1" type="hidden" value="<?php echo h($date1); ?>">
+                     <input name="t_time" type="hidden" value="<?php echo h($t_time); ?>">
+                     <input name="factory" type="hidden" value="<?php echo h($factory); ?>">
                  </div></td>
                </tr>
                <tr>
@@ -470,7 +470,7 @@ if (isset($message))
              </table>
            <!--     <form name="form2" method="post" action="material_consumable_request2.php">
               -->
-      <form name="form2" method="post" action="material_consumable_request2.php?lastID=<?php echo $lastID; ?>&&date1=<?php echo $date1; ?>&&t_time=<?php echo $t_time; ?>&&factory=<?php echo $factory; ?>" >
+      <form name="form2" method="post" action="material_consumable_request2.php?lastID=<?php echo $lastID; ?>&&date1=<?php echo h($date1); ?>&&t_time=<?php echo h($t_time); ?>&&factory=<?php echo h($factory); ?>" >
              <?php
 			
 			  $i = 1;
@@ -500,7 +500,7 @@ if (isset($message))
                  </div></td>
                  <td width="20%"><div align="center"><?php echo $row_data2["con_uom"]; ?></div></td>
                  <td width="6%">
-                 <div align="center"><a href="delete_consumable_request.php?id_req_con=<?php echo $row_data2["id_req_con"]; ?>&&lastID=<?php echo $lastID; ?>&&date1=<?php echo $date1; ?>&&t_time=<?php echo $t_time; ?>&&factory=<?php echo $factory; ?>" onclick="return confirm('Are you sure you want to delete?')"><img src="../img/delete.png" width="16" height="16"  /></a></div></td>
+                 <div align="center"><a href="delete_consumable_request.php?id_req_con=<?php echo $row_data2["id_req_con"]; ?>&&lastID=<?php echo $lastID; ?>&&date1=<?php echo h($date1); ?>&&t_time=<?php echo h($t_time); ?>&&factory=<?php echo h($factory); ?>" onclick="return confirm('Are you sure you want to delete?')"><img src="../img/delete.png" width="16" height="16"  /></a></div></td>
                </tr>
              </table>
              

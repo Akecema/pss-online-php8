@@ -517,7 +517,7 @@ if (isset($message))
    
    
    ?>
-  <option value="<?php echo $_POST["reason_close"]; ?>"><?php echo $row_r_1["id_close"].' - '.$row_r_1["reason_desc"]; ?></option>
+  <option value="<?php echo h($_POST["reason_close"]); ?>"><?php echo $row_r_1["id_close"].' - '.$row_r_1["reason_desc"]; ?></option>
   <?php
   
   }else{

@@ -310,7 +310,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 <tr>
     <td width="1%">&nbsp;</td> 
       <td>&nbsp;</td>
-      <td width="7%"><a href="disposal_backflush_tran_approved_download_selected.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&doc_disposal_no=<?php echo $doc_disposal_no; ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
+      <td width="7%"><a href="disposal_backflush_tran_approved_download_selected.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&doc_disposal_no=<?php echo h($doc_disposal_no); ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
      <td width="7%"><img src="../img/print2.jpg" width="48" height="48" onClick="window.print()" title="Print"/></td>
     <td width="15%"> <div align="right"><?php echo "<span class=\"\">".$pages->display_jump_menu().$pages->display_items_per_page()."</span>" ;?></div></td> 
   </tr>

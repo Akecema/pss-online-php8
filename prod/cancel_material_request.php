@@ -492,7 +492,7 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
    
    
    ?>
-  <option value="<?php echo $_POST["reason_cancel"]; ?>"><?php echo $row_r_1["id_cancel"].' - '.$row_r_1["reason_desc_cancel"]; ?></option>
+  <option value="<?php echo h($_POST["reason_cancel"]); ?>"><?php echo $row_r_1["id_cancel"].' - '.$row_r_1["reason_desc_cancel"]; ?></option>
   <?php
   
   }else{

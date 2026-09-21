@@ -205,7 +205,7 @@ console.log('closed!');
         <tr>
           <th>MRIN No. </th>
           <th>:</th>
-          <th><?php echo $temp_mrin; ?></th>
+          <th><?php echo h($temp_mrin); ?></th>
           <th>Factory</th>
           <th>:</th>
           <th><?php echo $data_2["factory"];  ?></th>
@@ -231,7 +231,7 @@ console.log('closed!');
    
           
               <!-- End Box Head -->
-              <!-- Form <div class="form">   detail_consumable_request_printing.php?mrin_no=<?php echo $temp_mrin;  ?> -->
+              <!-- Form <div class="form">   detail_consumable_request_printing.php?mrin_no=<?php echo h($temp_mrin);  ?> -->
        <br>
          <form name="form1" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
              <table class="table table-bordered">
@@ -353,7 +353,7 @@ $query_display_reason2 = "SELECT * from `consumable_request_close` WHERE temp_mr
 
 ?>
 
-<!-- <input name="submit" type="submit" value="PRINT" class="button"  onclick="return confirm('Printing for MRIN No. <?php echo $temp_mrin; ?> ');" /> -->
+<!-- <input name="submit" type="submit" value="PRINT" class="button"  onclick="return confirm('Printing for MRIN No. <?php echo h($temp_mrin); ?> ');" /> -->
 <p>&nbsp;</p>
 <input type="button" value="Print" onclick="myFunction()" class="btn btn-success" />
              <p>&nbsp;</p> 

@@ -495,7 +495,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
           </div>
              
           <div class="widget-content nopadding">
-         <form name="myform" method="post" action="list_ftp_to-iposProc2.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&shift_ops=<?php echo $shift_ops; ?>&&plan_category=<?php echo $plan_category; ?>">
+         <form name="myform" method="post" action="list_ftp_to-iposProc2.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&plan_category=<?php echo h($plan_category); ?>">
          
           <table>
      	  <tr>

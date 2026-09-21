@@ -163,7 +163,7 @@ if (bV >= 4) window.print();
               <table width="724">
                 <tr>
                   <th width="882" height="41"><div align="center">Material No :
-                     <input name="txtKeyword" type="text" id="txtKeyword" size="60"  value="<?php echo $_GET["txtKeyword"]; ?>" >
+                     <input name="txtKeyword" type="text" id="txtKeyword" size="60"  value="<?php echo h($_GET["txtKeyword"]); ?>" >
                     <input type="submit" value="Search" class="btn btn-small">
                   </div></th>
                 </tr>
@@ -499,7 +499,7 @@ echo '<div align="center">There are currently  '. $num.' record(s).</div>';
          <td width="154">&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
          <td><?php  echo $row4_p["material_desc_c"]; ?></td>
          <td width="144"><div align="right">
-	 <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo $_POST["bom_qty"][$i]; }else{  echo $row["bom_qty"];   } ?>" class="span8" /></div></td>
+	 <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo $row["bom_qty"];   } ?>" class="span8" /></div></td>
          <td width="80"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
          <td width="100" ><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
           </tr>

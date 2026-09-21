@@ -223,7 +223,7 @@ if (isset($message))
            <div class="control-group">
               <label class="control-label">Material No. [Scan PPS] : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="pps_ref" type="text" id="pps_ref" size="60" maxlength="200" value="<?php if(isset($_POST['pps_ref'])) echo $_POST['pps_ref']; ?>" class="span11" />
+               <input name="pps_ref" type="text" id="pps_ref" size="60" maxlength="200" value="<?php if(isset($_POST['pps_ref'])) echo h($_POST['pps_ref']); ?>" class="span11" />
                  <img src="../img/scan_barcode.jpg" width="32" height="32" /></font>
               </div>
             </div>

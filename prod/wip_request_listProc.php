@@ -497,7 +497,7 @@ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $mess
 		 $no = 1; 
 		  
 		  ?>
-         <form name="myform" method="post" action="wip_request_listProc.php?uid=<?php echo $uid; ?>">
+         <form name="myform" method="post" action="wip_request_listProc.php?uid=<?php echo h($uid); ?>">
    <table width="99%" border="0">
   <tr>
     <td width="14%">&nbsp;</td>
@@ -534,7 +534,7 @@ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $mess
 	 <?php if(($_POST["save"] == true) || ($_POST["nextsave"] == true)) 
 		{  
 		?> 
-		<option value="<?php echo $_POST["time1"]; ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>			
+		<option value="<?php echo h($_POST["time1"]); ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>			
      <?php
 	 }else{
 	 ?><option value="NULL" placeholder="HOURS">&nbsp;</option> 
@@ -551,7 +551,7 @@ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $mess
      <?php if(($_POST["save"] == true) || ($_POST["nextsave"] == true)) 
 		{  
 		?> 
-		<option value="<?php echo $_POST["time2"]; ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>			
+		<option value="<?php echo h($_POST["time2"]); ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>			
      <?php
 	 }else{
 	 ?><option value="NULL" placeholder="MINUTES">&nbsp;</option> 
@@ -636,7 +636,7 @@ onClick="Check(document.myform.cancel)">  </div></td>
                  <td width="16%"><?php echo $row["comp_unit"];   ?></td>
                  <td width="16%"><?php echo $data_scan["work_center"]; ?>
                   <input name="id_dtl[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id_dtl"]; ?>">
-                  <input name="uid" type="hidden" value="<?php echo $uid; ?>"></td>
+                  <input name="uid" type="hidden" value="<?php echo h($uid); ?>"></td>
                </tr>  <?php
 			
       $k++;

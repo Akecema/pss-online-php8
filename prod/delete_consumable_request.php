@@ -121,7 +121,7 @@ $url3 = 'posting_consumable_request.php';
    $t_time = $_GET["t_time"]; 
    $factory = $_GET["factory"];
 
-   //echo $id_req_con;
+   //echo h($id_req_con);
 
    //-------------------------update delete consumable request from table------------------------------
    //--------------------------------------------------------------------------------------------------

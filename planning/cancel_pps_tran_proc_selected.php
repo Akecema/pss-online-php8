@@ -282,7 +282,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
   </tr>
 </table>
 <p>&nbsp;</p> 
-   <form action="cancel_pps_tran_proc_selected.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>&&name_file=<?php echo $name_file; ?>" method="post" name="frmSearch" id="frmSearch">     
+   <form action="cancel_pps_tran_proc_selected.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo h($name_file); ?>" method="post" name="frmSearch" id="frmSearch">     
   <table class="table table-bordered data-table">
     <thead>
       <tr>

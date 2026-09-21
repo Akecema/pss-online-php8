@@ -454,9 +454,9 @@ $num = mysqli_num_rows($rs);   //how many material are there?
                   <td width="72%">
                      <div class="small-nav"></div>
                   </td>
-                  <td width="14%"><a href="detail_pps_sheet_print_by_id.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>&&status=<?php echo $status; ?>&&name_file=<?php echo $name_file; ?>&&plan_category=<?php echo $plan_category; ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="48" height="48" title="Print Select" />Print Select</a></td>
+                  <td width="14%"><a href="detail_pps_sheet_print_by_id.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&status=<?php echo h($status); ?>&&name_file=<?php echo h($name_file); ?>&&plan_category=<?php echo h($plan_category); ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="48" height="48" title="Print Select" />Print Select</a></td>
 
-                  <td width="14%"><a href="detail_pps_sheet_print_all_pdf.php?srcDateF=<?php echo $dateF;?>&&srcDateT=<?php echo $dateT;?>&&srcFactory=<?php echo $factory;?>&&srcWC=<?php echo $work_center;?>&&srcPlanNo=<?php echo $plan_no;?>&&srcShift=<?php echo $shift_ops;?>&&srcStatus=<?php echo $status;?>&&srcNFile=<?php echo $name_file;?>" target="_blank"><img src="../img/pdf-icon.png" width="30" height="45" title="Print Select" />PDF</a></td>
+                  <td width="14%"><a href="detail_pps_sheet_print_all_pdf.php?srcDateF=<?php echo h($dateF);?>&&srcDateT=<?php echo h($dateT);?>&&srcFactory=<?php echo h($factory);?>&&srcWC=<?php echo h($work_center);?>&&srcPlanNo=<?php echo h($plan_no);?>&&srcShift=<?php echo h($shift_ops);?>&&srcStatus=<?php echo h($status);?>&&srcNFile=<?php echo h($name_file);?>" target="_blank"><img src="../img/pdf-icon.png" width="30" height="45" title="Print Select" />PDF</a></td>
                </tr>
             </table>
             <div class="widget-box">

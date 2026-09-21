@@ -239,13 +239,13 @@ return "";
               
                <tr>
                  <th>Material Document No. From  :</th>
-                 <td><input name="doc_tp_from" type="text" id="doc_tp_from" size="50" class="span11"  value="<?php  echo $_GET["doc_tp_from"];  ?>"/></td>
+                 <td><input name="doc_tp_from" type="text" id="doc_tp_from" size="50" class="span11"  value="<?php  echo h($_GET["doc_tp_from"]);  ?>"/></td>
                  <th>Material Document No. To :</th>
-                 <td><input name="doc_tp_to" type="text" id="doc_tp_to" size="50" class="span11"  value="<?php echo $_GET["doc_tp_to"]; ?>"/></td>
+                 <td><input name="doc_tp_to" type="text" id="doc_tp_to" size="50" class="span11"  value="<?php echo h($_GET["doc_tp_to"]); ?>"/></td>
                </tr>
                <tr>
               <th>Part No. :</th>
-              <td> <input name="material_no" type="text" id="material_no" size="50" class="span11" value="<?php echo $_GET["material_no"];  ?>"/></td>
+              <td> <input name="material_no" type="text" id="material_no" size="50" class="span11" value="<?php echo h($_GET["material_no"]);  ?>"/></td>
               <th>Shift :</th>
               <td>  
               <select name="shift_day" id="shift_day" class="span11">
@@ -352,7 +352,7 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
 <tr>
     <td width="1%">&nbsp;</td> 
     <td width="85%"> <div class="small-nav"></div></td> 
-      <td width="7%"><a href="report_document_list_TP_to_store_download.php?doc_tp_from=<?php echo $doc_tp_from; ?>&&doc_tp_to=<?php echo $doc_tp_to; ?>&&shift_day=<?php echo $shift_day; ?>&date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&material_no=<?php echo $material_no; ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
+      <td width="7%"><a href="report_document_list_TP_to_store_download.php?doc_tp_from=<?php echo h($doc_tp_from); ?>&&doc_tp_to=<?php echo h($doc_tp_to); ?>&&shift_day=<?php echo h($shift_day); ?>&date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&material_no=<?php echo h($material_no); ?>" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
      <td width="7%"><img src="../img/print2.jpg" width="48" height="48" onClick="window.print()" title="Print"/></td>
    
   </tr>

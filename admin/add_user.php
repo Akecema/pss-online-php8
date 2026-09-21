@@ -282,31 +282,31 @@ if (isset($message))
            <div class="control-group">
               <label class="control-label">Vendor ID : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-              <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="8" value="<?php if(isset($_POST['vendor_no'])) echo $_POST['vendor_no']; ?>" class="span11" placeholder="Enter Vendor ID"/>
+              <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="8" value="<?php if(isset($_POST['vendor_no'])) echo h($_POST['vendor_no']); ?>" class="span11" placeholder="Enter Vendor ID"/>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Staff ID : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-             <input name="user_id" type="text" class="span11" id="user_id" size="20" maxlength="20" value="<?php if(isset($_POST['user_id'])) echo $_POST['user_id']; ?>"  placeholder="Enter Staff ID" />
+             <input name="user_id" type="text" class="span11" id="user_id" size="20" maxlength="20" value="<?php if(isset($_POST['user_id'])) echo h($_POST['user_id']); ?>"  placeholder="Enter Staff ID" />
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Password : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="user_password" type="password" class="span11" id="user_password" size="20" maxlength="20" value="<?php if(isset($_POST['user_password'])) echo $_POST['user_password']; ?>" placeholder="Enter Password"/>
+               <input name="user_password" type="password" class="span11" id="user_password" size="20" maxlength="20" value="<?php if(isset($_POST['user_password'])) echo h($_POST['user_password']); ?>" placeholder="Enter Password"/>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Confirmed Password :<font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="user_password2" type="password" class="span11" placeholder="Enter Confirmed Password"  id="user_password2" size="20" maxlength="20" value="<?php if(isset($_POST['user_password2'])) echo $_POST['user_password2']; ?>" />
+                <input name="user_password2" type="password" class="span11" placeholder="Enter Confirmed Password"  id="user_password2" size="20" maxlength="20" value="<?php if(isset($_POST['user_password2'])) echo h($_POST['user_password2']); ?>" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Name : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="user_fullname" type="text"  class="span11" id="user_fullname" size="60" maxlength="100" value="<?php if(isset($_POST['user_fullname'])) echo $_POST['user_fullname']; ?>" placeholder="Enter Name" />
+             <input name="user_fullname" type="text"  class="span11" id="user_fullname" size="60" maxlength="100" value="<?php if(isset($_POST['user_fullname'])) echo h($_POST['user_fullname']); ?>" placeholder="Enter Name" />
             </div>
             </div>
             <div class="control-group">
@@ -404,26 +404,26 @@ if (isset($message))
               <label class="control-label">Telephone No. 1 : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
                
-             <input name="user_telno1" type="text" id="mask-phone" class="span8 mask text" size="20" maxlength="20" value="<?php if(isset($_POST['user_telno1'])) echo $_POST['user_telno1']; ?>"  placeholder="Enter Telephone No. 1"/>
+             <input name="user_telno1" type="text" id="mask-phone" class="span8 mask text" size="20" maxlength="20" value="<?php if(isset($_POST['user_telno1'])) echo h($_POST['user_telno1']); ?>"  placeholder="Enter Telephone No. 1"/>
           <!-- <span class="help-block blue span8">(999) 999-9999</span></div>-->
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Telephone No. 2 : </label>
              <div class="controls">
-             <input name="user_telno2" type="text" class="span11" id="user_telno2" size="20" maxlength="20" value="<?php if(isset($_POST['user_telno2'])) echo $_POST['user_telno2']; ?>"  placeholder="Enter Telephone No. 2"/>
+             <input name="user_telno2" type="text" class="span11" id="user_telno2" size="20" maxlength="20" value="<?php if(isset($_POST['user_telno2'])) echo h($_POST['user_telno2']); ?>"  placeholder="Enter Telephone No. 2"/>
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Fax No : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-           <input name="user_fax" type="text" class="span11" id="user_fax" size="20" maxlength="20" value="<?php if(isset($_POST['user_fax'])) echo $_POST['user_fax']; ?>"  placeholder="Enter Fax No " />
+           <input name="user_fax" type="text" class="span11" id="user_fax" size="20" maxlength="20" value="<?php if(isset($_POST['user_fax'])) echo h($_POST['user_fax']); ?>"  placeholder="Enter Fax No " />
             </div>
             </div>
               <div class="control-group">
               <label class="control-label">E-mail : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="user_email" type="text" class="span11" id="user_email" size="60" maxlength="200" value="<?php if(isset($_POST['user_email'])) echo $_POST['user_email']; ?>" placeholder="Enter E-mail " />
+             <input name="user_email" type="text" class="span11" id="user_email" size="60" maxlength="200" value="<?php if(isset($_POST['user_email'])) echo h($_POST['user_email']); ?>" placeholder="Enter E-mail " />
             </div>
             </div>
             <div class="control-group">

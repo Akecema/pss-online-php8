@@ -238,13 +238,13 @@ return "";
               
                <tr>
                  <th>Material Document No. From  :</th>
-                 <td><input name="doc_tp_from" type="text" id="doc_tp_from" size="50" class="span11"  value="<?php  echo $_GET["doc_tp_from"];  ?>"/></td>
+                 <td><input name="doc_tp_from" type="text" id="doc_tp_from" size="50" class="span11"  value="<?php  echo h($_GET["doc_tp_from"]);  ?>"/></td>
                  <th>Material Document No. To :</th>
-                 <td><input name="doc_tp_to" type="text" id="doc_tp_to" size="50" class="span11"  value="<?php echo $_GET["doc_tp_to"]; ?>"/></td>
+                 <td><input name="doc_tp_to" type="text" id="doc_tp_to" size="50" class="span11"  value="<?php echo h($_GET["doc_tp_to"]); ?>"/></td>
                </tr>
                <tr>
               <th>Part No. :</th>
-              <td> <input name="material_no" type="text" id="material_no" size="50" class="span11" value="<?php echo $_GET["material_no"];  ?>"/></td>
+              <td> <input name="material_no" type="text" id="material_no" size="50" class="span11" value="<?php echo h($_GET["material_no"]);  ?>"/></td>
               <th>Shift :</th>
               <td>  
               <select name="shift_day" id="shift_day" class="span11">

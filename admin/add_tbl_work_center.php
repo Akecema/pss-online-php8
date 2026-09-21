@@ -214,31 +214,31 @@ echo '<div class="alert alert-error">', $message, '</div>';
            <div class="control-group">
               <label class="control-label">Work Center : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="id_work" type="text" id="id_work" size="20" maxlength="8" value="<?php if(isset($_POST['id_work'])) echo $_POST['id_work']; ?>" class="span11" placeholder="Enter Work Center" />
+                <input name="id_work" type="text" id="id_work" size="20" maxlength="8" value="<?php if(isset($_POST['id_work'])) echo h($_POST['id_work']); ?>" class="span11" placeholder="Enter Work Center" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Work Center Description : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="wc_desc" type="text" class="span11" id="wc_desc" size="55" maxlength="20" value="<?php if(isset($_POST['wc_desc'])) echo $_POST['wc_desc']; ?>"  placeholder="Enter Work Center Description" />
+               <input name="wc_desc" type="text" class="span11" id="wc_desc" size="55" maxlength="20" value="<?php if(isset($_POST['wc_desc'])) echo h($_POST['wc_desc']); ?>"  placeholder="Enter Work Center Description" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Plant Code : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-         <input name="plant_code" type="text" class="span11" id="plant_code" size="20" maxlength="20" value="<?php if(isset($_POST['plant_code'])) echo $_POST['plant_code']; ?>" placeholder="Enter Plant Code" />
+         <input name="plant_code" type="text" class="span11" id="plant_code" size="20" maxlength="20" value="<?php if(isset($_POST['plant_code'])) echo h($_POST['plant_code']); ?>" placeholder="Enter Plant Code" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Cost Center :<font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                 <input name="cost_center" type="text" class="span11" placeholder="Enter Cost Center"id="cost_center" size="20" maxlength="20" value="<?php if(isset($_POST['cost_center'])) echo $_POST['cost_center']; ?>" />
+                 <input name="cost_center" type="text" class="span11" placeholder="Enter Cost Center"id="cost_center" size="20" maxlength="20" value="<?php if(isset($_POST['cost_center'])) echo h($_POST['cost_center']); ?>" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Cost Center Description : <font color="#FF0000"><b> *</b></font></label>
              <div class="controls">
-             <input name="cc_desc" type="text" class="span11" id="cc_desc" size="55" maxlength="100" value="<?php if(isset($_POST['cc_desc'])) echo $_POST['cc_desc']; ?>" placeholder="Enter Cost Center Description"/>
+             <input name="cc_desc" type="text" class="span11" id="cc_desc" size="55" maxlength="100" value="<?php if(isset($_POST['cc_desc'])) echo h($_POST['cc_desc']); ?>" placeholder="Enter Cost Center Description"/>
             </div>
             </div>
             <div class="control-group">

@@ -152,7 +152,7 @@ visibility:hidden;
             </tr>
             <tr>
               <th>Material No :</th>
-              <td><input name="material_no" type="text" id="material_no" size="25" class="span11" value="<?php echo $_GET["material_no"]; ?>" /></td>
+              <td><input name="material_no" type="text" id="material_no" size="25" class="span11" value="<?php echo h($_GET["material_no"]); ?>" /></td>
               <th>Factory :</th>
               <td><select name="factory" id="factory">
                     <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>

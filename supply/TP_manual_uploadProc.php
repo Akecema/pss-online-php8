@@ -268,7 +268,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 <tr>
     <td width="1%">&nbsp;</td> 
     <td width="85%"> <div class="small-nav"></div></td> 
-      <td width="7%"><a href="report_TP_manual_uploadProc.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&material_no=<?php echo $material_no; ?>"><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
+      <td width="7%"><a href="report_TP_manual_uploadProc.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&material_no=<?php echo h($material_no); ?>"><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
      <td width="7%"><img src="../img/print2.jpg" width="48" height="48" onClick="window.print()" title="Print"/></td>
    
   </tr>

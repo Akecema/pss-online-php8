@@ -187,10 +187,10 @@ visibility:hidden;
                       </tr>
                       <tr>
                         <th width="132" height="25"><div align="right">MRIN No : </div></th>
-                        <td width="286" height="25"><input name="temp_mrin" type="text" id="temp_mrin" size="25" style="background:#FFFF97" value="<?php echo $_GET["temp_mrin"]; ?>"/>
+                        <td width="286" height="25"><input name="temp_mrin" type="text" id="temp_mrin" size="25" style="background:#FFFF97" value="<?php echo h($_GET["temp_mrin"]); ?>"/>
                             <img src="../images/search.png" width="20" height="20" /></td>
                         <th width="124" height="25"><div align="right">Production Order :</div></th>
-                        <td height="25" colspan="2"><input name="prod_order" type="text" id="prod_order" size="25" style="background:#FFFF97" value="<?php echo $_GET["prod_order"]; ?>" />
+                        <td height="25" colspan="2"><input name="prod_order" type="text" id="prod_order" size="25" style="background:#FFFF97" value="<?php echo h($_GET["prod_order"]); ?>" />
                             <img src="../images/search.png" width="20" height="20" /></td>
                       </tr>
                       <tr>

@@ -303,7 +303,7 @@ if (isset($message))
 
            <input name="submit" type="submit" class="btn btn-success" id="submit" value="UPDATE">
            <input name="Reset" type="reset" id="Reset" value="CLEAR" class="btn btn-danger">
-           <input type="hidden" name="id_hdr" id="id_hdr" value="<?php echo $id_hdr; ?>">
+           <input type="hidden" name="id_hdr" id="id_hdr" value="<?php echo h($id_hdr); ?>">
            <input type="hidden" name="id_work" id="id_work" value="<?php echo $id_work; ?>">
           
             <!-- End Form Buttons -->

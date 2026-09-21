@@ -187,7 +187,7 @@ visibility:hidden;
                         <th width="124" height="25"><div align="right">
                           <div align="right">MRIN No : </div>
                         </div></th>
-                        <td height="25" colspan="2"><input name="temp_mrin" type="text" id="temp_mrin" size="25" style="background:#FFFF97" value="<?php echo $_GET["temp_mrin"]; ?>"/>
+                        <td height="25" colspan="2"><input name="temp_mrin" type="text" id="temp_mrin" size="25" style="background:#FFFF97" value="<?php echo h($_GET["temp_mrin"]); ?>"/>
                             <img src="../images/search.png" width="20" height="20" /></td>
                       </tr>
                       <tr>

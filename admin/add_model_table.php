@@ -188,19 +188,19 @@ echo '<div class="alert alert-error">', $message, '</div>';
            <div class="control-group">
               <label class="control-label">Model Code : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="model_name" type="text" id="model_name" size="20" maxlength="8" value="<?php if(isset($_POST['model_name'])) echo $_POST['model_name']; ?>" class="span11" placeholder="Enter Model Code" />
+                <input name="model_name" type="text" id="model_name" size="20" maxlength="8" value="<?php if(isset($_POST['model_name'])) echo h($_POST['model_name']); ?>" class="span11" placeholder="Enter Model Code" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Model Desc. : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="model_desc" type="text" class="span11" id="model_desc" size="55" maxlength="20" value="<?php if(isset($_POST['model_desc'])) echo $_POST['model_desc']; ?>"  placeholder="Enter Model Description" />
+               <input name="model_desc" type="text" class="span11" id="model_desc" size="55" maxlength="20" value="<?php if(isset($_POST['model_desc'])) echo h($_POST['model_desc']); ?>"  placeholder="Enter Model Description" />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Company : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-           <input name="comp_code" type="text" class="span11" id="comp_code" size="55" maxlength="20" value="<?php if(isset($_POST['comp_code'])) echo $_POST['comp_code']; ?>"  placeholder="Enter Company of Model" />
+           <input name="comp_code" type="text" class="span11" id="comp_code" size="55" maxlength="20" value="<?php if(isset($_POST['comp_code'])) echo h($_POST['comp_code']); ?>"  placeholder="Enter Company of Model" />
             </div>
             </div>
             <div class="control-group">

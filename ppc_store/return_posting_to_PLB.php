@@ -596,7 +596,7 @@ exit();
 ?></td>
                   <th width="17%">Prepared by :</th>
                   <td width="32" colspan="2">
-                 <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo $_POST["prepared_by"]; } ?>"/></td>
+                 <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo h($_POST["prepared_by"]); } ?>"/></td>
                 </tr>
                
                <tr>
@@ -628,7 +628,7 @@ exit();
                  <th width="7%">To :</th>
                  <td width="13%"><input name="sloc_to" type="text" id="sloc_to" size="25" class="span02" readonly value="W130"/></td>
                  <th>Ref. Doc. No. :</th>
-                 <td><input name="ref_doc_no_return" type="text" id="ref_doc_no_return" size="25" class="span11"  value="<?php if (isset($_POST["ref_doc_no_return"])) { echo $_POST["ref_doc_no_return"]; } ?>"/></td>
+                 <td><input name="ref_doc_no_return" type="text" id="ref_doc_no_return" size="25" class="span11"  value="<?php if (isset($_POST["ref_doc_no_return"])) { echo h($_POST["ref_doc_no_return"]); } ?>"/></td>
               </tr>
               
               </table>

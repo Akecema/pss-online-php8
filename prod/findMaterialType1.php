@@ -59,7 +59,7 @@ $result9 = mysqli_query($dbc, $query9);
 <body>
    <div id="material_nodiv"> 
    <select name="material_no" id="material_no" class="span5" >
-   <!--<select name="material_no" id="material_no" class="span5" onChange="getPart_no(<?=$material_type?>,this.value)" >-->
+   <!--<select name="material_no" id="material_no" class="span5" onChange="getPart_no(<?=h($material_type)?>,this.value)" >-->
    <option value="NULL" placeholder="Select Part No."> -- Select Part No. --</option>
 	<?php
     while($row9=mysqli_fetch_array($result9)) 

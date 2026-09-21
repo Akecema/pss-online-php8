@@ -402,7 +402,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 <tr>
     <td width="6%">&nbsp;</td> 
     <td width="74%"> <div class="small-nav"></div></td> 
-     <td width="20%"><a href="cancel_pps_tran_proc_selected.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>&&name_file=<?php echo $row_convert2["upload_id"]; ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self" ><img src="../img/cross.png" width="40" height="40" title="Cancel Planned Order" />Cancel Planned Order</a></td> 
+     <td width="20%"><a href="cancel_pps_tran_proc_selected.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo $row_convert2["upload_id"]; ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self" ><img src="../img/cross.png" width="40" height="40" title="Cancel Planned Order" />Cancel Planned Order</a></td> 
    </tr>
 </table> -->     
           
@@ -470,7 +470,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                 <td width="103"><?php echo intval($row["qty_plan"]); ?></td>
                 <td width="90"><?php echo $row["status_pps"]; ?></td>
                 <td width="150"><?php echo $row_convert2['file_name']; ?></td>
-                <td width="100"> <a href="cancel_pps_tran_proc_selected.php?uid=<?php echo $row["upload_id"]; ?>&&date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>&&name_file=<?php echo $name_file; ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/cross.png" width="16" height="16" alt="Cancel">&nbsp;Cancellation</a> 
+                <td width="100"> <a href="cancel_pps_tran_proc_selected.php?uid=<?php echo $row["upload_id"]; ?>&&date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo h($name_file); ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/cross.png" width="16" height="16" alt="Cancel">&nbsp;Cancellation</a> 
                  
                                  </td> 
                 

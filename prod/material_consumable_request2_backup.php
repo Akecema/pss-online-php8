@@ -416,7 +416,7 @@ if (isset($message))
                  <td width="6%">&nbsp;</td>
                </tr>
              </table>
-        <form name="form2" method="post" action="material_consumable_request2.php?material_no=<?php echo $material_no; ?>&&lastID=<?php echo $lastID; ?>&&con_qty=<?php echo $con_qty; ?>&&date1=<?php echo $date1; ?>&&t_time=<?php echo $t_time; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>">
+        <form name="form2" method="post" action="material_consumable_request2.php?material_no=<?php echo $material_no; ?>&&lastID=<?php echo $lastID; ?>&&con_qty=<?php echo $con_qty; ?>&&date1=<?php echo h($date1); ?>&&t_time=<?php echo h($t_time); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>">
              <?php
 			
 			  $i = 1;

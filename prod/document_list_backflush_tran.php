@@ -364,7 +364,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
     <td width="1%">&nbsp;</td> 
     <td width="85%"> <div class="small-nav"></div></td> 
       <td width="7%"><a href="doc_list_backflush_download.php" ><img src="../img/dload_excel.jpg" width="48" height="48" title="Download" /></a></td>
-	  <td width="7%"><a href="doc_list_backflush_download_pdf.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>" target="_blank"><img src="../img/pdf-icon.png" width="30" height="45" title="Print Select" /></a></td>
+	  <td width="7%"><a href="doc_list_backflush_download_pdf.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>" target="_blank"><img src="../img/pdf-icon.png" width="30" height="45" title="Print Select" /></a></td>
    
   </tr>
 </table>          

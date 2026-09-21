@@ -167,7 +167,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 				?>
               </select></td>
               <th>MRIN No : </th>
-              <td colspan="2"><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" value="<?php echo $_GET["temp_mrin"]; ?>"/>
+              <td colspan="2"><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" value="<?php echo h($_GET["temp_mrin"]); ?>"/>
                       </td>
             </tr>
            

@@ -186,19 +186,19 @@ if (isset($message))
        <!--    <div class="control-group">
               <label class="control-label">ID Type : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="id_wastage" type="text" id="id_wastage" size="20" maxlength="8" value="<?php if(isset($_POST['id_wastage'])) echo $_POST['id_wastage']; ?>" class="span11" placeholder="Enter ID Type Wastage" />
+                <input name="id_wastage" type="text" id="id_wastage" size="20" maxlength="8" value="<?php if(isset($_POST['id_wastage'])) echo h($_POST['id_wastage']); ?>" class="span11" placeholder="Enter ID Type Wastage" />
             </div>
             </div>-->
             <div class="control-group">
               <label class="control-label">Storage Location Code : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="sloc_code" type="text" class="span11" id="sloc_code" size="55" maxlength="20" value="<?php if(isset($_POST['sloc_code'])) echo $_POST['sloc_code']; ?>"  placeholder="Enter Storage Location " />
+               <input name="sloc_code" type="text" class="span11" id="sloc_code" size="55" maxlength="20" value="<?php if(isset($_POST['sloc_code'])) echo h($_POST['sloc_code']); ?>"  placeholder="Enter Storage Location " />
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Storage Location : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="sloc_desc" type="text" class="span11" id="sloc_desc" size="55" maxlength="20" value="<?php if(isset($_POST['sloc_desc'])) echo $_POST['sloc_desc']; ?>"  placeholder="Enter Storage Location Description" />
+                <input name="sloc_desc" type="text" class="span11" id="sloc_desc" size="55" maxlength="20" value="<?php if(isset($_POST['sloc_desc'])) echo h($_POST['sloc_desc']); ?>"  placeholder="Enter Storage Location Description" />
               </div>
             </div>
             <div class="control-group">

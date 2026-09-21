@@ -412,8 +412,8 @@ $barcodeobj = new TCPDF2DBarcode($bar_text, 'PDF417');
 <?php    } // end while loop main   ?>
 
 <div class="form-actions">
-               <form name="form1" action="printing_pps_sheet_release.php?upload_id=<?php echo $upload_id; ?>" method="post" class="form-horizontal">
-               <input type="hidden" name="upload_id" value="<?php echo $upload_id; ?>">
+               <form name="form1" action="printing_pps_sheet_release.php?upload_id=<?php echo h($upload_id); ?>" method="post" class="form-horizontal">
+               <input type="hidden" name="upload_id" value="<?php echo h($upload_id); ?>">
              
              <!--  <input type="button" value="Print" onclick="myFunction()" class="btn btn-success" />-->
                <input name="submit3" type="submit" id="submit" value="RELEASE" class="btn btn-success">

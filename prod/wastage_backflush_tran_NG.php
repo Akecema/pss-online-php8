@@ -479,7 +479,7 @@ return "";
               </tr>
             <tr>
               <th>Quantity :</th>
-              <td colspan="2"><?php  if($_POST["Submit2"] == true) { ?><input name="qty_wastage" id="qty_wastage" type="number" step=".01" min="1" class="span5" value="<?php echo $_POST["qty_wastage"]; ?>" /> <?php }else{ ?><input name="qty_wastage" id="qty_wastage" type="number" step=".01" min="1" class="span5" /><?php } ?></td>
+              <td colspan="2"><?php  if($_POST["Submit2"] == true) { ?><input name="qty_wastage" id="qty_wastage" type="number" step=".01" min="1" class="span5" value="<?php echo h($_POST["qty_wastage"]); ?>" /> <?php }else{ ?><input name="qty_wastage" id="qty_wastage" type="number" step=".01" min="1" class="span5" /><?php } ?></td>
               </tr>
             <tr>
               <th>UOM :</th>

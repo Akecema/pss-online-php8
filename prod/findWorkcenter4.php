@@ -60,7 +60,7 @@ $result4 =mysqli_query($dbc, $query4);
 
 
 <div id="work_centerdiv">
-  <select name="work_center" id="work_center" class="span5" onChange="getWorkCenter(<?=$factory?>,this.value)">
+  <select name="work_center" id="work_center" class="span5" onChange="getWorkCenter(<?=h($factory)?>,this.value)">
    <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
 <?php
                 while($row4=mysqli_fetch_array($result4)) 

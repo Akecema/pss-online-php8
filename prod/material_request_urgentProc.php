@@ -563,7 +563,7 @@ if (isset($message))
     $no = 1; 
 		  
 		  ?>
-         <form name="myform" method="post" action="material_request_urgentProc.php?uid=<?php echo $uid; ?>">
+         <form name="myform" method="post" action="material_request_urgentProc.php?uid=<?php echo h($uid); ?>">
           
             <table width="99%" border="0">
   <tr>
@@ -600,7 +600,7 @@ if (isset($message))
 	 <?php if(($_POST["saveT"] == true) || ($_POST["nextsave"] == true)) 
 		{  
 		?> 
-		<option value="<?php echo $_POST["time1"]; ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>			
+		<option value="<?php echo h($_POST["time1"]); ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>			
      <?php
 	 }else{
 	 ?><option value="NULL" placeholder="HOURS">&nbsp;</option> 
@@ -617,7 +617,7 @@ if (isset($message))
      <?php if(($_POST["saveT"] == true) || ($_POST["nextsave"] == true)) 
 		{  
 		?> 
-		<option value="<?php echo $_POST["time2"]; ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>			
+		<option value="<?php echo h($_POST["time2"]); ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>			
      <?php
 	 }else{
 	 ?><option value="NULL" placeholder="MINUTES">&nbsp;</option> 
@@ -708,7 +708,7 @@ onClick="Check(document.myform.cancel)">  </div></td>
                <td><div align="center"><?php echo $row["comp_unit"];   ?></div></td>
                <td><div align="center"><?php echo $data_scan["work_center"]; ?></div>
                   <input name="id_dtl[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id_dtl"]; ?>">
-                  <input name="uid" type="hidden" value="<?php echo $uid; ?>"></td>
+                  <input name="uid" type="hidden" value="<?php echo h($uid); ?>"></td>
                </tr><?php
 			
       $k++;

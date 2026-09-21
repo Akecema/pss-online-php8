@@ -605,7 +605,7 @@ exit();
 ?></td>
                   <th width="17%">Prepared by :</th>
                   <td width="331" colspan="2">
-                <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo $_POST["prepared_by"]; } ?>"/></td>
+                <input name="prepared_by" type="text" id="prepared_by" size="25" class="span11"  value="<?php if (isset($_POST["prepared_by"])) { echo h($_POST["prepared_by"]); } ?>"/></td>
                 </tr>
                
                <tr>
@@ -634,7 +634,7 @@ exit();
                <tr>
                  <th>Vendor :</th>
                  <td> 
-                  <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="10" class="span3" value="<?php if (isset($_POST["vendor_no"])) { echo $_POST["vendor_no"]; } ?>" />
+                  <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="10" class="span3" value="<?php if (isset($_POST["vendor_no"])) { echo h($_POST["vendor_no"]); } ?>" />
                  
                   <?php if(($_POST["submit3"] == true) || ($_POST["submit4"] == true))
 						{  
@@ -651,7 +651,7 @@ exit();
 					 
 					   ?></td>
                  <th>Ref. Doc. No. :</th>
-                 <td><input name="ref_doc_no_return" type="text" id="ref_doc_no_return" size="25" class="span11"  value="<?php if (isset($_POST["ref_doc_no_return"])) { echo $_POST["ref_doc_no_return"]; } ?>"/></td>
+                 <td><input name="ref_doc_no_return" type="text" id="ref_doc_no_return" size="25" class="span11"  value="<?php if (isset($_POST["ref_doc_no_return"])) { echo h($_POST["ref_doc_no_return"]); } ?>"/></td>
                </tr>
               
               </table>

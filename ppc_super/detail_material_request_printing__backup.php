@@ -181,7 +181,7 @@ $row_k2 = mysqli_fetch_array($result_k2);
         <tr>
           <th width="204" height="28"><div align="left"><span class="style3">MRIN No</span></div></th>
           <th width="9" height="28"><span class="style3">:</span></th>
-          <td width="322"><span class="style3"><?php echo $temp_mrin; ?></span></td>
+          <td width="322"><span class="style3"><?php echo h($temp_mrin); ?></span></td>
           
           <th width="204" height="28"><div align="left"><span class="style3">Factory</span></div></th>
           <th width="11" height="28"><span class="style3">:</span></th>

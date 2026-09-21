@@ -227,7 +227,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 					
 		?>       
           
-     <form action="inprogress_plan_order_list2.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>" method="get" name="frmSearch" id="frmSearch">
+     <form action="inprogress_plan_order_list2.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>" method="get" name="frmSearch" id="frmSearch">
              <table class="table table-bordered table-striped">
             <tr>
               <th>Plan Start Date : <span class="com_i">*</span></th>
@@ -481,7 +481,7 @@ function getXMLHTTP() { //fuction to return the xml http object
           </div>
              
           <div class="widget-content nopadding">
-                <form name="frmSearch" method="post" action="inprogress_plan_order_list2.php?date1=<?php echo $dateF; ?>&&date2=<?php echo $dateT; ?>&&factory=<?php echo $factory; ?>&&work_center=<?php echo $work_center; ?>&&plan_no=<?php echo $plan_no; ?>&&shift_ops=<?php echo $shift_ops; ?>">
+                <form name="frmSearch" method="post" action="inprogress_plan_order_list2.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>">
                 <table width="350" align="right">
                 <tr>
                 <th>

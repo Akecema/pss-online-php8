@@ -180,13 +180,13 @@ echo '<div class="alert alert-error">', $message, '</div>';
        <!--    <div class="control-group">
               <label class="control-label">ID Type : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="id_type" type="text" id="id_type" size="20" maxlength="8" value="<?php if(isset($_POST['id_type'])) echo $_POST['id_type']; ?>" class="span11" placeholder="Enter ID Type Reject" />
+                <input name="id_type" type="text" id="id_type" size="20" maxlength="8" value="<?php if(isset($_POST['id_type'])) echo h($_POST['id_type']); ?>" class="span11" placeholder="Enter ID Type Reject" />
             </div>
             </div>-->
             <div class="control-group">
               <label class="control-label">Type Reject Desc. : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="type_desc" type="text" class="span11" id="type_desc" size="55" maxlength="20" value="<?php if(isset($_POST['type_desc'])) echo $_POST['type_desc']; ?>"  placeholder="Enter Type Reject Description" />
+               <input name="type_desc" type="text" class="span11" id="type_desc" size="55" maxlength="20" value="<?php if(isset($_POST['type_desc'])) echo h($_POST['type_desc']); ?>"  placeholder="Enter Type Reject Description" />
             </div>
             </div>
             <div class="control-group">

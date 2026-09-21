@@ -783,7 +783,7 @@ $message = NULL; // create an empty new variable.
 		 $no = 1; 
 		  
 		  ?>
-         <form name="myform" method="post" action="qc_rework_output_list.php?uid=<?php echo $uid; ?>">
+         <form name="myform" method="post" action="qc_rework_output_list.php?uid=<?php echo h($uid); ?>">
    <table width="100%" border="0" cellpadding="2">
      <tr>
        <td width="52%" height="234">
@@ -896,7 +896,7 @@ $message = NULL; // create an empty new variable.
                        <?php if($_POST["confirm1"] == true)
 		{  
 		?>
-                       <option value="<?php echo $_POST["time1"]; ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>
+                       <option value="<?php echo h($_POST["time1"]); ?>"><?php echo sprintf('%02d', $_POST["time1"]);	 ?></option>
                        <?php
 	 }else{
 	 ?>
@@ -913,7 +913,7 @@ $message = NULL; // create an empty new variable.
                        <?php if($_POST["confirm1"] == true)  
 		{  
 		?>
-                       <option value="<?php echo $_POST["time2"]; ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>
+                       <option value="<?php echo h($_POST["time2"]); ?>"><?php echo sprintf('%02d', $_POST["time2"]);	 ?></option>
                        <?php
 	 }else{
 	 ?>
@@ -928,7 +928,7 @@ $message = NULL; // create an empty new variable.
                    <tr>
                      <td>OK</td>
                      <td>:</td>
-                     <td><input name="qty_qc_ok" type="number" min="0" max="<?php echo $total_qty_pending; ?>" value="<?php if(isset($_POST["qty_qc_ok"])) { echo $_POST["qty_qc_ok"]; } ?>" /></td>
+                     <td><input name="qty_qc_ok" type="number" min="0" max="<?php echo $total_qty_pending; ?>" value="<?php if(isset($_POST["qty_qc_ok"])) { echo h($_POST["qty_qc_ok"]); } ?>" /></td>
                      <td colspan="4"></td>
                      </tr>
                    <tr>
@@ -1016,7 +1016,7 @@ $message = NULL; // create an empty new variable.
                        <?php if($_POST["confirm2"] == true)
 		{  
 		?>
-                       <option value="<?php echo $_POST["time3"]; ?>"><?php echo sprintf('%02d', $_POST["time3"]);	 ?></option>
+                       <option value="<?php echo h($_POST["time3"]); ?>"><?php echo sprintf('%02d', $_POST["time3"]);	 ?></option>
                        <?php
 	 }else{
 	 ?>
@@ -1033,7 +1033,7 @@ $message = NULL; // create an empty new variable.
                        <?php if($_POST["confirm2"] == true)  
 		{  
 		?>
-                       <option value="<?php echo $_POST["time4"]; ?>"><?php echo sprintf('%02d', $_POST["time4"]);	 ?></option>
+                       <option value="<?php echo h($_POST["time4"]); ?>"><?php echo sprintf('%02d', $_POST["time4"]);	 ?></option>
                        <?php
 	 }else{
 	 ?>
@@ -1048,7 +1048,7 @@ $message = NULL; // create an empty new variable.
                    <tr>
                      <td>NG</td>
                      <td>:</td>
-                     <td><input name="qty_qc_NG" type="number" min="0" max="<?php echo $total_qty_pending; ?>" value="<?php if(isset($_POST["qty_qc_NG"])) { echo $_POST["qty_qc_NG"]; } ?>" /></td>
+                     <td><input name="qty_qc_NG" type="number" min="0" max="<?php echo $total_qty_pending; ?>" value="<?php if(isset($_POST["qty_qc_NG"])) { echo h($_POST["qty_qc_NG"]); } ?>" /></td>
                      <td colspan="4">&nbsp;</td>
                    </tr>
                    <tr>

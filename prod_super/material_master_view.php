@@ -184,7 +184,7 @@ $url = 'material_master_list.php';
                  <td><?php echo $row["comp_unit"];   ?></td>
                  <td><?php echo $row["consumption"];   ?></td> 
                  <input name="id_dtl[<?php echo $i; ?>]" type="hidden" value="<?php echo $row["id_dtl"]; ?>">
-                  <input name="id_hdr" type="hidden" value="<?php echo $id_hdr; ?>">
+                  <input name="id_hdr" type="hidden" value="<?php echo h($id_hdr); ?>">
                </tr>
               <?php
 			

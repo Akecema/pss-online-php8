@@ -193,7 +193,7 @@ if (isset($message))
 
      
           <!-- End Box Head -->
-          <form name="form1" method="post" action="mat_model_edit.php?code_model=<?php echo $code_model; ?>" >
+          <form name="form1" method="post" action="mat_model_edit.php?code_model=<?php echo h($code_model); ?>" >
               <table class="table table-bordered">
                <tr>
                  <td>ID Reason *</td>

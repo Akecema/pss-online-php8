@@ -180,13 +180,13 @@ echo '<div class="alert alert-error">', $message, '</div>';
        <!--    <div class="control-group">
               <label class="control-label">ID Reason : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-                <input name="id_reason_wastage" type="text" id="id_reason_wastage" size="20" maxlength="8" value="<?php if(isset($_POST['id_reason_wastage'])) echo $_POST['id_reason_wastage']; ?>" class="span11" placeholder="Enter ID Reason Reject" />
+                <input name="id_reason_wastage" type="text" id="id_reason_wastage" size="20" maxlength="8" value="<?php if(isset($_POST['id_reason_wastage'])) echo h($_POST['id_reason_wastage']); ?>" class="span11" placeholder="Enter ID Reason Reject" />
             </div>
             </div>-->
             <div class="control-group">
               <label class="control-label">Reason Wasatage Desc. : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-               <input name="reason_wastage_desc" type="text" class="span11" id="reason_wastage_desc" size="55" maxlength="20" value="<?php if(isset($_POST['reason_wastage_desc'])) echo $_POST['reason_wastage_desc']; ?>"  placeholder="Enter Reason Wastage Description" />
+               <input name="reason_wastage_desc" type="text" class="span11" id="reason_wastage_desc" size="55" maxlength="20" value="<?php if(isset($_POST['reason_wastage_desc'])) echo h($_POST['reason_wastage_desc']); ?>"  placeholder="Enter Reason Wastage Description" />
             </div>
             </div>
             <div class="control-group">

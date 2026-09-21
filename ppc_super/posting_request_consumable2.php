@@ -234,7 +234,7 @@ function getXMLHTTP() { //fuction to return the xml http object
             </tr>
             <tr>
               <th>MRIN No :</th>
-              <td><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" value="<?php echo $_GET["temp_mrin"]; ?>" /></td>
+              <td><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" value="<?php echo h($_GET["temp_mrin"]); ?>" /></td>
               <th>&nbsp;</th>
               <td>&nbsp;</td>
              </tr>

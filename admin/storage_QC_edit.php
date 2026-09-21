@@ -197,7 +197,7 @@ if (isset($message))
 
      
           <!-- End Box Head -->
-          <form name="form1" method="post" action="storage_QC_edit.php?code=<?php echo $cd; ?>" >
+          <form name="form1" method="post" action="storage_QC_edit.php?code=<?php echo h($cd); ?>" >
               <table class="table table-bordered">
                <tr>
                  <td>Storage Locaton Code <font color="#FF0000"> * </font></td>

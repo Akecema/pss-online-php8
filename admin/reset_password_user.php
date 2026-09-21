@@ -263,13 +263,13 @@ $message = NULL; // create an empty new variable.
             <div class="control-group">
               <label class="control-label">New Password : <font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-              <input type="password" name="newpass"  id="newpass" size="30" placeholder="Enter new password"  class="span11" value="<?php if(isset($_POST['newpass'])) echo $_POST['newpass']; ?>"/>
+              <input type="password" name="newpass"  id="newpass" size="30" placeholder="Enter new password"  class="span11" value="<?php if(isset($_POST['newpass'])) echo h($_POST['newpass']); ?>"/>
             </div>
             </div>
             <div class="control-group">
               <label class="control-label">Confirmed Password :<font color="#FF0000"><b> *</b></font></label>
               <div class="controls">
-          <input type="password" name="newpass2" id="newpass2" class="span11" size="30" placeholder="Enter new password"  value="<?php if(isset($_POST['newpass2'])) echo $_POST['newpass2']; ?>" />
+          <input type="password" name="newpass2" id="newpass2" class="span11" size="30" placeholder="Enter new password"  value="<?php if(isset($_POST['newpass2'])) echo h($_POST['newpass2']); ?>" />
             </div>
             </div>
            

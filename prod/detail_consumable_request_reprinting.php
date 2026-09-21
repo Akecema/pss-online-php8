@@ -216,7 +216,7 @@ console.log('closed!');
         <tr>
           <th>MRIN No</th>
           <th>:</th>
-          <th><?php echo $temp_mrin; ?></th>
+          <th><?php echo h($temp_mrin); ?></th>
           <th>Factory</th>
           <th>:</th>
           <th><?php echo $data_2["factory"];  ?></th>
@@ -330,7 +330,7 @@ console.log('closed!');
 
 
 ?>
-<!-- <input name="submit" type="submit" value="PRINT" class="button"  onclick="return confirm('Printing for MRIN No. <?php echo $temp_mrin; ?> ');" /> -->
+<!-- <input name="submit" type="submit" value="PRINT" class="button"  onclick="return confirm('Printing for MRIN No. <?php echo h($temp_mrin); ?> ');" /> -->
 
 
 <input type="button" value="Print" onclick="myFunction()" class="btn btn-success"/>

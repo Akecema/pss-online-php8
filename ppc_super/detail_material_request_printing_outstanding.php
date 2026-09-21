@@ -169,7 +169,7 @@ $data_2 = mysqli_fetch_array($result_2);
         <tr>
           <th width="204" height="28" class="ac style3"><div align="right">MRIN No</div></th>
           <th width="9" height="28">:</th>
-          <td width="322"><?php echo $temp_mrin; ?></td>
+          <td width="322"><?php echo h($temp_mrin); ?></td>
           <th width="204" height="28"><span class="style3">Request Date &amp; Time </span></th>
           <th width="11" height="28"><span class="style3">:</span></th>
           <td width="218" height="28"><?php echo $data_2["R"]; ?>&nbsp;&nbsp;<?php echo $data_2["time_posting"]; ?></td>

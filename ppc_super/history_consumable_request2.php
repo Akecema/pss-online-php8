@@ -169,7 +169,7 @@ iFid.print();
 				?>
               </select></td>
                <th>MRIN No :</th>
-              <td><input name="temp_mrin" type="text" id="temp_mrin" class="span11" value="<?php echo $_GET["temp_mrin"]; ?>" /></td>
+              <td><input name="temp_mrin" type="text" id="temp_mrin" class="span11" value="<?php echo h($_GET["temp_mrin"]); ?>" /></td>
             </tr>
            
            

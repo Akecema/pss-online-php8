@@ -365,7 +365,7 @@ if (isset($message))
             <div class="control-group">
             <label class="control-label">Production Order : </label>
               <div class="controls">
-            <input name="prod_order" type="text" id="prod_order" size="20" maxlength="15" placeholder="Enter Production Order" value="<?php if(isset($_POST['prod_order'])) echo $_POST['prod_order']; ?>" class="span11" />
+            <input name="prod_order" type="text" id="prod_order" size="20" maxlength="15" placeholder="Enter Production Order" value="<?php if(isset($_POST['prod_order'])) echo h($_POST['prod_order']); ?>" class="span11" />
               </div>
             </div>
              <div class="control-group">

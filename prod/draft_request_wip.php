@@ -37,7 +37,7 @@ exit();
 
 $url = "wip_request_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -154,10 +154,10 @@ $data_setup = mysqli_fetch_array($rs_setup);
     for ($i=0; $i<$how_many; $i++) { 
       //  echo ($i+1) . '- ' . $cancel[$i] . '<br>'; 
 		 
-		  $query_m23 = "DELETE FROM `scan_detail_wip` WHERE id_scan = '$cancel[$i]'";
+		  $query_m23 = "DELETE FROM `scan_detail_wip` WHERE id_scan = '".db_esc($dbc, $cancel[$i])."'";
 		  $result_m23 = mysqli_query($dbc, $query_m23) or die (mysqli_error($dbc));
 		 
-		  $query_m24 = "DELETE FROM `wip_request` WHERE id_scan_wip = '$cancel[$i]'";
+		  $query_m24 = "DELETE FROM `wip_request` WHERE id_scan_wip = '".db_esc($dbc, $cancel[$i])."'";
 		  $result_m24 = mysqli_query($dbc, $query_m24) or die (mysqli_error($dbc));
 	  
 	    }
@@ -218,7 +218,7 @@ $message = NULL; // create an empty new variable.
     
 //update table material request with new quantity
 
-$query_update = "UPDATE wip_request SET bom_qty_wip = '".$_POST["bom_qty"][$i]."', user_update = '".$res["user_no"]."', date_update = NOW() WHERE id_req_wip = '".$_POST["id_req"][$i]."' ";
+$query_update = "UPDATE wip_request SET bom_qty_wip = '".db_esc($dbc, $_POST["bom_qty"][$i])."', user_update = '".db_esc($dbc, $res["user_no"])."', date_update = NOW() WHERE id_req_wip = '".db_esc($dbc, $_POST["id_req"][$i])."' ";
 
 $result_update = mysqli_query($dbc, $query_update);
 
@@ -335,7 +335,7 @@ $row_id_2 = mysqli_fetch_row($result_id_2);
    
   
   
-$query_update2 = "UPDATE wip_request SET mrin_doc_wip = '$number', mrin_year_wip = '$year', temp_mrin_wip = '$ref', bom_qty_wip = '".$_POST["bom_qty"][$i]."', status_request = 'Y', user_update = '".$res["user_no"]."', date_update = NOW(), date_posting = NOW(), time_posting = NOW() WHERE id_req_wip = '".$_POST["id_req"][$i]."' ";
+$query_update2 = "UPDATE wip_request SET mrin_doc_wip = '$number', mrin_year_wip = '".db_esc($dbc, $year)."', temp_mrin_wip = '".db_esc($dbc, $ref)."', bom_qty_wip = '".db_esc($dbc, $_POST["bom_qty"][$i])."', status_request = 'Y', user_update = '".db_esc($dbc, $res["user_no"])."', date_update = NOW(), date_posting = NOW(), time_posting = NOW() WHERE id_req_wip = '".db_esc($dbc, $_POST["id_req"][$i])."' ";
 
 $result_update2 = mysqli_query($dbc, $query_update2);
 
@@ -376,7 +376,7 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
    $current_date = (date("Y-m-d"));
 
 								 
-   $query8 = "SELECT COUNT(*) FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND SD.status_urgent = 'N' AND MR.status_request = 'N' AND MR.user_create = '".$res["user_no"]."' AND ((MR.date_mrin >= '$current_date') AND (MR.date_mrin <= '$next_date')) ORDER BY MR.id_req_wip ASC";
+   $query8 = "SELECT COUNT(*) FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND SD.status_urgent = 'N' AND MR.status_request = 'N' AND MR.user_create = '".db_esc($dbc, $res["user_no"])."' AND ((MR.date_mrin >= '$current_date') AND (MR.date_mrin <= '$next_date')) ORDER BY MR.id_req_wip ASC";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8); 
 
@@ -386,7 +386,7 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
    $pages->paginate();
  
   
-$query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND SD.status_urgent = 'N' AND MR.status_request = 'N' AND MR.user_create = '".$res["user_no"]."' AND ((MR.date_mrin >= '$current_date') AND (MR.date_mrin <= '$next_date')) GROUP BY MR.id_scan_wip ORDER BY MR.id_req_wip ASC";
+$query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM wip_request AS MR, scan_detail_wip AS SD WHERE MR.id_scan_wip = SD.id_scan AND SD.status_urgent = 'N' AND MR.status_request = 'N' AND MR.user_create = '".db_esc($dbc, $res["user_no"])."' AND ((MR.date_mrin >= '$current_date') AND (MR.date_mrin <= '$next_date')) GROUP BY MR.id_scan_wip ORDER BY MR.id_req_wip ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -431,7 +431,7 @@ if ($num > 0) {
 		
 		   $no = sprintf('%03d', $no);
    
-   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
+   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $row2[6])."' GROUP BY id_scan";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 	
@@ -452,16 +452,16 @@ if ($num > 0) {
    </thead>
     <tbody>
          <?php
-	$query_again = "SELECT * FROM wip_request WHERE status_request = 'N' and id_scan_wip = '".$row2[6]."' AND status != 'Cancel' ORDER BY id_req_wip ASC ";
+	$query_again = "SELECT * FROM wip_request WHERE status_request = 'N' and id_scan_wip = '".db_esc($dbc, $row2[6])."' AND status != 'Cancel' ORDER BY id_req_wip ASC ";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
 	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
-   $query1_p = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $row2[6])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row[5])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
   

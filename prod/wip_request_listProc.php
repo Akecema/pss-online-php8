@@ -37,7 +37,7 @@ exit();
 
 $url = "wip_request_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -172,7 +172,7 @@ return "";
  <?php
 	   $uid = $_GET["uid"];
 	
-	   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '$uid'";
+	   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $uid)."'";
 	   $result_scan = mysqli_query($dbc, $query_scan);
 	   $data_scan = mysqli_fetch_array($result_scan);
 	   
@@ -309,12 +309,12 @@ $message = NULL; // create an empty new variable.
     $t_time = (($_POST["time1"]).":".($_POST["time2"]));
    
  
-  $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '$cancel2[$i]'";
+  $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '".db_esc($dbc, $cancel2[$i])."'";
   $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
   
 //register the user in the db.
-$query_db2 = "INSERT INTO wip_request (id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','$ans3[id_hdr]','$ans3[id_dtl]','$uid','$cancel2[$i]','$string[$i]', '$ans3[comp_unit]','N','N','$res[user_no]',NOW(),'','','','','New','$ans3[bill_component]','".$_POST["date1"]."','$t_time')";
+$query_db2 = "INSERT INTO wip_request (id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','".db_esc($dbc, $ans3['id_hdr'])."','".db_esc($dbc, $ans3['id_dtl'])."','".db_esc($dbc, $uid)."','".db_esc($dbc, $cancel2[$i])."','".db_esc($dbc, $string[$i])."', '".db_esc($dbc, $ans3['comp_unit'])."','N','N','".db_esc($dbc, $res['user_no'])."',NOW(),'','','','','New','".db_esc($dbc, $ans3['bill_component'])."','".db_esc($dbc, $_POST["date1"])."','".db_esc($dbc, $t_time)."')";
 $result_db2 = mysqli_query($dbc, $query_db2) or die (mysqli_error($dbc));
  
 
@@ -464,12 +464,12 @@ if(isset($_POST["cancel"])) {
     $t_time = (($_POST["time1"]).":".($_POST["time2"]));
    
  
-  $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '$cancel2[$i]'";
+  $query_q2 = "SELECT * FROM mat_master_detail WHERE id_dtl = '".db_esc($dbc, $cancel2[$i])."'";
   $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
   
 //register the user in the db.
-$query_db2 = "INSERT INTO wip_request (id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','$ans3[id_hdr]','$ans3[id_dtl]','$uid','$cancel2[$i]','$string[$i]', '$ans3[comp_unit]','N','N','$res[user_no]',NOW(),'','','','','New','$ans3[bill_component]','".$_POST["date1"]."','$t_time')";
+$query_db2 = "INSERT INTO wip_request (id_req_wip, mrin_doc_wip, mrin_year_wip, temp_mrin_wip, id_hdr_wip, id_dtl_wip, id_scan_wip, bom_id_wip, bom_qty_wip, bom_oum_wip, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin) VALUES('','','','','".db_esc($dbc, $ans3['id_hdr'])."','".db_esc($dbc, $ans3['id_dtl'])."','".db_esc($dbc, $uid)."','".db_esc($dbc, $cancel2[$i])."','".db_esc($dbc, $string[$i])."', '".db_esc($dbc, $ans3['comp_unit'])."','N','N','".db_esc($dbc, $res['user_no'])."',NOW(),'','','','','New','".db_esc($dbc, $ans3['bill_component'])."','".db_esc($dbc, $_POST["date1"])."','".db_esc($dbc, $t_time)."')";
 $result_db2 = mysqli_query($dbc, $query_db2) or die (mysqli_error($dbc));
  
 
@@ -594,7 +594,7 @@ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $mess
              <p align="center">--------------------------------------------------------------------------------------------------------------------------------------------- </p>
              <?php
 			 
-	   $query_component = "SELECT * FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".$data_scan["material_no"]."' AND s.bom_status = 'Y' AND s.mat_type = 'Z200'";
+	   $query_component = "SELECT * FROM mat_master_header AS h, mat_master_detail AS s WHERE h.id_hdr = s.id_hdr AND s.material = '".db_esc($dbc, $data_scan["material_no"])."' AND s.bom_status = 'Y' AND s.mat_type = 'Z200'";
 	   $result_component = mysqli_query($dbc, $query_component);
 	  
 			 ?>

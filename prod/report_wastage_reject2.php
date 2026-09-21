@@ -33,7 +33,7 @@ exit();
 }
 $url = "report_wastage_reject.php";
 
-$query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -291,7 +291,7 @@ return "";
                 <option value="" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
 	              
-				   $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+				   $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -358,7 +358,7 @@ return "";
 		
 	//convert 
 	//$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
-	$query_convert = "SELECT * FROM `work_center_detail` WHERE id_factory = '".$_GET["factory"]."' ";
+	$query_convert = "SELECT * FROM `work_center_detail` WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ";
 	$result_convert = mysqli_query($dbc, $query_convert); 
 	$row_convert = mysqli_fetch_array($result_convert);
 	
@@ -475,15 +475,15 @@ return "";
    while ($row = mysqli_fetch_array($rs))
    {
 	
-	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
+	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".db_esc($dbc, $row['type_wastage'])."' ORDER BY id_wastage ASC";
     $result_type = mysqli_query($dbc, $query_type);
     $row_type = mysqli_fetch_array($result_type); 
 	
-	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
+	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".db_esc($dbc, $row['reason_wastage'])."' ORDER BY id_reason_wastage ASC";
     $result_reason = mysqli_query($dbc, $query_reason);
     $row_reason = mysqli_fetch_array($result_reason);
 	
-	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
+	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
     $result_scan = mysqli_query($dbc, $query_scan);
     $row_scan = mysqli_fetch_array($result_scan);
 	

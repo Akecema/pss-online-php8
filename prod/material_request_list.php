@@ -31,7 +31,7 @@ exit();
 
 $url = "material_request_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -177,17 +177,17 @@ echo "<br>"; */
 // negative limit (since PHP 5.1)
 //print_r(explode('|', $str, -1));
 
-  $query3 = "SELECT * FROM work_center_detail WHERE id_work = '$part4' ORDER BY id_work ASC";
+  $query3 = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $part4)."' ORDER BY id_work ASC";
   $result3 = mysqli_query($dbc, $query3);
   $row3 = mysqli_fetch_array($result3); 
 				   
-  $query_q2 = "SELECT * FROM mat_master_detail WHERE (material = '".$part1."' OR bill_component = '".$part1."')";
+  $query_q2 = "SELECT * FROM mat_master_detail WHERE (material = '".db_esc($dbc, $part1)."' OR bill_component = '".db_esc($dbc, $part1)."')";
   $result_q2 = mysqli_query($dbc, $query_q2) or die (mysqli_error($dbc));
   $ans3 = mysqli_fetch_array($result_q2);
 				   
 
 //insert to scan_detail
-$query_db = "INSERT INTO scan_detail(id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '".$pps_ref2."', '".$row3["id_factory"]."', '".$part4."', '".$part2."', '".$part1."', '".$part7."', '".$ans3["plant"]."', '".$ans3["sloc"]."', '".$part6."', '".$user_no."', NOW(),'','','N')";
+$query_db = "INSERT INTO scan_detail(id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '".db_esc($dbc, $pps_ref2)."', '".db_esc($dbc, $row3["id_factory"])."', '".db_esc($dbc, $part4)."', '".db_esc($dbc, $part2)."', '".db_esc($dbc, $part1)."', '".db_esc($dbc, $part7)."', '".db_esc($dbc, $ans3["plant"])."', '".db_esc($dbc, $ans3["sloc"])."', '".db_esc($dbc, $part6)."', '".db_esc($dbc, $user_no)."', NOW(),'','','N')";
 $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 

@@ -36,7 +36,7 @@ exit();
 $url = "display_cancel_backflush_tran_proc.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -138,7 +138,7 @@ if (bV >= 4) window.print();
  
   //--------- pps detail ------------
 	 
-	   $query_pps = "SELECT * FROM pps_detail_cancellation WHERE id = '".$uid."'";
+	   $query_pps = "SELECT * FROM pps_detail_cancellation WHERE id = '".db_esc($dbc, $uid)."'";
 	   $result_pps = mysqli_query($dbc, $query_pps);
 	   $data_pps = mysqli_fetch_array($result_pps);
  
@@ -178,7 +178,7 @@ if (bV >= 4) window.print();
    $no = 1;
    $sta_out = "";
    
-   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_cancel,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".$rst_sta4["status_desc"]."' AND MR.id = '$uid'";
+   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_cancel,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.id = '".db_esc($dbc, $uid)."'";
 $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    while ($row2 = mysqli_fetch_array($result_display))

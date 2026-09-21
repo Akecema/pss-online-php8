@@ -36,7 +36,7 @@ exit();
 $url = "material_request_urgent.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -274,7 +274,7 @@ if($material_no && $factory && $work_center) //everything ok
 
 
 //insert to scan_detail
-$query_db = "INSERT INTO `scan_detail` (id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '', '$factory', '$work_center', '$prod_order', '$material_no', '', '', '$factory', '', '$user_no', NOW(),'','','Y')";
+$query_db = "INSERT INTO `scan_detail` (id_scan, pps_ref, factory, work_center, prod_order, material_no, scan_oum, scan_plant, scan_sloc, scan_qty, user_create, date_create, user_update, date_update, status_urgent) VALUES ('".mysqli_insert_id($dbc)."', '', '".db_esc($dbc, $factory)."', '".db_esc($dbc, $work_center)."', '".db_esc($dbc, $prod_order)."', '".db_esc($dbc, $material_no)."', '', '', '".db_esc($dbc, $factory)."', '', '".db_esc($dbc, $user_no)."', NOW(),'','','Y')";
 $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
@@ -285,12 +285,12 @@ $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 			 $result_sql = mysqli_query($dbc, $query_sql);
 			 $data_sql = mysqli_fetch_array($result_sql);
 			 
-			 $query_sql2 = "SELECT * FROM `mat_master_header` WHERE material_no = '".$data_sql["material_no"]."'";
+			 $query_sql2 = "SELECT * FROM `mat_master_header` WHERE material_no = '".db_esc($dbc, $data_sql["material_no"])."'";
 			 $result_sql2 = mysqli_query($dbc, $query_sql2);
 			 $data_sql2 = mysqli_fetch_array($result_sql2);
 			 
 			 
-	$query_update = "UPDATE `scan_detail` SET scan_oum = '".$data_sql2["BUn"]."', scan_plant = '".$data_sql2["plant"]."' WHERE id_scan = '".$data_sql["id_scan"]."'";
+	$query_update = "UPDATE `scan_detail` SET scan_oum = '".db_esc($dbc, $data_sql2["BUn"])."', scan_plant = '".db_esc($dbc, $data_sql2["plant"])."' WHERE id_scan = '".db_esc($dbc, $data_sql["id_scan"])."'";
 	$result_update =  mysqli_query($dbc, $query_update);
 			 
 			 

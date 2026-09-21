@@ -38,7 +38,7 @@ $month = $today['mon'];
 $mday = $today['mday']; 
 $year = $today['year']; 
 
-$query_u = "SELECT * FROM user_detail WHERE username = '$username'";
+$query_u = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result_u = mysqli_query($dbc, $query_u);   //run the query.
 $data_u = mysqli_fetch_array($result_u);   //how many records are there?       
 

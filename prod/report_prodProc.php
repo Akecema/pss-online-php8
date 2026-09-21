@@ -31,7 +31,7 @@ exit();
 
 $url = "report_prod.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -222,7 +222,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -255,13 +255,13 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 			//convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
+			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".db_esc($dbc, $_GET["material_no"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
 			//convert material no kpd id_hdr
 			
-			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = '".$_GET["factory"]."'";
+			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			
 			while ($row_convert2 = mysqli_fetch_array($result_convert2))
@@ -365,7 +365,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 
   $no = sprintf('%03d', $no);
    
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2["id_scan"]."' GROUP BY id_scan";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2["id_scan"])."' GROUP BY id_scan";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 	
@@ -384,16 +384,16 @@ $rs = mysqli_query($dbc, $query);   //run the query.
   
 
          <?php
-	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2["id_scan"]."' ORDER BY id_req ASC";
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".db_esc($dbc, $row2["id_scan"])."' ORDER BY id_req ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
 	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
-   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row2["id_scan"]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2["id_scan"])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row["id_dtl"]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row["id_dtl"])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
   

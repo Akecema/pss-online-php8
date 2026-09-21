@@ -36,7 +36,7 @@ exit();
 $url = "cancellation_list_backflush_tran.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -199,7 +199,7 @@ $message = NULL; // create an empty new variable.
    
     //--------- pps detail ---------
 	 
-	   $query_pps = "SELECT * FROM pps_detail_transaction WHERE id = '".$buid."'";
+	   $query_pps = "SELECT * FROM pps_detail_transaction WHERE id = '".db_esc($dbc, $buid)."'";
 	   $result_pps = mysqli_query($dbc, $query_pps);
 	   $data_pps = mysqli_fetch_array($result_pps);
 	   
@@ -207,25 +207,25 @@ $message = NULL; // create an empty new variable.
 
   
 	
-$query_data2 = "INSERT INTO pps_detail_cancellation(id,pps_id,ref_id,bflush_no,plan_no,id_scan,upload_id,model_code,month_plan,material_no,material_desc,material_type,qty_plan,qty_actual,qty_balance,qty_NG,status_pps,comp_code,work_center,shift_pps1,shift_pps2,date_plan,status,user_upload,date_upload,user_create,date_create,user_update,date_update,user_posting,date_posting,time_posting,ploc,delivery_loc,type_reject,reason_reject,user_reject,date_reject,time_reject,status_ftp_bflush,bflush_no_ref,user_cancel,date_cancel,remark_cancel,plant_code,shift_posting) VALUES('".$data_pps["id"]."','".$data_pps["pps_id"]."','".$data_pps["ref_id"]."','".$data_pps["bflush_no"]."','".$data_pps["plan_no"]."','".$data_pps["id_scan"]."','".$data_pps["upload_id"]."','".$data_pps["model_code"]."','".$data_pps["month_plan"]."','".$data_pps["material_no"]."','".$data_pps["material_desc"]."','".$data_pps["material_type"]."','".$data_pps["qty_plan"]."','".$data_pps["qty_actual"]."','".$data_pps["qty_balance"]."','".$data_pps["qty_NG"]."','".$rst_sta4["status_desc"]."','".$data_pps["comp_code"]."','".$data_pps["work_center"]."','".$data_pps["shift_pps1"]."','".$data_pps["shift_pps2"]."','".$data_pps["date_plan"]."','N','".$data_pps["user_upload"]."','".$data_pps["date_upload"]."','".$data_pps["user_create"]."','".$data_pps["date_create"]."','".$data_pps["user_update"]."','".$data_pps["date_update"]."','".$data_pps["user_posting"]."','".$data_pps["date_posting"]."','".$data_pps["time_posting"]."','".$data_pps["ploc"]."','".$data_pps["delivery_loc"]."','".$data_pps["type_reject"]."','".$data_pps["reason_reject"]."','".$data_pps["user_reject"]."','".$data_pps["date_reject"]."','".$data_pps["time_reject"]."','Y','".$ref."','".$username."',NOW(),'".$data_pps["remark_cancel"]."','".$data_pps["plant_code"]."','".$data_pps["shift_posting"]."')";
+$query_data2 = "INSERT INTO pps_detail_cancellation(id,pps_id,ref_id,bflush_no,plan_no,id_scan,upload_id,model_code,month_plan,material_no,material_desc,material_type,qty_plan,qty_actual,qty_balance,qty_NG,status_pps,comp_code,work_center,shift_pps1,shift_pps2,date_plan,status,user_upload,date_upload,user_create,date_create,user_update,date_update,user_posting,date_posting,time_posting,ploc,delivery_loc,type_reject,reason_reject,user_reject,date_reject,time_reject,status_ftp_bflush,bflush_no_ref,user_cancel,date_cancel,remark_cancel,plant_code,shift_posting) VALUES('".db_esc($dbc, $data_pps["id"])."','".db_esc($dbc, $data_pps["pps_id"])."','".db_esc($dbc, $data_pps["ref_id"])."','".db_esc($dbc, $data_pps["bflush_no"])."','".db_esc($dbc, $data_pps["plan_no"])."','".db_esc($dbc, $data_pps["id_scan"])."','".db_esc($dbc, $data_pps["upload_id"])."','".db_esc($dbc, $data_pps["model_code"])."','".db_esc($dbc, $data_pps["month_plan"])."','".db_esc($dbc, $data_pps["material_no"])."','".db_esc($dbc, $data_pps["material_desc"])."','".db_esc($dbc, $data_pps["material_type"])."','".db_esc($dbc, $data_pps["qty_plan"])."','".db_esc($dbc, $data_pps["qty_actual"])."','".db_esc($dbc, $data_pps["qty_balance"])."','".db_esc($dbc, $data_pps["qty_NG"])."','".db_esc($dbc, $rst_sta4["status_desc"])."','".db_esc($dbc, $data_pps["comp_code"])."','".db_esc($dbc, $data_pps["work_center"])."','".db_esc($dbc, $data_pps["shift_pps1"])."','".db_esc($dbc, $data_pps["shift_pps2"])."','".db_esc($dbc, $data_pps["date_plan"])."','N','".db_esc($dbc, $data_pps["user_upload"])."','".db_esc($dbc, $data_pps["date_upload"])."','".db_esc($dbc, $data_pps["user_create"])."','".db_esc($dbc, $data_pps["date_create"])."','".db_esc($dbc, $data_pps["user_update"])."','".db_esc($dbc, $data_pps["date_update"])."','".db_esc($dbc, $data_pps["user_posting"])."','".db_esc($dbc, $data_pps["date_posting"])."','".db_esc($dbc, $data_pps["time_posting"])."','".db_esc($dbc, $data_pps["ploc"])."','".db_esc($dbc, $data_pps["delivery_loc"])."','".db_esc($dbc, $data_pps["type_reject"])."','".db_esc($dbc, $data_pps["reason_reject"])."','".db_esc($dbc, $data_pps["user_reject"])."','".db_esc($dbc, $data_pps["date_reject"])."','".db_esc($dbc, $data_pps["time_reject"])."','Y','".db_esc($dbc, $ref)."','".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $data_pps["remark_cancel"])."','".db_esc($dbc, $data_pps["plant_code"])."','".db_esc($dbc, $data_pps["shift_posting"])."')";
 $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));   
 
    //---------update cancellation--------------------------
 	 
-	  $query_cancel = "UPDATE pps_detail_transaction SET bflush_no_ref = '".$ref."', status_pps = '".$rst_sta4["status_desc"]."', status = 'N', user_cancel = '".$username."', date_cancel = NOW() WHERE id = '".$buid."'";
+	  $query_cancel = "UPDATE pps_detail_transaction SET bflush_no_ref = '".db_esc($dbc, $ref)."', status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."', status = 'N', user_cancel = '".db_esc($dbc, $username)."', date_cancel = NOW() WHERE id = '".db_esc($dbc, $buid)."'";
 	$result_cancel = mysqli_query($dbc, $query_cancel);
 	
   
   //--update status "Inprogress" to "Release" in table pps_detail	
 	  
-	  $query_all_info = "SELECT * FROM pps_detail_transaction WHERE status_pps != '".$rst_sta4["status_desc"]."' AND plan_no = '".$data_pps["plan_no"]."'";
+	  $query_all_info = "SELECT * FROM pps_detail_transaction WHERE status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND plan_no = '".db_esc($dbc, $data_pps["plan_no"])."'";
 	  $result_all_info = mysqli_query($dbc, $query_all_info);
 	  $data_all_info = mysqli_fetch_array($result_all_info); 
 	  	
 	  if($data_all_info < 1)
 	  {
 		  
-	$query_upd_detail = "UPDATE pps_detail SET status_pps = '".$rst_sta2["status_desc"]."' WHERE plan_no = '".$data_pps["plan_no"]."'";
+	$query_upd_detail = "UPDATE pps_detail SET status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."' WHERE plan_no = '".db_esc($dbc, $data_pps["plan_no"])."'";
 	$result_upd_detail = mysqli_query($dbc, $query_upd_detail) or die (mysqli_error($dbc));
 	
 	  }
@@ -291,7 +291,7 @@ $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
    $no = 1;
    $sta_out = "";
    
-   $query_display = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE id = '".$buid."' AND status_pps = '".$rst_sta7["status_desc"]."'";
+   $query_display = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE id = '".db_esc($dbc, $buid)."' AND status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."'";
 $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    while ($row2 = mysqli_fetch_array($result_display))

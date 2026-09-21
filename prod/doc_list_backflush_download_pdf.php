@@ -243,7 +243,7 @@ $pdf->AddPage();
    $no = 1;
    $sta_out = "";
 
-$queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql."ORDER BY MR.plan_no ASC";
+$queryu = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."')".$where_sql."ORDER BY MR.plan_no ASC";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 

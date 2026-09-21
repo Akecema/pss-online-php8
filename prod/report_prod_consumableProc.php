@@ -31,7 +31,7 @@ exit();
 
 $url = "report_prod_consumable.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -190,7 +190,7 @@ visibility:hidden;
 			
 			//convert material no kpd id_hdr
 			
-			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = '".$_GET["factory"]."'";
+			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			
 			while ($row_convert2 = mysqli_fetch_array($result_convert2))
@@ -299,7 +299,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 
      
          <?php
-	$query_again = "SELECT * FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.material_no = SD.material_no AND status_request = 'Y' and id_scan = '".$row2[5]."' ORDER BY id_req_con ASC";
+	$query_again = "SELECT * FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.material_no = SD.material_no AND status_request = 'Y' and id_scan = '".db_esc($dbc, $row2[5])."' ORDER BY id_req_con ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
 	 while ($row = mysqli_fetch_array($rs_again))
    {

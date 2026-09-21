@@ -27,7 +27,7 @@ $num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
 $data_setup = mysqli_fetch_array($rs_setup);
 //----------------------------------------------------	
 
-$query9 = "SELECT * FROM table_material WHERE mat_type = '$material_type' AND bom_status = 'Y' ORDER BY material_no ASC";
+$query9 = "SELECT * FROM table_material WHERE mat_type = '".db_esc($dbc, $material_type)."' AND bom_status = 'Y' ORDER BY material_no ASC";
 $result9 = mysqli_query($dbc, $query9);
 
 ?>

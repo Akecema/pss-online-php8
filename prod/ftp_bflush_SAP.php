@@ -23,11 +23,11 @@ require_role($dbc, 2);
 $buid = $_GET["buid"];
 $uid = $_GET["uid"];
 
-$qry = mysqli_query($dbc, "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS R, DATE_FORMAT(date_create,'%Y-%m-%d') AS R2, DATE_FORMAT(date_create,'%H:%i:%s') AS R3 FROM pps_detail_transaction WHERE bflush_no = '".$buid."' ");
+$qry = mysqli_query($dbc, "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS R, DATE_FORMAT(date_create,'%Y-%m-%d') AS R2, DATE_FORMAT(date_create,'%H:%i:%s') AS R3 FROM pps_detail_transaction WHERE bflush_no = '".db_esc($dbc, $buid)."' ");
 $data = "";
 while($row = mysqli_fetch_array($qry)) {
 	
-	$query_iscan = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$row["id_scan"]."'";
+	$query_iscan = "SELECT * FROM scan_prod_planning WHERE id_scan = '".db_esc($dbc, $row["id_scan"])."'";
 	$result_iscan = mysqli_query($dbc, $query_iscan);
 	$row_iscan = mysqli_fetch_array($result_iscan);
 	
@@ -41,7 +41,7 @@ $filen="BF2".$buid;
 $file = "../FromPortal/".$filen.".csv";
 //chmod($file, 0777);
 
-    $query_cftp = "SELECT * FROM ftp_bflush_detail WHERE bflush_no = '".$buid."'";
+    $query_cftp = "SELECT * FROM ftp_bflush_detail WHERE bflush_no = '".db_esc($dbc, $buid)."'";
 	$result_cftp = mysqli_query($dbc, $query_cftp);
 	$row_cftp = mysqli_num_rows($result_cftp);
 	
@@ -62,22 +62,22 @@ $file = "../FromPortal/".$filen.".csv";
    
    
     //----colect data --------------
-  $query_collect = "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS M FROM pps_detail_transaction WHERE bflush_no = '".$buid."'";
+  $query_collect = "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS M FROM pps_detail_transaction WHERE bflush_no = '".db_esc($dbc, $buid)."'";
   $rst_collect = mysqli_query($dbc, $query_collect);
   $data_collect = mysqli_fetch_array($rst_collect);
 
  
-    $query_iscan2 = "SELECT * FROM scan_prod_planning WHERE id_scan = '".$data_collect["id_scan"]."'";
+    $query_iscan2 = "SELECT * FROM scan_prod_planning WHERE id_scan = '".db_esc($dbc, $data_collect["id_scan"])."'";
 	$result_iscan2 = mysqli_query($dbc, $query_iscan2);
 	$row_iscan2 = mysqli_fetch_array($result_iscan2);
      //--------insert into table ftp_bflush_detail
   
-     $query_ftp_info = "INSERT INTO ftp_bflush_detail(id, file_name, bflush_no, ref_id, plan_no, material_no, material_desc, qty_ftp, uom, status_ftp, posting_date, posting_time, user_create, date_create) VALUES('','".$filen."','".$buid."','".$data_collect["ref_id"]."','".$data_collect["plan_no"]."','".$data_collect["material_no"]."','".$data_collect["material_desc"]."','".$data_collect["qty_actual"]."','".$row_iscan2["scan_uom"]."','Y','".$data_collect["M"]."','".$data_collect["time_posting"]."','".$username."',NOW())"; 
+     $query_ftp_info = "INSERT INTO ftp_bflush_detail(id, file_name, bflush_no, ref_id, plan_no, material_no, material_desc, qty_ftp, uom, status_ftp, posting_date, posting_time, user_create, date_create) VALUES('','".db_esc($dbc, $filen)."','".db_esc($dbc, $buid)."','".db_esc($dbc, $data_collect["ref_id"])."','".db_esc($dbc, $data_collect["plan_no"])."','".db_esc($dbc, $data_collect["material_no"])."','".db_esc($dbc, $data_collect["material_desc"])."','".db_esc($dbc, $data_collect["qty_actual"])."','".db_esc($dbc, $row_iscan2["scan_uom"])."','Y','".db_esc($dbc, $data_collect["M"])."','".db_esc($dbc, $data_collect["time_posting"])."','".db_esc($dbc, $username)."',NOW())"; 
      $rst_ftp_info = mysqli_query($dbc, $query_ftp_info);
    
      // ---update status 
 
-		$query_ftp = "UPDATE pps_detail_transaction SET status_ftp_bflush = 'Y' WHERE bflush_no = '".$buid."'";
+		$query_ftp = "UPDATE pps_detail_transaction SET status_ftp_bflush = 'Y' WHERE bflush_no = '".db_esc($dbc, $buid)."'";
 		$rst_query_ftp = mysqli_query($dbc, $query_ftp); //or die ("Error in query: $query_ftp"); 
 		
 				

@@ -36,7 +36,7 @@ exit();
 $url = "material_request_list.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -116,23 +116,23 @@ if (bV >= 4) window.print();
  $temp_mrin = $_GET["mrin_no"];
  $prod_order = $_GET["prod_order"];
  
-$queryu = "SELECT * from material_request WHERE temp_mrin = '$temp_mrin'";
+$queryu = "SELECT * from material_request WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
-$query_2 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') as R,DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '$temp_mrin'";
+$query_2 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') as R,DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $result_2 = mysqli_query($dbc, $query_2);   //run the query.
 $data_2 = mysqli_fetch_array($result_2);
 
- $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
+ $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $data_2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-		$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
+		$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".db_esc($dbc, $data_2["user_create"])."'";
 $result_k = mysqli_query($dbc, $query_k);
 $row_k = mysqli_fetch_array($result_k);
 
-$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '$username'";
+$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '".db_esc($dbc, $username)."'";
 $result_k2 = mysqli_query($dbc, $query_k2);
 $row_k2 = mysqli_fetch_array($result_k2);
 
@@ -260,20 +260,20 @@ $temp_mrin = $_GET["mrin_no"];
 				  
     if($reason_cancel && $reason_cancel2)// everything OK
 	{
-$queryu = "SELECT * from material_request WHERE temp_mrin = '$temp_mrin'";
+$queryu = "SELECT * from material_request WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
-$query_2 = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '$temp_mrin'";
+$query_2 = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from material_request as MR, scan_detail as SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $result_2 = mysqli_query($dbc, $query_2);   //run the query.
 $data_2 = mysqli_fetch_array($result_2);
 
-    $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
+    $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $data_2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 
 
-$query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '$temp_mrin' AND SD.prod_order = '$prod_order' AND MR.status = 'New'";
+$query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND SD.prod_order = '".db_esc($dbc, $prod_order)."' AND MR.status = 'New'";
 
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 		
@@ -281,12 +281,12 @@ $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM materia
 {
 
 
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row2[5])."'";
   	$result4_p = mysqli_query($dbc, $query4_p);
  	$row4_p = mysqli_fetch_array($result4_p); 
 	
       
- $query_upd3 = "UPDATE `material_request` SET status = 'Cancel', user_update = '$user_no', date_update = NOW() WHERE temp_mrin = '$temp_mrin' AND bom_component = '".$row4_p["bill_component"]."' ";
+ $query_upd3 = "UPDATE `material_request` SET status = 'Cancel', user_update = '".db_esc($dbc, $user_no)."', date_update = NOW() WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND bom_component = '".db_esc($dbc, $row4_p["bill_component"])."' ";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
       
@@ -294,12 +294,12 @@ $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM materia
 		  //-insert material request with status "Cancel" into table material request cancel
 		  //-----------------------------------------------------------------------------------------------------------------------
 		  
-		  	$query_mm3 = "SELECT * FROM `material_request` WHERE temp_mrin = '$temp_mrin' AND status = 'Cancel' AND bom_component = '".$row4_p["bill_component"]."'"; 
+		  	$query_mm3 = "SELECT * FROM `material_request` WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND status = 'Cancel' AND bom_component = '".db_esc($dbc, $row4_p["bill_component"])."'"; 
         	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 		
-		$query_mm3_insert =  "INSERT INTO material_request_cancel(id_req, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_cancel, reason_cancel2) VALUES('".$row_mm3["id_req"]."','".$row_mm3["mrin_doc"]."','".$row_mm3["mrin_year"]."','".$row_mm3["temp_mrin"]."','".$row_mm3["id_hdr"]."','".$row_mm3["id_dtl"]."','".$row_mm3["id_scan"]."','".$row_mm3["bom_id"]."','".$row_mm3["bom_qty"]."', '".$row_mm3["bom_oum"]."','".$row_mm3["status_request"]."','".$row_mm3["status_print"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_update"]."','".$row_mm3["date_update"]."','".$row_mm3["date_posting"]."','".$row_mm3["time_posting"]."','".$row_mm3["status"]."','".$row_mm3["bom_component"]."','".$row_mm3["date_mrin"]."','".$row_mm3["time_mrin"]."','".$_POST["reason_cancel"]."','".$_POST["reason_cancel2"]."')";
+		$query_mm3_insert =  "INSERT INTO material_request_cancel(id_req, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_cancel, reason_cancel2) VALUES('".db_esc($dbc, $row_mm3["id_req"])."','".db_esc($dbc, $row_mm3["mrin_doc"])."','".db_esc($dbc, $row_mm3["mrin_year"])."','".db_esc($dbc, $row_mm3["temp_mrin"])."','".db_esc($dbc, $row_mm3["id_hdr"])."','".db_esc($dbc, $row_mm3["id_dtl"])."','".db_esc($dbc, $row_mm3["id_scan"])."','".db_esc($dbc, $row_mm3["bom_id"])."','".db_esc($dbc, $row_mm3["bom_qty"])."', '".db_esc($dbc, $row_mm3["bom_oum"])."','".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["bom_component"])."','".db_esc($dbc, $row_mm3["date_mrin"])."','".db_esc($dbc, $row_mm3["time_mrin"])."','".db_esc($dbc, $_POST["reason_cancel"])."','".db_esc($dbc, $_POST["reason_cancel2"])."')";
 $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
 	  
  
@@ -395,18 +395,18 @@ if (isset($message))
 		{ $warna = $warnaGenap;}
 		else { $warna = $warnaGanjil; }	
    
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row[6]."'";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row[6])."'";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 
 		 
-   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row[6]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row[6])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
 	
 		 
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row[5])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
 		  	 
@@ -485,7 +485,7 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
 <select name="reason_cancel" id="reason_cancel" onchange="ShowReg(this.selectedIndex);">
 <?php if(isset($_POST["reason_cancel"])) { 
                   
-				  $query_r_1 = "SELECT * FROM reason_req_cancel WHERE id_cancel = '".$_POST["reason_cancel"]."'";
+				  $query_r_1 = "SELECT * FROM reason_req_cancel WHERE id_cancel = '".db_esc($dbc, $_POST["reason_cancel"])."'";
                    $result_r_1 = mysqli_query($dbc, $query_r_1);
 				   $row_r_1 = mysqli_fetch_array($result_r_1);
    

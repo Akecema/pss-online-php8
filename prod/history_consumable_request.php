@@ -34,7 +34,7 @@ exit();
 
 $url = "history_consumable_request.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -308,16 +308,16 @@ $rs = mysqli_query($dbc, $query);   //run the query.GROUP BY MR.temp_mrin
    {
 
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2["user_create"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
  	
-	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2["id_dtl"]."'";
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row2["id_dtl"])."'";
   	$result4_p = mysqli_query($dbc, $query4_p);
  	$row4_p = mysqli_fetch_array($result4_p); 
  
-    $query_u2 = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_update"]."'";
+    $query_u2 = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2["user_update"])."'";
 	$result_u2 = mysqli_query($dbc, $query_u2);   //run the query.
 	$data_u2 = mysqli_fetch_array($result_u2);   //how many records are there?    
 	  

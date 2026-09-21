@@ -86,7 +86,7 @@ $date_tdy2 = date('d-m-Y');
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
@@ -145,7 +145,7 @@ $namaFile = "Backflush Document List_".$date_tdy2.".xls";
  //convert material no kpd id_hdr
 			
 		
-    $query8 = "SELECT * FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql;
+    $query8 = "SELECT * FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."')".$where_sql;
   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
   $num_rows = mysqli_num_rows($result8);
 
@@ -202,7 +202,7 @@ echo '</table>';
  
 //Display table
 // query menampilkan semua data
-$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".$rst_sta7["status_desc"]."' OR MR.status_pps = '".$rst_sta14["status_desc"]."' OR MR.status_pps = '".$rst_sta4["status_desc"]."')".$where_sql."ORDER BY MR.plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."' OR MR.status_pps = '".db_esc($dbc, $rst_sta4["status_desc"])."')".$where_sql."ORDER BY MR.plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
@@ -222,7 +222,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    {
 	
 	    //---------get material header---------
-	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row2["material_no"]."'";
+	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".db_esc($dbc, $row2["material_no"])."'";
 		$result_mat_h = mysqli_query($dbc, $query_mat_h);
 		$data_mat_h = mysqli_fetch_array($result_mat_h);	  
 		

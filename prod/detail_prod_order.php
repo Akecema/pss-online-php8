@@ -33,7 +33,7 @@ exit();
 
 $url = "material_request_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -170,7 +170,7 @@ $message = NULL; // create an empty new variable.
  $no = sprintf('%03d', $no);
 	
    
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."' GROUP BY id_scan";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 	
@@ -188,18 +188,18 @@ $message = NULL; // create an empty new variable.
           </tr></thead><tbody>
                <?php
 		
-	$query_again = "SELECT * FROM material_request WHERE status_request = 'N' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'N' and id_scan = '".db_esc($dbc, $row2[6])."' ORDER BY id_req ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
 	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
-   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
 	
 		 
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row[5])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
 		  	 

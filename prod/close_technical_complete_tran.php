@@ -34,7 +34,7 @@ exit();
 }
 $url = "close_technical_complete_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -333,7 +333,7 @@ return "";
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail_close WHERE status_pps = '".$rst_sta13["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail_close WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 

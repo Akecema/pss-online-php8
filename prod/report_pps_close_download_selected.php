@@ -87,7 +87,7 @@ set_time_limit(0);
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert); 
 			
@@ -143,7 +143,7 @@ $namaFile = "Closed Planned Order_".$date_tdy.".xls";
  //convert material no kpd id_hdr
 			
 		
-    $query8 = "SELECT * FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".$rst_sta13["status_desc"]."' AND MR.status = 'Y'".$where_sql."GROUP BY MR.plan_no";
+    $query8 = "SELECT * FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' AND MR.status = 'Y'".$where_sql."GROUP BY MR.plan_no";
   $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
   $num_rows = mysqli_num_rows($result8);
 
@@ -205,7 +205,7 @@ echo '</table>';
  
 //Display table
 // query menampilkan semua data
-$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_posting,'%H:%i:%s') as T2 FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".$rst_sta13["status_desc"]."' AND MR.status = 'Y' ".$where_sql." GROUP BY MR.plan_no order by MR.plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_posting,'%H:%i:%s') as T2 FROM pps_detail_close AS MR, work_center_detail AS SR WHERE SR.id_work = MR.work_center AND MR.status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' AND MR.status = 'Y' ".$where_sql." GROUP BY MR.plan_no order by MR.plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data
@@ -220,7 +220,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
  while ($row2 = mysqli_fetch_array($rs))
    {
 	    //---------get material header---------
-	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".$row2["material_no"]."'";
+	    $query_mat_h = "SELECT * FROM mat_master_header AS HD, mat_master_detail AS AD WHERE HD.material_no = AD.material AND HD.material_no = '".db_esc($dbc, $row2["material_no"])."'";
 		$result_mat_h = mysqli_query($dbc, $query_mat_h);
 		$data_mat_h = mysqli_fetch_array($result_mat_h);	  
 	   
@@ -240,17 +240,17 @@ $rs = mysqli_query($dbc, $query);   //run the query.
         echo '<td>'. $row2["status_pps"].'</td>';
 	    echo '</tr>'; 
 
-   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as RR, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as RR2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as RR3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".$row2["id"]."'";
+   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as RR, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as RR2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as RR3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".db_esc($dbc, $row2["id"])."'";
    $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    while ($row_display = mysqli_fetch_array($result_display))
    {
 	   
- $query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".$row_display["bflush_no"]."'";
+ $query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".db_esc($dbc, $row_display["bflush_no"])."'";
 $result_display3 = mysqli_query($dbc, $query_display3);   //run the query.  
   
   
-   $query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".$row_display["bflush_no"]."'";
+   $query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".db_esc($dbc, $row_display["bflush_no"])."'";
 $result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 
 

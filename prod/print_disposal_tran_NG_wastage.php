@@ -37,7 +37,7 @@ exit();
 $url = "disposal_backflush_tran_NG.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -157,12 +157,12 @@ if (bV >= 4) window.print();
 
  $doc_disposal = $_GET["doc_disposal"];
   
-$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
+$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".db_esc($dbc, $doc_disposal)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 //detail info disposal 
 
-$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2, DATE_FORMAT(date_approve,'%d-%m-%Y') as W3, DATE_FORMAT(date_approve2,'%d-%m-%Y') as W4 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
+$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2, DATE_FORMAT(date_approve,'%d-%m-%Y') as W3, DATE_FORMAT(date_approve2,'%d-%m-%Y') as W4 FROM reject_detail_disposal WHERE doc_disposal_no = '".db_esc($dbc, $doc_disposal)."'";
 $result_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
 $row_disposal = mysqli_fetch_array($result_disposal);
 
@@ -270,27 +270,27 @@ function prepopulate($name)
    while ($row = mysqli_fetch_array($rs))
    {
 		
-		$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row['type_wastage']."' ORDER BY id_wastage ASC";
+		$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".db_esc($dbc, $row['type_wastage'])."' ORDER BY id_wastage ASC";
 		$result_type = mysqli_query($dbc, $query_type);
 		$row_type = mysqli_fetch_array($result_type); 
 		
-		$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row['reason_wastage']."' ORDER BY id_reason_wastage ASC";
+		$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".db_esc($dbc, $row['reason_wastage'])."' ORDER BY id_reason_wastage ASC";
 		$result_reason = mysqli_query($dbc, $query_reason);
 		$row_reason = mysqli_fetch_array($result_reason);
 			
-		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
+		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat = mysqli_query($dbc, $query_mat);
 		$data_mat = mysqli_fetch_array($result_mat);	
 		
-		$query_disposal2 = "SELECT * FROM user_detail WHERE username = '".$row["user_disposal"]."'";
+		$query_disposal2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row["user_disposal"])."'";
         $result_disposal2 = mysqli_query($dbc, $query_disposal2) or die (mysqli_error($dbc));
         $res_disposal2 = mysqli_fetch_array($result_disposal2);
 		
-		$query_approve = "SELECT * FROM user_detail WHERE username = '".$row["approve_by"]."'";
+		$query_approve = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row["approve_by"])."'";
         $result_approve = mysqli_query($dbc, $query_approve) or die (mysqli_error($dbc));
         $res_approve = mysqli_fetch_array($result_approve);
 		
-		$query_approve2 = "SELECT * FROM user_detail WHERE username = '".$row["approve_by2"]."'";
+		$query_approve2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row["approve_by2"])."'";
         $result_approve2 = mysqli_query($dbc, $query_approve2) or die (mysqli_error($dbc));
         $res_approve2 = mysqli_fetch_array($result_approve2);
 		

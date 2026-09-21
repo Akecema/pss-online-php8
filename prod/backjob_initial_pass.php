@@ -169,7 +169,7 @@ $message = NULL; // create an empty new variable.
 				 $newpass = md5($_POST['newpass']);
 				  $pass = md5($password);
 				 
-				  $query = "SELECT * FROM login_detail WHERE username = '".$user."' AND password = '".$pass."'";
+				  $query = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $user)."' AND password = '".$pass."'";
 				  $result = mysqli_query($dbc, $query);
 				  $num = mysqli_num_rows($result);
 				  
@@ -181,11 +181,11 @@ $message = NULL; // create an empty new variable.
 				
 				
 				
-				  $query12 = "UPDATE login_detail SET password = '$newpass', status_pass = 'Y', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
+				  $query12 = "UPDATE login_detail SET password = '".db_esc($dbc, $newpass)."', status_pass = 'Y', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
 				  $result12 = mysqli_query($dbc, $query12) or die (mysqli_error($dbc));
 				
 				//----------------------------------------------	
-			       $query2 = "UPDATE user_detail SET password = '$newpass', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
+			       $query2 = "UPDATE user_detail SET password = '".db_esc($dbc, $newpass)."', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
 				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
@@ -225,7 +225,7 @@ $message = NULL; // create an empty new variable.
 			
 			//--------------------------------calculation date for expiry date after change password-----------------------
 					
-				   $query_dtl = "SELECT * FROM login_detail WHERE username = '".$row["username"]."'";
+				   $query_dtl = "SELECT * FROM login_detail WHERE username = '".db_esc($dbc, $row["username"])."'";
                    $result_dtl = mysqli_query($dbc, $query_dtl);
 				   $row_dtl = mysqli_fetch_array($result_dtl);
 					
@@ -234,7 +234,7 @@ $message = NULL; // create an empty new variable.
  $end_date_check = date('Y-m-d H:m:s', strtotime("$row_param[new_value]"));
  
  
-			  $query_dt = "UPDATE login_detail set expired_pass_date = '$end_date_check' where username='".$row["username"]."'";
+			  $query_dt = "UPDATE login_detail set expired_pass_date = '$end_date_check' where username='".db_esc($dbc, $row["username"])."'";
 		      $result_dt = mysqli_query($dbc, $query_dt) or die (mysqli_error($dbc));
 
 		 echo "<script language='JavaScript'>alert('Your new password has been send to your email. We recommend you to print the e-mail for your reference.');parent.$.fancybox.close();</script>";

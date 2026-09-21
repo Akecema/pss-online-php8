@@ -174,19 +174,19 @@ $rs = mysqli_query($dbc, $query);   //run the query.
  while ($row2 = mysqli_fetch_array($rs))
    {
    	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2["user_create"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row2["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query5 = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') AS T FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row2["material_no"]."' AND mvt_type = 201";
+	$query5 = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') AS T FROM post_consumable_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row2["material_no"])."' AND mvt_type = 201";
     $result5 = mysqli_query($dbc, $query5);
 	$row5 = mysqli_fetch_array($result5);
 	
-	$query7 = "SELECT *  FROM consumable_request_close AS MC, reason_req_close AS MRC WHERE MC.reason_close = MRC.id_close AND MC.temp_mrin = '".$row2["temp_mrin"]."' AND MC.material_no = '".$row2["material_no"]."'";
+	$query7 = "SELECT *  FROM consumable_request_close AS MC, reason_req_close AS MRC WHERE MC.reason_close = MRC.id_close AND MC.temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND MC.material_no = '".db_esc($dbc, $row2["material_no"])."'";
     $result7 = mysqli_query($dbc, $query7);
 	$row7 = mysqli_fetch_array($result7);
 
@@ -214,7 +214,7 @@ echo $since_start->s.' seconds<br>';  */
 //------------------------------------------------------------------------------------------------------------------	
 
 					
-    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND mvt_type = 201 AND material_no = '".$row2["material_no"]."'";
+    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND mvt_type = 201 AND material_no = '".db_esc($dbc, $row2["material_no"])."'";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;

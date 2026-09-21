@@ -31,7 +31,7 @@ exit();
 
 $url = "wip_request_list.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -237,7 +237,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -271,7 +271,7 @@ function getXMLHTTP() { //fuction to return the xml http object
    
 				//convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
+			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			
 			while ($row_convert = mysqli_fetch_array($result_convert))
@@ -386,19 +386,19 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    {
 	
    
-   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".$row2[6]."'";
+   $query_scan = "SELECT * FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $row2[6])."'";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 	
-	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".$row2[6]."' ORDER BY id_req_wip ASC";
+	$query_again = "SELECT * FROM wip_request WHERE status_request = 'Y' and id_scan_wip = '".db_esc($dbc, $row2[6])."' ORDER BY id_req_wip ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row_scan["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row['user_create'])."'";
 $result_u = mysqli_query($dbc, $query_u);   //run the query.
 $data_u = mysqli_fetch_array($result_u);   //how many records are there?       
 

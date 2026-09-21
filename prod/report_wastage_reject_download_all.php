@@ -116,15 +116,15 @@ $i = 1;
 while ($row2 = mysqli_fetch_array($rs))
 {
 	
-	$query_u = "SELECT * FROM user_detail WHERE username = '".$row2["user_wastage"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row2["user_wastage"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 	
-	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".$row2['type_wastage']."' ORDER BY id_wastage ASC";
+	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = '".db_esc($dbc, $row2['type_wastage'])."' ORDER BY id_wastage ASC";
     $result_type = mysqli_query($dbc, $query_type);
     $row_type = mysqli_fetch_array($result_type); 
 	
-	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$row2['reason_wastage']."' ORDER BY id_reason_wastage ASC";
+	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".db_esc($dbc, $row2['reason_wastage'])."' ORDER BY id_reason_wastage ASC";
     $result_reason = mysqli_query($dbc, $query_reason);
     $row_reason = mysqli_fetch_array($result_reason);
 	

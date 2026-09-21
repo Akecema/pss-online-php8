@@ -36,7 +36,7 @@ exit();
 $warnaGenap = "#F4FBCA";   // warna blue grey
 $warnaGanjil = "#f8f8f8";  // warna putih
 
-$query_u = "SELECT * FROM user_detail WHERE username = '$username'";
+$query_u = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result_u = mysqli_query($dbc, $query_u);   //run the query.
 $data_u = mysqli_fetch_array($result_u);   //how many records are there? 
 
@@ -126,7 +126,7 @@ $url3 = 'posting_consumable_request.php';
    //-------------------------update delete consumable request from table------------------------------
    //--------------------------------------------------------------------------------------------------
    
-    $query_delete = "DELETE FROM consumable_request WHERE id_req_con = '$id_req_con'";
+    $query_delete = "DELETE FROM consumable_request WHERE id_req_con = '".db_esc($dbc, $id_req_con)."'";
 	$result_delete = mysqli_query($dbc, $query_delete);
 	
 

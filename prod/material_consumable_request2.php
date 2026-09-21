@@ -33,7 +33,7 @@ exit();
 
 $url = "display_consumable_request.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -247,7 +247,7 @@ if($work_center && $material_no && $con_qty) //everything ok
    $con_qty = $_POST["con_qty"];
    $work_center = $_POST["work_center"];
 
-$query_data = "SELECT * FROM consumable_detail WHERE id_con = '$material_no'";
+$query_data = "SELECT * FROM consumable_detail WHERE id_con = '".db_esc($dbc, $material_no)."'";
 $result_data = mysqli_query($dbc, $query_data) or die (mysqli_error($dbc));
 $row_data = mysqli_fetch_array($result_data);
 
@@ -257,7 +257,7 @@ $row_data = mysqli_fetch_array($result_data);
  //echo $_GET["lastID"];
    
 //insert to scan_detail
-$query_db = "INSERT INTO `consumable_request` (id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, id_work) VALUES ('".mysqli_insert_id($dbc)."', '', '','', '$material_no', '$lastID','".$row_data["material_no"]."', '$con_qty', '".$row_data["BUn"]."', 'N', 'N', 'N', '$factory', '$user_no', NOW(),'','','','','New','$date1','$t_time','$work_center')";
+$query_db = "INSERT INTO `consumable_request` (id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, id_work) VALUES ('".mysqli_insert_id($dbc)."', '', '','', '".db_esc($dbc, $material_no)."', '".db_esc($dbc, $lastID)."','".db_esc($dbc, $row_data["material_no"])."', '".db_esc($dbc, $con_qty)."', '".db_esc($dbc, $row_data["BUn"])."', 'N', 'N', 'N', '".db_esc($dbc, $factory)."', '".db_esc($dbc, $user_no)."', NOW(),'','','','','New','".db_esc($dbc, $date1)."','".db_esc($dbc, $t_time)."','".db_esc($dbc, $work_center)."')";
 $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 
@@ -341,7 +341,7 @@ $row_id_2 = mysqli_fetch_array($result_id_2);
   
 //update table material request with new quantity
 
-$query_update = "UPDATE consumable_request SET status_request = 'Y', mrin_doc = '$number', mrin_year = '$year', temp_mrin = '$ref', con_qty = '".$_POST["con_qty"][$i]."', user_update = '".$res["user_no"]."', date_update = NOW(), date_posting = NOW(), time_posting = NOW() WHERE id_req_con = '".$_POST["id_req_con"][$i]."' AND user_create = '".$res["user_no"]."' ";
+$query_update = "UPDATE consumable_request SET status_request = 'Y', mrin_doc = '$number', mrin_year = '".db_esc($dbc, $year)."', temp_mrin = '".db_esc($dbc, $ref)."', con_qty = '".db_esc($dbc, $_POST["con_qty"][$i])."', user_update = '".db_esc($dbc, $res["user_no"])."', date_update = NOW(), date_posting = NOW(), time_posting = NOW() WHERE id_req_con = '".db_esc($dbc, $_POST["id_req_con"][$i])."' AND user_create = '".db_esc($dbc, $res["user_no"])."' ";
 
 $result_update = mysqli_query($dbc, $query_update);
 
@@ -395,7 +395,7 @@ if (isset($message))
                   <select name="work_center" id="work_center">
                     <option value="NULL" placeholder="Select Production Line/ Work Center"> -- Select Production Line/ Work Center --</option>
                     <?php
-	       $query4 = "SELECT * FROM work_center_detail WHERE id_factory = '".$factory."' ORDER BY id_work ASC";
+	       $query4 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $factory)."' ORDER BY id_work ASC";
                    $result4 = mysqli_query($dbc, $query4);
   
                    while($row4=mysqli_fetch_array($result4)) 
@@ -475,13 +475,13 @@ if (isset($message))
 			
 			  $i = 1;
 			  
-			$query_data2 = "SELECT * FROM consumable_request WHERE id_scan = '$lastID' AND status_request = 'N' AND user_create = '".$res["user_no"]."'";
+			$query_data2 = "SELECT * FROM consumable_request WHERE id_scan = '".db_esc($dbc, $lastID)."' AND status_request = 'N' AND user_create = '".db_esc($dbc, $res["user_no"])."'";
             $result_data2 = mysqli_query($dbc, $query_data2) or die (mysqli_error($dbc));
            
 		   while ($row_data2 = mysqli_fetch_array($result_data2))
 		   {
 			 
-			 $query_con_detail = "SELECT * FROM consumable_detail WHERE id_con = '".$row_data2["id_con"]."'";
+			 $query_con_detail = "SELECT * FROM consumable_detail WHERE id_con = '".db_esc($dbc, $row_data2["id_con"])."'";
 			 $result_con_detail = mysqli_query($dbc, $query_con_detail) or die (mysqli_error($dbc));
 			 $row_con_detail = mysqli_fetch_array($result_con_detail);
 			 

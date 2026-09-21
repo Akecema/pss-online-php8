@@ -32,7 +32,7 @@ exit();
 }
 $url = "cancellation_list_backflush_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -283,7 +283,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -339,7 +339,7 @@ echo "window.location='cancellation_list_backflush_tran2.php?date1=$dateF&&date2
  // echo $end_date_check;
 
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
+   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -350,7 +350,7 @@ echo "window.location='cancellation_list_backflush_tran2.php?date1=$dateF&&date2
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE status_pps = '".$rst_sta7["status_desc"]."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') ORDER BY plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') ORDER BY plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -397,13 +397,13 @@ $num = mysqli_num_rows($rs);   //how many material are there?
    {
 	   
 	//-----checking QA/QC entering output production ----not allow cancellation-------
-	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".$row["bflush_no"]."' AND status_QC != '".$rst_sta4["status_desc"]."'";
+	   $query_qqc = "SELECT * FROM qqc_detail_transaction WHERE bflush_no = '".db_esc($dbc, $row["bflush_no"])."' AND status_QC != '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   $data_qqc = mysqli_fetch_array($result_qqc);
 	   
 	   
 	   	//-----checking Release Production PPS entering output
-	   $query_prod_out = "SELECT * FROM pps_detail WHERE plan_no = '".$row["plan_no"]."' AND status_pps = '".$rst_sta2["status_desc"]."'";
+	   $query_prod_out = "SELECT * FROM pps_detail WHERE plan_no = '".db_esc($dbc, $row["plan_no"])."' AND status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."'";
 	   $result_prod_out = mysqli_query($dbc, $query_prod_out);
 	   $data_prod_out = mysqli_fetch_array($result_prod_out);
 		

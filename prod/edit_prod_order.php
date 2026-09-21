@@ -31,7 +31,7 @@ exit();
 $warnaGenap = "#F4FBCA";   // warna blue grey
 $warnaGanjil = "#f8f8f8";  // warna putih
 
-$query_u = "SELECT * FROM user_detail WHERE username = '$username'";
+$query_u = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result_u = mysqli_query($dbc, $query_u);   //run the query.
 $data_u = mysqli_fetch_array($result_u);   //how many records are there?
 
@@ -145,7 +145,7 @@ $message = NULL; // create an empty new variable.
     
 //update table material request with new quantity
 
-$query_update = "UPDATE material_request SET bom_qty = '".$_POST["bom_qty"][$i]."', user_update = '".$data_u["user_no"]."', date_update = NOW() WHERE id_req = '".$_POST["id_req"][$i]."' ";
+$query_update = "UPDATE material_request SET bom_qty = '".db_esc($dbc, $_POST["bom_qty"][$i])."', user_update = '".db_esc($dbc, $data_u["user_no"])."', date_update = NOW() WHERE id_req = '".db_esc($dbc, $_POST["id_req"][$i])."' ";
 
 $result_update = mysqli_query($dbc, $query_update);
 
@@ -238,7 +238,7 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
 		{ $warna = $warnaGenap;}
 		else { $warna = $warnaGanjil; }	
    
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."' GROUP BY id_scan";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 	
@@ -254,18 +254,18 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
              </tr>
                <?php
 		
-	$query_again = "SELECT * FROM material_request WHERE status_request = 'N' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'N' and id_scan = '".db_esc($dbc, $row2[6])."' ORDER BY id_req ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
 	 while ($row = mysqli_fetch_array($rs_again))
    {
 		 
-   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."' GROUP BY id_scan";
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."' GROUP BY id_scan";
    $result1_p = mysqli_query($dbc, $query1_p);
    $row1_p = mysqli_fetch_array($result1_p);
 	
 	
 		 
-  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row[5]."'";
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row[5])."'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p); 
 		  	 

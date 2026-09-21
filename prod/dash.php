@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -200,25 +200,25 @@ $rs_con_req = mysqli_query($dbc, $query_con_req);   //run the query.
 $num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are there?
 
  //in progress planned order
-$query_plan_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."'";
+$query_plan_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."'";
 $rs_plan_req = mysqli_query($dbc, $query_plan_req);   //run the query.
 $num_plan_req = mysqli_fetch_assoc($rs_plan_req)['cnt'];   //how many material are there?
 
 
  //release planned order
-$query_release_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".$rst_sta2["status_desc"]."'";
+$query_release_req = "SELECT COUNT(*) AS cnt FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta2["status_desc"])."'";
 $rs_release_req = mysqli_query($dbc, $query_release_req);   //run the query.
 $num_release_req = mysqli_fetch_assoc($rs_release_req)['cnt'];   //how many material are there?
 
 
  //pending approval disposal
-$query_disposal_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
+$query_disposal_req = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta["status_desc"])."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
 $rs_disposal_req = mysqli_query($dbc, $query_disposal_req);   //run the query.
 $num_disposal_req = mysqli_fetch_assoc($rs_disposal_req)['cnt'];   //how many material are there?
 
 
 // approved disposal
-$query_disposal_req_app = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal != '".$rst_sta["status_desc"]."' AND status_disposal != '".$rst_sta16["status_desc"]."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
+$query_disposal_req_app = "SELECT COUNT(DISTINCT doc_disposal_no) AS cnt FROM reject_detail_disposal WHERE status_disposal != '".db_esc($dbc, $rst_sta["status_desc"])."' AND status_disposal != '".db_esc($dbc, $rst_sta16["status_desc"])."' AND (status_part = 'PR' OR status_part = 'WS') AND doc_disposal_no != ''";
 $rs_disposal_req_app = mysqli_query($dbc, $query_disposal_req_app);   //run the query.
 $num_disposal_req_app = mysqli_fetch_assoc($rs_disposal_req_app)['cnt'];   //how many material are there?
 
@@ -255,13 +255,13 @@ $num_disposal_req_app = mysqli_fetch_assoc($rs_disposal_req_app)['cnt'];   //how
 		// counted (measured at 9.3 seconds - the dominant cost of this whole
 		// page). No GROUP BY in the original query, so COUNT(*) is exactly
 		// equivalent and lets MySQL return a single number instead.
-	$query_mat_prog_open_q = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta7["status_desc"]."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
+	$query_mat_prog_open_q = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND (SD.status_pps != 'Closed' AND SD.status_pps != 'Cancel')";
 	$rs_mat_prog_open_q = mysqli_query($dbc, $query_mat_prog_open_q);
 	$num_mat_prog_open_q = mysqli_fetch_assoc($rs_mat_prog_open_q)['cnt'];
 
 
 		//2.  - status Completed (same fix as above)
-	$query_mat_prog_close_q = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".$rst_sta14["status_desc"]."'";
+	$query_mat_prog_close_q = "SELECT COUNT(*) AS cnt FROM pps_detail_transaction AS MR, pps_detail AS SD WHERE MR.plan_no = SD.plan_no AND MR.status_pps = '".db_esc($dbc, $rst_sta14["status_desc"])."'";
 	$rs_mat_prog_close_q = mysqli_query($dbc, $query_mat_prog_close_q);
 	$num_mat_prog_close_q = mysqli_fetch_assoc($rs_mat_prog_close_q)['cnt'];
 

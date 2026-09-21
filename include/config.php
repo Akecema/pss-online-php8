@@ -49,3 +49,6 @@ define ("DB_NAME", getenv("DB_NAME") ?: "mrin_project_ipsb");
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD) or die ("Could not connect to MySQL :".mysqli_error($dbc));
 $dbs = mysqli_select_db($dbc, DB_NAME) or die ("Could not select the database :".mysqli_error($dbc));
 mysqli_set_charset($dbc, 'utf8');
+
+// Shared helpers (h(), db_esc(), db_query_params(), CSRF) for every page that includes this file.
+require_once __DIR__ . '/helpers.php';

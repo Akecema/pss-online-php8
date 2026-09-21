@@ -35,7 +35,7 @@ exit();
 
 $url = "print_tag_backflush_tran.php";
 
-$query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 $res = mysqli_fetch_array($result2);
 	
@@ -308,24 +308,24 @@ $uid = $_GET["uid"];
 
 //--------- pps detail ------------
 
-$query_pps = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') as R FROM print_tag_backflush WHERE id_tran = '".$uid."'";
+$query_pps = "SELECT *,DATE_FORMAT(posting_date,'%d-%m-%Y') as R FROM print_tag_backflush WHERE id_tran = '".db_esc($dbc, $uid)."'";
 $result_pps = mysqli_query($dbc, $query_pps);
 
 while($row = mysqli_fetch_array($result_pps))
 
 {
   //----------display model 
-	$query_info = "SELECT * FROM pps_detail WHERE plan_no = '".$row["plan_no"]."'";
+	$query_info = "SELECT * FROM pps_detail WHERE plan_no = '".db_esc($dbc, $row["plan_no"])."'";
 	$result_info = mysqli_query($dbc, $query_info);
 	$row_info = mysqli_fetch_array($result_info);
 	
 	//----------display mat_type 
-	$query_info2 = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".$row_info["plan_no"]."' AND ref_id = '".$row_info["ref_id"]."'";
+	$query_info2 = "SELECT * FROM pps_detail_transaction WHERE plan_no = '".db_esc($dbc, $row_info["plan_no"])."' AND ref_id = '".db_esc($dbc, $row_info["ref_id"])."'";
 	$result_info2 = mysqli_query($dbc, $query_info2);
 	$row_info2 = mysqli_fetch_array($result_info2);
 	
 	//----------display material header
-	$query_info3 = "SELECT * FROM mat_master_header WHERE material_no = '".$row["material_no"]."'";
+	$query_info3 = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row["material_no"])."'";
 	$result_info3 = mysqli_query($dbc, $query_info3);
 	$row_info3 = mysqli_fetch_array($result_info3);
 
@@ -364,7 +364,7 @@ while($row = mysqli_fetch_array($result_pps))
     <td width="196" height="15" valign="top">&nbsp;<span class="style1"><?php echo $row["bflush_no"];  ?></span></td>
     <td colspan="3" rowspan="3" valign="top"><?php
 
-	$query = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') as Q, DATE_FORMAT(date_posting,'%d-%m-%Y') as Q2 FROM pps_detail_transaction WHERE id = '$uid'";
+	$query = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') as Q, DATE_FORMAT(date_posting,'%d-%m-%Y') as Q2 FROM pps_detail_transaction WHERE id = '".db_esc($dbc, $uid)."'";
 	$hasil = mysqli_query($dbc, $query);
 	
 	// setting banyaknya kolom
@@ -378,7 +378,7 @@ while($row = mysqli_fetch_array($result_pps))
 	while ($data = mysqli_fetch_array($hasil))
 	{
 	
-		$query_sloc = "SELECT * FROM mat_master_detail WHERE material = '".$data["material_no"]."' OR bill_component = '".$data["material_no"]."'";
+		$query_sloc = "SELECT * FROM mat_master_detail WHERE material = '".db_esc($dbc, $data["material_no"])."' OR bill_component = '".db_esc($dbc, $data["material_no"])."'";
 		$result_sloc = mysqli_query($dbc, $query_sloc);
 		$data_sloc = mysqli_fetch_array($result_sloc);
 	

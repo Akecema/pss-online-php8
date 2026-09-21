@@ -37,7 +37,7 @@ exit();
 $url = "display_consumable_request.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -117,23 +117,23 @@ if (bV >= 4) window.print();
  $temp_mrin = $_GET["mrin_no"];
  $user_no = $_GET["user_no"];
  
-$queryu = "SELECT * from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
+$queryu = "SELECT * from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
-$query_2 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
+$query_2 = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2 from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $result_2 = mysqli_query($dbc, $query_2);   //run the query.
 $data_2 = mysqli_fetch_array($result_2);
 
- $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2["factory"]."'";
+ $query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $data_2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-		$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
+		$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".db_esc($dbc, $data_2["user_create"])."'";
 $result_k = mysqli_query($dbc, $query_k);
 $row_k = mysqli_fetch_array($result_k);
 
-$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '$username'";
+$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '".db_esc($dbc, $username)."'";
 $result_k2 = mysqli_query($dbc, $query_k2);
 $row_k2 = mysqli_fetch_array($result_k2);
 
@@ -235,20 +235,20 @@ $temp_mrin = $_POST["mrin_no"];
 				  
     if($reason_cancel && $reason_cancel2)// everything OK
 	{
-$queryu2 = "SELECT * from consumable_request WHERE temp_mrin = '$temp_mrin'";
+$queryu2 = "SELECT * from consumable_request WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $rs2 = mysqli_query($dbc, $queryu2);   //run the query.
 
 
-$query_2a = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin'";
+$query_2a = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R from consumable_request as MR, consumable_detail as SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."'";
 $result_2a = mysqli_query($dbc, $query_2a);   //run the query.
 $data_2a = mysqli_fetch_array($result_2a);
 
-    $query3a = "SELECT * FROM factory_detail WHERE id_fac = '".$data_2a["factory"]."'";
+    $query3a = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $data_2a["factory"])."'";
     $result3a = mysqli_query($dbc, $query3a);
 	$row3a = mysqli_fetch_array($result3a);
 
 
-$query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '$temp_mrin' AND MR.status = 'New'";
+$query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consumable_request AS MR, consumable_detail AS SD WHERE MR.id_con = SD.id_con AND MR.temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND MR.status = 'New'";
 
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 		
@@ -257,7 +257,7 @@ $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consuma
 
 
       
- $query_upd3 = "UPDATE consumable_request SET status = 'Cancel', user_update = '$user_no', date_update = NOW() WHERE temp_mrin = '$temp_mrin' AND id_con = '".$row2["id_con"]."' ";
+ $query_upd3 = "UPDATE consumable_request SET status = 'Cancel', user_update = '".db_esc($dbc, $user_no)."', date_update = NOW() WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND id_con = '".db_esc($dbc, $row2["id_con"])."' ";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
       
@@ -265,12 +265,12 @@ $query_tp = "SELECT *, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') AS R FROM consuma
 		  //-insert consumable request with status "Cancel" into table material request cancel
 		  //-----------------------------------------------------------------------------------------------------------------------
 		  
-		  	$query_mm3 = "SELECT * FROM consumable_request WHERE temp_mrin = '$temp_mrin' AND status = 'Cancel' AND id_con = '".$row2["id_con"]."'"; 
+		  	$query_mm3 = "SELECT * FROM consumable_request WHERE temp_mrin = '".db_esc($dbc, $temp_mrin)."' AND status = 'Cancel' AND id_con = '".db_esc($dbc, $row2["id_con"])."'"; 
         	$result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 			$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 		
-		$query_mm3_insert =  "INSERT INTO consumable_request_cancel(id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, reason_cancel, reason_cancel2, id_work) VALUES('".$row_mm3["id_req_con"]."','".$row_mm3["mrin_doc"]."','".$row_mm3["mrin_year"]."','".$row_mm3["temp_mrin"]."','".$row_mm3["id_con"]."','".$row_mm3["id_scan"]."','".$row_mm3["material_no"]."','".$row_mm3["con_qty"]."','".$row_mm3["con_uom"]."', '".$row_mm3["status_request"]."','".$row_mm3["status_print"]."','".$row_mm3["status_view"]."','".$row_mm3["factory"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_update"]."','".$row_mm3["date_update"]."','".$row_mm3["date_posting"]."','".$row_mm3["time_posting"]."','".$row_mm3["status"]."','".$row_mm3["date_require"]."','".$row_mm3["time_require"]."','".$_POST["reason_cancel"]."','".$_POST["reason_cancel2"]."','".$row_mm3["id_work"]."')";
+		$query_mm3_insert =  "INSERT INTO consumable_request_cancel(id_req_con, mrin_doc, mrin_year, temp_mrin, id_con, id_scan, material_no, con_qty, con_uom, status_request, status_print, status_view, factory, user_create, date_create, user_update, date_update, date_posting, time_posting, status, date_require, time_require, reason_cancel, reason_cancel2, id_work) VALUES('".db_esc($dbc, $row_mm3["id_req_con"])."','".db_esc($dbc, $row_mm3["mrin_doc"])."','".db_esc($dbc, $row_mm3["mrin_year"])."','".db_esc($dbc, $row_mm3["temp_mrin"])."','".db_esc($dbc, $row_mm3["id_con"])."','".db_esc($dbc, $row_mm3["id_scan"])."','".db_esc($dbc, $row_mm3["material_no"])."','".db_esc($dbc, $row_mm3["con_qty"])."','".db_esc($dbc, $row_mm3["con_uom"])."', '".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["status_view"])."','".db_esc($dbc, $row_mm3["factory"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["date_require"])."','".db_esc($dbc, $row_mm3["time_require"])."','".db_esc($dbc, $_POST["reason_cancel"])."','".db_esc($dbc, $_POST["reason_cancel2"])."','".db_esc($dbc, $row_mm3["id_work"])."')";
 $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
 	    
  
@@ -350,7 +350,7 @@ if (isset($message))
 		
  
  //------------------cost center --------------------//
-   $query_cost_center = "SELECT * FROM work_center_detail WHERE id_work = '".$row["id_work"]."'";
+   $query_cost_center = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $row["id_work"])."'";
    $result_cost_center = mysqli_query($dbc, $query_cost_center) or die (mysqli_error($dbc));
    $row_cost_center = mysqli_fetch_array($result_cost_center);
 		
@@ -389,7 +389,7 @@ if (isset($message))
         <select name="reason_cancel" id="reason_cancel" onchange="ShowReg(this.selectedIndex);">
          <?php if(isset($_POST["reason_cancel"])) { 
                   
-				  $query_r_1 = "SELECT * FROM reason_req_cancel WHERE id_cancel = '".$_POST["reason_cancel"]."'";
+				  $query_r_1 = "SELECT * FROM reason_req_cancel WHERE id_cancel = '".db_esc($dbc, $_POST["reason_cancel"])."'";
                    $result_r_1 = mysqli_query($dbc, $query_r_1);
 				   $row_r_1 = mysqli_fetch_array($result_r_1);
    

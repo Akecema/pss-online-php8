@@ -32,7 +32,7 @@ exit();
 }
 $url = "document_list_backflush_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -282,7 +282,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta7["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -335,7 +335,7 @@ echo "window.location='document_list_backflush_tran2_hist.php?date1=$dateF&&date
 
 
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction_v1 WHERE status_pps = '".$rst_sta7["status_desc"]."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
+   $query8 = "SELECT COUNT(*) FROM pps_detail_transaction_v1 WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check')";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -346,7 +346,7 @@ echo "window.location='document_list_backflush_tran2_hist.php?date1=$dateF&&date
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction_v1 WHERE status_pps = '".$rst_sta7["status_desc"]."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') order by plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction_v1 WHERE status_pps = '".db_esc($dbc, $rst_sta7["status_desc"])."' AND (date_plan >= '$start_date_check' AND date_plan <= '$end_date_check') order by plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 

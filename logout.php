@@ -73,7 +73,7 @@ body {
 
 
 	
-    $query = "SELECT * FROM user_detail WHERE username='$username'";
+    $query = "SELECT * FROM user_detail WHERE username='".db_esc($dbc, $username)."'";
 	$result = mysqli_query($dbc, $query); 
 	$db_rst = mysqli_fetch_array($result);
 	
@@ -108,11 +108,11 @@ body {
 	
 	
    //-------------------upldate last login in table user_detail
-	$query_upd = "UPDATE user_detail SET last_login = NOW() WHERE user_no = '".$db_rst["user_no"]."'";
+	$query_upd = "UPDATE user_detail SET last_login = NOW() WHERE user_no = '".db_esc($dbc, $db_rst["user_no"])."'";
 	$result_upd = mysqli_query($dbc, $query_upd); 
 	
 	//-------------------upldate last login in table user_detail
-	$query_upd2 = "UPDATE login_detail SET last_login = NOW() WHERE staff_ID = '".$db_rst["staff_ID"]."'";
+	$query_upd2 = "UPDATE login_detail SET last_login = NOW() WHERE staff_ID = '".db_esc($dbc, $db_rst["staff_ID"])."'";
 	$result_upd2 = mysqli_query($dbc, $query_upd2); 
     //header("Location: index.php"); 
 		

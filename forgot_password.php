@@ -104,7 +104,7 @@ $message = NULL; // create an empty new variable.
 	
 	       // $user_name/$email went through escape_data() (mysqli_real_escape_string)
 	       // above, so this is reasonably defended against SQL injection.
-		   $query = "SELECT * FROM user_detail WHERE username = '$user_name' and user_email= '$email'";
+		   $query = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $user_name)."' and user_email= '".db_esc($dbc, $email)."'";
 		   $result = mysqli_query($dbc, $query);
 		   $num = mysqli_num_rows($result);
 		   
@@ -120,10 +120,10 @@ $message = NULL; // create an empty new variable.
 					 $p = substr (md5(uniqid(rand(),1)),3,10);
 					 $p2 = password_hash($p, PASSWORD_DEFAULT);
 					 	
-				  $query2 = "UPDATE user_detail set password = '$p2', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
+				  $query2 = "UPDATE user_detail set password = '$p2', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
 				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
-				$query_login = "UPDATE login_detail SET password = '$p2', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
+				$query_login = "UPDATE login_detail SET password = '$p2', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
 				$result_login = mysqli_query($dbc, $query_login) or die (mysqli_error($dbc));
 				  
 			

@@ -165,7 +165,7 @@ $message = NULL; // create an empty new variable.
 				  // new one in PHP. Same pattern as the login flow (ckies-aut_scd.php).
 				  // $user was passed through escape_data() (mysqli_real_escape_string)
 				  // above, so this query is reasonably defended against SQL injection.
-				  $query = "SELECT * FROM user_detail WHERE username ='$user'";
+				  $query = "SELECT * FROM user_detail WHERE username ='".db_esc($dbc, $user)."'";
 				  $result = mysqli_query($dbc, $query);
 				  $num = mysqli_num_rows($result);
 				  
@@ -181,7 +181,7 @@ $message = NULL; // create an empty new variable.
 					$newpass = password_hash($_POST['newpass'], PASSWORD_DEFAULT);
 					//Make the query
 			
-		          $query2 = "UPDATE user_detail set password = '$newpass' where username='".$row["username"]."'";
+		          $query2 = "UPDATE user_detail set password = '".db_esc($dbc, $newpass)."' where username='".db_esc($dbc, $row["username"])."'";
 				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok

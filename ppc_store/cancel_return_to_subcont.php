@@ -35,7 +35,7 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 
 $url = "cancel_trans_posting_to_storeProc.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -63,20 +63,20 @@ $rst_sta20 = mysqli_fetch_array($sta_res20);
  $doc_tp = $_GET["uid"];
 
  
-$queryu = "SELECT * FROM ret_subcont_detail WHERE doc_tp = '".$doc_tp."'";
+$queryu = "SELECT * FROM ret_subcont_detail WHERE doc_tp = '".db_esc($dbc, $doc_tp)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 
-$query_2 = "SELECT *, DATE_FORMAT(MR.posting_date,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R2 FROM ret_subcont_detail as MR, scan_tp_plb as SD WHERE MR.id_scan_tp = SD.id_scan_tp AND MR.doc_tp = '".$doc_tp."'";
+$query_2 = "SELECT *, DATE_FORMAT(MR.posting_date,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R2 FROM ret_subcont_detail as MR, scan_tp_plb as SD WHERE MR.id_scan_tp = SD.id_scan_tp AND MR.doc_tp = '".db_esc($dbc, $doc_tp)."'";
 $result_2 = mysqli_query($dbc, $query_2);   //run the query.
 $data_2 = mysqli_fetch_array($result_2);
 
   
-$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".$data_2["user_create"]."'";
+$query_k = "SELECT * from `user_detail` as uc WHERE uc.user_no = '".db_esc($dbc, $data_2["user_create"])."'";
 $result_k = mysqli_query($dbc, $query_k);
 $row_k = mysqli_fetch_array($result_k);
 
-$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '$username'";
+$query_k2 = "SELECT * from `user_detail` as uc2 WHERE uc2.username = '".db_esc($dbc, $username)."'";
 $result_k2 = mysqli_query($dbc, $query_k2);
 $row_k2 = mysqli_fetch_array($result_k2);
 
@@ -226,14 +226,14 @@ $message = NULL; // create an empty new variable.
  
  
  //-----select info ret_subcont_detail -----------         
-  $query_info = "SELECT * FROM ret_subcont_detail WHERE doc_tp = '".$doc_tp."' AND status_tp = '".$rst_sta20["status_desc"]."'";
+  $query_info = "SELECT * FROM ret_subcont_detail WHERE doc_tp = '".db_esc($dbc, $doc_tp)."' AND status_tp = '".db_esc($dbc, $rst_sta20["status_desc"])."'";
   $result_info  = mysqli_query($dbc, $query_info); 
   
  while($row2 = mysqli_fetch_array($result_info))
  
  {
 
-    $query_cancellation = "UPDATE ret_subcont_detail SET status_tp = '".$rst_sta4["status_desc"]."', ref_doc_tp = '".$ref."', user_cancel = '".$username."', date_cancel = NOW() WHERE doc_tp = '".$doc_tp."' AND status_tp = '".$rst_sta20["status_desc"]."' AND id_tp = '".$row2["id_tp"]."'";
+    $query_cancellation = "UPDATE ret_subcont_detail SET status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."', ref_doc_tp = '".db_esc($dbc, $ref)."', user_cancel = '".db_esc($dbc, $username)."', date_cancel = NOW() WHERE doc_tp = '".db_esc($dbc, $doc_tp)."' AND status_tp = '".db_esc($dbc, $rst_sta20["status_desc"])."' AND id_tp = '".db_esc($dbc, $row2["id_tp"])."'";
 	$result_cancellation  = mysqli_query($dbc, $query_cancellation); 
 	
 	      
@@ -241,14 +241,14 @@ $message = NULL; // create an empty new variable.
 		  //-insert return subcont cancel
 		  //---------------------------------------------------------------------------------------------------------------
 		  
-		  	$query_mm3 = "SELECT * FROM ret_subcont_detail WHERE doc_tp = '".$doc_tp."' AND id_tp = '".$row2["id_tp"]."'"; 
+		  	$query_mm3 = "SELECT * FROM ret_subcont_detail WHERE doc_tp = '".db_esc($dbc, $doc_tp)."' AND id_tp = '".db_esc($dbc, $row2["id_tp"])."'"; 
         	$result_mm3 = mysqli_query($dbc, $query_mm3);
 			
 			while($row_mm3 = mysqli_fetch_array($result_mm3))
 			{ 
 	
 			
-			$query_mm3_insert =  "INSERT INTO ret_subcont_cancel(id_tp, doc_tp, id_scan_tp, scan_doc, posting_date, posting_time, prepared_by, vendor_no, plan_code, shift_day, item_no, material_no, material_desc, qty_tp, uom, sloc_from, sloc_to, user_create, date_create, user_generate_tp, date_generate_tp, ref_doc_tp, user_cancel, date_cancel, status_ftp, status_tran, status_tp, ref_doc_no_return) VALUES('".$row_mm3["id_tp"]."','".$row_mm3["doc_tp"]."','".$row_mm3["id_scan_tp"]."','".$row_mm3["scan_doc"]."','".$row_mm3["posting_date"]."','".$row_mm3["posting_time"]."','".$row_mm3["prepared_by"]."','".$row_mm3["vendor_no"]."','".$row_mm3["plan_code"]."','".$row_mm3["shift_day"]."','".$row_mm3["item_no"]."','".$row_mm3["material_no"]."','".$row_mm3["material_desc"]."','".$row_mm3["qty_tp"]."','".$row_mm3["uom"]."','".$row_mm3["sloc_from"]."','".$row_mm3["sloc_to"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_generate_tp"]."','".$row_mm3["date_generate_tp"]."','".$row_mm3["ref_doc_tp"]."','".$row_mm3["user_cancel"]."','".$row_mm3["date_cancel"]."','".$row_mm3["status_ftp"]."','".$row_mm3["status_tran"]."','".$row_mm3["status_tp"]."','".$row_mm3["ref_doc_no_return"]."')";
+			$query_mm3_insert =  "INSERT INTO ret_subcont_cancel(id_tp, doc_tp, id_scan_tp, scan_doc, posting_date, posting_time, prepared_by, vendor_no, plan_code, shift_day, item_no, material_no, material_desc, qty_tp, uom, sloc_from, sloc_to, user_create, date_create, user_generate_tp, date_generate_tp, ref_doc_tp, user_cancel, date_cancel, status_ftp, status_tran, status_tp, ref_doc_no_return) VALUES('".db_esc($dbc, $row_mm3["id_tp"])."','".db_esc($dbc, $row_mm3["doc_tp"])."','".db_esc($dbc, $row_mm3["id_scan_tp"])."','".db_esc($dbc, $row_mm3["scan_doc"])."','".db_esc($dbc, $row_mm3["posting_date"])."','".db_esc($dbc, $row_mm3["posting_time"])."','".db_esc($dbc, $row_mm3["prepared_by"])."','".db_esc($dbc, $row_mm3["vendor_no"])."','".db_esc($dbc, $row_mm3["plan_code"])."','".db_esc($dbc, $row_mm3["shift_day"])."','".db_esc($dbc, $row_mm3["item_no"])."','".db_esc($dbc, $row_mm3["material_no"])."','".db_esc($dbc, $row_mm3["material_desc"])."','".db_esc($dbc, $row_mm3["qty_tp"])."','".db_esc($dbc, $row_mm3["uom"])."','".db_esc($dbc, $row_mm3["sloc_from"])."','".db_esc($dbc, $row_mm3["sloc_to"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_generate_tp"])."','".db_esc($dbc, $row_mm3["date_generate_tp"])."','".db_esc($dbc, $row_mm3["ref_doc_tp"])."','".db_esc($dbc, $row_mm3["user_cancel"])."','".db_esc($dbc, $row_mm3["date_cancel"])."','".db_esc($dbc, $row_mm3["status_ftp"])."','".db_esc($dbc, $row_mm3["status_tran"])."','".db_esc($dbc, $row_mm3["status_tp"])."','".db_esc($dbc, $row_mm3["ref_doc_no_return"])."')";
 			$result_mm3_insert = mysqli_query($dbc, $query_mm3_insert);
 			
 			}
@@ -256,7 +256,7 @@ $message = NULL; // create an empty new variable.
 	 //---- checking ftp_ret_cancel_subcont -------
     $data_rcv = "";
 
-   $query_rcv_ftp = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') AS J, DATE_FORMAT(date_create,'%Y') AS R2 FROM ret_subcont_detail WHERE ref_doc_tp = '".$ref."' AND id_tp = '".$row2["id_tp"]."'";
+   $query_rcv_ftp = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') AS J, DATE_FORMAT(date_create,'%Y') AS R2 FROM ret_subcont_detail WHERE ref_doc_tp = '".db_esc($dbc, $ref)."' AND id_tp = '".db_esc($dbc, $row2["id_tp"])."'";
    $result_rcv_ftp = mysqli_query($dbc, $query_rcv_ftp);
    $data_rcv_ftp = mysqli_fetch_array($result_rcv_ftp);
   
@@ -267,7 +267,7 @@ $data_rcv .= $data_rcv_ftp["J"].";".$data_rcv_ftp["doc_tp"].";".$data_rcv_ftp["R
   
      //----------insert table ftp_ret_cancel_subcont ------------
    
-    $query_rcv_ftp_info = "INSERT INTO ftp_ret_cancel_subcont(id, file_name, doc_tp, ref_doc_tp, id_tp, material_no, material_desc, qty_ftp, uom, plant, shift_day, mvt_type, status_ftp, posting_date, posting_time, user_create, date_create, vendor_no) VALUES('','".$filen_rcv."','".$ref."','".$data_rcv_ftp["doc_tp"]."',".$data_rcv_ftp["id_tp"].",'".$data_rcv_ftp["material_no"]."','".$data_rcv_ftp["material_desc"]."','".$data_rcv_ftp["qty_tp"]."','".$data_rcv_ftp["uom"]."','".$data_rcv_ftp["plan_code"]."','".$data_rcv_ftp["shift_day"]."','541','Y',NOW(),NOW(),'".$username."',NOW(),'".$data_rcv_ftp["sloc_from"]."')"; 
+    $query_rcv_ftp_info = "INSERT INTO ftp_ret_cancel_subcont(id, file_name, doc_tp, ref_doc_tp, id_tp, material_no, material_desc, qty_ftp, uom, plant, shift_day, mvt_type, status_ftp, posting_date, posting_time, user_create, date_create, vendor_no) VALUES('','".db_esc($dbc, $filen_rcv)."','".db_esc($dbc, $ref)."','".db_esc($dbc, $data_rcv_ftp["doc_tp"])."',".$data_rcv_ftp["id_tp"].",'".db_esc($dbc, $data_rcv_ftp["material_no"])."','".db_esc($dbc, $data_rcv_ftp["material_desc"])."','".db_esc($dbc, $data_rcv_ftp["qty_tp"])."','".db_esc($dbc, $data_rcv_ftp["uom"])."','".db_esc($dbc, $data_rcv_ftp["plan_code"])."','".db_esc($dbc, $data_rcv_ftp["shift_day"])."','541','Y',NOW(),NOW(),'".db_esc($dbc, $username)."',NOW(),'".db_esc($dbc, $data_rcv_ftp["sloc_from"])."')"; 
      $rst_rcv_ftp_info = mysqli_query($dbc, $query_rcv_ftp_info);
 	  
 			

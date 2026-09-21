@@ -137,7 +137,7 @@ $i = 1;
 while ($row2 = mysqli_fetch_array($rs))
 {
 
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2["user_create"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 

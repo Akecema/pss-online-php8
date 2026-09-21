@@ -32,7 +32,7 @@ header('Location: ../index.php');
 exit();
 }
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -121,43 +121,43 @@ $rst_sta20 = mysqli_fetch_array($sta_res20);
  
  // ------------------------------  display dashboard ------------------------
  //TP to store
-$query_tp_store = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."'";
+$query_tp_store = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta19["status_desc"])."'";
 $rs_tp_store= mysqli_query($dbc, $query_tp_store);   //run the query.
 $num_tp_store = mysqli_fetch_assoc($rs_tp_store)['cnt'];   //how many record are there?
 
  //Cancel TP to store
-$query_cancel_tp_store = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_store_cancel WHERE status_tran = 'Y' AND status_tp = '".$rst_sta4["status_desc"]."'";
+$query_cancel_tp_store = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_store_cancel WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 $rs_cancel_tp_store= mysqli_query($dbc, $query_cancel_tp_store);   //run the query.
 $num_cancel_tp_store = mysqli_fetch_assoc($rs_cancel_tp_store)['cnt'];   //how many record are there?
 
 //TP to PLB
-$query_tp_plb = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_plb_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."'";
+$query_tp_plb = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_plb_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta19["status_desc"])."'";
 $rs_tp_plb = mysqli_query($dbc, $query_tp_plb);   //run the query.
 $num_tp_plb = mysqli_fetch_assoc($rs_tp_plb)['cnt'];   //how many rrecord are there?
 
 //Cancel TP to PLB
-$query_cancel_tp_plb = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_plb_cancel WHERE status_tran = 'Y' AND status_tp = '".$rst_sta4["status_desc"]."'";
+$query_cancel_tp_plb = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_plb_cancel WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 $rs_cancel_tp_plb = mysqli_query($dbc, $query_cancel_tp_plb);   //run the query.
 $num_cancel_tp_plb = mysqli_fetch_assoc($rs_cancel_tp_plb)['cnt'];   //how many rrecord are there?
 
 //Return from PLB
-$query_ret_plb = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM ret_plb_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta20["status_desc"]."'";
+$query_ret_plb = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM ret_plb_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta20["status_desc"])."'";
 $rs_ret_plb = mysqli_query($dbc, $query_ret_plb);   //run the query.
 $num_ret_plb = mysqli_fetch_assoc($rs_ret_plb)['cnt'];   //how many rrecord are there?
 
 //TP to Subcont
-$query_tp_subcont = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_subcont_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."'";
+$query_tp_subcont = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_subcont_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta19["status_desc"])."'";
 $rs_tp_subcont = mysqli_query($dbc, $query_tp_subcont);   //run the query.
 $num_tp_subcont = mysqli_fetch_assoc($rs_tp_subcont)['cnt'];   //how many rrecord are there?
 
 //Cancel TP to Subcont
-$query_cancel_tp_subcont = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_subcont_cancel WHERE status_tran = 'Y' AND status_tp = '".$rst_sta4["status_desc"]."'";
+$query_cancel_tp_subcont = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM tp_subcont_cancel WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 $rs_cancel_tp_subcont = mysqli_query($dbc, $query_cancel_tp_subcont);   //run the query.
 $num_cancel_tp_subcont = mysqli_fetch_assoc($rs_cancel_tp_subcont)['cnt'];   //how many rrecord are there?
 
 
 //Return from Subcont
-$query_ret_subcont = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM ret_subcont_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta20["status_desc"]."'";
+$query_ret_subcont = "SELECT COUNT(DISTINCT doc_tp) AS cnt FROM ret_subcont_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta20["status_desc"])."'";
 $rs_ret_subcont = mysqli_query($dbc, $query_ret_subcont);   //run the query.
 $num_ret_subcont = mysqli_fetch_assoc($rs_ret_subcont)['cnt'];   //how many rrecord are there?
 

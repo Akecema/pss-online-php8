@@ -200,7 +200,7 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
    {
 	 
 	 
-	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM ret_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".$data_sql2["doc_tp"]."' ORDER BY doc_tp ASC";
+	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM ret_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $data_sql2["doc_tp"])."' ORDER BY doc_tp ASC";
      $result_sql3 = mysqli_query($dbc, $query_sql3);   //run the query.
 	 
    $no2 = 1;
@@ -230,7 +230,7 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
         echo '</tr>'; 
 		
 		//---- record cancellation ------ //
-		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM ret_subcont_detail WHERE id_tp = '".$data_sql3["id_tp"]."' AND status_tp = '".$rst_sta4["status_desc"]."'";
+		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM ret_subcont_detail WHERE id_tp = '".db_esc($dbc, $data_sql3["id_tp"])."' AND status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."'";
 		$result_cancel_plb = mysqli_query($dbc, $query_cancel_plb);
 	    $row_cancel = mysqli_fetch_array($result_cancel_plb);
 		

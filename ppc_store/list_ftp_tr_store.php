@@ -32,7 +32,7 @@ exit();
 }
 $url = "list_ftp_tr_store.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -207,7 +207,7 @@ if(is_dir($dir)){
 				 
 		//---check filename from table ftp backflush --------
 		
-	$query = "SELECT *, DATE_FORMAT(date_create,'%d-%m-%Y %H:%i:%s') AS R2, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R3 FROM ftp_tp_store WHERE status_ftp = 'Y' AND file_name = '".$filename2."'";
+	$query = "SELECT *, DATE_FORMAT(date_create,'%d-%m-%Y %H:%i:%s') AS R2, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R3 FROM ftp_tp_store WHERE status_ftp = 'Y' AND file_name = '".db_esc($dbc, $filename2)."'";
 	$rs = mysqli_query($dbc, $query);  //run the query.
 	
 	while($row_rs = mysqli_fetch_array($rs))
@@ -216,13 +216,13 @@ if(is_dir($dir)){
 	
 		//---check material type in table material--------
 		
-	$query_mat_type = "SELECT * FROM table_material WHERE material_no = '".$row_rs["material_no"]."'";
+	$query_mat_type = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row_rs["material_no"])."'";
 	$rs_mat_type = mysqli_query($dbc, $query_mat_type);   //run the query.
 	$row_mat_type = mysqli_fetch_array($rs_mat_type);   //how many material are there?	
 	
 	//----check doc no ----------
 	
-	$query_docum = "SELECT * FROM tp_store_detail WHERE id_tp = '".$row_rs["id_tp"]."'";
+	$query_docum = "SELECT * FROM tp_store_detail WHERE id_tp = '".db_esc($dbc, $row_rs["id_tp"])."'";
 	$rs_docum = mysqli_query($dbc, $query_docum);   //run the query.
 	$row_docum = mysqli_fetch_array($rs_docum);   //how many material are there?	
 	
@@ -259,7 +259,7 @@ if(is_dir($dir)){
    
    //---------cancel-----------
    
-   $query_cancel = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y %H:%i:%s') AS R8, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R7 FROM ftp_tp_cancel_store WHERE status_ftp = 'Y' AND file_name = '".$filename2."'";
+   $query_cancel = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y %H:%i:%s') AS R8, DATE_FORMAT(posting_date,'%d-%m-%Y') AS R7 FROM ftp_tp_cancel_store WHERE status_ftp = 'Y' AND file_name = '".db_esc($dbc, $filename2)."'";
 	$rs_cancel = mysqli_query($dbc, $query_cancel);   //run the query.
 	
 	
@@ -270,13 +270,13 @@ if(is_dir($dir)){
    
    	//---check material type in table material--------
 		
-	$query_mat_type_c = "SELECT * FROM table_material WHERE material_no = '".$row_rs_cancel["material_no"]."'";
+	$query_mat_type_c = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row_rs_cancel["material_no"])."'";
 	$rs_mat_type_c = mysqli_query($dbc, $query_mat_type_c);   //run the query.
 	$row_mat_type_c = mysqli_fetch_array($rs_mat_type_c);   //how many material are there?	
 	
 	//----check doc no ----------
 	
-	$query_docum_c = "SELECT * FROM tp_store_cancel WHERE id_tp = '".$row_rs_cancel["id_tp"]."'";
+	$query_docum_c = "SELECT * FROM tp_store_cancel WHERE id_tp = '".db_esc($dbc, $row_rs_cancel["id_tp"])."'";
 	$rs_docum_c = mysqli_query($dbc, $query_docum_c);   //run the query.
 	$row_docum_c = mysqli_fetch_array($rs_docum_c);   //how many material are there?	
    

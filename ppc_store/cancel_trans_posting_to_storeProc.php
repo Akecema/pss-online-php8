@@ -40,7 +40,7 @@ $year = $today['year'];
 
 $url = "cancel_trans_posting_to_store.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -314,7 +314,7 @@ return "";
 
  
 								 
-   $query8 = "SELECT * FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."'".$where_sql."GROUP BY doc_tp";
+   $query8 = "SELECT * FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta19["status_desc"])."'".$where_sql."GROUP BY doc_tp";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
    $num = mysqli_num_rows($result8);  
@@ -327,7 +327,7 @@ return "";
  
      $no = 1;
   
-$query_sql2 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R2 FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".$rst_sta19["status_desc"]."' ".$where_sql. "GROUP BY doc_tp ORDER BY posting_date DESC, posting_time DESC";
+$query_sql2 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R2 FROM tp_store_detail WHERE status_tran = 'Y' AND status_tp = '".db_esc($dbc, $rst_sta19["status_desc"])."' ".$where_sql. "GROUP BY doc_tp ORDER BY posting_date DESC, posting_time DESC";
 $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
 //$num = mysqli_num_rows($result_sql2);   //how many material are there?
 
@@ -381,7 +381,7 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
    {
 	   
 
-	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM tp_store_detail WHERE status_tran = 'Y' AND doc_tp = '".$data_sql2["doc_tp"]."' ORDER BY doc_tp ASC";
+	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM tp_store_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $data_sql2["doc_tp"])."' ORDER BY doc_tp ASC";
      $result_sql3 = mysqli_query($dbc, $query_sql3);   //run the query.
 	 
 

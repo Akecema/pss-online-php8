@@ -40,7 +40,7 @@ $year = $today['year'];
 
 $url = "document_list_TP_to_store.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -419,7 +419,7 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
    {
 	   
 
-	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM tp_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".$data_sql2["doc_tp"]."' ORDER BY posting_date DESC, posting_time DESC";
+	 $query_sql3 = "SELECT *, DATE_FORMAT(posting_date,'%d-%m-%Y') as R3 FROM tp_subcont_detail WHERE status_tran = 'Y' AND doc_tp = '".db_esc($dbc, $data_sql2["doc_tp"])."' ORDER BY posting_date DESC, posting_time DESC";
      $result_sql3 = mysqli_query($dbc, $query_sql3);   //run the query.
 	 
 
@@ -436,7 +436,7 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
 	 }
 	 
 	  //---- record cancellation ------ //
-		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM tp_subcont_detail WHERE id_tp = '".$data_sql3["id_tp"]."' AND status_tp = '".$rst_sta4["status_desc"]."' ORDER BY posting_date DESC, posting_time DESC";
+		$query_cancel_plb = "SELECT *, DATE_FORMAT(date_cancel,'%d-%m-%Y') as R4, DATE_FORMAT(date_cancel,'%H:%i:%s') as R5 FROM tp_subcont_detail WHERE id_tp = '".db_esc($dbc, $data_sql3["id_tp"])."' AND status_tp = '".db_esc($dbc, $rst_sta4["status_desc"])."' ORDER BY posting_date DESC, posting_time DESC";
 		$result_cancel_plb = mysqli_query($dbc, $query_cancel_plb);
 	    $row_cancel = mysqli_fetch_array($result_cancel_plb);
 		

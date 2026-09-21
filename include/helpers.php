@@ -39,6 +39,8 @@ function db_query_params(mysqli $dbc, string $sql, string $types = '', array $pa
         mysqli_stmt_bind_param($stmt, $types, ...$params);
     }
     if (!mysqli_stmt_execute($stmt)) {
+        // Execute errors live on the statement, not the link, so db_fail($dbc) would not see them.
+        error_log('PSS Online SQL error [' . ($_SERVER['SCRIPT_NAME'] ?? 'cli') . ']: ' . mysqli_stmt_error($stmt));
         mysqli_stmt_close($stmt);
         return false;
     }
@@ -180,4 +182,17 @@ function password_matches(string $plain, string $stored): bool
         return password_verify($plain, $stored);
     }
     return hash_equals($stored, md5($plain));
+}
+
+/**
+ * Prepared-statement runner for legacy call sites: every argument is bound as a string,
+ * exactly like the quoted literal it replaces ('...'), and null becomes ''.
+ * Drop-in for mysqli_query(): returns mysqli_result (SELECT), true (write) or false.
+ *
+ * @param list<mixed> $args
+ */
+function db_query_bind(mysqli $dbc, string $sql, array $args = []): mysqli_result|bool
+{
+    $bound = array_map(static fn($v): string => is_array($v) ? 'Array' : (string) $v, $args);
+    return db_query_params($dbc, $sql, str_repeat('s', count($bound)), $bound);
 }

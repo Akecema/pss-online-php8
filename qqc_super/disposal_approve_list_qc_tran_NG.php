@@ -32,7 +32,7 @@ exit();
 }
 $url = "disposal_approve_list_qc_tran_NG.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -249,7 +249,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="doc_disposal_no" id="doc_disposal_no" class="span11">
                   <option value="NULL" placeholder="Select Disposal Doc. No."> -- Select Disposal Doc. No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta3["status_desc"]."' AND status_part = 'QC' AND doc_disposal_no != '' GROUP BY doc_disposal_no";
+	             $query9 = "SELECT * FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."' AND status_part = 'QC' AND doc_disposal_no != '' GROUP BY doc_disposal_no";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -286,7 +286,7 @@ echo "window.location='disposal_approve_list_qc_tran_NG2.php?date1=$dateF&&date2
         
    
 								 
-   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta3["status_desc"]."' AND status_part = 'QC' AND doc_disposal_no != ''";
+   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."' AND status_part = 'QC' AND doc_disposal_no != ''";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -297,7 +297,7 @@ echo "window.location='disposal_approve_list_qc_tran_NG2.php?date1=$dateF&&date2
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE status_disposal = '".$rst_sta3["status_desc"]."' AND status_part = 'QC' AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."' AND status_part = 'QC' AND doc_disposal_no != '' GROUP BY doc_disposal_no ORDER BY plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 

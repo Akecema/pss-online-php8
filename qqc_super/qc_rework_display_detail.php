@@ -36,7 +36,7 @@ exit();
 $url = "document_list_qc_tran.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -143,7 +143,7 @@ if (bV >= 4) window.print();
  
   //--------- qqc transaction detail ------------
 	 
-	   $query_pps = "SELECT * FROM qqc_transaction WHERE id_tran = '".$uid."'";
+	   $query_pps = "SELECT * FROM qqc_transaction WHERE id_tran = '".db_esc($dbc, $uid)."'";
 	   $result_pps = mysqli_query($dbc, $query_pps);
 	   $data_pps = mysqli_fetch_array($result_pps);
  
@@ -183,7 +183,7 @@ if (bV >= 4) window.print();
    $no = 1;
    $sta_out = "";
    
-   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM qqc_transaction AS MR WHERE MR.status_QC = '".$rst_sta8["status_desc"]."' AND MR.id_tran = '$uid'";
+   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM qqc_transaction AS MR WHERE MR.status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' AND MR.id_tran = '".db_esc($dbc, $uid)."'";
 $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    while ($row2 = mysqli_fetch_array($result_display))

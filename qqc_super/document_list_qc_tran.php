@@ -32,7 +32,7 @@ exit();
 }
 $url = "document_list_qc_tran.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -298,7 +298,7 @@ function getXMLHTTP() { //fuction to return the xml http object
               <td><select name="plan_no" id="plan_no" class="span11">
                   <option value="NULL" placeholder="Select Planned Order No."> -- Select Planned Order No. --</option>
                   <?php
-	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".$rst_sta13["status_desc"]."' ORDER BY plan_no ASC";
+	             $query9 = "SELECT * FROM pps_detail WHERE status_pps = '".db_esc($dbc, $rst_sta13["status_desc"])."' ORDER BY plan_no ASC";
                    $result9 = mysqli_query($dbc, $query9);
   
                    while($row9=mysqli_fetch_array($result9)) 
@@ -349,7 +349,7 @@ echo "window.location='document_list_qc_tran2.php?date1=$dateF&&date2=$dateT&&fa
 
 
 								 
-   $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction WHERE status_QC = '".$rst_sta11["status_desc"]."'";
+   $query8 = "SELECT COUNT(*) FROM qqc_detail_transaction WHERE status_QC = '".db_esc($dbc, $rst_sta11["status_desc"])."'";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -360,7 +360,7 @@ echo "window.location='document_list_qc_tran2.php?date1=$dateF&&date2=$dateT&&fa
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM qqc_detail_transaction WHERE status_QC = '".$rst_sta11["status_desc"]."' ORDER BY plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_qc_posting,'%d-%m-%Y') as R2, DATE_FORMAT(date_create,'%d-%m-%Y') as R3 FROM qqc_detail_transaction WHERE status_QC = '".db_esc($dbc, $rst_sta11["status_desc"])."' ORDER BY plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -465,7 +465,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	
 	   //--------- qc detail (calculate total qty_qc receive from production) ------------
 	 
-	   $query_qqc = "SELECT * FROM qqc_transaction WHERE qqc_doc_no = '".$row["qqc_doc_no"]."'";
+	   $query_qqc = "SELECT * FROM qqc_transaction WHERE qqc_doc_no = '".db_esc($dbc, $row["qqc_doc_no"])."'";
 	   $result_qqc = mysqli_query($dbc, $query_qqc);
 	   
 	   while($data_qqc = mysqli_fetch_array($result_qqc))

@@ -37,7 +37,7 @@ exit();
 $url = "disposal_backflush_tran_NG.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -174,12 +174,12 @@ return "";
 
  $doc_disposal = $_GET["doc_disposal"];
   
-$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
+$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = '".db_esc($dbc, $doc_disposal)."'";
 $rs = mysqli_query($dbc, $queryu);   //run the query.
 
 //detail info disposal 
 
-$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = '".$doc_disposal."'";
+$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = '".db_esc($dbc, $doc_disposal)."'";
 $result_disposal = mysqli_query($dbc, $query_disposal);   //run the query.
 $row_disposal = mysqli_fetch_array($result_disposal);
 
@@ -247,7 +247,7 @@ $message = NULL; // create an empty new variable.
 		
 //------------update remarks reject detail disposal-------------------
       
- $query_upd3 = "UPDATE reject_detail_disposal SET remark_approve = '".$string[$i]."', approve_by = '".$username."', date_approve = NOW(), status_disposal = '".$rst_sta3["status_desc"]."' WHERE id_disposal = '".$cancel[$i]."'";
+ $query_upd3 = "UPDATE reject_detail_disposal SET remark_approve = '".db_esc($dbc, $string[$i])."', approve_by = '".db_esc($dbc, $username)."', date_approve = NOW(), status_disposal = '".db_esc($dbc, $rst_sta3["status_desc"])."' WHERE id_disposal = '".db_esc($dbc, $cancel[$i])."'";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
  
@@ -331,19 +331,19 @@ if (isset($message))
    while ($row = mysqli_fetch_array($rs))
    {
 		
-		$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row['type_reject']."' ORDER BY id_type ASC";
+		$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".db_esc($dbc, $row['type_reject'])."' ORDER BY id_type ASC";
 		$result_type = mysqli_query($dbc, $query_type);
 		$row_type = mysqli_fetch_array($result_type); 
 		
-		$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row['reason_reject']."' ORDER BY id_reject ASC";
+		$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".db_esc($dbc, $row['reason_reject'])."' ORDER BY id_reject ASC";
 		$result_reason = mysqli_query($dbc, $query_reason);
 		$row_reason = mysqli_fetch_array($result_reason);
 		
-		$query_model = "SELECT * FROM pps_detail WHERE plan_no = '".$row['plan_no']."'";
+		$query_model = "SELECT * FROM pps_detail WHERE plan_no = '".db_esc($dbc, $row['plan_no'])."'";
 		$result_model = mysqli_query($dbc, $query_model);
 		$data_model = mysqli_fetch_array($result_model);	
 		
-		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
+		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat = mysqli_query($dbc, $query_mat);
 		$data_mat = mysqli_fetch_array($result_mat);	
 		

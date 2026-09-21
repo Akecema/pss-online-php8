@@ -32,7 +32,7 @@ exit();
 }
 $url = "report_all_planning_module.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -205,7 +205,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert); 
  
@@ -272,7 +272,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -391,7 +391,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 
  
 								 
-   $query8 = "SELECT COUNT(*) FROM pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".$rst_sta4["status_desc"]."' AND MR.status_pps != '".$rst_sta16["status_desc"]."')".$where_sql;
+   $query8 = "SELECT COUNT(*) FROM pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."' AND MR.status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."')".$where_sql;
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8);
 
@@ -402,7 +402,7 @@ function getXMLHTTP() { //fuction to return the xml http object
  
  
   
-$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_posting,'%H:%i:%s') as T2 FROM pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".$rst_sta4["status_desc"]."'  AND MR.status_pps != '".$rst_sta16["status_desc"]."')".$where_sql. " GROUP BY MR.plan_no ORDER BY MR.plan_no ASC";
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_posting,'%H:%i:%s') as T2 FROM pps_detail AS MR, work_center_detail AS SR WHERE MR.work_center = SR.id_work AND (MR.status_pps != '".db_esc($dbc, $rst_sta4["status_desc"])."'  AND MR.status_pps != '".db_esc($dbc, $rst_sta16["status_desc"])."')".$where_sql. " GROUP BY MR.plan_no ORDER BY MR.plan_no ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 $num = mysqli_num_rows($rs);   //how many material are there?
 
@@ -470,17 +470,17 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		$sta = " ";
 	 }	
 		 
-  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'";
+  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.".db_esc($dbc, $row[16]).".'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p);
   
      //---------get material header---------
-	    $query_mat_h = "SELECT * FROM table_material WHERE material_no = '".$row['material_no']."'";
+	    $query_mat_h = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat_h = mysqli_query($dbc, $query_mat_h);
 		$data_mat_h = mysqli_fetch_array($result_mat_h);	 
 		
 		//---------get sloc ---------
-	    $query_mat_h2 = "SELECT * FROM mat_master_detail WHERE material = '".$row['material_no']."'";
+	    $query_mat_h2 = "SELECT * FROM mat_master_detail WHERE material = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat_h2 = mysqli_query($dbc, $query_mat_h2);
 		$data_mat_h2 = mysqli_fetch_array($result_mat_h2);	
 		
@@ -503,7 +503,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		
 <?php		
 
-   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".$row["id"]."' ORDER BY plan_no ASC";
+   $query_display = "SELECT *, DATE_FORMAT(MR.date_plan,'%d-%m-%Y') as R, DATE_FORMAT(MR.date_posting,'%d-%m-%Y') as R2, DATE_FORMAT(MR.date_create,'%d-%m-%Y') as R3 FROM pps_detail_transaction AS MR WHERE MR.pps_id = '".db_esc($dbc, $row["id"])."' ORDER BY plan_no ASC";
    $result_display = mysqli_query($dbc, $query_display);   //run the query.
    
    $no2 = 1;
@@ -512,19 +512,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
    {
   
          //---------get material header---------
-	    $query_mat_h = "SELECT * FROM table_material WHERE material_no = '".$row['material_no']."'";
+	    $query_mat_h = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat_h = mysqli_query($dbc, $query_mat_h);
 		$data_mat_h = mysqli_fetch_array($result_mat_h);	  
 		
 		//---------get sloc ---------
-	    $query_mat_h2 = "SELECT * FROM mat_master_detail WHERE material = '".$row['material_no']."'";
+	    $query_mat_h2 = "SELECT * FROM mat_master_detail WHERE material = '".db_esc($dbc, $row['material_no'])."'";
 		$result_mat_h2 = mysqli_query($dbc, $query_mat_h2);
 		$data_mat_h2 = mysqli_fetch_array($result_mat_h2);	 
 		
-		$query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".$row_display["bflush_no"]."' ORDER BY plan_no ASC";
+		$query_display3 = "SELECT *, DATE_FORMAT(N.date_plan,'%d-%m-%Y') as B, DATE_FORMAT(N.date_qc_posting,'%d-%m-%Y') as B2, DATE_FORMAT(N.date_create,'%d-%m-%Y') as B3 FROM qqc_detail_transaction AS N WHERE N.bflush_no = '".db_esc($dbc, $row_display["bflush_no"])."' ORDER BY plan_no ASC";
 		$result_display3 = mysqli_query($dbc, $query_display3);   //run the query.  
 		
-  		$query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".$row_display["bflush_no"]."' ORDER BY plan_no ASC";
+  		$query_display2 = "SELECT *, DATE_FORMAT(M.date_plan,'%d-%m-%Y') as J, DATE_FORMAT(M.date_qc_posting,'%d-%m-%Y') as J2, DATE_FORMAT(M.date_create,'%d-%m-%Y') as J3 FROM qqc_transaction AS M WHERE M.bflush_no = '".db_esc($dbc, $row_display["bflush_no"])."' ORDER BY plan_no ASC";
 		$result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 
 

@@ -58,11 +58,11 @@ $namaFile = "Rework Reject Report.xls";
 			
 			 //convert 
 			
-			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".$_GET["work_center"]."'";
+			$query_convert = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_work = '".db_esc($dbc, $_GET["work_center"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 			
-			$query_convert2 = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_factory = '".$_GET["factory"]."'";
+			$query_convert2 = "SELECT * FROM `work_center_detail` as SR WHERE SR.id_factory = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
@@ -173,15 +173,15 @@ $i = 1;
 while ($row2 = mysqli_fetch_array($rs))
 {
 
-	$query_u = "SELECT * FROM user_detail WHERE username = '".$row2["user_reject"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row2["user_reject"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 	
-	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row2['type_reject']."' ORDER BY id_type ASC";
+	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".db_esc($dbc, $row2['type_reject'])."' ORDER BY id_type ASC";
     $result_type = mysqli_query($dbc, $query_type);
     $row_type = mysqli_fetch_array($result_type); 
 	
-	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row2['reason_reject']."' ORDER BY id_reject ASC";
+	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".db_esc($dbc, $row2['reason_reject'])."' ORDER BY id_reject ASC";
     $result_reason = mysqli_query($dbc, $query_reason);
     $row_reason = mysqli_fetch_array($result_reason);
 	

@@ -33,7 +33,7 @@ exit();
 }
 $url = "report_rework_reject.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -429,19 +429,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	}
 	
 	
-	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".$row['type_reject']."' ORDER BY id_type ASC";
+	$query_type = "SELECT * FROM type_reject_detail WHERE id_type = '".db_esc($dbc, $row['type_reject'])."' ORDER BY id_type ASC";
     $result_type = mysqli_query($dbc, $query_type);
     $row_type = mysqli_fetch_array($result_type); 
 	
-	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$row['reason_reject']."' ORDER BY id_reject ASC";
+	$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = '".db_esc($dbc, $row['reason_reject'])."' ORDER BY id_reject ASC";
     $result_reason = mysqli_query($dbc, $query_reason);
     $row_reason = mysqli_fetch_array($result_reason);
 	
-	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".$row['material_no']."'";
+	$query_scan = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $row['material_no'])."'";
     $result_scan = mysqli_query($dbc, $query_scan);
     $row_scan = mysqli_fetch_array($result_scan);
 	
-	  $query_model = "SELECT * FROM pps_detail WHERE plan_no = '".$row['plan_no']."'";
+	  $query_model = "SELECT * FROM pps_detail WHERE plan_no = '".db_esc($dbc, $row['plan_no'])."'";
 	  $result_model = mysqli_query($dbc, $query_model);
 	  $data_model = mysqli_fetch_array($result_model);
 	 

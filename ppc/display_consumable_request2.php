@@ -35,7 +35,7 @@ exit();
 
 $url = "display_consumable_request.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -194,7 +194,7 @@ visibility:hidden;
 			
 				//convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
+			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			
 			while ($row_convert = mysqli_fetch_array($result_convert))
@@ -295,7 +295,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    {
 	
    
-   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."'";
    $result_scan = mysqli_query($dbc, $query_scan);
    $row_scan = mysqli_fetch_array($result_scan);
 	
@@ -303,11 +303,11 @@ $rs = mysqli_query($dbc, $query);   //run the query.
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again); */
 	
-	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row_scan["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row2[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2['user_create'])."'";
     $result_u = mysqli_query($dbc, $query_u);   //run the query.
      $data_u = mysqli_fetch_array($result_u);   //how many records are there?   
 		  ?>         

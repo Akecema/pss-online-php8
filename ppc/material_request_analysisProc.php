@@ -32,7 +32,7 @@ exit();
 $url = "material_request_analysis.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -244,7 +244,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                <select name="work_center" id="work_center" class="span11">
                 <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
                  <?php
-	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".$_GET["factory"]."' ORDER BY id_work ASC";
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = '".db_esc($dbc, $_GET["factory"])."' ORDER BY id_work ASC";
                    $result5 = mysqli_query($dbc, $query5);
   
                    while($row5=mysqli_fetch_array($result5)) 
@@ -301,7 +301,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			
 		    //convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
+			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".db_esc($dbc, $_GET["material_no"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 		
@@ -426,31 +426,31 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 
 		
 		
-   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[6]."'";
+   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[6])."'";
    	$result_scan = mysqli_query($dbc, $query_scan);
    	$row_scan = mysqli_fetch_array($result_scan);
 	
-	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".$row2[6]."' ORDER BY id_req ASC";
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = '".db_esc($dbc, $row2[6])."' ORDER BY id_req ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row['user_create'])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row_scan["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row_scan["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".$row2[5]."'";
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = '".db_esc($dbc, $row2[5])."'";
   	$result4_p = mysqli_query($dbc, $query4_p);
  	$row4_p = mysqli_fetch_array($result4_p); 
  
-    $query5 = "SELECT * FROM post_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row2["bom_component"]."' AND mvt_type = 311 AND prod_order = '".$row_scan["prod_order"]."'";
+    $query5 = "SELECT * FROM post_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row2["bom_component"])."' AND mvt_type = 311 AND prod_order = '".db_esc($dbc, $row_scan["prod_order"])."'";
     $result5 = mysqli_query($dbc, $query5);
 	$row5 = mysqli_fetch_array($result5);
 	
-	$query6 = "SELECT * FROM post_detail_header AS PD, material_request AS MR WHERE PD.mrin_no = MR.temp_mrin AND PD.material_no = MR.bom_component AND PD.mrin_no = '".$row2["temp_mrin"]."' AND PD.material_no = '".$row2["bom_component"]."' AND PD.mvt_type = 311";
+	$query6 = "SELECT * FROM post_detail_header AS PD, material_request AS MR WHERE PD.mrin_no = MR.temp_mrin AND PD.material_no = MR.bom_component AND PD.mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND PD.material_no = '".db_esc($dbc, $row2["bom_component"])."' AND PD.mvt_type = 311";
     $result6 = mysqli_query($dbc, $query6);
 	$row6 = mysqli_fetch_array($result6);
 
@@ -476,7 +476,7 @@ echo $since_start->s.' seconds<br>';  */
 //------------------------------------------------------------------------------------------------------------------	
 
 					
-    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND prod_order = '".$row_scan["prod_order"]."' AND mvt_type = 311 AND material_no = '".$row4_p["bill_component"]."'";
+    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND prod_order = '".db_esc($dbc, $row_scan["prod_order"])."' AND mvt_type = 311 AND material_no = '".db_esc($dbc, $row4_p["bill_component"])."'";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;

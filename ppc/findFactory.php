@@ -21,7 +21,7 @@ include '../include/config.php';
 require_once '../include/auth.php';
 require_role($dbc, 4);
 
-$query="SELECT id,statename FROM state WHERE countryid='$country'";
+$query="SELECT id,statename FROM state WHERE countryid='".db_esc($dbc, $country)."'";
 $result=mysqli_query($dbc, $query);
 
 ?>

@@ -32,7 +32,7 @@ exit();
 date_default_timezone_set("Asia/Kuala_Lumpur");
 $url = "posting_request_all_screen_LCD_consumable.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -156,20 +156,20 @@ if ($num > 0) {
    while ($row2 = mysqli_fetch_array($rs))
    {
 	   
-   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".$row2[5]."'";
+   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = '".db_esc($dbc, $row2[5])."'";
    	$result_scan = mysqli_query($dbc, $query_scan);
    	$row_scan = mysqli_fetch_array($result_scan);
 	
-	$query_again = "SELECT * FROM consumable_request WHERE status_request = 'Y' and id_scan = '".$row2[5]."' ORDER BY id_req_con ASC";
+	$query_again = "SELECT * FROM consumable_request WHERE status_request = 'Y' and id_scan = '".db_esc($dbc, $row2[5])."' ORDER BY id_req_con ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row["user_create"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row["user_create"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row2["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
@@ -183,7 +183,7 @@ if ($num > 0) {
 	  $TOT = 0.000;
 	 $outs_qty = 0;
 	 
-	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND mvt_type = 201 AND status_posting = 'New' GROUP BY material_no";
+	$query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND mvt_type = 201 AND status_posting = 'New' GROUP BY material_no";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 	//$row_tp = mysqli_fetch_assoc($result_tp); 
 	
@@ -200,13 +200,13 @@ if ($num > 0) {
 	   if(($row["con_qty"] == $tp_quantity) || ($row["con_qty"] < $tp_quantity) && ($outs_qty <= 0))
        {  
 	
- $query_upd2 = "UPDATE `post_consumable_detail_header` SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row_tp["material_no"]."' ";
+ $query_upd2 = "UPDATE `post_consumable_detail_header` SET status_posting = 'Close', date_close = NOW() WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row_tp["material_no"])."' ";
  $result_upd2 = mysqli_query($dbc, $query_upd2); 
 	      
- $query_upd3 = "UPDATE `consumable_request` SET status = 'Close' WHERE temp_mrin = '".$row2["temp_mrin"]."' AND material_no = '".$row_tp["material_no"]."' ";
+ $query_upd3 = "UPDATE `consumable_request` SET status = 'Close' WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row_tp["material_no"])."' ";
  $result_upd3 = mysqli_query($dbc, $query_upd3); 
  
-	 $query_upd4 = "UPDATE `consumable_request` SET status = 'Close' WHERE temp_mrin = '".$row2["temp_mrin"]."' AND (con_qty = '0.000' OR con_qty = '')";
+	 $query_upd4 = "UPDATE `consumable_request` SET status = 'Close' WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND (con_qty = '0.000' OR con_qty = '')";
  $result_upd4 = mysqli_query($dbc, $query_upd4); 
 	
 	   //--------------------------------------------------------------------
@@ -215,7 +215,7 @@ if ($num > 0) {
         if($result_upd3 || $result_upd4)
 		 {
 		 
-		   $query_upd8 = "SELECT * FROM `consumable_request` WHERE temp_mrin = '".$row2["temp_mrin"]."' AND status = 'Close'";
+		   $query_upd8 = "SELECT * FROM `consumable_request` WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND status = 'Close'";
 		   $result_upd8 = mysqli_query($dbc, $query_upd8) or trigger_error("SQL", E_USER_ERROR);
 		   $row_upd8 = mysqli_num_rows($result_upd8); 
         
@@ -223,12 +223,12 @@ if ($num > 0) {
 		   if($row_upd4 > 0 )
 		   {
 		  
-	$query_mm3 = "SELECT * FROM `cosumable_request` WHERE temp_mrin = '".$row2["temp_mrin"]."' AND status = 'Close' AND material_no = '".$row_tp["material_no"]."'"; 
+	$query_mm3 = "SELECT * FROM `cosumable_request` WHERE temp_mrin = '".db_esc($dbc, $row2["temp_mrin"])."' AND status = 'Close' AND material_no = '".db_esc($dbc, $row_tp["material_no"])."'"; 
     $result_mm3 = mysqli_query($dbc, $query_mm3) or die (mysqli_error($dbc));
 	$row_mm3 = mysqli_fetch_array($result_mm3); 
 			
 			
-			$query_mm3_insert =  "INSERT INTO consumable_request_close(id_req_con, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_close, reason_close2) VALUES('".$row_mm3["id_req"]."','".$row_mm3["mrin_doc"]."','".$row_mm3["mrin_year"]."','".$row_mm3["temp_mrin"]."','".$row_mm3["id_hdr"]."','".$row_mm3["id_dtl"]."','".$row_mm3["id_scan"]."','".$row_mm3["bom_id"]."','".$row_mm3["con_qty"]."', '".$row_mm3["bom_oum"]."','".$row_mm3["status_request"]."','".$row_mm3["status_print"]."','".$row_mm3["user_create"]."','".$row_mm3["date_create"]."','".$row_mm3["user_update"]."','".$row_mm3["date_update"]."','".$row_mm3["date_posting"]."','".$row_mm3["time_posting"]."','".$row_mm3["status"]."','".$row_mm3["bom_component"]."','".$row_mm3["date_mrin"]."','".$row_mm3["time_mrin"]."','6','')";
+			$query_mm3_insert =  "INSERT INTO consumable_request_close(id_req_con, mrin_doc, mrin_year, temp_mrin, id_hdr, id_dtl, id_scan, bom_id, bom_qty, bom_oum, status_request, status_print, user_create, date_create, user_update, date_update, date_posting, time_posting, status, bom_component, date_mrin, time_mrin, reason_close, reason_close2) VALUES('".db_esc($dbc, $row_mm3["id_req"])."','".db_esc($dbc, $row_mm3["mrin_doc"])."','".db_esc($dbc, $row_mm3["mrin_year"])."','".db_esc($dbc, $row_mm3["temp_mrin"])."','".db_esc($dbc, $row_mm3["id_hdr"])."','".db_esc($dbc, $row_mm3["id_dtl"])."','".db_esc($dbc, $row_mm3["id_scan"])."','".db_esc($dbc, $row_mm3["bom_id"])."','".db_esc($dbc, $row_mm3["con_qty"])."', '".db_esc($dbc, $row_mm3["bom_oum"])."','".db_esc($dbc, $row_mm3["status_request"])."','".db_esc($dbc, $row_mm3["status_print"])."','".db_esc($dbc, $row_mm3["user_create"])."','".db_esc($dbc, $row_mm3["date_create"])."','".db_esc($dbc, $row_mm3["user_update"])."','".db_esc($dbc, $row_mm3["date_update"])."','".db_esc($dbc, $row_mm3["date_posting"])."','".db_esc($dbc, $row_mm3["time_posting"])."','".db_esc($dbc, $row_mm3["status"])."','".db_esc($dbc, $row_mm3["bom_component"])."','".db_esc($dbc, $row_mm3["date_mrin"])."','".db_esc($dbc, $row_mm3["time_mrin"])."','6','')";
 $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die (mysqli_error($dbc));
 			
 		  

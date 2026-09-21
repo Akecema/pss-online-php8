@@ -35,7 +35,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
 $url = "posting_request_scan_+_urgent.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	

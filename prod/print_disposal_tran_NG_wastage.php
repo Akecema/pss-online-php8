@@ -224,7 +224,7 @@ function prepopulate($name)
           </tr>
  <!--       <tr>
           <td>Status</td>
-          <td><?php// echo h($row_disposal["status_disposal"]);  ?></td>
+          <td><?php // echo h($row_disposal["status_disposal"]);  ?></td>
           </tr>-->
       </table>
      </td>

@@ -202,13 +202,13 @@ $num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are
 			
 	$total_month = 	($num_mat_prog_open + $num_mat_prog_close + $num_mat_prog_cancel);
 	
-	$percent_open =  (($num_mat_prog_open / $total_month) * 100);
+	$percent_open =  ($total_month != 0 ? (($num_mat_prog_open / $total_month) * 100) : 0);
 	$percent_open = number_format($percent_open, 2);
 	
-	$percent_close =  (($num_mat_prog_close / $total_month) * 100);
+	$percent_close =  ($total_month != 0 ? (($num_mat_prog_close / $total_month) * 100) : 0);
 	$percent_close = number_format($percent_close, 2);
 	
-	$percent_cancel =  (($num_mat_prog_cancel / $total_month) * 100);
+	$percent_cancel =  ($total_month != 0 ? (($num_mat_prog_cancel / $total_month) * 100) : 0);
 	$percent_cancel = number_format($percent_cancel, 2);
 	
 	}else{
@@ -276,13 +276,13 @@ $num_con_req = mysqli_fetch_assoc($rs_con_req)['cnt'];   //how many material are
 	{	
 	$total_month2 = 	($num_con_prog_open + $num_con_prog_close + $num_con_prog_cancel);
 	
-	$percent_open2 =  (($num_con_prog_open / $total_month2) * 100);
+	$percent_open2 =  ($total_month2 != 0 ? (($num_con_prog_open / $total_month2) * 100) : 0);
 	$percent_open2 = number_format($percent_open2, 2);
 	
-	$percent_close2 =  (($num_con_prog_close / $total_month2) * 100);
+	$percent_close2 =  ($total_month2 != 0 ? (($num_con_prog_close / $total_month2) * 100) : 0);
 	$percent_close2 = number_format($percent_close2, 2);
 	
-	$percent_cancel2 =  (($num_con_prog_cancel / $total_month2) * 100);
+	$percent_cancel2 =  ($total_month2 != 0 ? (($num_con_prog_cancel / $total_month2) * 100) : 0);
 	$percent_cancel2 = number_format($percent_cancel2, 2);
 	
 	

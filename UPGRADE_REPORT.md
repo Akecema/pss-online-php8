@@ -37,8 +37,9 @@ Result: `php -l` on all 2,201 PHP files = 0 errors; the only remaining deprecati
 | Auth gate | session check in each page | session gate + role check per script | `require_role($dbc, N)` in 843 pages |
 | Sessions | password cached in session, no ID regeneration | regenerate on login, no secrets | `session_regenerate_id(true)`, password no longer stored, hardened cookie ini |
 | Output | 15 files used `htmlspecialchars` | escape every echoed value | `h()`; request-derived echoes escaped (783 sites) |
+| Passwords | MD5 writes in 40 files | password_hash | bcrypt everywhere; old password verified in PHP (MD5 or bcrypt) |
 | Errors | SQL text shown via `die(mysqli_error())` (1,405) | log, do not display | `db_fail()` logs the real error, shows generic text |
-| Tests | none | custom harness, no PHPUnit | `tests/test_helpers.php` (19 assertions) |
+| Tests | none | custom harness, no PHPUnit | `tests/test_helpers.php` (24 assertions) |
 
 Deliberate deviation: SQL was **not** mass-converted to prepared statements. Rewriting about 1,500 queries without a
 regression suite risks changing behaviour; quoted values are escaped in place (equivalent to the old query text),
@@ -61,32 +62,33 @@ Schema **not changed**. The only query added is `SELECT level_id FROM user_detai
 Workflow, menus, forms, calculations, approvals, redirects and output are unchanged. The only behaviour changes are the WARNING items above.
 
 ## H. Testing performed
-* `php -l` on all 2,201 files (PHP 8.3.33): 0 parse errors.
-* `tests/test_helpers.php`: 19/19 pass (escaping, role decision, CSRF token, same-origin, upload names).
+* `php -l` on all 2,168 PHP files (PHP 8.3.33): 0 parse errors, 0 deprecations.
+* `tests/test_helpers.php`: 24/24 pass (escaping, role decision, CSRF token, same-origin, upload names).
 * Live DB (local MySQL, 138 users, read-only): connection, `current_level_id`, injection payloads, prepared helper.
 * HTTP (`php -S`): logged-out requests to role pages/AJAX return 302 to `index.php`; cross-origin POST returns 403; bad-credential and SQLi login return "Access denied"; removed login copies return 404.
 * Real sessions for 9 roles (levels 1,2,3,4,5,8,10,11,12): own folder 200, another role's folder 403. Levels 6, 7 and 9 have no active test user in the DB.
 * Crawl of every top-level page in each role folder with a read-only DB session, before and after the fixes above (results in section K).
 
 ## I. Remaining issues / not changed
-* `login_detail.password` and `add_user.php` / `change_password_prod.php` / `reset_password_user.php` / `backjob_*_pass.php` still write **MD5** (login rehashes to bcrypt on the next sign-in). Not changed because the `login_detail.password` column width could not be verified (bcrypt needs 60 chars); confirm the schema, then switch to `password_hash()`.
-* Passwords are still e-mailed in clear text (`change_password*.php`, `forgot_password.php`) - fixing that needs a reset-link flow (a new business process).
-* DB-derived values echoed into HTML are not yet wrapped in `h()` (stored XSS); only request-derived echoes were fixed.
-* SQL inside PHP functions and `sprintf`-built document numbers (`$number`) were intentionally left as-is; no unquoted request value in SQL was found.
-* The app still connects as one DB user; a least-privilege account is recommended.
-* Bundled jQuery 1.7.2, PHPExcel (abandoned) and 12 copies of TCPDF should be replaced via Composer, separately.
-* Duplicated `*_super` modules and backup files (`*_backup*`, `*___x*`, `*_old*`) remain; consolidating them is a refactor, not a compatibility fix.
-* Fragment includes (`content*.php`, `top_modal_menu.php`) are only meant to be included; requesting them directly fails as before.
+* **SQL is not on prepared statements.** About 1,500 legacy queries are escaped in place with `db_esc()` (quoted values only). Converting them one by one without a regression suite risks changing behaviour; the gain over correct escaping is small. New code and the role gate use prepared statements (`db_query_params()`); convert module by module as files are touched.
+* **Passwords are still e-mailed in clear text** (`change_password*.php`, `forgot_password.php`). Fixing that needs a reset-link flow, i.e. a new business process. Decision for the business owner.
+* **Vendored libraries are old but no longer emit deprecations.** TCPDF (12 copies), FPDF, PHPExcel (abandoned) and jQuery 1.7.2 were patched only where PHP 8 required it. Replacing them with maintained packages (PhpSpreadsheet, one shared TCPDF) changes generated Excel/PDF output and needs its own project.
+* **Duplicated `*_super` modules remain.** Merging them changes which role sees which behaviour; it is a redesign, not a compatibility fix.
+* **`session.cookie_secure` is not enabled** (it would break plain-HTTP local runs). Turn it on in `.user.ini` when the site is HTTPS-only.
+* **Fatals without parameters:** `prod/user_edit.php`, `admin/user_edit.php` and `prod/findMaterialType4.php` fatal when opened with no id (their query is built from an empty value). Unchanged; they do not occur through the normal menu flow.
+* Pages that need the parent page's `$dbc` (`content*.php`, `footer.php`, `top_modal_menu.php`, `left_*_menu.php`) fail if requested directly, as before.
+* PHP prints "`continue` targeting switch is equivalent to `break`" at compile time in vendored TCPDF/PHPExcel; behaviour is identical, so it was left alone.
+* Some list/report pages need more than 12 s on the full data set (heavy queries); not tuned.
 
 ## J. Recommended next steps
-1. Confirm `login_detail.password` length, then move all password writes to `password_hash()`.
-2. Enable `session.cookie_secure=1` once the site is HTTPS-only.
-3. Run a staging pass with each role: login, dashboard, one create/approve/print flow.
+1. Enable `session.cookie_secure=1` once the site is HTTPS-only.
+2. Decide on a password-reset-link flow to stop e-mailing passwords.
+3. Run a staging pass per role (login, dashboard, one create/approve/print flow) with production-like data and write access, which the read-only crawl could not cover.
+
 ## K. Crawl results (read-only DB session, PHP 8.3 built-in server, real data)
-Method: a scratch copy of the committed code with `SET SESSION TRANSACTION READ ONLY` (so no write could reach the DB); one real active user per role; every top-level page in the role's own folder requested with GET and no parameters; PHP fatals read from the error log.
-* **Before the PHP 8 fixes** (first 480 pages, admin + prod): 105 HTTP 500s. Dominant causes: `footer.php` re-query on a closed connection, drive-root `require` paths (`/tcpdf_barcodes_2d.php`), `mktime('')`, and `upload_safe_name(null)`.
-* **After the fixes:** admin fully crawled, prod about 75 %, plus about 190 pages from prod_super, ppc, ppc_super and part of the rest. **No HTTP 500 from any real page.** The 500s that remain are the include-only fragments requested directly (`content*.php`, `footer.php`, `top_modal_menu.php`, `left_*_menu.php`; they need the parent page's `$dbc`), which behaved the same before this work.
-* HTTP 400 on `*uploadProc.php` without `?file=`: intended (`upload_safe_name`).
-* Pre-existing PHP 8 fatals on parameter-less requests, not touched: `prod/user_edit.php:362` and `prod/findMaterialType4.php:68` (query built from an empty value returns `false`).
-* Some report/list pages exceed 12 s against the full data set (heavy queries); they were not re-timed.
-* Not covered: `supply`, `supply_super`, `planning_super` (no active user with those `level_id`s), and the second half of some role folders. Run the staging checklist in section J for those.
+Method: scratch copy of the committed code with `SET SESSION TRANSACTION READ ONLY`; every top-level page in all 12 role folders requested with GET and no parameters, one server per folder (role check relaxed in the scratch copy only, so `supply`, `supply_super` and `planning_super`, which have no test user, could be reached); PHP fatals read from the error log.
+* **834 pages: 703 x 200, 6 x 400 (upload Proc pages without `?file=`, intended), 3 x 404 (`_diag_*` stubs), 113 x 500, 9 timeouts.**
+* Of the 113 500s, all but 6 are PHP's 12 s time limit on heavy report pages under 12 parallel servers.
+* **The 6 real fatals:** `prod/user_edit.php`, `admin/user_edit.php`, `prod/findMaterialType4.php` (empty-id queries, see I), `prod/print_disposal_tran_NG_wastage.php` (`<?php//` comment typo, now fixed), `planning_super/dash.php` (division by zero on empty data, fixed with a zero guard in 70 percentage calculations) and one backup page (`report_PPCProc_consumable__y.php`, removed).
+* HTML comparison before/after the output-escaping change on 59 sample pages: 56 byte-identical; the other 3 differ only by `&` becoming `&amp;` (same rendering) and a random captcha number.
+* No fatal or warning in any log came from `db_esc`, `h`, `require_role` or `upload_safe_name`.

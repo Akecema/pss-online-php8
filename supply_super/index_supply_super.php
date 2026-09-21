@@ -199,13 +199,13 @@ $num_mat_req = mysqli_num_rows($rs_mat_req);   //how many material are there?
 	
 	$total_month = 	($num_mat_prog_open + $num_mat_prog_close + $num_mat_prog_cancel);
 	
-	$percent_open =  (($num_mat_prog_open / $total_month) * 100);
+	$percent_open =  ($total_month != 0 ? (($num_mat_prog_open / $total_month) * 100) : 0);
 	$percent_open = number_format($percent_open, 2);
 	
-	$percent_close =  (($num_mat_prog_close / $total_month) * 100);
+	$percent_close =  ($total_month != 0 ? (($num_mat_prog_close / $total_month) * 100) : 0);
 	$percent_close = number_format($percent_close, 2);
 	
-	$percent_cancel =  (($num_mat_prog_cancel / $total_month) * 100);
+	$percent_cancel =  ($total_month != 0 ? (($num_mat_prog_cancel / $total_month) * 100) : 0);
 	$percent_cancel = number_format($percent_cancel, 2);
 	
 	}else{

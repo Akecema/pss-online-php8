@@ -58,7 +58,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -332,12 +332,12 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 
 		  ?>        
          <tr>
-            <td width="211">&nbsp;<?php echo $row2["temp_mrin"]; ?></td>
-            <td width="103"><?php echo $row2["factory"]; ?></td>
-            <td width="94"><?php echo $row2["id_work"]; ?></td>
-            <td width="81"><?php echo $row2["R"]; ?>&nbsp;</td>
-            <td width="81"><?php echo $row2["time_require"]; ?></td>
-            <td width="156"><?php echo $data_u["user_fullname"]; ?></td>
+            <td width="211">&nbsp;<?php echo h($row2["temp_mrin"]); ?></td>
+            <td width="103"><?php echo h($row2["factory"]); ?></td>
+            <td width="94"><?php echo h($row2["id_work"]); ?></td>
+            <td width="81"><?php echo h($row2["R"]); ?>&nbsp;</td>
+            <td width="81"><?php echo h($row2["time_require"]); ?></td>
+            <td width="156"><?php echo h($data_u["user_fullname"]); ?></td>
             <?php
 
 	    //------------------------   Traffic light-------------------------------------------------------------
@@ -375,9 +375,9 @@ elseif($curr_time >= $plus_20)
 
 	?>
             
-           <td width="60"><a value="Details" href="detail_consumable_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+           <td width="60"><a value="Details" href="detail_consumable_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
            <td width="80">
-<a href="detail_consumable_request_reprinting.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a></td>
+<a href="detail_consumable_request_reprinting.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a></td>
   </tr>
  
   <?php 

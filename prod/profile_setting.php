@@ -39,7 +39,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
@@ -135,17 +135,17 @@ $message = NULL; // create an empty new variable.
                <tr>
                  <td width="26%" height="25">Vendor ID </td>
                  <td width="3%" height="25">:</td>
-                 <td width="71%" height="25"><?php echo $row[1]; ?></td>
+                 <td width="71%" height="25"><?php echo h($row[1]); ?></td>
                </tr>
                <tr>
                  <td height="25">Staff ID </td>
                  <td height="25">:</td>
-                 <td height="25"><b><font color="blue"><?php echo $row[2]; ?></font></b></td>
+                 <td height="25"><b><font color="blue"><?php echo h($row[2]); ?></font></b></td>
                </tr>
                  <tr>
                  <td height="25">Name</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[5]; ?> </td> 
+                 <td height="25"><?php echo h($row[5]); ?> </td> 
                </tr>
                <tr>
                  <td height="25">Company's Name</td>
@@ -157,7 +157,7 @@ $message = NULL; // create an empty new variable.
   $result3 = mysqli_query($dbc, $query3);
   $row3 = mysqli_fetch_array($result3);
   
-	    echo $row3["comp_name"];
+	    echo h($row3["comp_name"]);
 		
 
 	?></td>
@@ -172,7 +172,7 @@ $message = NULL; // create an empty new variable.
   $result2 = mysqli_query($dbc, $query2);
    $row2 = mysqli_fetch_array($result2);
 	    
-		echo $row2["dept_name"]; 
+		echo h($row2["dept_name"]); 
 	
 	?></td>
                </tr>
@@ -186,29 +186,29 @@ $message = NULL; // create an empty new variable.
   $result2b = mysqli_query($dbc, $query2b);
    $row2b =mysqli_fetch_array($result2b);
    
-  echo $row2b[1];
+  echo h($row2b[1]);
 
 	?></td>
                </tr>
                <tr>
                  <td height="25">Telephone No. 1</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[9]; ?></td>
+                 <td height="25"><?php echo h($row[9]); ?></td>
                </tr>
                <tr>
                  <td height="25">Telephone No. 2</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[10]; ?></td>
+                 <td height="25"><?php echo h($row[10]); ?></td>
                </tr>
                <tr>
                  <td height="25">Fax No</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[11]; ?> </td>
+                 <td height="25"><?php echo h($row[11]); ?> </td>
                </tr>
                <tr>
                  <td height="25">E-mail</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[12]; ?></td>
+                 <td height="25"><?php echo h($row[12]); ?></td>
                </tr>
                <tr>
                  <td height="25">Level</td>
@@ -219,7 +219,7 @@ $message = NULL; // create an empty new variable.
   $query4 = "SELECT * FROM level_detail WHERE status_level = 'Y' AND id_level = '".db_esc($dbc, $row[16])."'";
   $result4 = mysqli_query($dbc, $query4);
   $row4 =mysqli_fetch_array($result4);
-	    echo $row4["desc_level"];
+	    echo h($row4["desc_level"]);
 	
 	?></td>
                </tr>
@@ -245,7 +245,7 @@ $message = NULL; // create an empty new variable.
                  <td height="25">Date Created</td>
                  <td height="25">:</td>
                  <td height="25"><b><font color="blue">
-                   <?php  echo $row[14]; ?>
+                   <?php  echo h($row[14]); ?>
                  </font></b></td>
                </tr>
               
@@ -256,10 +256,10 @@ $message = NULL; // create an empty new variable.
                </tr>
             </table> 
              <div class="buttons">
-            <input type="button" onClick="location.href='profile_edit_personal.php?user_no=<?php echo $row[0]; ?>'" value="EDIT" class="button" >
+            <input type="button" onClick="location.href='profile_edit_personal.php?user_no=<?php echo h($row[0]); ?>'" value="EDIT" class="button" >
           <input type="button" class="button" id="Reset" value="CLOSE" onClick="window.close()">
           
-          <input type="hidden" name="user_no" id="user_no" value="<?php echo $row[0]; ?>">
+          <input type="hidden" name="user_no" id="user_no" value="<?php echo h($row[0]); ?>">
             
               
             </div>

@@ -90,7 +90,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -303,7 +303,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -326,7 +326,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row10 = mysqli_fetch_array($result10)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row10["material_no"]; ?>"> <?php echo $row10["material_no"]; ?></option>
+                  <option value="<?php echo h($row10["material_no"]); ?>"> <?php echo h($row10["material_no"]); ?></option>
                   <?php
                   }
 				?>

@@ -72,7 +72,7 @@ function newPopup(url) {
       <h1 class="style1 style3">
      Material Requisition Issue Note Online</h1>
       <!--  <marquee>Scrolling text</marquee> -->
-      <div id="top-navigation"> Welcome <strong><?php echo $res['user_fullname']; ?></strong> <span>|</span><img src="../images/help.png" width="16" height="16" /> <a href="#">Help</a> <span>|</span><img src="../images/user.png" width="16" height="16" />  <a href="JavaScript:newPopup('profile_setting.php?user_no=<?php echo $res["user_no"]; ?>');" >Accounts</a> <span>|</span> <img src="../images/exit.png" width="16" height="16" /><a href="../logout.php" target="_parent">Log out</a> </div>
+      <div id="top-navigation"> Welcome <strong><?php echo h($res['user_fullname']); ?></strong> <span>|</span><img src="../images/help.png" width="16" height="16" /> <a href="#">Help</a> <span>|</span><img src="../images/user.png" width="16" height="16" />  <a href="JavaScript:newPopup('profile_setting.php?user_no=<?php echo h($res["user_no"]); ?>');" >Accounts</a> <span>|</span> <img src="../images/exit.png" width="16" height="16" /><a href="../logout.php" target="_parent">Log out</a> </div>
     </div>
     <!-- End Logo + Top Nav -->
     <!-- Main Nav -->

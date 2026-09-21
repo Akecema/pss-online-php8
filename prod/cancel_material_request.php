@@ -58,7 +58,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -161,7 +161,7 @@ function confirmation() {
     if (answer){
         alert("MRIN Mo. <?php echo $temp_mrin; ?> is CANCEL !")
 		
-	top.frames['mainFrame'].location.href = "cancel_material_requestProc.php?mrin_no=<?php echo $temp_mrin; ?>&&prod_order=<?php echo $prod_order; ?>&&user_no=<?php echo $data_u["user_no"]; ?>";
+	top.frames['mainFrame'].location.href = "cancel_material_requestProc.php?mrin_no=<?php echo $temp_mrin; ?>&&prod_order=<?php echo $prod_order; ?>&&user_no=<?php echo h($data_u["user_no"]); ?>";
     }
     else{
         alert("MRIN is failed.")
@@ -340,23 +340,23 @@ if (isset($message))
           <td width="322"><span class="style3"><?php echo $temp_mrin; ?></span></td>
           <th width="204" height="28"><div align="left"><span class="style3">Factory</span></div></th>
           <th width="11" height="28"><span class="style3">:</span></th>
-          <td width="218" height="28"><span class="style3"><?php echo $data_2["factory"];  ?></span></td>
+          <td width="218" height="28"><span class="style3"><?php echo h($data_2["factory"]);  ?></span></td>
         </tr>
         <tr>
           <th width="204" height="28"><div align="left"><span class="style3">Date &amp; Time</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td><span class="style3"><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></span></td>
+          <td><span class="style3"><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></span></td>
           <th width="208" height="28"><div align="left"><span class="style3">Required Date &amp; Time</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td height="28"><span class="style3">&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_mrin"]; ?></span></td>
+          <td height="28"><span class="style3">&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_mrin"]); ?></span></td>
         </tr>
         <tr>
           <th height="28"><div align="left"><span class="style3">Requested by</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td><span class="style3"><?php echo $row_k["user_fullname"]; ?></span></td>
+          <td><span class="style3"><?php echo h($row_k["user_fullname"]); ?></span></td>
           <th height="28"><div align="left"><span class="style3">Prepared by (PPC)</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td height="28"><span class="style3"><?php //echo $row_k2["user_fullname"]; ?></span></td>
+          <td height="28"><span class="style3"><?php //echo h($row_k2["user_fullname"]); ?></span></td>
         </tr>
       </table>
 <p align="center" class="style4">&nbsp;</p>
@@ -431,15 +431,15 @@ if (isset($message))
 
 <table width="1000" border="1" cellpadding="2" cellspacing="0" bordercolor="#CCCCCC">
 <tr>
-               <td width="100" height="28"><?php  echo $row4_p["bill_component"]; ?></td>
-               <td width="122" height="28"><?php  echo $row4_p["material_desc_c"]; ?></td>
-                <td width="100" height="28"><div align="right"><?php echo $row["bom_qty"]; ?>&nbsp;</div></td>
-                <td width="45" height="28"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-                <td width="146" height="28"><div align="center"><?php echo $row_scan["prod_order"]; ?></div></td>
-                <td width="42" height="28"><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
+               <td width="100" height="28"><?php  echo h($row4_p["bill_component"]); ?></td>
+               <td width="122" height="28"><?php  echo h($row4_p["material_desc_c"]); ?></td>
+                <td width="100" height="28"><div align="right"><?php echo h($row["bom_qty"]); ?>&nbsp;</div></td>
+                <td width="45" height="28"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="146" height="28"><div align="center"><?php echo h($row_scan["prod_order"]); ?></div></td>
+                <td width="42" height="28"><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
                 <td width="90" height="28"><div align="center"><?php echo $sta; ?></div></td>
                 <td width="90" height="28">&nbsp;</td>
-                <td width="65" height="28"><div align="center"><font color="#FF0000"><?php echo $row4_p["sloc"]; ?></font></div></td>
+                <td width="65" height="28"><div align="center"><font color="#FF0000"><?php echo h($row4_p["sloc"]); ?></font></div></td>
                 <td height="28">
                   <div align="left">
                     <?php
@@ -454,7 +454,7 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
 ?>
                    </div></td>
 
-			  <input name="user_no" type="hidden" value="<?php echo $data_u["user_no"]; ?>">    
+			  <input name="user_no" type="hidden" value="<?php echo h($data_u["user_no"]); ?>">    
                   
       </tr>
             

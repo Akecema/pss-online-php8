@@ -84,7 +84,7 @@ $rst_sta8 = mysqli_fetch_array($sta_res8);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -193,21 +193,21 @@ $result_display = mysqli_query($dbc, $query_display);   //run the query.
 
       ?>
       <tr class="gradeX">
-        <td width="30"><?php echo $no; ?><input name="uid" type="hidden" value="<?php echo $row2["id_qqc"]; ?> "></td>
-        <td><?php echo $row2["material_no"]; ?></td>
-        <td width="80"><font color="#0000CC"><?php echo $row2["plan_no"]; ?></font></td>
-        <td width="80"><?php echo $row2["R"]; ?></td>
-        <td width="60"><?php echo $row2["work_center"]; ?></td>
-        <td width="40"><?php echo $row2["shift_day"]; ?></td>
-        <td width="50"><?php echo $row2["ploc"]; ?></td>
-        <td width="50"><?php echo $row2["ploc_qc"]; ?></td>
-        <td width="90"><font color="#0000CC"><?php echo $row2["bflush_no"]; ?></font></td> 
-        <td width="90"><font color="#FF0000"><?php echo $row2["qqc_no"]; ?></font></td>
-        <td width="80"><?php echo $row2["R2"]; ?></td>
-        <td width="48"><?php echo $row2["time_qc_posting"]; ?></td>
-        <td width="80"><?php echo $row2["qty_balance"]; ?></td>
-        <td width="50" bgcolor="#B9ECFD"><?php echo $row2["qty_qc_ok"]; ?></td>
-        <td width="60" bgcolor="#FDD7FC"><?php echo $row2["qty_qc_NG"]; ?></td>
+        <td width="30"><?php echo $no; ?><input name="uid" type="hidden" value="<?php echo h($row2["id_qqc"]); ?> "></td>
+        <td><?php echo h($row2["material_no"]); ?></td>
+        <td width="80"><font color="#0000CC"><?php echo h($row2["plan_no"]); ?></font></td>
+        <td width="80"><?php echo h($row2["R"]); ?></td>
+        <td width="60"><?php echo h($row2["work_center"]); ?></td>
+        <td width="40"><?php echo h($row2["shift_day"]); ?></td>
+        <td width="50"><?php echo h($row2["ploc"]); ?></td>
+        <td width="50"><?php echo h($row2["ploc_qc"]); ?></td>
+        <td width="90"><font color="#0000CC"><?php echo h($row2["bflush_no"]); ?></font></td> 
+        <td width="90"><font color="#FF0000"><?php echo h($row2["qqc_no"]); ?></font></td>
+        <td width="80"><?php echo h($row2["R2"]); ?></td>
+        <td width="48"><?php echo h($row2["time_qc_posting"]); ?></td>
+        <td width="80"><?php echo h($row2["qty_balance"]); ?></td>
+        <td width="50" bgcolor="#B9ECFD"><?php echo h($row2["qty_qc_ok"]); ?></td>
+        <td width="60" bgcolor="#FDD7FC"><?php echo h($row2["qty_qc_NG"]); ?></td>
         
       </tr> 
       

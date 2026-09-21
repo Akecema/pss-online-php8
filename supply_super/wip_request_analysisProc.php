@@ -54,7 +54,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -221,7 +221,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                  <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                   <?php
                   }
 				?>
@@ -238,7 +238,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -255,7 +255,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["bill_component"]; ?>" <?php if($row9["bill_component"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["bill_component"]; ?></option>
+                  <option value="<?php echo h($row9["bill_component"]); ?>" <?php if($row9["bill_component"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo h($row9["bill_component"]); ?></option>
                   <?php
                   }
 				?>
@@ -486,12 +486,12 @@ echo $since_start->s.' seconds<br>';  */
 		  ?>        
          
   <tr>
-    <td width="50"><div align="center"><?php echo $row_scan["factory"]; ?></div></td> 
-    <td width="60"><div align="center"><?php echo $row_scan["work_center"]; ?></div></td>
-    <td width="100">&nbsp;<?php echo $row2["temp_mrin_wip"]; ?></td>
-    <td width="160">&nbsp;<?php echo $row2["bom_component"]; ?></td>
-    <td width="100"><div align="center"><?php echo $row2["R"]; ?></div></td>
-    <td width="80"><div align="center"><?php echo $row2["time_mrin"]; ?></div></td>
+    <td width="50"><div align="center"><?php echo h($row_scan["factory"]); ?></div></td> 
+    <td width="60"><div align="center"><?php echo h($row_scan["work_center"]); ?></div></td>
+    <td width="100">&nbsp;<?php echo h($row2["temp_mrin_wip"]); ?></td>
+    <td width="160">&nbsp;<?php echo h($row2["bom_component"]); ?></td>
+    <td width="100"><div align="center"><?php echo h($row2["R"]); ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row2["time_mrin"]); ?></div></td>
     <td width="70">
 	<?php
 	//-------------------------------------------------------------------------------------
@@ -508,13 +508,13 @@ echo $since_start->s.' seconds<br>';  */
  
 	?>
 	</td>
-    <td width="90"><div align="right"><?php echo $row2["bom_qty_wip"]; ?></div>
+    <td width="90"><div align="right"><?php echo h($row2["bom_qty_wip"]); ?></div>
    </td>
-    <td width="90"><div align="right"><?php echo $row5["rquantity"]; ?></div></td>
+    <td width="90"><div align="right"><?php echo h($row5["rquantity"]); ?></div></td>
     <td width="90"><?php if($variance_qty2 < 0 ) { echo "<font color='red'>";  echo $variance_qty2;  echo "</font>"; }else{ echo $variance_qty2; } ?></td>
    
-    <td width="50"><div align="center"><?php echo $row2["bom_oum_wip"]; ?></div></td>
-    <td width="55"><?php echo $row2["status"];    ?></td>
+    <td width="50"><div align="center"><?php echo h($row2["bom_oum_wip"]); ?></div></td>
+    <td width="55"><?php echo h($row2["status"]);    ?></td>
   </tr>
  
   <?php 

@@ -44,9 +44,9 @@ $result4 = mysqli_query($dbc, $query4);
 					  
 					  if($_POST['Submit2'] == true){ ?>
                        <!--RETAIN VALUE-->
-                       <option value="<?php echo $row4["id_work"]; ?>" <?php if($row4["id_work"] == ($_POST["work_center"])) echo "selected"; ?>> <?php echo stripslashes($row4["id_work"]),' - ',stripslashes($row4["wc_desc"]); ?></option>
+                       <option value="<?php echo h($row4["id_work"]); ?>" <?php if($row4["id_work"] == ($_POST["work_center"])) echo "selected"; ?>> <?php echo stripslashes($row4["id_work"]),' - ',stripslashes($row4["wc_desc"]); ?></option>
                        <?php }else{ ?>
-                       <option value="<?php echo $row4["id_work"]; ?>" > <?php echo stripslashes($row4["id_work"]),' - ',stripslashes($row4["wc_desc"]); ?></option>
+                       <option value="<?php echo h($row4["id_work"]); ?>" > <?php echo stripslashes($row4["id_work"]),' - ',stripslashes($row4["wc_desc"]); ?></option>
                        <?php } 
 					  
                   }

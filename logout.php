@@ -38,7 +38,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 ?>
 
 <meta http-equiv="refresh" content="1;URL=index.php">
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 

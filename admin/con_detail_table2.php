@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -167,16 +167,16 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		 ?>
            
                 <tr class="gradeX">
-                <td>&nbsp;<?php  echo $row2["material_no"]; ?></td>
-                <td><?php  echo $row2["mat_desc"]; ?></td> 
-                <td><?php echo $row2["plant"]; ?></td>
-                <td><?php //echo $no; ?><?php  echo $row2["cost_center"]; ?></td>
-                <td><?php echo $row2["BUn"]; ?></td>
-                <td><a value="Details" href="con_detail_view.php?id_con=<?php echo $row2["id_con"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></td>
-                <td><a value="Edit" href="con_detail_edit.php?id_con=<?php echo $row2["id_con"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>
+                <td>&nbsp;<?php  echo h($row2["material_no"]); ?></td>
+                <td><?php  echo h($row2["mat_desc"]); ?></td> 
+                <td><?php echo h($row2["plant"]); ?></td>
+                <td><?php //echo $no; ?><?php  echo h($row2["cost_center"]); ?></td>
+                <td><?php echo h($row2["BUn"]); ?></td>
+                <td><a value="Details" href="con_detail_view.php?id_con=<?php echo h($row2["id_con"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></td>
+                <td><a value="Edit" href="con_detail_edit.php?id_con=<?php echo h($row2["id_con"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>
                 </tr>
       
-            <input name="id_con" type="hidden" value="<?php echo $row2["id_con"]; ?>">
+            <input name="id_con" type="hidden" value="<?php echo h($row2["id_con"]); ?>">
           <?php 		 
 		 $i++;
 		 $counter++; // menambah counter 

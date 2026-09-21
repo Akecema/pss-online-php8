@@ -70,7 +70,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -265,7 +265,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["doc_disposal_no"]; ?>"> <?php echo $row9["doc_disposal_no"]; ?></option>
+                  <option value="<?php echo h($row9["doc_disposal_no"]); ?>"> <?php echo h($row9["doc_disposal_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -353,8 +353,8 @@ $rs = mysqli_query($dbc, $query);   //run the query.
               <tbody>
                 <tr class="gradeX">
                 <td width="78"><?php echo $no; ?></td>
-                <td width="324"><?php echo $row["doc_disposal_no"]; ?></td>
-                <td width="158"><?php echo $row["status_disposal"]; ?></td>
+                <td width="324"><?php echo h($row["doc_disposal_no"]); ?></td>
+                <td width="158"><?php echo h($row["status_disposal"]); ?></td>
                 <td width="93">
                <?php if($row["status_disposal"] == "New")
 			   
@@ -362,12 +362,12 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 			       if($row["status_part"] == "PR")
 				   {
 				   ?> 
-                <a value="Approval" href="approval_disposal_qc_new_tran_NG.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/tick.png" width="16" height="16" alt="Approval">Approval</a>
+                <a value="Approval" href="approval_disposal_qc_new_tran_NG.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/tick.png" width="16" height="16" alt="Approval">Approval</a>
                 <?php 
 				   }elseif($row["status_part"] == "WS")
 				   {
 					?>   
-				<a value="Approval" href="approval_disposal_qc_new_tran_NG_wastage.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/tick.png" width="16" height="16" alt="Approval">Approval</a>
+				<a value="Approval" href="approval_disposal_qc_new_tran_NG_wastage.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/tick.png" width="16" height="16" alt="Approval">Approval</a>
 					   
 				<?php	   
 				   }
@@ -379,13 +379,13 @@ $rs = mysqli_query($dbc, $query);   //run the query.
                  if($row["status_part"] == "PR")
 				   {
 					?>
-				 <a value="Print" href="print_disposal_tran_NG.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a>	<?php
+				 <a value="Print" href="print_disposal_tran_NG.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a>	<?php
 				 
 				   }elseif($row["status_part"] == "WS")
 				   
 				   {
 					   
-					?>  <a value="Print" href="print_disposal_tran_NG_wastage.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a> 
+					?>  <a value="Print" href="print_disposal_tran_NG_wastage.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a> 
 					<?php }
                 
                   ?>

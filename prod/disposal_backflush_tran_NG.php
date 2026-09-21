@@ -71,7 +71,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -267,7 +267,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["doc_disposal_no"]; ?>">&nbsp;<?php echo $row9["doc_disposal_no"]; ?>&nbsp;</option>
+                  <option value="<?php echo h($row9["doc_disposal_no"]); ?>">&nbsp;<?php echo h($row9["doc_disposal_no"]); ?>&nbsp;</option>
                   <?php
                   }
 				?>
@@ -352,8 +352,8 @@ echo "window.location='disposal_backflush_tran_NG2.php?date1=$dateF&&date2=$date
               <tbody>
                 <tr class="gradeX">
                 <td width="78"><?php echo $no; ?></td>
-                <td width="324"><?php echo $row["doc_disposal_no"]; ?></td>
-                <td width="158"><?php echo $row["status_disposal"]; ?></td>
+                <td width="324"><?php echo h($row["doc_disposal_no"]); ?></td>
+                <td width="158"><?php echo h($row["status_disposal"]); ?></td>
                 <td width="93">
                <?php if($row["status_disposal"] == "New")
 			   
@@ -361,11 +361,11 @@ echo "window.location='disposal_backflush_tran_NG2.php?date1=$dateF&&date2=$date
 			       if($row["status_part"] == "PR")
 				   {
 				   ?> 
-                <a value="Edit" href="edit_disposal_new_tran_NG.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/edit.gif" alt="Edit">Edit</a>
+                <a value="Edit" href="edit_disposal_new_tran_NG.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/edit.gif" alt="Edit">Edit</a>
                 <?php 
 				   }elseif($row["status_part"] == "WS"){
 					?>   
-				 <a value="Edit" href="edit_disposal_new_tran_NG_wastage.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/edit.gif" alt="Edit">Edit</a>	   
+				 <a value="Edit" href="edit_disposal_new_tran_NG_wastage.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/edit.gif" alt="Edit">Edit</a>	   
 					   
 				<?php	   
 				   }
@@ -378,7 +378,7 @@ echo "window.location='disposal_backflush_tran_NG2.php?date1=$dateF&&date2=$date
                  if($row["status_part"] == "PR")
 				   {
 					?>
-              <a value="Cancel" href="cancel_disposal_allproc.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancel">Cancel</a>
+              <a value="Cancel" href="cancel_disposal_allproc.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancel">Cancel</a>
               <?php
 				 
 				   }elseif($row["status_part"] == "WS") 
@@ -386,7 +386,7 @@ echo "window.location='disposal_backflush_tran_NG2.php?date1=$dateF&&date2=$date
 				   {
 					   
 					?> 
-               <a value="Cancel" href="cancel_disposal_allproc_NG.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancel">Cancel</a>	              <?php }
+               <a value="Cancel" href="cancel_disposal_allproc_NG.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancel">Cancel</a>	              <?php }
                 
                   ?>
                  </td>
@@ -396,13 +396,13 @@ echo "window.location='disposal_backflush_tran_NG2.php?date1=$dateF&&date2=$date
                  if($row["status_part"] == "PR")
 				   {
 					?>
-				 <a value="Print" href="print_disposal_tran_NG.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a>	<?php
+				 <a value="Print" href="print_disposal_tran_NG.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a>	<?php
 				 
 				   }elseif($row["status_part"] == "WS") 
 				   
 				   {
 					   
-					?>  <a value="Print" href="print_disposal_tran_NG_wastage.php?doc_disposal=<?php echo $row["doc_disposal_no"]; ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a> 
+					?>  <a value="Print" href="print_disposal_tran_NG_wastage.php?doc_disposal=<?php echo h($row["doc_disposal_no"]); ?>&&TB_iframe=true&height=400&width=1100" class="thickbox" target="_self"><img src="../img/print2.jpg" width="16" height="16" alt="Print">Print</a> 
 					<?php }
                 
                   ?>

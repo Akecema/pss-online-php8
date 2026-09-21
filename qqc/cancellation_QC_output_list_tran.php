@@ -100,7 +100,7 @@ $rst_sta17 = mysqli_fetch_array($sta_res17);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -314,7 +314,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -337,7 +337,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row7=mysqli_fetch_array($result7)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row7["model_name"]; ?>"> <?php echo $row7["model_name"]; ?></option>
+                  <option value="<?php echo h($row7["model_name"]); ?>"> <?php echo h($row7["model_name"]); ?></option>
                   
                   <?php
                   }
@@ -552,7 +552,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	 
 	  //------quantity qc pending checking OK ------------
 	  
-	//  echo $row["qty_balance"];
+	//  echo h($row["qty_balance"]);
 	  
 	   $total_qty_pending = ($row["qty_balance"] - (($qty_total_ok) + ($qty_total_NG)));
 	  */
@@ -561,25 +561,25 @@ $num = mysqli_num_rows($rs);   //how many material are there?
            
                 <tr class="gradeX">
                 <td width="30"><?php echo $no; ?></td>
-                <td><?php echo $row["model_code"]; ?></td>
-                <td><?php echo $row["material_no"]; ?></td>
-                <td width="80"><font color="#0000CC"><?php echo $row[4]; ?></font></td>
-                <td width="80"><?php echo $row["R"]; ?></td> 
-                <td width="60"><?php echo $row["work_center"]; ?></td>
-                <td width="40"><?php echo $row["shift_day"];?></td>
-                <td width="50"><?php echo $row["ploc"]; ?></td>
+                <td><?php echo h($row["model_code"]); ?></td>
+                <td><?php echo h($row["material_no"]); ?></td>
+                <td width="80"><font color="#0000CC"><?php echo h($row[4]); ?></font></td>
+                <td width="80"><?php echo h($row["R"]); ?></td> 
+                <td width="60"><?php echo h($row["work_center"]); ?></td>
+                <td width="40"><?php echo h($row["shift_day"]);?></td>
+                <td width="50"><?php echo h($row["ploc"]); ?></td>
                 <td width="90"><font color="#0000CC"><?php echo number_format($data_qqc["qty_balance"]); ?></font></td>
                 <td width="80"><?php if ($total_qty_pending < 0){ echo "0"; } else{
 					echo number_format($total_qty_pending); } ?></td>
                 <td width="50"><?php echo number_format($qty_total_ok); ?></td>
                 <td width="60"><?php echo number_format($qty_total_NG); ?></td>
-                <td width="99"><?php echo $row["status_QC"]; ?></td>
+                <td width="99"><?php echo h($row["status_QC"]); ?></td>
                 <td>
                  <?php if($total_qty_pending > 0){    ?>
-                <a value="Cancellation" href="cancel_qc_rework_output.php?uid=<?php echo $row["id_tran"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancellation">Cancellation</a>
+                <a value="Cancellation" href="cancel_qc_rework_output.php?uid=<?php echo h($row["id_tran"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancellation">Cancellation</a>
                   <?php }elseif($row["status_QC"] == "QC OK"){    ?>
-                <a value="Cancellation" href="cancel_qc_rework_output_QC_ok.php?uid=<?php echo $row["id_tran"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancellation">Cancellation</a>                
-                 <?php  }else{  ?>  <a value="Cancellation" href="cancel_qc_product_output.php?uid=<?php echo $row["id_tran"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancellation">Cancellation Product Output</a> <?php } ?>
+                <a value="Cancellation" href="cancel_qc_rework_output_QC_ok.php?uid=<?php echo h($row["id_tran"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancellation">Cancellation</a>                
+                 <?php  }else{  ?>  <a value="Cancellation" href="cancel_qc_product_output.php?uid=<?php echo h($row["id_tran"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Cancellation">Cancellation Product Output</a> <?php } ?>
                 </td>
                 </tr>
                 

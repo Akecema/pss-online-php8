@@ -90,7 +90,7 @@ $rst_sta14 = mysqli_fetch_array($sta_res14);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -304,7 +304,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -486,20 +486,20 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
            
                 <tr class="gradeX">
-                <td width="30"><?php echo $no; ?><input name="qqc_doc_no" type="hidden" value="<?php echo $row["qqc_doc_no"]; ?>"></td>
-                <td><?php echo $row["material_no"]; ?></td>
-                <td width="80"><font color="#0000CC"><?php echo $row[4]; ?></font></td>
-                <td width="80"><?php echo $row["R"]; ?></td> 
-                <td width="60"><?php echo $row["work_center"]; ?></td>
-                <td width="40"><?php echo $row["shift_day"];?></td>
-                <td width="50"><?php echo $row["ploc"]; ?></td>
+                <td width="30"><?php echo $no; ?><input name="qqc_doc_no" type="hidden" value="<?php echo h($row["qqc_doc_no"]); ?>"></td>
+                <td><?php echo h($row["material_no"]); ?></td>
+                <td width="80"><font color="#0000CC"><?php echo h($row[4]); ?></font></td>
+                <td width="80"><?php echo h($row["R"]); ?></td> 
+                <td width="60"><?php echo h($row["work_center"]); ?></td>
+                <td width="40"><?php echo h($row["shift_day"]);?></td>
+                <td width="50"><?php echo h($row["ploc"]); ?></td>
                 <td width="90"><font color="#0000CC"><?php echo number_format($row["qty_balance"]); ?></font></td>
                 <td width="80"><?php echo $total_qty_pending; ?></td>
                 <td width="50"><?php echo $qty_total_ok; ?></td>
                 <td width="60"><?php echo $qty_total_NG; ?></td>
-                <td width="99"><?php echo $row["status_QC"]; ?></td>
+                <td width="99"><?php echo h($row["status_QC"]); ?></td>
                 <td width="99">
-                <a value="View" href="qc_rework_display_detail.php?uid=<?php echo $row["id_qqc"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self" ><img src="../img/page_white_magnify.png" width="16" height="16" alt="View">View</a>
+                <a value="View" href="qc_rework_display_detail.php?uid=<?php echo h($row["id_qqc"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self" ><img src="../img/page_white_magnify.png" width="16" height="16" alt="View">View</a>
            
                 </td>
                 </tr>

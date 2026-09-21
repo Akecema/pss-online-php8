@@ -47,7 +47,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -166,11 +166,11 @@ $rs = mysqli_query($dbc, $query);   //run the query.
       ?>
            
                 <tr class="gradeX">
-                <td><div align="center"><?php  echo $row2["model_name"]; ?></div></td>
-                <td>&nbsp;<?php  echo $row2["model_desc"]; ?></td>
-                <td>&nbsp;<?php  echo $row2["comp_code"]; ?></td>
-                <td><div align="center"><a value="Details" href="mat_model_view.php?code_model=<?php echo $row2["code_model"]; ?>&&TB_iframe=true&&height=400&&width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></div></td>
-                <td>&nbsp; <a value="Edit" href="mat_model_edit.php?code_model=<?php echo $row2["code_model"]; ?>&&TB_iframe=true&&height=400&&width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>             
+                <td><div align="center"><?php  echo h($row2["model_name"]); ?></div></td>
+                <td>&nbsp;<?php  echo h($row2["model_desc"]); ?></td>
+                <td>&nbsp;<?php  echo h($row2["comp_code"]); ?></td>
+                <td><div align="center"><a value="Details" href="mat_model_view.php?code_model=<?php echo h($row2["code_model"]); ?>&&TB_iframe=true&&height=400&&width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></div></td>
+                <td>&nbsp; <a value="Edit" href="mat_model_edit.php?code_model=<?php echo h($row2["code_model"]); ?>&&TB_iframe=true&&height=400&&width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>             
                 </tr>
                 
           <?php 

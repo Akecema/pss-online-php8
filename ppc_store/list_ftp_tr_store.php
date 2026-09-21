@@ -70,7 +70,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -238,13 +238,13 @@ if(is_dir($dir)){
  {  ?> 
   <tr>
     <td width="15%"><?php echo $filename2; ?></td>
-    <td width="15%"><?php echo $row_rs["plan_no"]; ?></td>
-    <td width="20%"><?php echo $row_rs["material_no"]; ?></td>
-    <td width="10%"><?php echo $row_rs["qty_ftp"]; ?></td>
-    <td width="10%"><?php echo $row_rs["slip_no"]; ?></td>
-    <td width="10%"><?php echo $row_rs["R3"];  ?></td>
-    <td width="10%"><?php echo $row_rs["posting_time"];  ?></td>
-    <td width="10%"><?php echo $row_docum["doc_no"];  ?></td>
+    <td width="15%"><?php echo h($row_rs["plan_no"]); ?></td>
+    <td width="20%"><?php echo h($row_rs["material_no"]); ?></td>
+    <td width="10%"><?php echo h($row_rs["qty_ftp"]); ?></td>
+    <td width="10%"><?php echo h($row_rs["slip_no"]); ?></td>
+    <td width="10%"><?php echo h($row_rs["R3"]);  ?></td>
+    <td width="10%"><?php echo h($row_rs["posting_time"]);  ?></td>
+    <td width="10%"><?php echo h($row_docum["doc_no"]);  ?></td>
   </tr>
 
 
@@ -288,13 +288,13 @@ if(is_dir($dir)){
  {  ?>
    <tr>
     <td width="15%"><?php  echo $filename2; ?></td>
-    <td width="15%"><?php  echo $row_rs_cancel["plan_no"]; ?></td>
-    <td width="20%"><?php  echo $row_rs_cancel["material_no"]; ?></td>
-    <td width="10%"><?php  echo $row_rs_cancel["qty_ftp"]; ?></td>
-    <td width="10%"><?php  echo $row_rs_cancel["slip_no"]; ?></td>
-    <td width="10%"><?php  echo $row_rs_cancel["R7"];  ?></td>
-    <td width="10%"><?php  echo $row_rs_cancel["posting_time"];  ?></td>
-    <td width="10%"><?php echo $row_docum_c["doc_no"];  ?></td>
+    <td width="15%"><?php  echo h($row_rs_cancel["plan_no"]); ?></td>
+    <td width="20%"><?php  echo h($row_rs_cancel["material_no"]); ?></td>
+    <td width="10%"><?php  echo h($row_rs_cancel["qty_ftp"]); ?></td>
+    <td width="10%"><?php  echo h($row_rs_cancel["slip_no"]); ?></td>
+    <td width="10%"><?php  echo h($row_rs_cancel["R7"]);  ?></td>
+    <td width="10%"><?php  echo h($row_rs_cancel["posting_time"]);  ?></td>
+    <td width="10%"><?php echo h($row_docum_c["doc_no"]);  ?></td>
   </tr>
 
 <?php  

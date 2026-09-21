@@ -70,7 +70,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -188,9 +188,9 @@ if(is_dir($dir)){
    <table class="table">
   <tr>
     <td width="20%"><?php echo $filename2; ?></td>
-    <td width="20%"><?php echo $row_rs["material_no"]; ?></td>
-    <td width="20%"><?php echo $row_rs["qty_ftp"]; ?></td>
-    <td width="20%"><?php echo $row_mat_type["mat_type"]; ?></td>
+    <td width="20%"><?php echo h($row_rs["material_no"]); ?></td>
+    <td width="20%"><?php echo h($row_rs["qty_ftp"]); ?></td>
+    <td width="20%"><?php echo h($row_mat_type["mat_type"]); ?></td>
     <td width="20%"><?php echo date ("d-m-Y H:i:s", filemtime(utf8_to_latin1($dir."/".$file))); ?></td>
   </tr>
 </table>

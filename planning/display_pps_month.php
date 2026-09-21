@@ -58,7 +58,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -309,16 +309,16 @@ require_once('../include/config.php');   //connect to the db.
 	?>
                <tr> 
                  <td width="40"><?php  echo $counter; ?></td>
-                 <td width="60"><?php  echo $row["model_code"]; ?></td>
-                 <td width="73"><?php  echo $row["material_no"]; ?></td>
-                 <td width="122"><?php  echo $row["work_center"]; ?></td>
+                 <td width="60"><?php  echo h($row["model_code"]); ?></td>
+                 <td width="73"><?php  echo h($row["material_no"]); ?></td>
+                 <td width="122"><?php  echo h($row["work_center"]); ?></td>
                  <td width="90"><div align="center"><?php  echo $sta; ?>&nbsp;</div></td>
-                 <td width="90"><div align="center"><?php  echo $row["seq_pps"]; ?>&nbsp;</div></td>
-                 <td width="63"><div align="center"><?php echo $row["qty_plan"]; ?></div></td>
-                 <td width="80"><div align="center"><?php echo $row["T"]; ?></div></td>
-                 <td width="80"><div align="center"><?php echo $row["status_pps"]; ?></div></td>
+                 <td width="90"><div align="center"><?php  echo h($row["seq_pps"]); ?>&nbsp;</div></td>
+                 <td width="63"><div align="center"><?php echo h($row["qty_plan"]); ?></div></td>
+                 <td width="80"><div align="center"><?php echo h($row["T"]); ?></div></td>
+                 <td width="80"><div align="center"><?php echo h($row["status_pps"]); ?></div></td>
                  <input type="hidden" name="plan_no[]" value="<?php echo $ref; ?>">
-                 <input type="hidden" name="id[]" value="<?php echo $row["id"]; ?>">
+                 <input type="hidden" name="id[]" value="<?php echo h($row["id"]); ?>">
                  <?php 
 		  	  
 		     $counter++; // menambah counter 

@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -157,98 +157,98 @@ $message = NULL; // create an empty new variable.
                <tr>
                  <td width="30%" height="25">Vendor Code </td>
                  <td width="3%" height="25">:</td>
-                 <td width="67%" height="25"><?php echo $row[0]; ?></td>
+                 <td width="67%" height="25"><?php echo h($row[0]); ?></td>
                </tr>
                <tr>
                  <td height="25">Vendor Name </td>
                  <td height="25">:</td>
-                 <td height="25"><b><font color="blue"><?php echo $row[1]; ?></font></b></td>
+                 <td height="25"><b><font color="blue"><?php echo h($row[1]); ?></font></b></td>
                </tr> 
                <tr>
                  <td height="25">Search Term</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[8];	?></td>
+                 <td height="25"><?php	echo h($row[8]);	?></td>
                </tr>
                  <tr>
                  <td height="25">Address No. 1</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[2]; ?> </td> 
+                 <td height="25"><?php echo h($row[2]); ?> </td> 
                </tr>
                <tr>
                  <td height="25">Address No. 2</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[3];  ?></td>
+                 <td height="25"><?php echo h($row[3]);  ?></td>
                </tr>
       
                <tr>
                  <td height="25">Postcode</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[4];  ?></td>
+                 <td height="25"><?php	echo h($row[4]);  ?></td>
                </tr>
                <tr>
                  <td height="25">City</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[5];	?></td>
+                 <td height="25"><?php	echo h($row[5]);	?></td>
                </tr>
                  <tr>
                  <td height="25">Region</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[6];	?></td>
+                 <td height="25"><?php	echo h($row[6]);	?></td>
                </tr>
                  <tr>
                  <td height="25">Country</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[7];	?></td>
+                 <td height="25"><?php	echo h($row[7]);	?></td>
                </tr>
                 <tr>
                  <td height="25">Phone</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[9];	?></td>
+                 <td height="25"><?php	echo h($row[9]);	?></td>
                </tr>
                  <tr>
                  <td height="25">Fax</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[10];	?></td>
+                 <td height="25"><?php	echo h($row[10]);	?></td>
                </tr>
                 <tr>
                  <td height="25">Payment Method</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[11];	?></td>
+                 <td height="25"><?php	echo h($row[11]);	?></td>
                </tr>
                 <tr>
                  <td height="25">Term Payment</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[12];	?></td>
+                 <td height="25"><?php	echo h($row[12]);	?></td>
                </tr>
                 <tr>
                  <td height="25">User Created</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $data_create["user_fullname"];	?></td>
+                 <td height="25"><?php	echo h($data_create["user_fullname"]);	?></td>
                </tr>
                 <tr>
                  <td height="25">Date Created</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row["R"];	?></td>
+                 <td height="25"><?php	echo h($row["R"]);	?></td>
                </tr>
                 <tr>
                  <td height="25">User Updated</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $data_update["user_fullname"];	?></td>
+                 <td height="25"><?php	echo h($data_update["user_fullname"]);	?></td>
                </tr>
                 <tr>
                  <td height="25">Date Updated</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row["R2"];	?></td>
+                 <td height="25"><?php	echo h($row["R2"]);	?></td>
                </tr>
                  <tr>
                  <td height="25">Status Account <br>(Y = Active, N = In Active)</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[17];	?> = <?php	echo $sta_acc;	?></td>
+                 <td height="25"><?php	echo h($row[17]);	?> = <?php	echo $sta_acc;	?></td>
                </tr>
                 <tr>
                  <td height="25">Status Subcont <br> (Y = YES, N = NO)</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[18];	?> = <?php	echo $sta_sub;	?></td>
+                 <td height="25"><?php	echo h($row[18]);	?> = <?php	echo $sta_sub;	?></td>
                </tr>
                <tr>
                  <td height="25">&nbsp;</td>

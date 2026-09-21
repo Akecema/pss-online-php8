@@ -80,7 +80,7 @@ $rst_sta14 = mysqli_fetch_array($sta_res14);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -293,7 +293,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -421,14 +421,14 @@ $num = mysqli_num_rows($rs);   //how many material are there?
            
                <tr class="gradeX">
                 <td width="30"><?php echo $no; ?></td>
-                <td width="48"><?php echo $row["material_no"]; ?></td>
-                <td width="120"><?php echo $row["plan_no"]; ?></td>
-                <td width="80"><?php echo $row["R"]; ?></td>
-                <td width="80"><?php  echo $row["work_center"]; ?></td> 
+                <td width="48"><?php echo h($row["material_no"]); ?></td>
+                <td width="120"><?php echo h($row["plan_no"]); ?></td>
+                <td width="80"><?php echo h($row["R"]); ?></td>
+                <td width="80"><?php  echo h($row["work_center"]); ?></td> 
                 <td width="40"><?php echo $sta; ?></td>
                 <td width="43"><div align="center"><?php echo number_format($row["qty_plan"]); ?></div></td>
-                <td width="80"><div align="center"><?php echo $row["status_pps"]; ?></div></td>
-                <td width="80"><a value="View Details" href="display_plan_order_detail_print.php?uid=<?php echo $row["id"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/folder.png" width="16" height="16" alt="View Details"><br>View Details</a></td>
+                <td width="80"><div align="center"><?php echo h($row["status_pps"]); ?></div></td>
+                <td width="80"><a value="View Details" href="display_plan_order_detail_print.php?uid=<?php echo h($row["id"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/folder.png" width="16" height="16" alt="View Details"><br>View Details</a></td>
                 </tr>
                 
           <?php 

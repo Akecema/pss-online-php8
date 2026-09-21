@@ -57,7 +57,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -169,7 +169,7 @@ visibility:hidden;
 				  
 				  
 				  ?>
-                <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                 <?php
                   }
 				?>
@@ -200,7 +200,7 @@ visibility:hidden;
 			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
-			echo $row_convert["id_fac"];
+			echo h($row_convert["id_fac"]);
 			
 			}
 			
@@ -313,11 +313,11 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		  ?>         
          
     <tr>
-    <td width="265">&nbsp;<?php if($row2["status_view"] == "N") { echo "<b>";  echo $row2["temp_mrin"]."</b>"; } else {  echo $row2["temp_mrin"];  } ?></td>
-    <td width="126"><div align="center"><?php echo $row2["factory"]; ?></div></td>
-    <td width="120"><?php echo $row2["R"]; ?> &nbsp;&nbsp;</td>
-    <td width="104"><?php echo $row2["time_require"]; ?></td>
-    <td width="146"><?php echo $data_u["user_fullname"]; ?></td>
+    <td width="265">&nbsp;<?php if($row2["status_view"] == "N") { echo "<b>";  echo $row2["temp_mrin"]."</b>"; } else {  echo h($row2["temp_mrin"]);  } ?></td>
+    <td width="126"><div align="center"><?php echo h($row2["factory"]); ?></div></td>
+    <td width="120"><?php echo h($row2["R"]); ?> &nbsp;&nbsp;</td>
+    <td width="104"><?php echo h($row2["time_require"]); ?></td>
+    <td width="146"><?php echo h($data_u["user_fullname"]); ?></td>
     <td><div align="center">
      <?php
 
@@ -357,8 +357,8 @@ elseif($curr_time >= $plus_20)
 
 	?>
             </div></td>
-            <td width="65"><a value="Details" href="detail_consumable_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
-           <td width="50"><a href="detail_consumable_request_printing.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+            <td width="65"><a value="Details" href="detail_consumable_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+           <td width="50"><a href="detail_consumable_request_printing.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
   </tr>
    
   <?php 

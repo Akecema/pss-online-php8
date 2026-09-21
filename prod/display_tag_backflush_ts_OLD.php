@@ -82,7 +82,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -334,7 +334,7 @@ while($row = mysqli_fetch_array($result_pps))
     </tr>
    <tr>
     <td width="161" height="15" valign="top">&nbsp;<span class="style8">Material Document No.</span></td>
-    <td width="196" height="15" valign="top">&nbsp;<span class="style1"><?php echo $row["bflush_no"];  ?></span></td>
+    <td width="196" height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row["bflush_no"]);  ?></span></td>
     <td colspan="3" rowspan="3" valign="top"><?php
 
 $query = "SELECT *,DATE_FORMAT(date_create,'%d-%m-%Y') as Q, DATE_FORMAT(date_posting,'%d-%m-%Y') as Q2 FROM pps_detail_transaction WHERE id = '".db_esc($dbc, $uid)."'";
@@ -379,54 +379,54 @@ $barcodeobj = new TCPDF2DBarcode($data['bflush_no'].'|'.$data['comp_code'].'|'.$
 echo "</table></center>";
 
 ?></td>
-    <td width="146" rowspan="3" valign="center">&nbsp;<span class="style9"><?php echo $row_info3["part_side"];  ?></span></td>
+    <td width="146" rowspan="3" valign="center">&nbsp;<span class="style9"><?php echo h($row_info3["part_side"]);  ?></span></td>
   </tr>
    <tr>
      <td height="15" valign="top">&nbsp;<span class="style8">Production Date</span></td>
-     <td height="15" valign="top">&nbsp;<span class="style1"><?php echo $row["R"];  ?></span></td>
+     <td height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row["R"]);  ?></span></td>
    </tr>
    <tr>
      <td height="15" valign="top">&nbsp;<span class="style8">Production Time</span></td>
-     <td height="15" valign="top">&nbsp;<span class="style1"><?php echo $row["posting_time"];  ?><?php if($row["posting_time"] <= "12:00:00") { echo " AM"; }else { echo " PM"; } ?> </span></td>
+     <td height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row["posting_time"]);  ?><?php if($row["posting_time"] <= "12:00:00") { echo " AM"; }else { echo " PM"; } ?> </span></td>
    </tr>
   <tr>
     <td height="30" rowspan="2" valign="top">&nbsp;<span class="style8">Part No.</span></td>
-    <td height="30" colspan="3" rowspan="2" valign="top">&nbsp;<span class="style7"><?php echo $row["material_no"];     ?></span>
+    <td height="30" colspan="3" rowspan="2" valign="top">&nbsp;<span class="style7"><?php echo h($row["material_no"]);     ?></span>
       </td>
     <td width="105" height="15" valign="top">&nbsp;<span class="style8">Model</span></td>
-    <td width="146" height="15" valign="top">&nbsp;<span class="style1"><?php echo $row_info["model_code"];  ?></span></td>
+    <td width="146" height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row_info["model_code"]);  ?></span></td>
   </tr>
   <tr>
     <td height="15" valign="top">&nbsp;<span class="style8">Production Line</span></td>
-    <td width="146" height="15" valign="top">&nbsp;<span class="style1"><?php echo $row["station_loc"];  ?></span></td>
+    <td width="146" height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row["station_loc"]);  ?></span></td>
   </tr>
   <tr>
     <td height="45" rowspan="3" valign="top">&nbsp;<span class="style8">Part Name</span></td>
-    <td height="45" colspan="3" rowspan="3" valign="top">&nbsp;<span class="style7"><?php echo $row["material_desc"];  ?></span></td>
+    <td height="45" colspan="3" rowspan="3" valign="top">&nbsp;<span class="style7"><?php echo h($row["material_desc"]);  ?></span></td>
     <td height="15" valign="top">&nbsp;<span class="style8">Shift</span></td>
     <td height="15" valign="top">&nbsp;<span class="style1"><?php if($row["shift_tag"] == "D/S"){ echo "Day"; }else{ echo "Night"; } ?></span></td>
   </tr>
   <tr>
     <td height="15" valign="top">&nbsp;<span class="style8">Supv/Ldr</span></td>
-    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo $res["user_fullname"]; ?></span></td>
+    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo h($res["user_fullname"]); ?></span></td>
   </tr>
   <tr>
     <td height="15" valign="top">&nbsp;<span class="style8">Location</span></td>
-    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo $row_info3["location_deliver"];  ?></span></td>
+    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row_info3["location_deliver"]);  ?></span></td>
   </tr>
   <tr>
     <td height="15" valign="top">&nbsp;<span class="style8">Planned Order No.</span></td>
-    <td height="15" colspan="3" valign="top">&nbsp;<span class="style1"><?php echo $row["plan_no"];  ?></span></td>
+    <td height="15" colspan="3" valign="top">&nbsp;<span class="style1"><?php echo h($row["plan_no"]);  ?></span></td>
     <td height="15" valign="top">&nbsp;<span class="style8">Station</span></td>
-    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo $row_info3["station_deliver"];  ?></span></td>
+    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row_info3["station_deliver"]);  ?></span></td>
   </tr>
   <tr>
     <td height="30" rowspan="2" valign="top">&nbsp;<span class="style8">Qty (PCS)</span></td>
     <td height="30" rowspan="2" valign="top">&nbsp;<span class="style7"><?php echo intval($row["tag_qty"]);  ?></span></td>
     <td width="124" height="30" rowspan="2" valign="top">&nbsp;<span class="style8">Slip No.</span></td>
-    <td width="161" height="30" rowspan="2" valign="top">&nbsp;<span class="style1"><?php echo $row["slip_no"];  ?> of <?php echo $row["total_slip"];  ?> </span></td>
+    <td width="161" height="30" rowspan="2" valign="top">&nbsp;<span class="style1"><?php echo h($row["slip_no"]);  ?> of <?php echo h($row["total_slip"]);  ?> </span></td>
     <td height="15" valign="top">&nbsp;<span class="style8">Pack Type</span></td>
-    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo $row_info3["type_package"];  ?></span></td>
+    <td height="15" valign="top">&nbsp;<span class="style1"><?php echo h($row_info3["type_package"]);  ?></span></td>
   </tr>
   <tr>
     <td height="15" valign="top">&nbsp;<span class="style8">Pack  No.</span></td>

@@ -39,7 +39,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
@@ -227,21 +227,21 @@ if (isset($message))
                  <td width="24%" height="25">Vendor ID </td>
                  <td width="2%" height="25">:</td>
                  <td width="74%" height="25"><font color="#006699">
-                   <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="8" readonly value="<?php echo $row[1]; ?>" />
+                   <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="8" readonly value="<?php echo h($row[1]); ?>" />
                  *</font></td>
                </tr>
                <tr>
                  <td height="25">Staff ID </td>
                  <td height="25">:</td>
                  <td height="25"><font color="#006699">
-                   <input name="user_id" type="text" class="textbox" id="user_id" size="20" maxlength="20" readonly value="<?php echo $row[2]; ?>" />
+                   <input name="user_id" type="text" class="textbox" id="user_id" size="20" maxlength="20" readonly value="<?php echo h($row[2]); ?>" />
                  *</font></td>
                </tr>
                         <tr>
                  <td height="25">Name</td>
                  <td height="25">:</td>
                  <td height="25"><font color="#006699">
-         <input name="user_fullname" type="text" class="textbox" id="user_fullname" size="55" maxlength="100" value="<?php echo $row[5]; ?>" />
+         <input name="user_fullname" type="text" class="textbox" id="user_fullname" size="55" maxlength="100" value="<?php echo h($row[5]); ?>" />
                  *</font></td>
                </tr>
                
@@ -327,28 +327,28 @@ if (isset($message))
                  <td height="25">Telephone No. 1</td>
                  <td height="25">:</td>
                  <td height="25"><font color="#006699">
-         <input name="user_telno1" type="text" class="textbox" id="user_telno1" size="20" maxlength="20" value="<?php echo $row[9]; ?>" />
+         <input name="user_telno1" type="text" class="textbox" id="user_telno1" size="20" maxlength="20" value="<?php echo h($row[9]); ?>" />
                  *</font></td>
                </tr>
                <tr>
                  <td height="25">Telephone No. 2</td>
                  <td height="25">:</td>
                  <td height="25"><font color="#006699">
-                   <input name="user_telno2" type="text" class="textbox" id="user_telno2" size="20" maxlength="20" value="<?php echo $row[10]; ?>" />
+                   <input name="user_telno2" type="text" class="textbox" id="user_telno2" size="20" maxlength="20" value="<?php echo h($row[10]); ?>" />
                  </font></td>
                </tr>
                <tr>
                  <td height="25">Fax No</td>
                  <td height="25">:</td>
                  <td height="25"><font color="#006699">
-                   <input name="user_fax" type="text" class="textbox" id="user_fax" size="20" maxlength="20" value="<?php echo $row[11]; ?>" />
+                   <input name="user_fax" type="text" class="textbox" id="user_fax" size="20" maxlength="20" value="<?php echo h($row[11]); ?>" />
                  </font></td>
                </tr>
                <tr>
                  <td height="25">E-mail</td>
                  <td height="25">:</td>
                  <td height="25"><font color="#006699">
-       <input name="user_email" type="text" class="textbox" id="user_email" size="55" maxlength="200" value="<?php echo $row[12]; ?>" />
+       <input name="user_email" type="text" class="textbox" id="user_email" size="55" maxlength="200" value="<?php echo h($row[12]); ?>" />
                  *</font></td>
                </tr>
                <tr>
@@ -394,7 +394,7 @@ if (isset($message))
                  <td height="25">Status User</td>
                  <td height="25">:</td>
                  <td height="25"><select name="status"  class="textbox">
-	  <option value ="<?php  echo $row[15]; ?>" ><?php  echo $sts; ?></option>
+	  <option value ="<?php  echo h($row[15]); ?>" ><?php  echo $sts; ?></option>
 	  <option value="AC" class="title">Active</option>
 	  <option value="NA" class="title">Inactive</option>
 	      </select>
@@ -404,7 +404,7 @@ if (isset($message))
                  <td height="25">Date Created</td>
                  <td height="25">:</td>
                  <td height="25"><b><font color="blue">
-                   <?php  echo $row[14]; ?>
+                   <?php  echo h($row[14]); ?>
                  </font></b></td>
                </tr>
                <tr>
@@ -426,7 +426,7 @@ if (isset($message))
            <input name="submit" type="submit" class="button" id="submit" value="UPDATE">
           <input name="Reset" type="reset" class="button" id="Reset" value="CLEAR">
           
-          <input type="hidden" name="user_no" id="user_no" value="<?php echo $row[0]; ?>">
+          <input type="hidden" name="user_no" id="user_no" value="<?php echo h($row[0]); ?>">
             
               
             </div>

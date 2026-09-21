@@ -61,7 +61,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -205,15 +205,15 @@ function prepopulate($name)
       <table width="98%" class="table table-bordered">
         <tr>
           <td width="35%">Disposal No.</td>
-          <td><?php echo $row_disposal["doc_disposal_no"];  ?></td>
+          <td><?php echo h($row_disposal["doc_disposal_no"]);  ?></td>
           </tr>
         <tr>
           <td>Document Date</td>
-          <td><?php echo $row_disposal["W"];  ?></td>
+          <td><?php echo h($row_disposal["W"]);  ?></td>
           </tr>
        <!-- <tr>
           <td>Status</td>
-          <td><?php //echo $row_disposal["status_disposal"];  ?></td>
+          <td><?php //echo h($row_disposal["status_disposal"]);  ?></td>
           </tr>-->
       </table>
     </td>
@@ -285,20 +285,20 @@ function prepopulate($name)
 
 <tr>
                 <td width="30" height="28"><div align="center"><?php  echo $no; ?></div></td>
-                <td width="80"><?php  echo $row["model_code"]; ?></td>
-                <td width="100"><?php echo $row["material_no"]; ?>&nbsp;</td>
-                <td width="100"><?php echo $row_type["wastage_desc"]; ?></td>
-                <td width="100"><?php echo $row["R2"]; ?></td>
-                <td width="100"><div align="center"><?php echo $row["qty_wastage"]; ?></div></td>
-                <td width="60"><div align="center"><?php echo $row["UOM_unit"]; ?></div></td>
-                <td width="60"><div align="center"><?php echo $row["ploc_prod_reject"]; ?></div></td>    
-                <td width="60"><div align="center"><?php echo $row["cost_center"]; ?></div></td>                 
-                <td width="150"><?php echo $row_reason["reason_wastage_desc"]; ?></td>
-                <td width="250"><?php echo $row["remarks"]; ?><br>&nbsp;
-               <input name="id_disposal" type="hidden" value="<?php echo $row["id_disposal"]; ?>">
+                <td width="80"><?php  echo h($row["model_code"]); ?></td>
+                <td width="100"><?php echo h($row["material_no"]); ?>&nbsp;</td>
+                <td width="100"><?php echo h($row_type["wastage_desc"]); ?></td>
+                <td width="100"><?php echo h($row["R2"]); ?></td>
+                <td width="100"><div align="center"><?php echo h($row["qty_wastage"]); ?></div></td>
+                <td width="60"><div align="center"><?php echo h($row["UOM_unit"]); ?></div></td>
+                <td width="60"><div align="center"><?php echo h($row["ploc_prod_reject"]); ?></div></td>    
+                <td width="60"><div align="center"><?php echo h($row["cost_center"]); ?></div></td>                 
+                <td width="150"><?php echo h($row_reason["reason_wastage_desc"]); ?></td>
+                <td width="250"><?php echo h($row["remarks"]); ?><br>&nbsp;
+               <input name="id_disposal" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
           </td>
-            <td width="250"><?php echo $row["remark_approve"]; ?><br>&nbsp;
-               <input name="id_disposal[<?php echo $row["id_disposal"]; ?>]" type="hidden" value="<?php echo $row["id_disposal"]; ?>"></td>
+            <td width="250"><?php echo h($row["remark_approve"]); ?><br>&nbsp;
+               <input name="id_disposal[<?php echo h($row["id_disposal"]); ?>]" type="hidden" value="<?php echo h($row["id_disposal"]); ?>"></td>
       </tr>
     </tbody>        
      
@@ -327,11 +327,11 @@ function prepopulate($name)
                      <td width="27%">Approved by</td>
                    </tr>
                    <tr>
-                     <td><p><b><?php echo $res_disposal2["user_fullname"];   ?></b>
-                     <br><?php echo $row_disposal["W2"];   ?></p></td>
+                     <td><p><b><?php echo h($res_disposal2["user_fullname"]);   ?></b>
+                     <br><?php echo h($row_disposal["W2"]);   ?></p></td>
                      <td>&nbsp;</td>
-                     <td><p><b><?php echo $res_approve["user_fullname"];   ?></b>
-                     <br><?php if(($res_approve["user_fullname"]) != "") {  echo $row_disposal["W3"]; }  ?></p></td>
+                     <td><p><b><?php echo h($res_approve["user_fullname"]);   ?></b>
+                     <br><?php if(($res_approve["user_fullname"]) != "") {  echo h($row_disposal["W3"]); }  ?></p></td>
                    </tr>
                    <tr>
                      <td>Unit Leader/Supervisor</td>

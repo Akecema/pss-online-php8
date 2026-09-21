@@ -111,7 +111,7 @@ $rst_sta17 = mysqli_fetch_array($sta_res17);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -385,7 +385,7 @@ return "";
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3["factory_desc2"]; ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3["factory_desc"]; ?></option>
+                  <option value="<?php echo h($row3["factory_desc2"]); ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3["factory_desc"]); ?></option>
                   <?php
                   }
 				?>
@@ -402,7 +402,7 @@ return "";
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -419,7 +419,7 @@ return "";
                    while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
-                     <option value="<?php echo $row29["id_plan"]; ?>" <?php if($row29["id_plan"] == $_GET["plan_category"]) echo "selected"; ?>> <?php echo $row29["plan_category_desc"]; ?></option>
+                     <option value="<?php echo h($row29["id_plan"]); ?>" <?php if($row29["id_plan"] == $_GET["plan_category"]) echo "selected"; ?>> <?php echo h($row29["plan_category_desc"]); ?></option>
                  
                   <?php
                   }
@@ -565,7 +565,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
            
                 <tr class="gradeX">
-                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $row["id"]; ?>" <?=was_checked($row["id"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id"]); ?>" <?=was_checked($row["id"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
 onClick="Check(document.myform.cancel)">  
                  </div>    <?php echo $no; ?></td>
                 <td width="48">
@@ -584,15 +584,15 @@ onClick="Check(document.myform.cancel)">
 			    ?>
                 
                 </td>
-                <td width="48"><?php echo $data_fac["factory_desc"]; ?></td>
-                <td width="80"><?php  echo $row["work_center"]; ?></td> 
-                <td width="120"><?php echo $row["plan_no"]; ?></td>
-                <td width="100"><?php echo $row["material_no"]; ?></td>
-                <td width="100"><?php echo $data_mat["material_desc"]; ?></td>
-                <td width="80"><?php echo $row["R"]; ?></td>
+                <td width="48"><?php echo h($data_fac["factory_desc"]); ?></td>
+                <td width="80"><?php  echo h($row["work_center"]); ?></td> 
+                <td width="120"><?php echo h($row["plan_no"]); ?></td>
+                <td width="100"><?php echo h($row["material_no"]); ?></td>
+                <td width="100"><?php echo h($data_mat["material_desc"]); ?></td>
+                <td width="80"><?php echo h($row["R"]); ?></td>
                 <td width="40"><?php echo $sta; ?></td>
                 <td width="43"><div align="center"><?php echo number_format($row["qty_plan"]); ?></div></td>
-                <td width="40"><?php echo $data_mat["BUn"]; ?></td>
+                <td width="40"><?php echo h($data_mat["BUn"]); ?></td>
              
                 <td width="100">   <?php	
 				
@@ -602,7 +602,7 @@ onClick="Check(document.myform.cancel)">
                 while($data_ftp = mysqli_fetch_array($result_ftp))
 	           {  
 			     
-			    ?><?php echo $data_ftp["TG"]; echo "<br>"; ?><?php  
+			    ?><?php echo h($data_ftp["TG"]); echo "<br>"; ?><?php  
 			 
 			 
                   }
@@ -616,7 +616,7 @@ onClick="Check(document.myform.cancel)">
                 while($data_ftp2 = mysqli_fetch_array($result_ftp2))
 	           {  
 			     
-			    ?><?php echo $data_ftp2["TG2"]; echo "<br>"; ?><?php  
+			    ?><?php echo h($data_ftp2["TG2"]); echo "<br>"; ?><?php  
 			 
 			 
                   }
@@ -624,7 +624,7 @@ onClick="Check(document.myform.cancel)">
 				
 				
 				</td>
-             <input name="id[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id"]; ?>">
+             <input name="id[<?php echo $k; ?>]" type="hidden" value="<?php echo h($row["id"]); ?>">
                 </tr>
           <?php 
 	          
@@ -677,7 +677,7 @@ $message = NULL; // create an empty new variable.
 		   for ($i=0; $i<$how_many; $i++) { 
 		
 	
-		//echo ($i+1).'-'.$cancel[$i]; echo $string[$i]; echo "</br>";
+		//echo ($i+1).'-'.$cancel[$i]; echo h($string[$i]); echo "</br>";
 		
 		
 		//insert table pps_detail_close

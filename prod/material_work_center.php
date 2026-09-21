@@ -53,7 +53,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 </head>
 <script language="javascript" type="text/javascript">
 // Roshan's Ajax dropdown code with php

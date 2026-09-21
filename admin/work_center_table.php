@@ -47,7 +47,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -168,14 +168,14 @@ $rs = mysqli_query($dbc, $query);   //run the query.
       ?>
            
                 <tr class="gradeX">
-                <td><div align="center"><?php  echo $row2["id_work"]; ?></div></td>
-                <td>&nbsp;<?php  echo $row2["wc_desc"]; ?></td>
-                <td><?php  echo $row2["plant_code"]; ?></td>
-                <td><div align="center"><?php echo $row2["cost_center"]; ?></div></td>
-                <td><div align="center"><?php echo $row2["id_factory"]; ?></div></td>
-                <td><div align="center"><a value="Details" href="work_center_view.php?id_work=<?php echo $row2["id_work"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></div></td>
+                <td><div align="center"><?php  echo h($row2["id_work"]); ?></div></td>
+                <td>&nbsp;<?php  echo h($row2["wc_desc"]); ?></td>
+                <td><?php  echo h($row2["plant_code"]); ?></td>
+                <td><div align="center"><?php echo h($row2["cost_center"]); ?></div></td>
+                <td><div align="center"><?php echo h($row2["id_factory"]); ?></div></td>
+                <td><div align="center"><a value="Details" href="work_center_view.php?id_work=<?php echo h($row2["id_work"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></div></td>
                 
-                <td>&nbsp; <a value="Edit" href="work_center_edit.php?id_work=<?php echo $row2["id_work"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>
+                <td>&nbsp; <a value="Edit" href="work_center_edit.php?id_work=<?php echo h($row2["id_work"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>
                 
                
                 </tr>

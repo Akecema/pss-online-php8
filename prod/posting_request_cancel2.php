@@ -43,7 +43,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="../scripts/pagination3.css" type="text/css" />
 <link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
@@ -191,7 +191,7 @@ visibility:hidden;
 				  
 				  
 				  ?>
-                <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                 <?php
                   }
 				?>
@@ -207,7 +207,7 @@ visibility:hidden;
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"]; ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo h($row5["id_work"]); ?></option>
                 <?php
                   }
 				?>
@@ -263,7 +263,7 @@ visibility:hidden;
 			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
-			echo $row_convert["id_fac"];
+			echo h($row_convert["id_fac"]);
 			
 			}
 			
@@ -649,12 +649,12 @@ $data_u = mysqli_fetch_array($result_u);   //how many records are there?
 		  ?>         
           <table width="100%" border="0" cellpadding="0" cellspacing="0"  style="border:solid 1px #d5d5d5;">
   <tr>
-    <td width="130">&nbsp;<?php echo $row2["temp_mrin"]; ?></td>
-    <td width="70"><?php echo $row_scan["factory"]; ?></td>
-     <td width="70" height="28"><?php echo $row_scan["work_center"]; ?></td>
-                <td width="70"><?php echo $row2["R"]; ?>&nbsp;</td>
-                <td width="57"><?php echo $row2["time_mrin"]; ?></td>
-                <td width="103"><?php echo $data_u["user_fullname"]; ?></td>
+    <td width="130">&nbsp;<?php echo h($row2["temp_mrin"]); ?></td>
+    <td width="70"><?php echo h($row_scan["factory"]); ?></td>
+     <td width="70" height="28"><?php echo h($row_scan["work_center"]); ?></td>
+                <td width="70"><?php echo h($row2["R"]); ?>&nbsp;</td>
+                <td width="57"><?php echo h($row2["time_mrin"]); ?></td>
+                <td width="103"><?php echo h($data_u["user_fullname"]); ?></td>
                 
 <?php
 	//------------------------   Traffic light-------------------------------------------------------------
@@ -706,12 +706,12 @@ elseif($curr_time >= $plus_20)
 	
 	
 	?>
-    <td width="60"><a href="cancel_material_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&user_no=<?php echo $data_u["user_no"]; ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../images/delete.png" width="16" height="16" alt="Delete">Cancel</a></td>
+    <td width="60"><a href="cancel_material_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&user_no=<?php echo h($data_u["user_no"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../images/delete.png" width="16" height="16" alt="Delete">Cancel</a></td>
 <?php
 	  }
 	 ?>       
-              <td width="40"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../images/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
-                <td width="40"><a href="detail_material_request_printing.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../images/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+              <td width="40"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../images/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+                <td width="40"><a href="detail_material_request_printing.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&&height=400&&width=800" class="thickbox" target="_self"><img src="../images/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
   </tr>
 </table>    
   <?php 

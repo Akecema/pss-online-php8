@@ -55,7 +55,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -291,14 +291,14 @@ $data_setup = mysqli_fetch_array($rs_setup);
  
        
     <tr>
-    <td width="50"><div align="center"><?php echo $row2["file_name"]; ?></div></td> 
-    <td width="60" height="28"><div align="center"><?php echo $row2["bflush_no"]; ?></div></td>
-    <td width="100">&nbsp;<?php echo $row2["plan_no"]; ?></td>
-    <td width="160">&nbsp;<?php echo $row2["material_no"]; ?></td>
-    <td width="50"><div align="right"><?php echo $row2["qty_ftp"]; ?></div>   </td>
-    <td width="40"><div align="center"><?php echo $row2["uom"]; ?></div></td>
-     <td width="90"><div align="center"><?php echo $row2["R2"]; ?></div></td>
-    <td width="100"><div align="center"><?php echo $row2["posting_time"]; ?></div></td>
+    <td width="50"><div align="center"><?php echo h($row2["file_name"]); ?></div></td> 
+    <td width="60" height="28"><div align="center"><?php echo h($row2["bflush_no"]); ?></div></td>
+    <td width="100">&nbsp;<?php echo h($row2["plan_no"]); ?></td>
+    <td width="160">&nbsp;<?php echo h($row2["material_no"]); ?></td>
+    <td width="50"><div align="right"><?php echo h($row2["qty_ftp"]); ?></div>   </td>
+    <td width="40"><div align="center"><?php echo h($row2["uom"]); ?></div></td>
+     <td width="90"><div align="center"><?php echo h($row2["R2"]); ?></div></td>
+    <td width="100"><div align="center"><?php echo h($row2["posting_time"]); ?></div></td>
 
 	<?php 
     

@@ -33,7 +33,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="scripts/pagination3.css" type="text/css" />
@@ -135,10 +135,10 @@ while ($list = mysqli_fetch_array($result2)) {
     while($row_tp = mysqli_fetch_assoc($result_tp))
 {
     
-	//echo $row_tp["material_no"]; echo ":";
-	//echo $row_tp["TOT"];
-	//echo $row2["bom_qty"]; echo "<br>";
-	//echo $row_tp["id_post"];
+	//echo h($row_tp["material_no"]); echo ":";
+	//echo h($row_tp["TOT"]);
+	//echo h($row2["bom_qty"]); echo "<br>";
+	//echo h($row_tp["id_post"]);
 		
 	$tp_quantity = $row_tp["TOT"]; 
 	
@@ -219,7 +219,7 @@ $since_start = $start_date->diff(new DateTime($date_transfer));
 <table width="100%" border="0" cellpadding="0" cellspacing="0"  style="border:solid 1px #141414;">
   <tr>
     <td width="270" height="36">
-    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#00CC00" size="+1"><?php echo $list["temp_mrin_wip"]; ?></font>&nbsp;&nbsp;<?php if($list["status_urgent"] == "Y") 
+    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#00CC00" size="+1"><?php echo h($list["temp_mrin_wip"]); ?></font>&nbsp;&nbsp;<?php if($list["status_urgent"] == "Y") 
 	{
 	?>
 	<img src="images/urgent_postAd.gif" title="URGENT" />
@@ -263,14 +263,14 @@ elseif($curr_time >= $plus_20)
 
 	?>
   </td>
-    <td width="118"><div align="center"><font color="#FFFFFF" size="+1"><?php echo $row_scan["factory"]; ?></font></div></td>
-    <td width="120"><div align="center"><font color="#FFFFFF" size="+1"><?php echo $row_scan["work_center"]; ?></font></div></td>
-    <td width="163"><div align="center"><font color="#FFFFFF" size="+1"><?php echo $list["R"]; ?>&nbsp;</font></div></td>
-    <td width="175"><div align="center"><font color="#FFFFFF"  size="+1"><?php echo $list["time_mrin"]; ?></font></div></td>
+    <td width="118"><div align="center"><font color="#FFFFFF" size="+1"><?php echo h($row_scan["factory"]); ?></font></div></td>
+    <td width="120"><div align="center"><font color="#FFFFFF" size="+1"><?php echo h($row_scan["work_center"]); ?></font></div></td>
+    <td width="163"><div align="center"><font color="#FFFFFF" size="+1"><?php echo h($list["R"]); ?>&nbsp;</font></div></td>
+    <td width="175"><div align="center"><font color="#FFFFFF"  size="+1"><?php echo h($list["time_mrin"]); ?></font></div></td>
     <td width="184"><div align="right"><font color="#FFFFFF"  size="+1"><?php 
 				 if(($date_post) > ($date_transfer))
 	{ echo "0:0:0";    }else{  echo $since_start->d.':'.$since_start->h.':'.$since_start->i;  } ?></font></div></td>
-    <td width="196"><div align="center"><font color="#FFFFFF"  size="+1"><?php echo $data_u["user_fullname"]; ?></font></div></td>
+    <td width="196"><div align="center"><font color="#FFFFFF"  size="+1"><?php echo h($data_u["user_fullname"]); ?></font></div></td>
 	
   </tr>
 </table>    

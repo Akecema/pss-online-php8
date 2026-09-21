@@ -240,10 +240,10 @@ if ($num > 0) {
 	while($row_tp = mysqli_fetch_assoc($result_tp))
 {
     
-	//echo $row_tp["material_no"]; echo ":";
-	//echo $row_tp["TOT"];
-	//echo $row2["bom_qty"]; echo "<br>";
-	//echo $row_tp["id_post"];
+	//echo h($row_tp["material_no"]); echo ":";
+	//echo h($row_tp["TOT"]);
+	//echo h($row2["bom_qty"]); echo "<br>";
+	//echo h($row_tp["id_post"]);
 		
 	$tp_quantity = $row_tp["TOT"]; 
 	
@@ -333,7 +333,7 @@ $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die(db_fail($dbc))
 		  ?>        
           <table width="100%" border="0" cellpadding="0" cellspacing="0"  style="border:solid 1px #d5d5d5;">
   <tr>
-     <td width="113">&nbsp;<?php echo $row2["temp_mrin"]; ?></td>
+     <td width="113">&nbsp;<?php echo h($row2["temp_mrin"]); ?></td>
      
               <td width="80"><div align="left"><?php if($row2["status_urgent"] == "Y") 
 	{
@@ -341,11 +341,11 @@ $result_mm3_insert = mysqli_query($dbc, $query_mm3_insert) or die(db_fail($dbc))
 	<img src="../images/icon-urgent.gif" title="URGENT" />
 	<?php
      }  ?></div></td>
-    <td width="72"><div align="center"><?php echo $row_scan["factory"]; ?></div></td>
-     <td width="115" height="28"><div align="center"><?php echo $row_scan["work_center"]; ?></div></td>
-              <td width="119"><?php echo $row2["R"]; ?>&nbsp;</td>
-              <td width="70"><?php echo $row2["time_mrin"]; ?></td>
-              <td width="126"><div align="center"><?php echo $data_u["user_fullname"]; ?></div></td>
+    <td width="72"><div align="center"><?php echo h($row_scan["factory"]); ?></div></td>
+     <td width="115" height="28"><div align="center"><?php echo h($row_scan["work_center"]); ?></div></td>
+              <td width="119"><?php echo h($row2["R"]); ?>&nbsp;</td>
+              <td width="70"><?php echo h($row2["time_mrin"]); ?></td>
+              <td width="126"><div align="center"><?php echo h($data_u["user_fullname"]); ?></div></td>
               <td width="51">
 <?php
  /*

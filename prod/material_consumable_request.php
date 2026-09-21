@@ -56,7 +56,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -712,7 +712,7 @@ if (isset($message))
                 </td>
               </tr>
               <tr>
-                <th><input name="user_no" type="hidden" value="<?php echo $res["user_no"]; ?>" /></th>
+                <th><input name="user_no" type="hidden" value="<?php echo h($res["user_no"]); ?>" /></th>
                 <th>&nbsp;</th>
                 <td colspan="5"><div align="right">
             <input name="saveT" type="submit" id="submit" value="+ Add Consumable Item" class="btn btn-info" onclick="return confirm('Confirm to add item?');"  />&nbsp;&nbsp; <input name="submit" type="submit" id="submit2" value="Confirm Request" class="btn btn-success" onClick="return confirm('Confirm to post request?');"  />

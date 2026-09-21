@@ -54,7 +54,7 @@ $rst_sta4 = mysqli_fetch_array($sta_res4);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 </head>
 
 <body>

@@ -426,7 +426,7 @@ if (isset($message))
                 <font color="#006699">*</font></td>
               </tr>
               <tr>
-                <td height="19"><input name="user_no" type="hidden" value="<?php echo $data_u["user_no"]; ?>" /></td>
+                <td height="19"><input name="user_no" type="hidden" value="<?php echo h($data_u["user_no"]); ?>" /></td>
                 <td height="19">&nbsp;</td>
                 <td height="10" colspan="5"><div align="right">
                     <input name="save" type="submit" id="submit" value="+ Add Consumable Item" class="button" onclick="return confirm('Confirm to add request?');" />

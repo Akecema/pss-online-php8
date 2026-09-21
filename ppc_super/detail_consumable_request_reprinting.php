@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -208,23 +208,23 @@ console.log('closed!');
           <th><?php echo h($temp_mrin); ?></th>
           <th>Factory</th>
           <th>:</th>
-          <th><?php echo $data_2["factory"];  ?></th>
+          <th><?php echo h($data_2["factory"]);  ?></th>
         </tr>
         <tr>
           <th>Date &amp; Time</th>
           <th>:</th>
-          <th><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></th>
+          <th><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></th>
           <th>Required Date &amp; Time</th>
           <th>:</th>
-          <th>&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_require"]; ?></th>
+          <th>&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_require"]); ?></th>
         </tr>
         <tr>
           <th>Requested by</th>
           <th>:</th>
-          <th><?php echo $row_k["user_fullname"]; ?></th>
+          <th><?php echo h($row_k["user_fullname"]); ?></th>
           <th>Prepared by (PPC)</th>
           <th>:</th>
-          <th><?php echo $row_k2["user_fullname"]; ?></th>
+          <th><?php echo h($row_k2["user_fullname"]); ?></th>
         </tr>
       </table>
       <!-- Content -->
@@ -274,14 +274,14 @@ console.log('closed!');
 	
 	?>
   <tr>
-    <td width="73"><?php  echo $row["material_no"]; ?></td>
-    <td width="200"><?php  echo $row["mat_desc"]; ?></td>
-    <td width="100"><div align="right"><?php echo $row["con_qty"]; ?>&nbsp;</div></td>
-    <td width="63"><div align="center"><?php echo $row["con_uom"]; ?></div></td>
-    <td width="80"><div align="center"><?php echo $row["id_work"]; ?></div></td>
-    <td width="80"><div align="center"><?php echo $row["cost_center"]; ?></div></td>
+    <td width="73"><?php  echo h($row["material_no"]); ?></td>
+    <td width="200"><?php  echo h($row["mat_desc"]); ?></td>
+    <td width="100"><div align="right"><?php echo h($row["con_qty"]); ?>&nbsp;</div></td>
+    <td width="63"><div align="center"><?php echo h($row["con_uom"]); ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row["id_work"]); ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row["cost_center"]); ?></div></td>
     <td width="100">&nbsp;</td>
-    <td width="80"><div align="center"><?php echo $row_cost_center["cost_center"]; ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row_cost_center["cost_center"]); ?></div></td>
     <td width="200"><?php
 
 // set the barcode content and type
@@ -292,7 +292,7 @@ $barcodeobj = new TCPDF2DBarcode($bar_text, 'PDF417');
 echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
 
 ?></td> </tr>
-    <input name="user_no" type="hidden" value="<?php echo $data_u["user_no"]; ?>" />
+    <input name="user_no" type="hidden" value="<?php echo h($data_u["user_no"]); ?>" />
     <?php 
 		  	  
 		  $counter++; // menambah counter 

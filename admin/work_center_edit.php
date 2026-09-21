@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -238,32 +238,32 @@ if (isset($message))
                  <td>Work Center *</td>
                  <td>:</td>
                  <td>
-                   <input name="id_work" type="text" id="id_work" size="20" maxlength="8" readonly value="<?php echo $row[0]; ?>" /></td>
+                   <input name="id_work" type="text" id="id_work" size="20" maxlength="8" readonly value="<?php echo h($row[0]); ?>" /></td>
                </tr>
                <tr>
                  <td>Work Center Desc *</td>
                  <td>:</td>
                  <td>
-                   <input name="wc_desc" type="text" class="span11" id="wc_desc" size="55" maxlength="100" value="<?php echo $row[2]; ?>" />
+                   <input name="wc_desc" type="text" class="span11" id="wc_desc" size="55" maxlength="100" value="<?php echo h($row[2]); ?>" />
                </td>
                </tr>
                         <tr>
                  <td>Plant Code *</td>
                  <td>:</td>
                  <td>
-         <input name="plant_code" type="text"  class="span11" id="plant_code" size="20" maxlength="20" value="<?php echo $row[1]; ?>" /></td>
+         <input name="plant_code" type="text"  class="span11" id="plant_code" size="20" maxlength="20" value="<?php echo h($row[1]); ?>" /></td>
                </tr>
                 <tr>
                  <td>Cost Center</td>
                  <td height="25">:</td>
                  
-                 <td height="25"><input name="cost_center" type="text"  class="span11" id="cost_center" size="20" maxlength="100" value="<?php echo $row[3]; ?>" /></td>
+                 <td height="25"><input name="cost_center" type="text"  class="span11" id="cost_center" size="20" maxlength="100" value="<?php echo h($row[3]); ?>" /></td>
                </tr>
       
                <tr>
                  <td>Cost Center Description *</td>
                  <td>:</td>
-                 <td><input name="cc_desc" type="text"  class="span11" id="cc_desc" size="55" maxlength="100" value="<?php echo $row[4]; ?>" />
+                 <td><input name="cc_desc" type="text"  class="span11" id="cc_desc" size="55" maxlength="100" value="<?php echo h($row[4]); ?>" />
                   </td>
                </tr>
                <tr>
@@ -280,7 +280,7 @@ if (isset($message))
 				  
 				  
 				  ?>
-                <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $row[5]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $row[5]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                 <?php
                   }
 				?>

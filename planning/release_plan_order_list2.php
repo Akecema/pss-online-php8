@@ -75,7 +75,7 @@ $rst_sta13 = mysqli_fetch_array($sta_res13);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -228,7 +228,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                  <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                   <?php
                   }
 				?>
@@ -245,7 +245,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -262,7 +262,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -286,7 +286,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row19=mysqli_fetch_array($result19)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row19["file_name"]; ?>" <?php if($row19["file_name"] == $_GET["name_file"]) echo "selected"; ?>> <?php echo $row19["file_name"]; ?></option>
+                  <option value="<?php echo h($row19["file_name"]); ?>" <?php if($row19["file_name"] == $_GET["name_file"]) echo "selected"; ?>> <?php echo h($row19["file_name"]); ?></option>
                   <?php
                   }
 				?>
@@ -402,7 +402,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 <tr>
     <td width="6%">&nbsp;</td> 
     <td width="74%"> <div class="small-nav"></div></td> 
-     <td width="20%"><a href="cancel_pps_tran_proc_selected.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo $row_convert2["upload_id"]; ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self" ><img src="../img/cross.png" width="40" height="40" title="Cancel Planned Order" />Cancel Planned Order</a></td> 
+     <td width="20%"><a href="cancel_pps_tran_proc_selected.php?date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo h($row_convert2["upload_id"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self" ><img src="../img/cross.png" width="40" height="40" title="Cancel Planned Order" />Cancel Planned Order</a></td> 
    </tr>
 </table> -->     
           
@@ -462,15 +462,15 @@ function getXMLHTTP() { //fuction to return the xml http object
            
                 <tr class="gradeX">
                 <td width="38" align="center"><?php echo $no; ?></td>
-                <td><?php echo $row[6]; ?></td>
-                <td width="91" height="28"><?php echo $row["plan_no"]; ?></td>
-                <td width="93"><?php echo $row["R"]; ?></td>
-                <td width="103"><?php echo $row["work_center"]; ?></td>
+                <td><?php echo h($row[6]); ?></td>
+                <td width="91" height="28"><?php echo h($row["plan_no"]); ?></td>
+                <td width="93"><?php echo h($row["R"]); ?></td>
+                <td width="103"><?php echo h($row["work_center"]); ?></td>
                 <td width="46"><?php echo $sta; ?></td>
                 <td width="103"><?php echo intval($row["qty_plan"]); ?></td>
-                <td width="90"><?php echo $row["status_pps"]; ?></td>
-                <td width="150"><?php echo $row_convert2['file_name']; ?></td>
-                <td width="100"> <a href="cancel_pps_tran_proc_selected.php?uid=<?php echo $row["upload_id"]; ?>&&date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo h($name_file); ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/cross.png" width="16" height="16" alt="Cancel">&nbsp;Cancellation</a> 
+                <td width="90"><?php echo h($row["status_pps"]); ?></td>
+                <td width="150"><?php echo h($row_convert2['file_name']); ?></td>
+                <td width="100"> <a href="cancel_pps_tran_proc_selected.php?uid=<?php echo h($row["upload_id"]); ?>&&date1=<?php echo h($dateF); ?>&&date2=<?php echo h($dateT); ?>&&factory=<?php echo h($factory); ?>&&work_center=<?php echo h($work_center); ?>&&plan_no=<?php echo h($plan_no); ?>&&shift_ops=<?php echo h($shift_ops); ?>&&name_file=<?php echo h($name_file); ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/cross.png" width="16" height="16" alt="Cancel">&nbsp;Cancellation</a> 
                  
                                  </td> 
                 

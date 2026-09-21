@@ -46,7 +46,7 @@ $temp_mrin = $_GET["mrin_no"];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -195,23 +195,23 @@ $row_k2 = mysqli_fetch_array($result_k2);
           <th><?php echo h($temp_mrin); ?></th>
           <th>Factory</th>
           <th>:</th>
-          <th><?php echo $data_2["factory"];  ?></th>
+          <th><?php echo h($data_2["factory"]);  ?></th>
         </tr>
         <tr>
           <th>Date &amp; Time</th>
           <th>:</th>
-          <th><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></th>
+          <th><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></th>
           <th>Required Date &amp; Time</th>
           <th>:</th>
-          <th>&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_require"]; ?></th>
+          <th>&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_require"]); ?></th>
         </tr>
         <tr>
           <th>Requested by</th>
           <th>:</th>
-          <th><?php echo $row_k["user_fullname"]; ?></th>
+          <th><?php echo h($row_k["user_fullname"]); ?></th>
           <th>Prepared by (PPC)</th>
           <th>:</th>
-          <th><?php echo $row_k2["user_fullname"]; ?></th>
+          <th><?php echo h($row_k2["user_fullname"]); ?></th>
         </tr>
       </table>
         <br>
@@ -256,14 +256,14 @@ $row_k2 = mysqli_fetch_array($result_k2);
 	
 	?>
   <tr>
-    <td width="73"><?php  echo $row["material_no"]; ?></td>
-    <td width="220"><?php  echo $row["mat_desc"]; ?></td>
-    <td width="80"><div align="right"><?php echo $row["con_qty"]; ?>&nbsp;</div></td>
-    <td width="63"><div align="center"><?php echo $row["con_uom"]; ?></div></td>
-    <td width="80"><div align="center"><?php echo $row["id_work"]; ?></div></td>
-    <td width="80"><div align="center"><?php echo $row["cost_center"]; ?></div></td>
+    <td width="73"><?php  echo h($row["material_no"]); ?></td>
+    <td width="220"><?php  echo h($row["mat_desc"]); ?></td>
+    <td width="80"><div align="right"><?php echo h($row["con_qty"]); ?>&nbsp;</div></td>
+    <td width="63"><div align="center"><?php echo h($row["con_uom"]); ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row["id_work"]); ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row["cost_center"]); ?></div></td>
     <td width="80">&nbsp;</td>
-    <td width="80"><div align="center"><?php echo $row_cost_center["cost_center"]; ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row_cost_center["cost_center"]); ?></div></td>
     <td width="80">&nbsp;</td>
     <td width="200"><?php
 

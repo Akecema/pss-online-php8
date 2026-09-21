@@ -53,7 +53,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -179,7 +179,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                <option value="<?php echo $row9["material_no"]; ?>" <?php if($row9["material_no"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["material_no"]. ' - ' .$row9["mat_desc"]; ?></option>
+                <option value="<?php echo h($row9["material_no"]); ?>" <?php if($row9["material_no"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["material_no"]. ' - ' .$row9["mat_desc"]; ?></option>
                 <?php
                   }
 				?>
@@ -300,15 +300,15 @@ $num = mysqli_num_rows($rs);   //how many material are there?
  	?>        
          
    <tr>
-    <td width="99" height="28">&nbsp;<font color="#003399"><?php echo $row2["mrin_no"]; ?></font></td>
-    <td width="151">&nbsp;<?php echo $row2["material_no"]; ?></td>
-    <td width="91" height="28"><div align="center"><?php echo $row2["mat_doc"]; ?></div></td>
-    <td width="65"><div align="center"><?php echo $row2["mat_doc_item"]; ?></div></td>
-    <td width="50"><div align="center"><?php echo $row2["mat_doc_year"]; ?></div></td>
-    <td width="88"><div align="center"><?php echo $row2["R"]; ?></div>
-    <td width="80"><div align="center"><?php echo $row2["R2"]; ?></div>
-    <td width="60"><div align="center"><?php echo $row2["time_posting"]; ?></div>	</td>
-    <td><font color="#003399"><?php echo $row2["file_name"]; ?></font></td>
+    <td width="99" height="28">&nbsp;<font color="#003399"><?php echo h($row2["mrin_no"]); ?></font></td>
+    <td width="151">&nbsp;<?php echo h($row2["material_no"]); ?></td>
+    <td width="91" height="28"><div align="center"><?php echo h($row2["mat_doc"]); ?></div></td>
+    <td width="65"><div align="center"><?php echo h($row2["mat_doc_item"]); ?></div></td>
+    <td width="50"><div align="center"><?php echo h($row2["mat_doc_year"]); ?></div></td>
+    <td width="88"><div align="center"><?php echo h($row2["R"]); ?></div>
+    <td width="80"><div align="center"><?php echo h($row2["R2"]); ?></div>
+    <td width="60"><div align="center"><?php echo h($row2["time_posting"]); ?></div>	</td>
+    <td><font color="#003399"><?php echo h($row2["file_name"]); ?></font></td>
   </tr>
   <?php 
 		 

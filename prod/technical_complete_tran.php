@@ -98,7 +98,7 @@ $rst_sta17 = mysqli_fetch_array($sta_res17);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -356,7 +356,7 @@ return "";
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -379,7 +379,7 @@ return "";
                    while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
-                     <option value="<?php echo $row29["id_plan"]; ?>"> <?php echo $row29["plan_category_desc"]; ?></option>
+                     <option value="<?php echo h($row29["id_plan"]); ?>"> <?php echo h($row29["plan_category_desc"]); ?></option>
                  
                   <?php
                   }
@@ -389,8 +389,8 @@ return "";
               <th>Status :</th>
               <td><select name="status" id="status" class="span11">
                   <option value="NULL" placeholder="Select Status"> -- Select Status --</option>
-                  <option value="<?php echo $rst_sta2["status_desc"]; ?>"><?php echo $rst_sta2["status_desc"]; ?></option>
-                  <option value="<?php echo $rst_sta7["status_desc"]; ?>"><?php echo $rst_sta7["status_desc"]; ?></option>
+                  <option value="<?php echo h($rst_sta2["status_desc"]); ?>"><?php echo h($rst_sta2["status_desc"]); ?></option>
+                  <option value="<?php echo h($rst_sta7["status_desc"]); ?>"><?php echo h($rst_sta7["status_desc"]); ?></option>
                   </select></td>
                      </tr>
             <tr>
@@ -465,7 +465,7 @@ $message = NULL; // create an empty new variable.
 		   for ($i=0; $i<$how_many; $i++) { 
 		
 	
-		//echo ($i+1).'-'.$cancel[$i]; echo $string[$i]; echo "</br>";
+		//echo ($i+1).'-'.$cancel[$i]; echo h($string[$i]); echo "</br>";
 		
 		
 		//update table pps_detail
@@ -666,14 +666,14 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
            
                 <tr class="gradeX">
-                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $row["id"]; ?>" <?=was_checked($row["id"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id"]); ?>" <?=was_checked($row["id"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
 onClick="Check(document.myform.cancel)">  </div>    <?php echo $no; ?></td>
-                <td width="48"><?php echo $row["material_no"]; ?></td>
-                <td width="120"><?php echo $row["plan_no"]; ?></td>
-                <td width="80"><?php echo $row["R"]; ?></td>
-                <td width="60"><?php  echo $row["work_center"]; ?></td> 
+                <td width="48"><?php echo h($row["material_no"]); ?></td>
+                <td width="120"><?php echo h($row["plan_no"]); ?></td>
+                <td width="80"><?php echo h($row["R"]); ?></td>
+                <td width="60"><?php  echo h($row["work_center"]); ?></td> 
                 <td width="40"><?php echo $sta; ?></td>
-                <td width="90"><div align="center"><?php echo $row["status_pps"]; ?></div></td>
+                <td width="90"><div align="center"><?php echo h($row["status_pps"]); ?></div></td>
                 <td width="43"><div align="center"><?php echo number_format($row["qty_plan"]); ?></div></td>
                 <td width="45">
                 <div align="center">
@@ -692,14 +692,14 @@ onClick="Check(document.myform.cancel)">  </div>    <?php echo $no; ?></td>
 					echo number_format($total_qty_pending); } ?></div></td>
                 <td width="19"><div align="center"><?php echo number_format($qty_total_ok); ?></div></td>
                 <td width="40"><div align="center"><?php echo number_format($qty_total_NG); ?></div></td>
-           	    <td width="100"><textarea name="remark_closed[<?php echo $row["id"]; ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_closed'][($row["id"])])) { echo $_POST['remark_closed'][($row["id"])]; } ?></textarea>
-               <input name="id[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id"]; ?>">
+           	    <td width="100"><textarea name="remark_closed[<?php echo h($row["id"]); ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_closed'][($row["id"])])) { echo $_POST['remark_closed'][($row["id"])]; } ?></textarea>
+               <input name="id[<?php echo $k; ?>]" type="hidden" value="<?php echo h($row["id"]); ?>">
           </td>
           
           
-               <!-- <td width="80"><a value="View Details" href="display_plan_order_detail.php?uid=<?php echo $row["id"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/folder.png" width="16" height="16" alt="View Details"><br>View Details</a></td>-->
+               <!-- <td width="80"><a value="View Details" href="display_plan_order_detail.php?uid=<?php echo h($row["id"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/folder.png" width="16" height="16" alt="View Details"><br>View Details</a></td>-->
                 </tr>
-               <!--   <input name="uid" type="hidden" value="<?php echo $row["id"]; ?>">-->
+               <!--   <input name="uid" type="hidden" value="<?php echo h($row["id"]); ?>">-->
           <?php 
 		  
 		  $no ++;

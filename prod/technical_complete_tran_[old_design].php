@@ -72,7 +72,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -330,7 +330,7 @@ return "";
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -577,16 +577,16 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
            
                 <tr class="gradeX">
-                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $row["id"]; ?>" <?=was_checked($row["id"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id"]); ?>" <?=was_checked($row["id"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
 onClick="Check(document.myform.cancel)">  </div>         <?php echo $no; ?></td>
-                <td width="80"><?php echo $row["R2"]; ?></td>
-                <td width="48"><?php echo $row[31]; ?></td>
-                <td><?php echo $row[9]; ?></td>
-                <td width="80"><font color="#0000CC"><?php echo $row[4]; ?></font></td>
-                <td width="80"><?php echo $row["R"]; ?></td> 
-                <td width="60"><?php echo $row[18]; ?></td>
+                <td width="80"><?php echo h($row["R2"]); ?></td>
+                <td width="48"><?php echo h($row[31]); ?></td>
+                <td><?php echo h($row[9]); ?></td>
+                <td width="80"><font color="#0000CC"><?php echo h($row[4]); ?></font></td>
+                <td width="80"><?php echo h($row["R"]); ?></td> 
+                <td width="60"><?php echo h($row[18]); ?></td>
                 <td width="40"><?php echo $sta; ?></td>
-                <td width="50"><font color="#0000CC"><?php echo $row[3]; ?></font></td>
+                <td width="50"><font color="#0000CC"><?php echo h($row[3]); ?></font></td>
                 <td width="43"><div align="center"><?php echo number_format($row["qty_plan"]); ?></div></td>
                 <td width="45"><div align="center"><?php echo number_format($row["qty_actual"]); ?></div></td>
                 <td width="7"><div align="center"><?php echo number_format($data_qqc["qty_qc"]); ?></div></td>
@@ -595,7 +595,7 @@ onClick="Check(document.myform.cancel)">  </div>         <?php echo $no; ?></td>
                 <td width="19"><div align="center"><?php echo number_format($qty_total_ok); ?></div></td>
                 <td width="40"><div align="center"><?php echo number_format($qty_total_NG); ?></div></td>
                 </tr>
-                  <input name="id" type="hidden" value="<?php echo $row["id"]; ?>">
+                  <input name="id" type="hidden" value="<?php echo h($row["id"]); ?>">
           <?php 
 		  
 		  $no ++;

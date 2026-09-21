@@ -134,7 +134,7 @@ $year = $today['year'];
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["material_no"]; ?>"> <?php echo $row9["material_no"].' -  '.$row9["mat_desc"]; ?></option>
+                  <option value="<?php echo h($row9["material_no"]); ?>"> <?php echo $row9["material_no"].' -  '.$row9["mat_desc"]; ?></option>
                   <?php
                   }
 				?>

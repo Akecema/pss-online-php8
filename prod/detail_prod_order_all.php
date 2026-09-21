@@ -41,7 +41,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
@@ -189,8 +189,8 @@ $message = NULL; // create an empty new variable.
            <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC">
           <tr>
                 <td width="62" height="28"><?php echo $no; ?></td>
-     <td width="144">&nbsp;<?php echo $row_scan["material_no"]; ?>   </td>
-             <td width="391">&nbsp;<?php echo $row_scan["prod_order"]; ?></td>
+     <td width="144">&nbsp;<?php echo h($row_scan["material_no"]); ?>   </td>
+             <td width="391">&nbsp;<?php echo h($row_scan["prod_order"]); ?></td>
           </tr>
                <?php
 		
@@ -218,10 +218,10 @@ $message = NULL; // create an empty new variable.
 <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC">
               <tr bgcolor="<?php echo $warna; ?>" >
                <td width="63" height="28">&nbsp;</td>
-               <td width="287" height="28">&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
-                <td width="100" height="28"><div align="right"><?php echo $row["bom_qty"]; ?>&nbsp;</div></td>
-                <td width="80" height="28"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-                <td width="67" height="28">&nbsp;<font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></td>
+               <td width="287" height="28">&nbsp;<?php  echo h($row4_p["bill_component"]); ?></td>
+                <td width="100" height="28"><div align="right"><?php echo h($row["bom_qty"]); ?>&nbsp;</div></td>
+                <td width="80" height="28"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="67" height="28">&nbsp;<font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></td>
           </tr>
             <input name="user_no" type="hidden" value="<?php echo $user_no; ?>">
         </table>  

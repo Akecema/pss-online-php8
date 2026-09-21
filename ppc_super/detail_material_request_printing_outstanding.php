@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
@@ -172,12 +172,12 @@ $data_2 = mysqli_fetch_array($result_2);
           <td width="322"><?php echo h($temp_mrin); ?></td>
           <th width="204" height="28"><span class="style3">Request Date &amp; Time </span></th>
           <th width="11" height="28"><span class="style3">:</span></th>
-          <td width="218" height="28"><?php echo $data_2["R"]; ?>&nbsp;&nbsp;<?php echo $data_2["time_posting"]; ?></td>
+          <td width="218" height="28"><?php echo h($data_2["R"]); ?>&nbsp;&nbsp;<?php echo h($data_2["time_posting"]); ?></td>
         </tr>
         <tr>
           <th width="204" height="28" class="ac style3"><div align="right">Factory</div></th>
           <th height="28">:</th>
-          <td><?php echo $data_2["factory"];  ?></td>
+          <td><?php echo h($data_2["factory"]);  ?></td>
           <th width="208" height="28">&nbsp;</th>
           <th height="28">&nbsp;</th>
           <td height="28">&nbsp;</td>
@@ -268,15 +268,15 @@ $data_2 = mysqli_fetch_array($result_2);
 
 <table width="1100" border="1" cellpadding="2" cellspacing="0" bordercolor="#CCCCCC">
               <tr>
-               <td width="100" height="28"><?php  echo $row4_p["bill_component"]; ?></td>
-               <td width="122" height="28"><?php  echo $row4_p["material_desc_c"]; ?></td>
-                <td width="45" height="28"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-                <td width="120" height="28"><div align="center"><?php echo $row_scan["prod_order"]; ?></div></td>
-                <td width="93" height="28"><?php  echo $row4_p["material"]; ?></td>
-                <td width="45" height="28"><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
+               <td width="100" height="28"><?php  echo h($row4_p["bill_component"]); ?></td>
+               <td width="122" height="28"><?php  echo h($row4_p["material_desc_c"]); ?></td>
+                <td width="45" height="28"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="120" height="28"><div align="center"><?php echo h($row_scan["prod_order"]); ?></div></td>
+                <td width="93" height="28"><?php  echo h($row4_p["material"]); ?></td>
+                <td width="45" height="28"><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
                 <td width="55" height="28"><div align="center"><?php echo $sta; ?></div></td>
-                <td width="55" height="28"><div align="center"><font color="#FF0000"><?php echo $row4_p["isloc"]; ?></font></div></td> 
-                <td width="90" height="28"><div align="right"><?php echo $row["bom_qty"]; ?>&nbsp;</div></td>
+                <td width="55" height="28"><div align="center"><font color="#FF0000"><?php echo h($row4_p["isloc"]); ?></font></div></td> 
+                <td width="90" height="28"><div align="right"><?php echo h($row["bom_qty"]); ?>&nbsp;</div></td>
                 <td width="90" height="28">
  
 	
@@ -292,7 +292,7 @@ $data_2 = mysqli_fetch_array($result_2);
 					
 	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
-	echo $row_tp["TOT"]; 
+	echo h($row_tp["TOT"]); 
 	
 	$tp_quantity = $row_tp["TOT"]; 
 	

@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -293,80 +293,80 @@ if (isset($message))
                  <td>Vendor Code <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
                  <td>
-                   <input name="vendor_code" type="text" id="vendor_code" size="20" maxlength="8" readonly value="<?php echo $row[0]; ?>" /></td>
+                   <input name="vendor_code" type="text" id="vendor_code" size="20" maxlength="8" readonly value="<?php echo h($row[0]); ?>" /></td>
                </tr>
                <tr>
                  <td>Vendor Name <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
                  <td>
-                   <input name="vendor_name" type="text" class="span11" id="vendor_name" maxlength="100" value="<?php echo $row[1]; ?>" placeholder="Enter Vendor Name" />
+                   <input name="vendor_name" type="text" class="span11" id="vendor_name" maxlength="100" value="<?php echo h($row[1]); ?>" placeholder="Enter Vendor Name" />
                </td>
                </tr>
                 <tr>
                  <td>Search Term <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
                  <td>
-                  <input name="search_term" type="text" class="span5" id="search_term" size="20" maxlength="20" value="<?php  echo $row['search_term']; ?>" placeholder="Enter Search Term"/>
+                  <input name="search_term" type="text" class="span5" id="search_term" size="20" maxlength="20" value="<?php  echo h($row['search_term']); ?>" placeholder="Enter Search Term"/>
                </td>
                </tr>
                 <tr>
                  <td>Address No. 1 <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
                  <td>
-                   <input name="add_no1" type="text"  class="span11" id="add_no1" maxlength="100" value="<?php echo $row[2]; ?>" placeholder="Enter Address No. 1"/></td>
+                   <input name="add_no1" type="text"  class="span11" id="add_no1" maxlength="100" value="<?php echo h($row[2]); ?>" placeholder="Enter Address No. 1"/></td>
                </tr>
                   <tr>
                  <td>Address No. 2 <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
                  <td>
-                   <input name="add_no2" type="text"  class="span11" id="add_no2" maxlength="100" value="<?php echo $row[3]; ?>" placeholder="Enter Address No. 2" /></td>
+                   <input name="add_no2" type="text"  class="span11" id="add_no2" maxlength="100" value="<?php echo h($row[3]); ?>" placeholder="Enter Address No. 2" /></td>
                </tr>
                 <tr>
                  <td>Postcode <font color="#FF0000"><b> *</b></font></td>
                  <td height="25">:</td>
                  
-                 <td height="25">   <input name="post_code" type="text" class="span5" id="post_code" size="20" maxlength="15" value="<?php echo $row['post_code']; ?>" placeholder="Enter Postcode"/></td>
+                 <td height="25">   <input name="post_code" type="text" class="span5" id="post_code" size="20" maxlength="15" value="<?php echo h($row['post_code']); ?>" placeholder="Enter Postcode"/></td>
                </tr>
                <tr>
                  <td>City <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
-                 <td><input name="post_city" type="text" class="span11" id="post_city" size="20" value="<?php echo $row['post_city']; ?>" placeholder="Enter City"/>
+                 <td><input name="post_city" type="text" class="span11" id="post_city" size="20" value="<?php echo h($row['post_city']); ?>" placeholder="Enter City"/>
                   </td>
                </tr>
                <tr>
                  <td>Region <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
-                 <td> <input name="post_region" type="text" class="span11" id="post_region" size="20" value="<?php echo $row['post_region']; ?>" placeholder="Enter Region"/>
+                 <td> <input name="post_region" type="text" class="span11" id="post_region" size="20" value="<?php echo h($row['post_region']); ?>" placeholder="Enter Region"/>
                   </td>
                </tr>
                 <tr>
                  <td>Country <font color="#FF0000"><b> *</b></font></td>
                  <td>:</td>
-                 <td><input name="post_country" type="text" class="span11" id="post_country" size="20" value="<?php echo $row['post_country']; ?>" placeholder="Enter Country"/>
+                 <td><input name="post_country" type="text" class="span11" id="post_country" size="20" value="<?php echo h($row['post_country']); ?>" placeholder="Enter Country"/>
                   </td>
                </tr>
                 <tr>
                  <td>Phone </td>
                  <td>:</td>
-                 <td><input name="tphone" type="text" class="span5" id="tphone" size="20" maxlength="15" value="<?php echo $row['tphone']; ?>" placeholder="Enter Phone No."/>
+                 <td><input name="tphone" type="text" class="span5" id="tphone" size="20" maxlength="15" value="<?php echo h($row['tphone']); ?>" placeholder="Enter Phone No."/>
                   </td>
                </tr>
                 <tr>
                  <td>Fax No. </td>
                  <td>:</td>
-                 <td>  <input name="fax_no" type="text" class="span5" id="fax_no" size="20" maxlength="15" value="<?php echo $row['fax_no']; ?>" placeholder="Enter Fax No."/>
+                 <td>  <input name="fax_no" type="text" class="span5" id="fax_no" size="20" maxlength="15" value="<?php echo h($row['fax_no']); ?>" placeholder="Enter Fax No."/>
                   </td>
                </tr>
                 <tr>
                  <td>Payment Method </td>
                  <td>:</td>
-                 <td><input name="payment_method" type="text" class="span5" id="payment_method" size="20" maxlength="15" value="<?php echo $row['payment_method']; ?>" placeholder="Enter Payment Method"/>
+                 <td><input name="payment_method" type="text" class="span5" id="payment_method" size="20" maxlength="15" value="<?php echo h($row['payment_method']); ?>" placeholder="Enter Payment Method"/>
                   </td>
                </tr>
                 <tr>
                  <td>Term Payment Method </td>
                  <td>:</td>
-                 <td><input name="term_payment" type="text" class="span5" id="term_payment" size="20" maxlength="15" value="<?php echo $row['term_payment']; ?>" placeholder="Enter Term Payment"/>
+                 <td><input name="term_payment" type="text" class="span5" id="term_payment" size="20" maxlength="15" value="<?php echo h($row['term_payment']); ?>" placeholder="Enter Term Payment"/>
                   </td>
                </tr>
                 <tr>

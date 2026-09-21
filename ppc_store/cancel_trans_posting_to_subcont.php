@@ -66,7 +66,7 @@ $rst_sta19 = mysqli_fetch_array($sta_res19);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -271,9 +271,9 @@ return "";
 
         if($_POST["Submit"] == true){ ?>
                <!--RETAIN VALUE-->
-               <option value="<?php echo $row2a["vendor_code"]; ?>" <?php if($row2a["vendor_code"] == $_POST["vendor_no"]) echo "selected"; ?>> <?php echo $row2a["vendor_name"]; ?></option>
+               <option value="<?php echo h($row2a["vendor_code"]); ?>" <?php if($row2a["vendor_code"] == $_POST["vendor_no"]) echo "selected"; ?>> <?php echo h($row2a["vendor_name"]); ?></option>
                <?php }else{ ?>
-               <option value="<?php echo $row2a["vendor_code"]; ?>" > <?php echo stripslashes($row2a["vendor_name"]); ?></option>
+               <option value="<?php echo h($row2a["vendor_code"]); ?>" > <?php echo stripslashes($row2a["vendor_name"]); ?></option>
                <?php } ?>
                <?php
 							}

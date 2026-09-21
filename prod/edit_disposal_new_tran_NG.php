@@ -61,7 +61,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -230,7 +230,7 @@ $message = NULL; // create an empty new variable.
        for ($i=0; $i<$how_many; $i++) { 
 		   			
 	
-	    // echo $cancel[$i]; echo $string[$i];
+	    // echo h($cancel[$i]); echo h($string[$i]);
 		
 //------------update remarks reject detail disposal-------------------
       
@@ -270,15 +270,15 @@ if (isset($message))
     <table width="98%"  class="table table-bordered">
       <tr>
         <td width="35%">Disposal No.</td>
-        <td width="35%"><?php echo $row_disposal["doc_disposal_no"];  ?></td>
+        <td width="35%"><?php echo h($row_disposal["doc_disposal_no"]);  ?></td>
         </tr>
       <tr>
         <td>Document Date</td>
-        <td><?php echo $row_disposal["W"];  ?></td>
+        <td><?php echo h($row_disposal["W"]);  ?></td>
         </tr>
       <tr>
         <td>Status</td>
-        <td><?php echo $row_disposal["status_disposal"];  ?></td>
+        <td><?php echo h($row_disposal["status_disposal"]);  ?></td>
       </tr>
       </table></td>
   </tr>
@@ -372,19 +372,19 @@ if (isset($message))
 <tbody>
 
 <tr>
-                <td width="40" height="28"><input type="hidden" name="cancel[]" value="<?php echo $row["id_disposal"]; ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
-onClick="Check(document.myform.cancel)"> <?php  echo $row["id_disposal"]; ?></td>
-                <td width="80"><?php  echo $data_model["model_code"]; ?></td>
-                <td width="100"><?php echo $row["material_no"]; ?>&nbsp;</td>
-                <td width="100"><?php echo $row_type["type_desc"]; ?></td>
-                <td width="100"><?php echo $row["R2"]; ?></td>
+                <td width="40" height="28"><input type="hidden" name="cancel[]" value="<?php echo h($row["id_disposal"]); ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+onClick="Check(document.myform.cancel)"> <?php  echo h($row["id_disposal"]); ?></td>
+                <td width="80"><?php  echo h($data_model["model_code"]); ?></td>
+                <td width="100"><?php echo h($row["material_no"]); ?>&nbsp;</td>
+                <td width="100"><?php echo h($row_type["type_desc"]); ?></td>
+                <td width="100"><?php echo h($row["R2"]); ?></td>
                 <td width="100"><div align="center"><input name="dis_quantity" type="text" readonly value="<?php echo intval($qty_asal); ?>"  class="span2"/></div></td>
-                <td width="80"><?php echo $data_mat["BUn"]; ?></td>
+                <td width="80"><?php echo h($data_mat["BUn"]); ?></td>
                 <td width="80"><?php echo $loc_asal; ?></td>   
-                <td width="80"><?php echo $row["cost_center"]; ?></td>           
-                <td width="150"><?php echo $row_reason["reject_desc"]; ?></td>
-                <td width="200"><textarea name="remark_reject[<?php echo $row["id_disposal"]; ?>]" id="textarea" rows="2" cols="10" maxlength="250"><?php echo $row["remarks"]; ?></textarea>
-               <input name="id_disposal[<?php echo $row["id_disposal"]; ?>]" type="hidden" value="<?php echo $row["id_disposal"]; ?>">
+                <td width="80"><?php echo h($row["cost_center"]); ?></td>           
+                <td width="150"><?php echo h($row_reason["reject_desc"]); ?></td>
+                <td width="200"><textarea name="remark_reject[<?php echo h($row["id_disposal"]); ?>]" id="textarea" rows="2" cols="10" maxlength="250"><?php echo h($row["remarks"]); ?></textarea>
+               <input name="id_disposal[<?php echo h($row["id_disposal"]); ?>]" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
           </td>
       </tr>
     </tbody>        

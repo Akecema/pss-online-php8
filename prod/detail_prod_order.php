@@ -55,7 +55,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -180,8 +180,8 @@ $message = NULL; // create an empty new variable.
          
           <tr bgcolor="#FFB591">
           <td width="63" height="28"><?php echo $no; ?></td>
-          <td width="144">&nbsp;<?php echo $row_scan["material_no"]; ?>   </td>
-          <td width="391">&nbsp;<?php echo $row_scan["prod_order"]; ?></td>
+          <td width="144">&nbsp;<?php echo h($row_scan["material_no"]); ?>   </td>
+          <td width="391">&nbsp;<?php echo h($row_scan["prod_order"]); ?></td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
@@ -211,11 +211,11 @@ $message = NULL; // create an empty new variable.
 
             <tr>
             <td width="63">&nbsp;</td>
-            <td>&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
+            <td>&nbsp;<?php  echo h($row4_p["bill_component"]); ?></td>
             <td>&nbsp;</td>
-            <td width="100"><div align="right"><?php echo $row["bom_qty"]; ?>&nbsp;</div></td>
-            <td width="80"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-            <td width="67" >&nbsp;<font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></td>
+            <td width="100"><div align="right"><?php echo h($row["bom_qty"]); ?>&nbsp;</div></td>
+            <td width="80"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+            <td width="67" >&nbsp;<font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></td>
           </tr>
     
          <?php 

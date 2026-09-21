@@ -44,7 +44,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -257,9 +257,9 @@ echo '<div class="alert alert-error">', $message, '</div>';
 	
 	 if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
-               <option value="<?php echo $row3[2]?>" <?php if($row3[2]==$_POST["id_factory"]) echo "selected"; ?>> <?php echo $row3[1]?></option>
+               <option value="<?php echo h($row3[2])?>" <?php if($row3[2]==$_POST["id_factory"]) echo "selected"; ?>> <?php echo h($row3[1])?></option>
                <?php }else{ ?>
-               <option value="<?php echo $row3[2]?>" > <?php echo stripslashes($row3[1])?></option>
+               <option value="<?php echo h($row3[2])?>" > <?php echo stripslashes($row3[1])?></option>
                <?php } ?>
                <?php
 							}

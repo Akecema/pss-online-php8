@@ -56,7 +56,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -163,7 +163,7 @@ iFid.print();
 				  
 				  
 				  ?>
-                <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                 <?php
                   }
 				?>
@@ -195,7 +195,7 @@ iFid.print();
 			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
-			echo $row_convert["id_fac"];
+			echo h($row_convert["id_fac"]);
 			
 			}
 			
@@ -299,14 +299,14 @@ iFid.print();
 		  ?>
    <tr>
     <td width="143">&nbsp;
-        <?php if($row2["status_view"] == "N") { echo "<b>";  echo $row2["temp_mrin"]."</b>"; } else {  echo $row2["temp_mrin"];  } ?></td>
-    <td width="50">&nbsp;&nbsp;<?php echo $row2["factory"]; ?></td>
-    <td width="50">&nbsp;&nbsp;<?php echo $row2["id_work"]; ?></td>
-    <td width="100">&nbsp;&nbsp;<?php echo $row2["R"]; ?></td>
-    <td width="100">&nbsp;&nbsp;<?php echo $row2["time_require"]; ?></td>
-    <td width="134">&nbsp;&nbsp;<?php echo $data_u["user_fullname"]; ?></td>
-    <td width="60"><a value="Details" href="history_detail_consumable_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=800" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></td>
-    <td width="60"><a href="history_detail_consumable_request_printing.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=800" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print" />Print</a> </td>
+        <?php if($row2["status_view"] == "N") { echo "<b>";  echo $row2["temp_mrin"]."</b>"; } else {  echo h($row2["temp_mrin"]);  } ?></td>
+    <td width="50">&nbsp;&nbsp;<?php echo h($row2["factory"]); ?></td>
+    <td width="50">&nbsp;&nbsp;<?php echo h($row2["id_work"]); ?></td>
+    <td width="100">&nbsp;&nbsp;<?php echo h($row2["R"]); ?></td>
+    <td width="100">&nbsp;&nbsp;<?php echo h($row2["time_require"]); ?></td>
+    <td width="134">&nbsp;&nbsp;<?php echo h($data_u["user_fullname"]); ?></td>
+    <td width="60"><a value="Details" href="history_detail_consumable_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=800" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></td>
+    <td width="60"><a href="history_detail_consumable_request_printing.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=800" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print" />Print</a> </td>
   </tr>
 
 <?php 

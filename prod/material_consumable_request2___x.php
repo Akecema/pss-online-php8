@@ -409,7 +409,7 @@ if (isset($message))
                  <td width="20%">&nbsp;</td>
                </tr>
                <tr>
-                 <td height="19"><input name="user_no" type="hidden" value="<?php echo $data_u["user_no"]; ?>" /></td>
+                 <td height="19"><input name="user_no" type="hidden" value="<?php echo h($data_u["user_no"]); ?>" /></td>
                  <td height="19">&nbsp;</td>
                  <td height="10" colspan="2"><div align="right">
                      <input name="save" type="submit" id="submit" value="+ Add Consumable Item" class="button" onclick="return confirm('Confirm to add request?');" />
@@ -460,17 +460,17 @@ if (isset($message))
              
              <table width="98%" height="26" border="0" cellspacing="2" bgcolor="#eee">
                <tr> 
-                 <td width="21%"><?php echo  $row_data2["material_no"]; ?>
+                 <td width="21%"><?php echo  h($row_data2["material_no"]); ?>
                  
-                  <input name="id_req_con[<?php echo $i; ?>]" type="hidden" value="<?php echo  $row_data2["id_req_con"]; ?>" /></td>
+                  <input name="id_req_con[<?php echo $i; ?>]" type="hidden" value="<?php echo  h($row_data2["id_req_con"]); ?>" /></td>
                 
-                 <td width="21%"><?php echo  $row_con_detail["mat_desc"]; ?></td>
+                 <td width="21%"><?php echo  h($row_con_detail["mat_desc"]); ?></td>
                  <td width="32%"><div align="center">
-                 <input name="con_qty[<?php echo $i; ?>]" type="text" value="<?php  echo $row_data2["con_qty"];   ?>" size="10"/>
+                 <input name="con_qty[<?php echo $i; ?>]" type="text" value="<?php  echo h($row_data2["con_qty"]);   ?>" size="10"/>
                
                  </div></td>
-                 <td width="20%"><div align="center"><?php echo $row_data2["con_uom"]; ?></div></td>
-                 <td width="6%"><div align="center"><a href="delete_consumable_request.php?id_req_con=<?php echo $row_data2["id_req_con"]; ?>&&lastID=<?php echo $lastID; ?>" onclick="return confirm('Are you sure you want to delete?')"><img src="../images/delete.png" width="16" height="16"  /></a></div></td>
+                 <td width="20%"><div align="center"><?php echo h($row_data2["con_uom"]); ?></div></td>
+                 <td width="6%"><div align="center"><a href="delete_consumable_request.php?id_req_con=<?php echo h($row_data2["id_req_con"]); ?>&&lastID=<?php echo $lastID; ?>" onclick="return confirm('Are you sure you want to delete?')"><img src="../images/delete.png" width="16" height="16"  /></a></div></td>
                </tr>
              </table>
              

@@ -353,21 +353,21 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		  ?>        
           <table width="100%" border="0" cellpadding="0" cellspacing="0"  style="border:solid 1px #d5d5d5;">
   <tr>
-    <td width="143">&nbsp;<?php echo $row2["temp_mrin"]; ?><?php if($row2["status_urgent"] == "Y") 
+    <td width="143">&nbsp;<?php echo h($row2["temp_mrin"]); ?><?php if($row2["status_urgent"] == "Y") 
 	{
 	?>
 	<img src="../images/icon-urgent.gif" title="URGENT" />
 	<?php
      }  ?></td>
-    <td width="50"><?php echo $row_scan["factory"]; ?></td>
-     <td width="50" height="28"><?php echo $row_scan["work_center"]; ?></td>
-              <td width="120"><div align="center"><?php echo $row2["R"]; ?></div></td>
-              <td><div align="center"><?php echo $row2["time_mrin"]; ?></div></td>
-              <td width="120"><?php echo $data_u["user_fullname"]; ?></td>
-              <td width="50"><a value="Details" href="close_MRIN_manual.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&user_no=<?php echo $data_u["user_no"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=1000" class="thickbox" target="_self"><img src="../images/exclamation.png" width="16" height="16" alt="View" />Close</a></td>
+    <td width="50"><?php echo h($row_scan["factory"]); ?></td>
+     <td width="50" height="28"><?php echo h($row_scan["work_center"]); ?></td>
+              <td width="120"><div align="center"><?php echo h($row2["R"]); ?></div></td>
+              <td><div align="center"><?php echo h($row2["time_mrin"]); ?></div></td>
+              <td width="120"><?php echo h($data_u["user_fullname"]); ?></td>
+              <td width="50"><a value="Details" href="close_MRIN_manual.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&user_no=<?php echo h($data_u["user_no"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=1000" class="thickbox" target="_self"><img src="../images/exclamation.png" width="16" height="16" alt="View" />Close</a></td>
          
-            <td width="50"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../images/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
-                <td width="50"><a href="detail_material_request_printing.php?mrin_no=<?php echo $row["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../images/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+            <td width="50"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../images/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+                <td width="50"><a href="detail_material_request_printing.php?mrin_no=<?php echo h($row["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../images/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
   </tr>
 </table>    
   <?php 

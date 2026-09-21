@@ -44,7 +44,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -268,7 +268,7 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
         <th><div align="left"><span class="style3">Production Line</span></div></th>
         <th><span class="style3">:</span></th>
         <th><span class="style4">
-          <?php echo $db_rs["work_center"]; ?>
+          <?php echo h($db_rs["work_center"]); ?>
         </span></th>
         </tr>
     </table></td>
@@ -284,12 +284,12 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
       <tr>
         <th width="98" height="28"><div align="left"><span class="style3"> Date</span></div></th>
         <th height="28"><span class="style3">:</span></th>
-        <th height="28"><span class="style3"><?php echo $db_rs["K"]; ?></span></th>
+        <th height="28"><span class="style3"><?php echo h($db_rs["K"]); ?></span></th>
       </tr>
       <tr>
         <th height="28"><div align="left"><span class="style3">Filename</span></div></th>
         <th height="28"><span class="style3">:</span></th>
-        <th height="28"><span class="style3"><?php echo  $data_ftp_pps["file_name"]; ?></span></th>
+        <th height="28"><span class="style3"><?php echo  h($data_ftp_pps["file_name"]); ?></span></th>
       </tr>
     </table></td>
     </tr>
@@ -360,15 +360,15 @@ $rs = mysqli_query($dbc, $queryu);   //run the query.
 		 ?>
         <tr>
           <td width="60" height="28"><?php  echo $no; ?></td>
-          <td width="60" height="28"><?php  echo $row["model_code"]; ?></td>
-          <td width="384"><b><h5><?php  echo $row["material_no"]; ?></h5></b><?php  echo $data_mat_h["material_desc"]; ?></td>
-          <td width="151" height="28"><div align="center"><?php echo $row["plan_no"]; ?></div></td>
-          <td width="93" height="28"><?php  echo $row["T"]; ?></td>
+          <td width="60" height="28"><?php  echo h($row["model_code"]); ?></td>
+          <td width="384"><b><h5><?php  echo h($row["material_no"]); ?></h5></b><?php  echo h($data_mat_h["material_desc"]); ?></td>
+          <td width="151" height="28"><div align="center"><?php echo h($row["plan_no"]); ?></div></td>
+          <td width="93" height="28"><?php  echo h($row["T"]); ?></td>
           <td width="46" height="28"><div align="center"><font color="#FF0000"><?php echo $sta; ?></font></div></td>
-          <td width="46"><div align="center"><?php echo $row["seq_pps"]; ?></div></td>
+          <td width="46"><div align="center"><?php echo h($row["seq_pps"]); ?></div></td>
           <td width="69" height="28"><div align="center"><?php  echo intval($row["qty_plan"]); ?></div></td>
           <td width="55" height="28"><div align="center"><font color="#FF0000">
-            <?php  echo $data_mat_h["BUn"]; ?>
+            <?php  echo h($data_mat_h["BUn"]); ?>
           </font></div></td>
           <td width="90" height="28"> <div align="left">
        <?php

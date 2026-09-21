@@ -58,7 +58,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -648,11 +648,11 @@ if (isset($message))
                <tbody>
                <tr>
                  <td><?php echo $no; ?></td>
-                 <td><?php echo $data_scan["material_no"]; ?></td>
-                 <td><?php echo $data_scan["prod_order"]; ?></td>
-                 <td><?php echo $data_scan["scan_qty"]; ?></td>
-                 <td><?php echo $data_scan["scan_oum"]; ?></td>
-                 <td><?php echo $data_scan["work_center"]; ?></td>
+                 <td><?php echo h($data_scan["material_no"]); ?></td>
+                 <td><?php echo h($data_scan["prod_order"]); ?></td>
+                 <td><?php echo h($data_scan["scan_qty"]); ?></td>
+                 <td><?php echo h($data_scan["scan_oum"]); ?></td>
+                 <td><?php echo h($data_scan["work_center"]); ?></td>
                </tr></tbody>
             </table>
               <p align="center">--------------------------------------------------------------------------------------------------------------------------------------------- </p>
@@ -699,15 +699,15 @@ if (isset($message))
 			   ?>
              
                <tr>
-               <td><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $row["id_dtl"]; ?>" <?=was_checked($row["id_dtl"],$a) ?> />
+               <td><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id_dtl"]); ?>" <?=was_checked($row["id_dtl"],$a) ?> />
              <input type="hidden" name="Check_ctr" value="yes" 
 onClick="Check(document.myform.cancel)">  </div></td>
                <td><?php echo $no2; ?></td>
-               <td><?php echo $row["bill_component"];   ?></td>
-               <td><input name="comp_quantity[<?php echo $row["id_dtl"]; ?>]" type="text" value="<?php if(isset($_POST["comp_quantity"])) { echo $_POST["comp_quantity"][($row["id_dtl"])]; }else{  echo $num_convert;   } ?>" /></td>
-               <td><div align="center"><?php echo $row["comp_unit"];   ?></div></td>
-               <td><div align="center"><?php echo $data_scan["work_center"]; ?></div>
-                  <input name="id_dtl[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id_dtl"]; ?>">
+               <td><?php echo h($row["bill_component"]);   ?></td>
+               <td><input name="comp_quantity[<?php echo h($row["id_dtl"]); ?>]" type="text" value="<?php if(isset($_POST["comp_quantity"])) { echo $_POST["comp_quantity"][($row["id_dtl"])]; }else{  echo $num_convert;   } ?>" /></td>
+               <td><div align="center"><?php echo h($row["comp_unit"]);   ?></div></td>
+               <td><div align="center"><?php echo h($data_scan["work_center"]); ?></div>
+                  <input name="id_dtl[<?php echo $k; ?>]" type="hidden" value="<?php echo h($row["id_dtl"]); ?>">
                   <input name="uid" type="hidden" value="<?php echo h($uid); ?>"></td>
                </tr><?php
 			

@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -723,59 +723,59 @@ if (isset($message))
                  <td width="28%">Material No. <font color="#FF0000">*</font></td>
                  <td width="3%">:</td>
                  <td width="69%">
-                   <input name="material_no" type="text" class="span1"  id="material_no" size="20" maxlength="8" readonly value="<?php echo $row[1]; ?>" />
+                   <input name="material_no" type="text" class="span1"  id="material_no" size="20" maxlength="8" readonly value="<?php echo h($row[1]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Material Desc <font color="#FF0000">*</font></td>
                  <td>:</td>
                  <td>
-                   <input name="material_desc" type="text" class="span1" id="material_desc" size="55" maxlength="100" value="<?php echo $row[2]; ?>" />
+                   <input name="material_desc" type="text" class="span1" id="material_desc" size="55" maxlength="100" value="<?php echo h($row[2]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Material Type <font color="#FF0000">*</font></td>
                  <td>:</td>
                  <td>
-         <input name="material_type" type="text" class="span1" id="material_type" size="20" maxlength="20" value="<?php echo $row[3]; ?>" />
+         <input name="material_type" type="text" class="span1" id="material_type" size="20" maxlength="20" value="<?php echo h($row[3]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Material Group</td>
                  <td>:</td>
                  
-                 <td><input name="material_group" type="text" class="span1" id="material_group" size="20" maxlength="20" value="<?php echo $row[4]; ?>" /></td>
+                 <td><input name="material_group" type="text" class="span1" id="material_group" size="20" maxlength="20" value="<?php echo h($row[4]); ?>" /></td>
                </tr>
                <tr>
                  <td>Plant <font color="#FF0000">*</font></td>
                  <td>:</td>
-                 <td><input name="plant" type="text" class="span1" id="plant" size="20" maxlength="20" value="<?php echo $row[5]; ?>" />
+                 <td><input name="plant" type="text" class="span1" id="plant" size="20" maxlength="20" value="<?php echo h($row[5]); ?>" />
                   <font color="#006699"> </font></td>
                </tr>
                <tr>
                  <td>BOM <font color="#FF0000">*</font></td>
                  <td>:</td>
-                 <td><input name="bom" type="text" class="span1" id="bom" size="20" maxlength="20" value="<?php echo $row[7]; ?>" /></td>
+                 <td><input name="bom" type="text" class="span1" id="bom" size="20" maxlength="20" value="<?php echo h($row[7]); ?>" /></td>
                </tr>
                <tr>
                  <td>Alternative BOM</td>
                  <td>:</td>
                  <td>
-         <input name="alternative_bom" type="text" class="span1" id="alternative_bom" size="20" maxlength="20" value="<?php echo $row[8]; ?>" />
+         <input name="alternative_bom" type="text" class="span1" id="alternative_bom" size="20" maxlength="20" value="<?php echo h($row[8]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td height="25">BOM Usage <font color="#FF0000">*</font></td>
                  <td height="25">:</td>
                  <td height="25">
-                   <input name="bom_usage" type="text" class="span1" id="bom_usage" size="20" maxlength="20" value="<?php echo $row[6]; ?>" />
+                   <input name="bom_usage" type="text" class="span1" id="bom_usage" size="20" maxlength="20" value="<?php echo h($row[6]); ?>" />
                </td>
                </tr>
                <tr>
                  <td height="25">UoM</td>
                  <td height="25">:</td>
                  <td height="25">
-                   <input name="BUn" type="text" class="span1" id="BUn" size="20" maxlength="20" value="<?php echo $row[9]; ?>" /></td>
+                   <input name="BUn" type="text" class="span1" id="BUn" size="20" maxlength="20" value="<?php echo h($row[9]); ?>" /></td>
                </tr>
                <tr>
                  <td height="25">Date Created</td>
@@ -821,27 +821,27 @@ if (isset($message))
                <tr>
                  <td height="25">Standard Packaging <font color="#FF0000">*</font></td>
                  <td height="25">:</td>
-                 <td height="25"><input name="std_package" id="std_package" type="number" min="0" class="span1" value="<?php echo $row[13]; ?>" ></td>
+                 <td height="25"><input name="std_package" id="std_package" type="number" min="0" class="span1" value="<?php echo h($row[13]); ?>" ></td>
                </tr>
                <tr>
                  <td height="25">Type of package</td>
                  <td height="25">:</td>
-                 <td height="25"><input name="type_package" type="text" class="span1" id="type_package" size="20" maxlength="20" value="<?php echo $row[14]; ?>" /></td>
+                 <td height="25"><input name="type_package" type="text" class="span1" id="type_package" size="20" maxlength="20" value="<?php echo h($row[14]); ?>" /></td>
                </tr>
                <tr>
                  <td height="25">Location Deliver</td>
                  <td height="25">:</td>
-                 <td height="25"><input name="location_deliver" type="text" class="span1" id="location_deliver" size="20" maxlength="20" value="<?php echo $row[15]; ?>" /></td>
+                 <td height="25"><input name="location_deliver" type="text" class="span1" id="location_deliver" size="20" maxlength="20" value="<?php echo h($row[15]); ?>" /></td>
                </tr>
                <tr>
                  <td height="25">Station Deliver</td>
                  <td height="25">:</td>
-                 <td height="25"><input name="station_deliver" type="text" class="span1" id="station_deliver" size="20" maxlength="20" value="<?php echo $row[16]; ?>" /></td>
+                 <td height="25"><input name="station_deliver" type="text" class="span1" id="station_deliver" size="20" maxlength="20" value="<?php echo h($row[16]); ?>" /></td>
                </tr>
                <tr>
                  <td height="25">Received Point</td>
                  <td height="25">:</td>
-                 <td height="25"><input name="rcv_point" type="text" class="span1" id="rcv_point" size="20" maxlength="20" value="<?php echo $row[17]; ?>" /></td>
+                 <td height="25"><input name="rcv_point" type="text" class="span1" id="rcv_point" size="20" maxlength="20" value="<?php echo h($row[17]); ?>" /></td>
                </tr>
                <tr>
                  <td height="25">Part of Side <font color="#FF0000">*</font></td>
@@ -890,82 +890,82 @@ if (isset($message))
                  <td width="28%">Component <font color="#FF0000">*</font></td>
                  <td width="3%" height="25">:</td>
                  <td width="69%" height="25">
-                   <input name="bill_component[<?php echo $i; ?>]" type="text" id="bill_component" size="20" maxlength="8" readonly value="<?php echo $row2["bill_component"];   ?>" />
+                   <input name="bill_component[<?php echo $i; ?>]" type="text" id="bill_component" size="20" maxlength="8" readonly value="<?php echo h($row2["bill_component"]);   ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Component Description <font color="#FF0000">*</font></td>
                  <td>:</td>
                  <td>
-                   <input name="material_desc_c[<?php echo $i; ?>]" type="text"  class="span1" id="material_desc_c" size="55" maxlength="100" value="<?php echo $row2["material_desc_c"]; ?>" />
+                   <input name="material_desc_c[<?php echo $i; ?>]" type="text"  class="span1" id="material_desc_c" size="55" maxlength="100" value="<?php echo h($row2["material_desc_c"]); ?>" />
                 </td>
                </tr>
                         <tr>
                  <td>Material Type <font color="#FF0000">*</font></td>
                  <td>:</td>
                  <td>
-         <input name="mat_type_c[<?php echo $i; ?>]" type="text"  class="span1" id="mat_type_c" size="20" maxlength="20" value="<?php echo $row2["mat_type"]; ?>" />
+         <input name="mat_type_c[<?php echo $i; ?>]" type="text"  class="span1" id="mat_type_c" size="20" maxlength="20" value="<?php echo h($row2["mat_type"]); ?>" />
                  </td>
                </tr>
                
                <tr>
                  <td>Material Group</td>
                  <td>:</td>
-                 <td><input name="matl_group[<?php echo $i; ?>]" type="text"  class="span1" id="matl_group" size="20" maxlength="20" value="<?php echo $row2["matl_group"]; ?>" /></td>
+                 <td><input name="matl_group[<?php echo $i; ?>]" type="text"  class="span1" id="matl_group" size="20" maxlength="20" value="<?php echo h($row2["matl_group"]); ?>" /></td>
                </tr>
       
                <tr>
                  <td>Plant <font color="#FF0000">*</font></td>
                  <td>:</td>
-                 <td><input name="plant_c[<?php echo $i; ?>]" type="text"  class="span1" id="plant_c" size="20" maxlength="20" value="<?php echo $row2["plant"]; ?>" />
+                 <td><input name="plant_c[<?php echo $i; ?>]" type="text"  class="span1" id="plant_c" size="20" maxlength="20" value="<?php echo h($row2["plant"]); ?>" />
                </td>
                </tr>
                <tr>
                  <td>BOM <font color="#FF0000">*</font></td>
                  <td>:</td>
-                 <td><input name="bom_c[<?php echo $i; ?>]" type="text"  class="span1" id="bom_c" size="20" maxlength="20" value="<?php echo $row2["bom"]; ?>" />
+                 <td><input name="bom_c[<?php echo $i; ?>]" type="text"  class="span1" id="bom_c" size="20" maxlength="20" value="<?php echo h($row2["bom"]); ?>" />
                 </td>
                </tr>
                <tr>
                  <td>Alternative BOM</td>
                  <td>:</td>
                  <td>
-         <input name="alternative_bom_c[<?php echo $i; ?>]" type="text"  class="span1" id="alternative_bom_c" size="20" maxlength="20" value="<?php echo $row2["alternative_bom"]; ?>" />
+         <input name="alternative_bom_c[<?php echo $i; ?>]" type="text"  class="span1" id="alternative_bom_c" size="20" maxlength="20" value="<?php echo h($row2["alternative_bom"]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Consumption <font color="#FF0000">*</font></td>
                  <td>:</td>
                  <td>
-                   <input name="consumption[<?php echo $i; ?>]" type="text" class="span1" id="consumption" size="20" maxlength="20" value="<?php echo $row2["consumption"]; ?>" />
+                   <input name="consumption[<?php echo $i; ?>]" type="text" class="span1" id="consumption" size="20" maxlength="20" value="<?php echo h($row2["consumption"]); ?>" />
                 </td>
                </tr>
                <tr>
                  <td>UoM</td>
                  <td>:</td>
                  <td>
-                   <input name="comp_unit[<?php echo $i; ?>]" type="text" class="span1" id="comp_unit" size="20" maxlength="20" value="<?php echo $row2["comp_unit"]; ?>" />
+                   <input name="comp_unit[<?php echo $i; ?>]" type="text" class="span1" id="comp_unit" size="20" maxlength="20" value="<?php echo h($row2["comp_unit"]); ?>" />
                  </td>
                </tr>
                     <tr>
                  <td>SLoc</td>
                  <td>:</td>
                  <td>
-                   <input name="sloc[<?php echo $i; ?>]" type="text" class="span1" id="sloc" size="20" maxlength="20" value="<?php echo $row2["sloc"]; ?>" />
+                   <input name="sloc[<?php echo $i; ?>]" type="text" class="span1" id="sloc" size="20" maxlength="20" value="<?php echo h($row2["sloc"]); ?>" />
                  </td>
                </tr>
                  <tr>
                  <td>IsLoc</td>
                  <td>:</td>
                  <td>
-                   <input name="isloc[<?php echo $i; ?>]" type="text" class="span1" id="isloc" size="20" maxlength="20" value="<?php echo $row2["isloc"]; ?>" />
+                   <input name="isloc[<?php echo $i; ?>]" type="text" class="span1" id="isloc" size="20" maxlength="20" value="<?php echo h($row2["isloc"]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Valid From</td>
                  <td>:</td>
                  <td>
-              <input name="date3[<?php echo $i; ?>]" type="text" class="span1" id="date3" size="20" maxlength="20" value="<?php echo $row2["valid_from"]; ?>" />   
+              <input name="date3[<?php echo $i; ?>]" type="text" class="span1" id="date3" size="20" maxlength="20" value="<?php echo h($row2["valid_from"]); ?>" />   
                  <?php
     
 	/*$dt3 = substr($row2["valid_from"],8,2);
@@ -997,7 +997,7 @@ if (isset($message))
                  <td>Date BOM Created</td>
                  <td>:</td>
                  <td>
-                  <input name="date4[<?php echo $i; ?>]" type="text" class="span1" id="date4" size="20" maxlength="20" value="<?php echo $row2["date_create_bom"]; ?>" />
+                  <input name="date4[<?php echo $i; ?>]" type="text" class="span1" id="date4" size="20" maxlength="20" value="<?php echo h($row2["date_create_bom"]); ?>" />
             
         
                   <?php
@@ -1037,13 +1037,13 @@ if (isset($message))
                  <td>Status BOM <font color="#FF0000">*</font></td>
                  <td>:</td>
                  <td><select name="bom_status[<?php echo $i; ?>]"  class="span1">
-                      <option value ="<?php  echo $row2["bom_status"]; ?>" ><?php  echo $sts; ?></option>
+                      <option value ="<?php  echo h($row2["bom_status"]); ?>" ><?php  echo $sts; ?></option>
                       <option value="Y" class="title">Active</option>
                       <option value="N" class="title">Inactive</option>
                           </select></td>
                </tr>
                <tr>
-                 <td>&nbsp; <input type="hidden" name="id_dtl[<?php echo $i; ?>]" id="id_dtl" value="<?php echo $row2["id_dtl"]; ?>"></td>
+                 <td>&nbsp; <input type="hidden" name="id_dtl[<?php echo $i; ?>]" id="id_dtl" value="<?php echo h($row2["id_dtl"]); ?>"></td>
                  <td>&nbsp;</td>
                  <td>&nbsp;</td>
                </tr>

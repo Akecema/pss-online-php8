@@ -93,7 +93,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -319,20 +319,20 @@ if (isset($message))
           <th width="30%"><?php echo $doc_tp; ?></th>
           <th width="18%">Plant</th>
           <th width="3%">:</th>
-          <th width="25%"><?php echo $data_2["plan_code"];  ?></th>
+          <th width="25%"><?php echo h($data_2["plan_code"]);  ?></th>
         </tr>
         <tr>
           <th>Posting Date &amp; Time</th>
           <th>:</th>
-          <th><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["posting_time"]; ?></th>
+          <th><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["posting_time"]); ?></th>
           <th>Shift</th>
           <th>:</th>
-          <th>&nbsp;<?php echo $data_2["shift_day"]; ?></th>
+          <th>&nbsp;<?php echo h($data_2["shift_day"]); ?></th>
         </tr>
         <tr>
           <th>Prepared  by</th>
           <th>:</th>
-          <th><?php echo $data_2["prepared_by"]; ?></th>
+          <th><?php echo h($data_2["prepared_by"]); ?></th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
@@ -370,16 +370,16 @@ if (isset($message))
 		 ?>
 
                <tr>
-                <td width="100"><?php echo $row["item_no"]; ?></td>
-                <td width="122"><?php echo $row["material_no"]; ?></td>
-                <td width="122"><?php echo $row["material_desc"]; ?></td>
-                <td width="122"><?php echo $row["qty_tp"]; ?></td>
-                <td width="45"><div align="center"><?php echo $row["uom"]; ?></div></td>
-                <td width="140"><div align="center"><?php echo $row["vendor_no"]; ?></div></td>
-                <td width="55"><div align="center"><?php echo $row["sloc_from"]; ?></div></td>
-                <td width="55"><div align="center"><?php echo $row["sloc_to"]; ?></div> 
+                <td width="100"><?php echo h($row["item_no"]); ?></td>
+                <td width="122"><?php echo h($row["material_no"]); ?></td>
+                <td width="122"><?php echo h($row["material_desc"]); ?></td>
+                <td width="122"><?php echo h($row["qty_tp"]); ?></td>
+                <td width="45"><div align="center"><?php echo h($row["uom"]); ?></div></td>
+                <td width="140"><div align="center"><?php echo h($row["vendor_no"]); ?></div></td>
+                <td width="55"><div align="center"><?php echo h($row["sloc_from"]); ?></div></td>
+                <td width="55"><div align="center"><?php echo h($row["sloc_to"]); ?></div> 
                 <input name="doc_tp" type="hidden" value="<?php echo $doc_tp; ?> ">
-                <input name="id_tp" type="hidden" value="<?php echo $row["id_tp"]; ?> "></td> 
+                <input name="id_tp" type="hidden" value="<?php echo h($row["id_tp"]); ?> "></td> 
                 </tr>
             <?php 
 		 

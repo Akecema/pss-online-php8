@@ -57,7 +57,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -209,8 +209,8 @@ function getXMLHTTP() { //fuction to return the xml http object
 				  
 				  
 				  ?>
-                      <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> 
-					  <?php echo $row3[1]; ?></option>
+                      <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> 
+					  <?php echo h($row3[1]); ?></option>
                                  
                  <?php
                   }
@@ -228,7 +228,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -263,7 +263,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
-			echo $row_convert["id_fac"];
+			echo h($row_convert["id_fac"]);
 			
 			}
 			
@@ -400,10 +400,10 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 	while($row_tp = mysqli_fetch_assoc($result_tp))
 {
     
-	/*echo $row_tp["material_no"]; echo ":";
-	echo $row_tp["TOT"];
-	echo $row2["bom_qty"]; echo "<br>";
-	echo $row_tp["id_post"];
+	/*echo h($row_tp["material_no"]); echo ":";
+	echo h($row_tp["TOT"]);
+	echo h($row2["bom_qty"]); echo "<br>";
+	echo h($row_tp["id_post"]);
 	*/	
 	$tp_quantity = $row_tp["TOT"]; 
 	
@@ -460,17 +460,17 @@ $rs = mysqli_query($dbc, $query);   //run the query.
 		  ?>        
 <!--      <tbody> -->  
   <tr>
-    <td width="143">&nbsp;<?php echo $row2["temp_mrin"]; ?><?php if($row2["status_urgent"] == "Y") 
+    <td width="143">&nbsp;<?php echo h($row2["temp_mrin"]); ?><?php if($row2["status_urgent"] == "Y") 
 	{
 	?>
 		<img src="../img/icon-urgent.gif" title="URGENT" />
 	<?php
      }  ?></td>
-     <td width="50"><div align="center"><?php echo $row_scan["factory"]; ?></div></td>
-     <td width="50"><?php echo $row_scan["work_center"]; ?></td>
-     <td width="100"><?php echo $row2["R"]; ?>&nbsp;</td>
-     <td width="80"><?php echo $row2["time_mrin"]; ?></td>
-     <td width="110"><?php echo $data_u["user_fullname"]; ?></td>
+     <td width="50"><div align="center"><?php echo h($row_scan["factory"]); ?></div></td>
+     <td width="50"><?php echo h($row_scan["work_center"]); ?></td>
+     <td width="100"><?php echo h($row2["R"]); ?>&nbsp;</td>
+     <td width="80"><?php echo h($row2["time_mrin"]); ?></td>
+     <td width="110"><?php echo h($data_u["user_fullname"]); ?></td>
      <td width="40"><div align="center">
                <?php
 
@@ -511,8 +511,8 @@ elseif($curr_time >= $plus_20)
 	?>
            </div></td>
 	
-              <td width="50"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
-                <td width="50"><a href="detail_material_request_printing.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+              <td width="50"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+                <td width="50"><a href="detail_material_request_printing.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
   </tr>
    
   <?php 

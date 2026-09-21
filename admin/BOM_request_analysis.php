@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>I<?php echo $data_setup["title_desc"]; ?></title>
+<title>I<?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -189,15 +189,15 @@ $rs = mysqli_query($dbc, $query);   //run the query.
       ?>
            
                 <tr class="gradeX">
-                <td><?php //echo $no; ?><?php  echo $row2["id_dtl"]; ?></td>
-                <td>&nbsp;<?php  echo $row2["material"]; ?></td>
-                <td><?php  echo $row2["bill_component"]; ?></td>
-                <td><?php echo $row2["plant"]; ?></td>
-                <td><?php echo $row2["comp_unit"]; ?></td>
-                <td><a value="Details" href="material_master_view.php?id_hdr=<?php echo $row2["id_hdr"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></td>
+                <td><?php //echo $no; ?><?php  echo h($row2["id_dtl"]); ?></td>
+                <td>&nbsp;<?php  echo h($row2["material"]); ?></td>
+                <td><?php  echo h($row2["bill_component"]); ?></td>
+                <td><?php echo h($row2["plant"]); ?></td>
+                <td><?php echo h($row2["comp_unit"]); ?></td>
+                <td><a value="Details" href="material_master_view.php?id_hdr=<?php echo h($row2["id_hdr"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></td>
                 </tr>
        
-            <input name="id_hdr[<?php echo $i; ?>]" type="hidden" value="<?php echo $row2["id_hdr"]; ?>">
+            <input name="id_hdr[<?php echo $i; ?>]" type="hidden" value="<?php echo h($row2["id_hdr"]); ?>">
           <?php 		 
 		 $i++;
 		 $counter++; // menambah counter 

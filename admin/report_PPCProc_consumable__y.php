@@ -156,7 +156,7 @@ $year = $today['year'];
 				  
 				  
 				  ?>
-                <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                 <?php
                   }
 				?>
@@ -200,7 +200,7 @@ $year = $today['year'];
 			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
-			echo $row_convert["id_fac"];
+			echo h($row_convert["id_fac"]);
 			
 			}
 			
@@ -321,14 +321,14 @@ $since_start = $start_date->diff(new DateTime($date_transfer));
 		  ?>        
        
     <tr>
-    <td width="143">&nbsp;<?php echo $row["temp_mrin"]; ?></td>
-    <td width="50"><div align="center"><?php echo $row["factory"]; ?></div></td>
-    <td width="50" ><div align="center"><?php echo $row2["id_work"]; ?></div></td>
-    <td width="100"><div align="center"><?php echo $row2["R"]; ?></div></td>
-    <td width="100"><div align="center"><?php echo $row2["time_require"]; ?></div></td>
-    <td width="134"><?php echo $data_u["user_fullname"]; ?></td>
-    <td width="48"><a value="Details" href="detail_consumable_request.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
-    <td width="55"><a href="detail_consumable_request_printing.php?mrin_no=<?php echo $row["temp_mrin"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+    <td width="143">&nbsp;<?php echo h($row["temp_mrin"]); ?></td>
+    <td width="50"><div align="center"><?php echo h($row["factory"]); ?></div></td>
+    <td width="50" ><div align="center"><?php echo h($row2["id_work"]); ?></div></td>
+    <td width="100"><div align="center"><?php echo h($row2["R"]); ?></div></td>
+    <td width="100"><div align="center"><?php echo h($row2["time_require"]); ?></div></td>
+    <td width="134"><?php echo h($data_u["user_fullname"]); ?></td>
+    <td width="48"><a value="Details" href="detail_consumable_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+    <td width="55"><a href="detail_consumable_request_printing.php?mrin_no=<?php echo h($row["temp_mrin"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
   </tr>
 
   <?php 

@@ -72,7 +72,7 @@ $rst_sta4 = mysqli_fetch_array($sta_res4);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -272,7 +272,7 @@ $message = NULL; // create an empty new variable.
        for ($i=0; $i<$how_many; $i++) { 
 		   			
 	
-	   // echo $cancel[$i];  
+	   // echo h($cancel[$i]);  
 	   
 	
    //------------update status reject detail disposal-------------------
@@ -296,7 +296,7 @@ $message = NULL; // create an empty new variable.
   
   //
 	  
-	// echo  $row_data_return["uid"];
+	// echo  h($row_data_return["uid"]);
 	 
 	 //----------update status_disposal = "Cancelled" wastage_transaction -------------
   
@@ -351,15 +351,15 @@ if (isset($message))
     <table width="98%"  class="table table-bordered">
       <tr>
         <td width="35%">Disposal No.</td>
-        <td width="35%"><?php echo $row_disposal["doc_disposal_no"];  ?></td>
+        <td width="35%"><?php echo h($row_disposal["doc_disposal_no"]);  ?></td>
         </tr>
       <tr>
         <td>Document Date</td>
-        <td><?php echo $row_disposal["W"];  ?></td>
+        <td><?php echo h($row_disposal["W"]);  ?></td>
         </tr>
       <tr>
         <td>Status</td>
-        <td><?php echo $row_disposal["status_disposal"];  ?></td>
+        <td><?php echo h($row_disposal["status_disposal"]);  ?></td>
       </tr>
       </table></td>
   </tr>
@@ -412,20 +412,20 @@ if (isset($message))
 
 <tr>
                 <td width="40" height="28"><div align="center">
-        <input type="hidden" name="cancel[]" value="<?php echo $row["id_disposal"]; ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
-onClick="Check(document.myform.cancel)"> <?php  echo $row["id_disposal"]; ?></div></td>
-                <td width="80"><?php  echo $row["model_code"]; ?></td>
-                <td width="100"><?php echo $row["material_no"]; ?>&nbsp;</td>
-                <td width="100"><?php echo $row_type["wastage_desc"]; ?></td>
-                <td width="100"><?php echo $row["R2"]; ?></td>
+        <input type="hidden" name="cancel[]" value="<?php echo h($row["id_disposal"]); ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+onClick="Check(document.myform.cancel)"> <?php  echo h($row["id_disposal"]); ?></div></td>
+                <td width="80"><?php  echo h($row["model_code"]); ?></td>
+                <td width="100"><?php echo h($row["material_no"]); ?>&nbsp;</td>
+                <td width="100"><?php echo h($row_type["wastage_desc"]); ?></td>
+                <td width="100"><?php echo h($row["R2"]); ?></td>
                 <td width="100"><input name="qty_wastage" type="text" readonly value="<?php echo intval($row["qty_wastage"]); ?>"  class="span2"/></td>
-                <td width="80"><?php echo $row["UOM_unit"]; ?></td>
-                <td width="80"><?php echo $row["ploc_prod_reject"]; ?></td>
-                 <td width="80"><?php echo $row["cost_center"]; ?></td>                  
-                <td width="150"><?php echo $row_reason["reason_wastage_desc"]; ?></td>
-                <td width="200"><?php echo $row["remarks"]; ?>
-               <input name="id_disposal[<?php echo $row["id_disposal"]; ?>]" type="hidden" value="<?php echo $row["id_disposal"]; ?>">
-                <input name="doc_disposal" type="hidden" value="<?php echo $row["doc_disposal_no"]; ?>">
+                <td width="80"><?php echo h($row["UOM_unit"]); ?></td>
+                <td width="80"><?php echo h($row["ploc_prod_reject"]); ?></td>
+                 <td width="80"><?php echo h($row["cost_center"]); ?></td>                  
+                <td width="150"><?php echo h($row_reason["reason_wastage_desc"]); ?></td>
+                <td width="200"><?php echo h($row["remarks"]); ?>
+               <input name="id_disposal[<?php echo h($row["id_disposal"]); ?>]" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
+                <input name="doc_disposal" type="hidden" value="<?php echo h($row["doc_disposal_no"]); ?>">
           </td>
       </tr>
     </tbody>        

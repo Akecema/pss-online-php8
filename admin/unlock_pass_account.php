@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -224,14 +224,14 @@ if (isset($message))
                  <td>Staff ID </td>
                  <td>:</td>
                  <td>
-                   <input name="user_id" type="text" id="user_id" size="20" maxlength="20" readonly value="<?php echo $row[2]; ?>" />
+                   <input name="user_id" type="text" id="user_id" size="20" maxlength="20" readonly value="<?php echo h($row[2]); ?>" />
                  </td>
                </tr>
                  <tr>
                  <td height="25">Name </td>
                  <td height="25">:</td>
                  <td height="25">
-         <input name="user_fullname" type="text" class="span11" id="user_fullname" size="55" maxlength="100" readonly value="<?php echo $row[5]; ?>" />
+         <input name="user_fullname" type="text" class="span11" id="user_fullname" size="55" maxlength="100" readonly value="<?php echo h($row[5]); ?>" />
                 </td>
                </tr>
                <?php
@@ -248,7 +248,7 @@ if (isset($message))
                  <td>Status Account *</td>
                  <td>:</td>
                  <td><select name="status_failed"  class="span1">
-	  <option value ="<?php  echo $row[20]; ?>" ><?php  echo $sts; ?></option>
+	  <option value ="<?php  echo h($row[20]); ?>" ><?php  echo $sts; ?></option>
 	  <option value="Y">LOCK</option>
 	  <option value="N">UNLOCK</option>
 	      </select>
@@ -257,7 +257,7 @@ if (isset($message))
                 <tr>
                  <td>Date Lock Access</td>
                  <td>:</td>
-                 <td><?php  echo $row[21]; ?></td>
+                 <td><?php  echo h($row[21]); ?></td>
                </tr>
                <tr>
                  <td>&nbsp;</td>
@@ -275,7 +275,7 @@ if (isset($message))
            
           <input name="submit" type="submit"  id="submit" value="UPDATE" class="btn btn-success">
           <input name="Reset" type="reset" id="Reset" value="CLEAR" class="btn btn-danger">
-          <input type="hidden" name="user_no" id="user_no" value="<?php echo $row[0]; ?>">
+          <input type="hidden" name="user_no" id="user_no" value="<?php echo h($row[0]); ?>">
      
            
           </form>

@@ -77,7 +77,7 @@ $rst_sta15 = mysqli_fetch_array($sta_res15);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -306,7 +306,7 @@ return "";
                 while($row3 = mysqli_fetch_array($result3)) 
                 {
 				?>
-                <option value="<?php echo $row3['factory_desc2']?>" <?php if($row3['factory_desc2']=='1') echo "selected"; ?>> <?php echo $row3['factory_desc'] ?> </option>
+                <option value="<?php echo h($row3['factory_desc2'])?>" <?php if($row3['factory_desc2']=='1') echo "selected"; ?>> <?php echo h($row3['factory_desc']) ?> </option>
                 <!--echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';-->
                 <?php
                 }
@@ -328,7 +328,7 @@ return "";
                 while($row31 = mysqli_fetch_array($result31)) 
                 {
 				?>
-                <option value="<?php echo $row31['id_work']?>"> <?php echo $row31['wc_desc'] ?> </option>
+                <option value="<?php echo h($row31['id_work'])?>"> <?php echo h($row31['wc_desc']) ?> </option>
                 <!--echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';-->
                 <?php
                 }
@@ -348,7 +348,7 @@ return "";
 						while($rowd = mysqli_fetch_assoc($resultsd))
 						{
 						?>
-                  <option value="<?php echo $rowd['doc_disposal_no']?>"> <?php echo $rowd['doc_disposal_no']?></option>
+                  <option value="<?php echo h($rowd['doc_disposal_no'])?>"> <?php echo h($rowd['doc_disposal_no'])?></option>
                   <?php
 						}
 					  ?>
@@ -366,7 +366,7 @@ return "";
 					while($rowd2 = mysqli_fetch_assoc($resultsd2))
 					{
 					?>
-                  <option value="<?php echo $rowd2['doc_disposal_no']?>"> <?php echo $rowd2['doc_disposal_no']?></option>
+                  <option value="<?php echo h($rowd2['doc_disposal_no'])?>"> <?php echo h($rowd2['doc_disposal_no'])?></option>
                   <?php
 						}
 					  ?>

@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -237,21 +237,21 @@ if (isset($message))
                  <td width="24%" height="25">Material No. *</td>
                  <td width="2%" height="25">:</td>
                  <td width="74%" height="25">
-                   <input name="material_no" type="text" id="material_no" size="20" maxlength="8" readonly value="<?php echo $row[1]; ?>" />
+                   <input name="material_no" type="text" id="material_no" size="20" maxlength="8" readonly value="<?php echo h($row[1]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td height="25">Material  Desc</td>
                  <td height="25">:</td>
                  <td height="25">
-                   <input name="mat_desc" type="text" class="textbox" id="mat_desc" size="55" maxlength="100" value="<?php echo $row[2]; ?>" />
+                   <input name="mat_desc" type="text" class="textbox" id="mat_desc" size="55" maxlength="100" value="<?php echo h($row[2]); ?>" />
                  </td>
                </tr>
                         <tr>
                  <td height="25">Plant Code *</td>
                  <td height="25">:</td>
                  <td height="25">
-         <input name="plant" type="text" class="textbox" id="plant" size="20" maxlength="20" value="<?php echo $row[5]; ?>" />
+         <input name="plant" type="text" class="textbox" id="plant" size="20" maxlength="20" value="<?php echo h($row[5]); ?>" />
                 </td>
                </tr>
                
@@ -259,7 +259,7 @@ if (isset($message))
                  <td height="25">Cost Center *</td>
                  <td height="25">:</td>
                  
-                 <td height="25"><input name="cost_center" type="text" class="textbox" id="cost_center" size="20" maxlength="30" value="<?php echo $row[4]; ?>" /></td>
+                 <td height="25"><input name="cost_center" type="text" class="textbox" id="cost_center" size="20" maxlength="30" value="<?php echo h($row[4]); ?>" /></td>
                </tr>
       
                <tr>
@@ -275,7 +275,7 @@ if (isset($message))
                           while($row7 = mysqli_fetch_array($result7, MYSQLI_NUM)) 
 			             {
 					      ?>
-                         <option value="<?php echo $row7[0]; ?>" <?php if($row7[0] == $row[3]) echo "selected"; ?>> <?php echo $row7[0]; ?></option>    
+                         <option value="<?php echo h($row7[0]); ?>" <?php if($row7[0] == $row[3]) echo "selected"; ?>> <?php echo h($row7[0]); ?></option>    
                           <?php
                            }
 				           ?>

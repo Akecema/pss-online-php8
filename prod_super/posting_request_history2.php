@@ -57,7 +57,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -217,7 +217,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				  
 				  
 				  ?>
-                <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                 <?php
                   }
 				?>
@@ -234,7 +234,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -265,7 +265,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 			while ($row_convert = mysqli_fetch_array($result_convert))
 			{
 			
-			echo $row_convert["id_fac"];
+			echo h($row_convert["id_fac"]);
 			
 			}
 			
@@ -408,19 +408,19 @@ $since_start = $start_date->diff(new DateTime($date_transfer));
 		  ?>        
           
     <tr>
-    <td>&nbsp;<?php echo $row["temp_mrin"]; ?><?php if($row2["status_urgent"] == "Y") 
+    <td>&nbsp;<?php echo h($row["temp_mrin"]); ?><?php if($row2["status_urgent"] == "Y") 
 	{
 	?>
 	<img src="../img/icon-urgent.gif" title="URGENT" />
 	<?php
      }  ?></td>
-    <td width="50"><div align="center"><?php echo $row_scan["factory"]; ?></div></td>
-    <td width="50"><div align="center"><?php echo $row_scan["work_center"]; ?></div></td>
-    <td width="100"><div align="center"><?php echo $row2["R"]; ?></div></td>
-    <td width="100"><div align="center"><?php echo $row2["time_mrin"]; ?></div></td>
-    <td width="134"><?php echo $data_u["user_fullname"]; ?></td>
-    <td width="48"><a value="Details" href="detail_material_request_history.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
-    <td width="55"><a href="detail_material_request_history_printing.php?mrin_no=<?php echo $row2["temp_mrin"]; ?>&&prod_order=<?php echo $row2["prod_order"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+    <td width="50"><div align="center"><?php echo h($row_scan["factory"]); ?></div></td>
+    <td width="50"><div align="center"><?php echo h($row_scan["work_center"]); ?></div></td>
+    <td width="100"><div align="center"><?php echo h($row2["R"]); ?></div></td>
+    <td width="100"><div align="center"><?php echo h($row2["time_mrin"]); ?></div></td>
+    <td width="134"><?php echo h($data_u["user_fullname"]); ?></td>
+    <td width="48"><a value="Details" href="detail_material_request_history.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+    <td width="55"><a href="detail_material_request_history_printing.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
   </tr>
 
    

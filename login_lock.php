@@ -29,7 +29,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <html lang="en">
 <head>
 
-        <title><?php echo $data_setup["title_desc"]; ?></title>
+        <title><?php echo h($data_setup["title_desc"]); ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="img/favicon.ico">
@@ -43,7 +43,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 		<script type="text/javascript" src="javascript/thickbox.js"></script>	
 		<script language="javascript">
 
- defaultStatus = "MRIN Online  <?php echo $data_setup['title_desc']; ?>"
+ defaultStatus = "MRIN Online  <?php echo h($data_setup['title_desc']); ?>"
  function show ( text )
  {
   window.status=text;

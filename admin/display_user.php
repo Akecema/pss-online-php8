@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -188,9 +188,9 @@ $num = mysqli_num_rows($rs);   //how many material are there?
            
                 <tr class="gradeX">
                 <td width="80"><?php echo $no; ?></td>
-                <td><?php echo $row[5]; ?></td>
-                <td width="140" height="28"><?php echo $row[2]; ?></td>
-                <!--<td width="124" height="28"><?php  echo $row4_p["desc_level"]; ?></td>-->
+                <td><?php echo h($row[5]); ?></td>
+                <td width="140" height="28"><?php echo h($row[2]); ?></td>
+                <!--<td width="124" height="28"><?php  echo h($row4_p["desc_level"]); ?></td>-->
                 <td width="100"><font color="#FF0000"><?php echo $sts; ?></font></td>
                 <td width="100"><a value="Details" href="detail_user.php?user_no=<?php echo $user_no; ?>&&TB_iframe=true&height=400&width=650" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
                 <td width="100">&nbsp; <a value="Edit" href="user_edit.php?user_no=<?php echo $user_no; ?>&&TB_iframe=true&height=400&width=650" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit">Edit</a></td>

@@ -179,14 +179,14 @@ $(document).ready(function () {
     <td><table width="238" border="0" cellpadding="0" cellspacing="1">
       <tr>
         <td><div align="left">User :</div></td>
-        <td><div align="left"><?php echo $res['user_fullname']; ?> </div></td>
+        <td><div align="left"><?php echo h($res['user_fullname']); ?> </div></td>
       </tr>
       <tr>
         <td colspan="2"><div align="right"></div></td>
       </tr>
       <tr>
         <td width="44" class="Tcontent"><div align="left">Level :</div></td>
-        <td width="171" class="Tcontent"><?php echo $deb["desc_level"]; ?> </td>
+        <td width="171" class="Tcontent"><?php echo h($deb["desc_level"]); ?> </td>
       </tr>
     </table>
     

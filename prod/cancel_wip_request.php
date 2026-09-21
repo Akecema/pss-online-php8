@@ -58,7 +58,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -316,23 +316,23 @@ if (isset($message))
           <td><?php echo $temp_mrin; ?></td>
           <th>Factory</th>
           <th>:</th>
-          <td><?php echo $data_2["factory"];  ?></td>
+          <td><?php echo h($data_2["factory"]);  ?></td>
         </tr>
         <tr>
           <th>Date &amp; Time</th>
           <th>:</th>
-          <td><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></td>
+          <td><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></td>
           <th>Required Date &amp; Time</th>
           <th>:</th>
-          <td>&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_mrin"]; ?></td>
+          <td>&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_mrin"]); ?></td>
         </tr>
         <tr>
           <th>Requested by</th>
           <th>:</th>
-          <td><?php echo $row_k["user_fullname"]; ?></td>
+          <td><?php echo h($row_k["user_fullname"]); ?></td>
           <th>Prepared by (PPC)</th>
           <th>:</th>
-          <td><?php //echo $row_k2["user_fullname"]; ?></td>
+          <td><?php //echo h($row_k2["user_fullname"]); ?></td>
         </tr>
       </table>
 <br>          
@@ -403,15 +403,15 @@ if (isset($message))
 		 ?>
 
 <tr>
-                <td width="100"><?php  echo $row4_p["bill_component"]; ?></td>
-                <td width="122"><?php  echo $row4_p["material_desc_c"]; ?></td>
-                <td width="100"><div align="right"><?php echo $row["bom_qty_wip"]; ?>&nbsp;</div></td>
-                <td width="45"><div align="center"><?php echo $row["bom_oum_wip"]; ?></div></td>
-                <td width="146"><div align="center"><?php echo $row_scan["prod_order"]; ?></div></td>
-                <td width="42"><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
+                <td width="100"><?php  echo h($row4_p["bill_component"]); ?></td>
+                <td width="122"><?php  echo h($row4_p["material_desc_c"]); ?></td>
+                <td width="100"><div align="right"><?php echo h($row["bom_qty_wip"]); ?>&nbsp;</div></td>
+                <td width="45"><div align="center"><?php echo h($row["bom_oum_wip"]); ?></div></td>
+                <td width="146"><div align="center"><?php echo h($row_scan["prod_order"]); ?></div></td>
+                <td width="42"><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
                 <td width="90"><div align="center"><?php echo $sta; ?></div></td>
                 <td width="90">&nbsp;</td>
-                <td width="65"><div align="center"><font color="#FF0000"><?php echo $row4_p["sloc"]; ?></font></div></td>
+                <td width="65"><div align="center"><font color="#FF0000"><?php echo h($row4_p["sloc"]); ?></font></div></td>
                 <td height="28">
                   <div align="left">
                     <?php
@@ -494,7 +494,7 @@ echo $barcodeobj->getBarcodeSVGcode(1.0, 0.8, 'black');
              </tr>
              <tr>
                <td> 
-                 <input name="user_no" type="hidden" value="<?php echo $res["user_no"]; ?>"> 
+                 <input name="user_no" type="hidden" value="<?php echo h($res["user_no"]); ?>"> 
                  <input name="mrin_no" type="hidden" value="<?php echo $temp_mrin; ?> ">
                  <input name="prod_order" type="hidden" value="<?php echo $prod_order; ?> "></td>
                <td>&nbsp;</td>

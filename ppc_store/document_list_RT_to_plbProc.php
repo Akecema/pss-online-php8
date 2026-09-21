@@ -67,7 +67,7 @@ $rst_sta20 = mysqli_fetch_array($sta_res20);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -421,15 +421,15 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
     <tr class="gradeX">
     <input name="no" type="hidden" value="<?php echo $no; ?>">
     <td width="2"><?php //echo $no; ?> </td>
-    <td width="100"><?php echo $data_sql3["material_no"];  ?></td>
-    <td width="190"><?php echo $data_sql3["material_desc"];  ?></td>
-    <td width="70"><?php echo $data_sql3["R3"];  ?></td>
-    <td width="70"><?php echo $data_sql3["posting_time"];  ?></td>
-    <td width="70"><?php echo $data_sql3["qty_tp"];   ?> </td>
+    <td width="100"><?php echo h($data_sql3["material_no"]);  ?></td>
+    <td width="190"><?php echo h($data_sql3["material_desc"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["R3"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["posting_time"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["qty_tp"]);   ?> </td>
     <td width="50"><?php echo  strtoupper($data_sql3["uom"]);  ?></td>
     <td width="50"><?php echo  strtoupper($shift_desc);  ?></td>
-    <td width="70"><?php echo $data_sql3["ref_doc_no_return"];  ?></td>
-    <td width="100"><?php echo $data_sql3["doc_tp"];  ?></td>
+    <td width="70"><?php echo h($data_sql3["ref_doc_no_return"]);  ?></td>
+    <td width="100"><?php echo h($data_sql3["doc_tp"]);  ?></td>
     </tr>
    <?php
 	if(($row_cancel["id_tp"]) == ($data_sql3["id_tp"]))
@@ -440,15 +440,15 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
           
     <input name="no" type="hidden" value="<?php echo $no; ?>">
     <td width="2"><?php //echo $no; ?></td>
-    <td width="100"><?php echo $row_cancel["material_no"];  ?></td>
-    <td width="190"><?php echo $row_cancel["material_desc"];  ?></td>
-    <td width="70"><?php echo $row_cancel["R4"];  ?></td>
-    <td width="70"><?php echo $row_cancel["R5"];  ?></td>
-    <td width="70"><font color="#FF0000">-<?php echo $row_cancel["qty_tp"];   ?></font> </td>
+    <td width="100"><?php echo h($row_cancel["material_no"]);  ?></td>
+    <td width="190"><?php echo h($row_cancel["material_desc"]);  ?></td>
+    <td width="70"><?php echo h($row_cancel["R4"]);  ?></td>
+    <td width="70"><?php echo h($row_cancel["R5"]);  ?></td>
+    <td width="70"><font color="#FF0000">-<?php echo h($row_cancel["qty_tp"]);   ?></font> </td>
     <td width="50"><?php echo strtoupper($row_cancel["uom"]);  ?></td>
     <td width="50"><?php echo strtoupper($shift_desc);  ?></td>
-    <td width="70"><?php echo $row_cancel["ref_doc_no_return"];  ?></td>
-    <td width="100"><font color="#FF0000"><?php echo $row_cancel["ref_doc_tp"];  ?></font></td>
+    <td width="70"><?php echo h($row_cancel["ref_doc_no_return"]);  ?></td>
+    <td width="100"><font color="#FF0000"><?php echo h($row_cancel["ref_doc_tp"]);  ?></font></td>
      
     <?php
 

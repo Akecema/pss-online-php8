@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -326,9 +326,9 @@ if (isset($message))
 	
 	 if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
-               <option value="<?php echo $row3[0]?>" <?php if($row3[0]==$_POST["company"]) echo "selected"; ?>> <?php echo $row3[1]?></option>
+               <option value="<?php echo h($row3[0])?>" <?php if($row3[0]==$_POST["company"]) echo "selected"; ?>> <?php echo h($row3[1])?></option>
                <?php }else{ ?>
-               <option value="<?php echo $row3[0]?>" > <?php echo stripslashes($row3[1])?></option>
+               <option value="<?php echo h($row3[0])?>" > <?php echo stripslashes($row3[1])?></option>
                <?php } ?>
                <?php
 							}
@@ -357,9 +357,9 @@ if (isset($message))
 
         if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
-               <option value="<?php echo $row2[0]?>" <?php if($row2[0]==$_POST["dept"]) echo "selected"; ?>> <?php echo $row2[2]?></option>
+               <option value="<?php echo h($row2[0])?>" <?php if($row2[0]==$_POST["dept"]) echo "selected"; ?>> <?php echo h($row2[2])?></option>
                <?php }else{ ?>
-               <option value="<?php echo $row2[0]?>" > <?php echo stripslashes($row2[2])?></option>
+               <option value="<?php echo h($row2[0])?>" > <?php echo stripslashes($row2[2])?></option>
                <?php } ?>
                <?php
 							}
@@ -387,9 +387,9 @@ if (isset($message))
 
       if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
-               <option value="<?php echo $row2b[0]?>" <?php if($row2b[0]==$_POST["design"]) echo "selected"; ?>> <?php echo $row2b[1]?></option>
+               <option value="<?php echo h($row2b[0])?>" <?php if($row2b[0]==$_POST["design"]) echo "selected"; ?>> <?php echo h($row2b[1])?></option>
                <?php }else{ ?>
-               <option value="<?php echo $row2b[0]?>" > <?php echo strtoupper($row2b[1])?></option>
+               <option value="<?php echo h($row2b[0])?>" > <?php echo strtoupper($row2b[1])?></option>
                <?php } ?>
                <?php
 							}
@@ -442,9 +442,9 @@ if (isset($message))
 	 
 	  if($_POST['submit'] == true){ ?>
                <!--RETAIN VALUE-->
-               <option value="<?php echo $row4[0]?>" <?php if($row4[0]==$_POST["level_id"]) echo "selected"; ?>> <?php echo $row4[1]?></option>
+               <option value="<?php echo h($row4[0])?>" <?php if($row4[0]==$_POST["level_id"]) echo "selected"; ?>> <?php echo h($row4[1])?></option>
                <?php }else{ ?>
-               <option value="<?php echo $row4[0]?>" > <?php echo stripslashes($row4[1])?></option>
+               <option value="<?php echo h($row4[0])?>" > <?php echo stripslashes($row4[1])?></option>
                <?php } ?>
                <?php
 							}

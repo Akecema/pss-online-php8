@@ -98,7 +98,7 @@ $rst_sta17 = mysqli_fetch_array($sta_res17);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -361,7 +361,7 @@ return "";
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -384,7 +384,7 @@ return "";
                    while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
-                     <option value="<?php echo $row29["id_plan"]; ?>"> <?php echo $row29["plan_category_desc"]; ?></option>
+                     <option value="<?php echo h($row29["id_plan"]); ?>"> <?php echo h($row29["plan_category_desc"]); ?></option>
                  
                   <?php
                   }
@@ -394,8 +394,8 @@ return "";
               <th>Status :</th>
               <td><select name="status" id="status" class="span11">
                   <option value="NULL" placeholder="Select Status"> -- Select Status --</option>
-                  <option value="<?php echo $rst_sta2["status_desc"]; ?>"><?php echo $rst_sta2["status_desc"]; ?></option>
-                  <option value="<?php echo $rst_sta7["status_desc"]; ?>"><?php echo $rst_sta7["status_desc"]; ?></option>
+                  <option value="<?php echo h($rst_sta2["status_desc"]); ?>"><?php echo h($rst_sta2["status_desc"]); ?></option>
+                  <option value="<?php echo h($rst_sta7["status_desc"]); ?>"><?php echo h($rst_sta7["status_desc"]); ?></option>
                   </select></td>
                      </tr>
             <tr>

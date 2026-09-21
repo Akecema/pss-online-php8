@@ -26,6 +26,6 @@ if (!isset($data_setup['title_desc'])) {
 ?>
 <!--Footer-part-->
 <div class="row-fluid">
-  <div id="footer" class="span12"> 2017 &copy; <?php echo $data_setup["title_desc"]; ?>. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
+  <div id="footer" class="span12"> 2017 &copy; <?php echo h($data_setup["title_desc"]); ?>. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
 </div>
 <!--end-Footer-part--> 

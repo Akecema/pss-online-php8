@@ -77,7 +77,7 @@ $rst_sta15 = mysqli_fetch_array($sta_res15);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -276,7 +276,7 @@ return "";
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                  <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                   <?php
                   }
 				?>
@@ -298,7 +298,7 @@ return "";
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -449,18 +449,18 @@ $num = mysqli_num_rows($rs);   //how many material are there?
            
                 <tr class="gradeX">
                 <td width="30"><?php echo $no; ?></td>
-                <td width="80"><?php echo $row["model_code"]; ?></td>
-                <td width="48"><font color="#0000CC"><?php echo $row[3]; ?></font></td>
-                <td><?php echo $row["material_no"]; ?></td>
-                <td width="80"><?php echo $row["R"]; ?></td>  
+                <td width="80"><?php echo h($row["model_code"]); ?></td>
+                <td width="48"><font color="#0000CC"><?php echo h($row[3]); ?></font></td>
+                <td><?php echo h($row["material_no"]); ?></td>
+                <td width="80"><?php echo h($row["R"]); ?></td>  
                 <td width="60"><?php echo intval($row["qty_NG"]); ?></td>
-                <td width="60"><?php echo $row["UOM_unit"]; ?></td> 
-                <td width="60"><?php echo $row["ploc_prod_reject"]; ?></td>
-                <td width="60"><?php echo $row["work_center"]; ?></td> 
-                <td width="80"><?php echo $row_type['type_desc']; ?></td>
-                <td width="80"><?php echo $row_reason['reject_desc']; ?></td>
-                <td width="140"><?php echo $row["remarks"]; ?>
-               <input name="id" type="hidden" value="<?php echo $row["id_disposal"]; ?>">
+                <td width="60"><?php echo h($row["UOM_unit"]); ?></td> 
+                <td width="60"><?php echo h($row["ploc_prod_reject"]); ?></td>
+                <td width="60"><?php echo h($row["work_center"]); ?></td> 
+                <td width="80"><?php echo h($row_type['type_desc']); ?></td>
+                <td width="80"><?php echo h($row_reason['reject_desc']); ?></td>
+                <td width="140"><?php echo h($row["remarks"]); ?>
+               <input name="id" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
                  </td>
                 </tr>
           <?php 

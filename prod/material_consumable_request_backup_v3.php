@@ -123,7 +123,7 @@ function updateTextBox() {
     
     if(status == "material_no") {
         //set the value of the text box
-        myTextBox.value = "<?php echo $row_unit["mat_desc"]; ?>";
+        myTextBox.value = "<?php echo h($row_unit["mat_desc"]); ?>";
     } else if(status == "2") {
         myTextBox.value = "We have cancelled your request!";
     } else if(status == "3") {
@@ -714,7 +714,7 @@ if (isset($message))
                 </td>
               </tr>
               <tr>
-                <td height="19"><input name="user_no" type="hidden" value="<?php echo $data_u["user_no"]; ?>" /></td>
+                <td height="19"><input name="user_no" type="hidden" value="<?php echo h($data_u["user_no"]); ?>" /></td>
                 <td height="19">&nbsp;</td>
                 <td height="10" colspan="5"><div align="right">
                     <input name="save" type="submit" id="submit" value="+ Add Consumable Item" class="button" onclick="return confirm('Confirm to add request?');"  />&nbsp;&nbsp;<input name="confirm_button" type="submit" id="submit2" value="Confirm Request" class="button" onClick="return confirm('Confirm to post request?');">

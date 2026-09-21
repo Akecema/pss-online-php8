@@ -57,7 +57,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -178,7 +178,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3["factory_desc2"]; ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3["factory_desc"]; ?></option>
+                  <option value="<?php echo h($row3["factory_desc2"]); ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3["factory_desc"]); ?></option>
                   <?php
                   }
 				?>
@@ -201,7 +201,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["material_no"]; ?>" <?php if($row9["material_no"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["material_no"].' -  '.$row9["mat_desc"]; ?></option>
+                  <option value="<?php echo h($row9["material_no"]); ?>" <?php if($row9["material_no"] == $_GET["material_no"]) echo "selected"; ?>> <?php echo $row9["material_no"].' -  '.$row9["mat_desc"]; ?></option>
                   <?php
                   }
 				?>
@@ -410,16 +410,16 @@ echo $since_start->s.' seconds<br>';
  
        
     <tr>
-    <td width="50"><div align="center"><?php echo $row2["factory"]; ?></div></td> 
-    <td width="60" height="28"><div align="center"><?php echo $row2["id_work"]; ?></div></td>
-    <td width="100">&nbsp;<?php echo $row2["temp_mrin"]; ?></td>
-    <td width="160">&nbsp;<?php echo $row2["material_no"]; ?></td>
-    <td width="50" height="28"><div align="center"><?php echo $row2["con_uom"]; ?></div></td>
-    <td width="90"><div align="right"><?php echo $row2["con_qty"]; ?></div>   </td>
-    <td width="90"><div align="right"><?php echo $row5["rquantity"]; ?></div></td>
+    <td width="50"><div align="center"><?php echo h($row2["factory"]); ?></div></td> 
+    <td width="60" height="28"><div align="center"><?php echo h($row2["id_work"]); ?></div></td>
+    <td width="100">&nbsp;<?php echo h($row2["temp_mrin"]); ?></td>
+    <td width="160">&nbsp;<?php echo h($row2["material_no"]); ?></td>
+    <td width="50" height="28"><div align="center"><?php echo h($row2["con_uom"]); ?></div></td>
+    <td width="90"><div align="right"><?php echo h($row2["con_qty"]); ?></div>   </td>
+    <td width="90"><div align="right"><?php echo h($row5["rquantity"]); ?></div></td>
     <td width="90"><div align="right"><?php if($variance_qty2 < 0 ) { echo "<font color='red'>";  echo $variance_qty2;  echo "</font>"; }else{ echo $variance_qty2; } ?></div>
-    <td><?php echo $row2["R"]; ?></td>
-    <td width="100"><?php echo $row2["time_require"]; ?></td>
+    <td><?php echo h($row2["R"]); ?></td>
+    <td width="100"><?php echo h($row2["time_require"]); ?></td>
   
     <td width="70">
 	<?php

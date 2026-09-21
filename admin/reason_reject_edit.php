@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -200,13 +200,13 @@ if (isset($message))
                  <td>ID Reason *</td>
                  <td>:</td>
                  <td>
-                   <input name="id_reject" type="text" id="id_reject" size="20" maxlength="8" readonly value="<?php echo $row[0]; ?>" /></td>
+                   <input name="id_reject" type="text" id="id_reject" size="20" maxlength="8" readonly value="<?php echo h($row[0]); ?>" /></td>
                </tr>
                <tr>
                  <td>Reason Reject Desc *</td>
                  <td>:</td>
                  <td>
-                   <input name="reject_desc" type="text" class="span11" id="reject_desc" size="55" maxlength="100" value="<?php echo $row[1]; ?>" />
+                   <input name="reject_desc" type="text" class="span11" id="reject_desc" size="55" maxlength="100" value="<?php echo h($row[1]); ?>" />
                </td>
                </tr>
                         <tr>

@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
@@ -248,8 +248,8 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
            <table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC">
             <tr>
                 <td height="28"><?php echo $no; ?></td>
-       <td width="527">&nbsp;<?php echo $row_scan["material_no"]; ?>
-                 &nbsp;&nbsp;&nbsp;<?php echo $row_scan["prod_order"]; ?></td>
+       <td width="527">&nbsp;<?php echo h($row_scan["material_no"]); ?>
+                 &nbsp;&nbsp;&nbsp;<?php echo h($row_scan["prod_order"]); ?></td>
                
              </tr>
                <?php
@@ -278,14 +278,14 @@ echo '<font color="red" class ="error_entry">', $message, '</font>';
 <table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC">
               <tr bgcolor="<?php echo $warna; ?>" >
                <td height="28">&nbsp;</td>
-               <td width="287" height="28">&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
+               <td width="287" height="28">&nbsp;<?php  echo h($row4_p["bill_component"]); ?></td>
                 <td width="87" height="28"><div align="right">
-                <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo $row["bom_qty"];   } ?>" size="10"/>
+                <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo h($row["bom_qty"]);   } ?>" size="10"/>
               &nbsp;</div></td>
-                <td width="99" height="28"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-                <td width="60" height="28">&nbsp;<font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font>
-                <input name="id_req[<?php echo $i; ?>]" type="hidden" value="<?php echo $row["id_req"]; ?>">
-                 <input name="id_scan[<?php echo $i; ?>]" type="hidden" value="<?php echo $row["id_scan"]; ?>">
+                <td width="99" height="28"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="60" height="28">&nbsp;<font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font>
+                <input name="id_req[<?php echo $i; ?>]" type="hidden" value="<?php echo h($row["id_req"]); ?>">
+                 <input name="id_scan[<?php echo $i; ?>]" type="hidden" value="<?php echo h($row["id_scan"]); ?>">
                  </td>
                
           </tr>

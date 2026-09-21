@@ -81,7 +81,7 @@ $rst_sta15 = mysqli_fetch_array($sta_res15);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -263,7 +263,7 @@ return "";
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                  <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                   <?php
                   }
 				?>
@@ -283,7 +283,7 @@ return "";
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -365,7 +365,7 @@ $message = NULL; // create an empty new variable.
 						
 		   for ($i=0; $i<$how_many; $i++) { 
 		   			
-		//echo ($i+1).'-'.$cancel[$i]; echo $string[$i];
+		//echo ($i+1).'-'.$cancel[$i]; echo h($string[$i]);
 		//echo "</br>";
 		
 		//get data table pps_detail_transaction
@@ -565,20 +565,20 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
            
                 <tr class="gradeX">
-                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $row["id_qqc"]; ?>" <?=was_checked($row["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id_qqc"]); ?>" <?=was_checked($row["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
 onClick="Check(document.myform.cancel)">  </div><?php echo $no; ?></td>
-                <td width="80"><?php echo $data_model["model_code"]; ?></td>
-                <td width="48"><font color="#0000CC"><?php echo $row["plan_no"]; ?></font></td>
-                <td><?php echo $row[6]; ?></td>
-                <td width="80"><?php echo $row["R2"]; ?></td>  
+                <td width="80"><?php echo h($data_model["model_code"]); ?></td>
+                <td width="48"><font color="#0000CC"><?php echo h($row["plan_no"]); ?></font></td>
+                <td><?php echo h($row[6]); ?></td>
+                <td width="80"><?php echo h($row["R2"]); ?></td>  
                 <td width="60"><?php echo $qty_final; ?></td>
-                <td width="60"><?php echo $row_scan["BUn"]; ?></td> 
-                <td width="60"><?php echo $row["ploc_qc"]; ?></td>
-                <td width="60"><?php echo $row["work_center"]; ?></td>
-                <td width="80"><?php echo $row_type['type_desc']; ?></td>
-                <td width="80"><?php echo $row_reason['reject_desc']; ?></td>
-                <td width="140"><textarea name="remark_reject[<?php echo $row["id_qqc"]; ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_reject'][($row["id_qqc"])])) { echo $_POST['remark_reject'][($row["id_qqc"])]; } ?></textarea>
-               <input name="id_qqc[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id_qqc"]; ?>">
+                <td width="60"><?php echo h($row_scan["BUn"]); ?></td> 
+                <td width="60"><?php echo h($row["ploc_qc"]); ?></td>
+                <td width="60"><?php echo h($row["work_center"]); ?></td>
+                <td width="80"><?php echo h($row_type['type_desc']); ?></td>
+                <td width="80"><?php echo h($row_reason['reject_desc']); ?></td>
+                <td width="140"><textarea name="remark_reject[<?php echo h($row["id_qqc"]); ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_reject'][($row["id_qqc"])])) { echo $_POST['remark_reject'][($row["id_qqc"])]; } ?></textarea>
+               <input name="id_qqc[<?php echo $k; ?>]" type="hidden" value="<?php echo h($row["id_qqc"]); ?>">
           </td>
                 </tr>
                 

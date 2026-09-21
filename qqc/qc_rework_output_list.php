@@ -86,7 +86,7 @@ $rst_sta8 = mysqli_fetch_array($sta_res8);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -791,32 +791,32 @@ $message = NULL; // create an empty new variable.
            <tr>
              <th width="33%"><div align="left">Planned Order No.</div></th>
              <td width="5%"> :</td>
-             <td width="62%"><?php echo $data_qqc["plan_no"]; ?></td>
+             <td width="62%"><?php echo h($data_qqc["plan_no"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Work Center</div></th>
              <td>:</td>
-             <td><?php echo $data_qqc["work_center"]; ?></td>
+             <td><?php echo h($data_qqc["work_center"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Shift</div></th>
              <td>:</td>
-             <td><?php echo $data_qqc["shift_day"]; ?></td>
+             <td><?php echo h($data_qqc["shift_day"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Part No.</div></th>
              <td>:</td>
-             <td><?php echo $data_qqc["material_no"]; ?></td>
+             <td><?php echo h($data_qqc["material_no"]); ?></td>
            </tr>
            <tr>
              <th scope="row"><div align="left">Part Name</div></th>
              <td>:</td>
-             <td><?php echo $data_qqc["material_desc"]; ?></td>
+             <td><?php echo h($data_qqc["material_desc"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Pending Qty</div></th>
              <td>:</td>
-             <td><?php echo $data_qqc["qty_balance"]; ?></td>
+             <td><?php echo h($data_qqc["qty_balance"]); ?></td>
            </tr>
            <tr>
              <th scope="row"><div align="left">Cummulative QC OK</div></th>
@@ -946,13 +946,13 @@ $message = NULL; // create an empty new variable.
 				   ?>
                      <?php if($_POST["confirm1"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_storage["qc_sloc_code"]; ?>"<?php if($row_storage["qc_sloc_code"] == $_POST["sloc"]) echo "selected"; ?>> <?php echo $row_storage["qc_sloc_code"]; ?></option>
+                    <option value="<?php echo h($row_storage["qc_sloc_code"]); ?>"<?php if($row_storage["qc_sloc_code"] == $_POST["sloc"]) echo "selected"; ?>> <?php echo h($row_storage["qc_sloc_code"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-                  <option value="<?php echo $row_storage["qc_sloc_code"]; ?>"> <?php echo $row_storage["qc_sloc_code"]; ?></option>
+                  <option value="<?php echo h($row_storage["qc_sloc_code"]); ?>"> <?php echo h($row_storage["qc_sloc_code"]); ?></option>
                   <?php
 				    }  // else
 				  
@@ -1066,13 +1066,13 @@ $message = NULL; // create an empty new variable.
 				   ?>
                      <?php if($_POST["confirm2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_type["id_type"]; ?>"<?php if($row_type["id_type"] == $_POST["type_reject"]) echo "selected"; ?>> <?php echo $row_type["type_desc"]; ?></option>
+                    <option value="<?php echo h($row_type["id_type"]); ?>"<?php if($row_type["id_type"] == $_POST["type_reject"]) echo "selected"; ?>> <?php echo h($row_type["type_desc"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-                  <option value="<?php echo $row_type["id_type"]; ?>"> <?php echo $row_type["type_desc"]; ?></option>
+                  <option value="<?php echo h($row_type["id_type"]); ?>"> <?php echo h($row_type["type_desc"]); ?></option>
                   <?php
 				    }  // else
 				  
@@ -1094,13 +1094,13 @@ $message = NULL; // create an empty new variable.
 			      {
 					   if($_POST["confirm2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_reason["id_reject"]; ?>"<?php if($row_reason["id_reject"] == $_POST["reason_reject"]) echo "selected"; ?>> <?php echo $row_reason["reject_desc"]; ?></option>
+                    <option value="<?php echo h($row_reason["id_reject"]); ?>"<?php if($row_reason["id_reject"] == $_POST["reason_reject"]) echo "selected"; ?>> <?php echo h($row_reason["reject_desc"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-		    <option value="<?php echo $row_reason["id_reject"]; ?>"> <?php echo $row_reason["reject_desc"]; ?></option>
+		    <option value="<?php echo h($row_reason["id_reject"]); ?>"> <?php echo h($row_reason["reject_desc"]); ?></option>
                   <?php
 				    }//else
                   }

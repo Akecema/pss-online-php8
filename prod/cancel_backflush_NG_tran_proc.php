@@ -79,7 +79,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -351,20 +351,20 @@ $result_display = mysqli_query($dbc, $query_display);   //run the query.
       ?>
       <tr class="gradeX">
         <td width="30"><?php echo $no; ?></td>
-        <td><?php echo $row2["material_no"]; ?></td>
-        <td width="80"><font color="#0000CC"><?php echo $row2["plan_no"]; ?></font></td>
-        <td width="80"><?php echo $row2["R"]; ?></td>
-        <td width="60"><?php echo $row2["work_center"]; ?></td>
+        <td><?php echo h($row2["material_no"]); ?></td>
+        <td width="80"><font color="#0000CC"><?php echo h($row2["plan_no"]); ?></font></td>
+        <td width="80"><?php echo h($row2["R"]); ?></td>
+        <td width="60"><?php echo h($row2["work_center"]); ?></td>
         <td width="40"><?php echo $sta; ?></td>
-        <td width="50"><?php echo $row2["ploc"]; ?></td>
-        <td width="90"><font color="#0000CC"><?php echo $row2["bflush_no"]; ?></font></td>
-        <td width="80"><?php echo $row2["R2"]; ?></td>
-        <td width="48"><?php echo $row2["time_posting"]; ?></td>
-        <td width="80"><?php echo $row2["R3"]; ?></td>
+        <td width="50"><?php echo h($row2["ploc"]); ?></td>
+        <td width="90"><font color="#0000CC"><?php echo h($row2["bflush_no"]); ?></font></td>
+        <td width="80"><?php echo h($row2["R2"]); ?></td>
+        <td width="48"><?php echo h($row2["time_posting"]); ?></td>
+        <td width="80"><?php echo h($row2["R3"]); ?></td>
         <td width="50"><font color="#FF9900"><?php echo $status_output; ?></font></td>
         <td width="60"><?php echo $qty_final; ?></td>
-        <td width="99"><?php echo $row2["status_pps"]; ?></td>
-        <input name="buid" type="hidden" value="<?php echo $row2["id"]; ?> ">
+        <td width="99"><?php echo h($row2["status_pps"]); ?></td>
+        <input name="buid" type="hidden" value="<?php echo h($row2["id"]); ?> ">
       </tr> 
       
       <?php 

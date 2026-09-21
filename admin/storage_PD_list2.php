@@ -47,7 +47,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -164,9 +164,9 @@ $rs = mysqli_query($dbc, $query);   //run the query.
         ?>
            
             <tr class="gradeX">
-            <td>&nbsp;<?php  echo $row2["sloc_code"]; ?></td>
-            <td>&nbsp;<?php  echo $row2["sloc_desc"]; ?></td>
-            <td>&nbsp; <a value="Edit" href="storage_PD_edit.php?code=<?php echo $row2["sloc_code"]; ?>&amp;&amp;TB_iframe=true&amp;height=300&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>             
+            <td>&nbsp;<?php  echo h($row2["sloc_code"]); ?></td>
+            <td>&nbsp;<?php  echo h($row2["sloc_desc"]); ?></td>
+            <td>&nbsp; <a value="Edit" href="storage_PD_edit.php?code=<?php echo h($row2["sloc_code"]); ?>&amp;&amp;TB_iframe=true&amp;height=300&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>             
             </tr>
                 
           <?php 

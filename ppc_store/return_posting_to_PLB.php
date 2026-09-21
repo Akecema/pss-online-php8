@@ -60,7 +60,7 @@ $rst_sta20 = mysqli_fetch_array($sta_res20);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -254,7 +254,7 @@ $result_db = mysqli_query($dbc, $query_db) or die(db_fail($dbc));
 		 			
 		   for ($i=0; $i<$how_many; $i++) { 
 		   			
-		/* echo ($i+1).'-'.$cancel[$i]; echo "&nbsp;&nbsp;";  echo $string[$i]; echo "</br>"; */
+		/* echo ($i+1).'-'.$cancel[$i]; echo "&nbsp;&nbsp;";  echo h($string[$i]); echo "</br>"; */
 		 
 		 $query_update_scan = "UPDATE scan_ret_plb SET scan_qty = '".db_esc($dbc, $string[$i])."' WHERE id_scan_tp = '".db_esc($dbc, $cancel[$i])."'";
 	     $rst_update_scan = mysqli_query($dbc, $query_update_scan);
@@ -436,7 +436,7 @@ $message2 = NULL; // create an empty new variable.
 		 			
 		   for ($i=0; $i<$how_many; $i++) { 
 		   			
-	/*	echo ($i+1).'-'.$cancel[$i];   echo $string[$i]; echo "</br>";*/
+	/*	echo ($i+1).'-'.$cancel[$i];   echo h($string[$i]); echo "</br>";*/
 	
 	// $t_time = (($_POST["time1"]).":".($_POST["time2"]));
 		
@@ -691,12 +691,12 @@ exit();
        <table width="100%" border="0" cellspacing="2" cellpadding="0">
       <tr>
      <td width="50">
-     <div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $data_sql2["id_scan_tp"]; ?>" checked /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)">  </div> </td>  
-    <td width="75"><?php echo $no; ?> <input name="item_no[<?php echo $data_sql2["id_scan_tp"]; ?>]" type="hidden" value="<?php echo $no; ?>"></td>
-    <td width="150"><?php echo $data_sql2["material_no"];  ?></td>
-    <td width="300"><?php echo $data_sql2["material_desc"];  ?></td>
-    <td width="150" height="30"><?php  if(($data_sql2["scan_qty"] == "") || ($data_sql2["scan_qty"] == "0.000")) { ?><input name="scan_qty[<?php echo $data_sql2["id_scan_tp"]; ?>]" type="number" min="1" value="<?php if(isset($_POST["scan_qty"])) { echo $_POST["scan_qty"][($data_sql2["id_scan_tp"])]; } ?>" id="scan_qty" ><?php }else{  ?> <input name="scan_qty[<?php echo $data_sql2["id_scan_tp"]; ?>]" type="number" min="1" value="<?php echo $data_sql2["scan_qty"];   ?>" required><?php  } ?></td>
-    <td width="100"><?php echo $data_sql2["scan_uom"];  ?></td>
+     <div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($data_sql2["id_scan_tp"]); ?>" checked /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)">  </div> </td>  
+    <td width="75"><?php echo $no; ?> <input name="item_no[<?php echo h($data_sql2["id_scan_tp"]); ?>]" type="hidden" value="<?php echo $no; ?>"></td>
+    <td width="150"><?php echo h($data_sql2["material_no"]);  ?></td>
+    <td width="300"><?php echo h($data_sql2["material_desc"]);  ?></td>
+    <td width="150" height="30"><?php  if(($data_sql2["scan_qty"] == "") || ($data_sql2["scan_qty"] == "0.000")) { ?><input name="scan_qty[<?php echo h($data_sql2["id_scan_tp"]); ?>]" type="number" min="1" value="<?php if(isset($_POST["scan_qty"])) { echo $_POST["scan_qty"][($data_sql2["id_scan_tp"])]; } ?>" id="scan_qty" ><?php }else{  ?> <input name="scan_qty[<?php echo h($data_sql2["id_scan_tp"]); ?>]" type="number" min="1" value="<?php echo h($data_sql2["scan_qty"]);   ?>" required><?php  } ?></td>
+    <td width="100"><?php echo h($data_sql2["scan_uom"]);  ?></td>
   </tr>
 </table>
 

@@ -84,7 +84,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -234,15 +234,15 @@ $result_display = mysqli_query($dbc, $query_display);   //run the query.
       ?>
       <tr class="gradeX">
         <td width="49"><?php echo $no; ?></td>
-        <td><?php echo $row2[9]; ?></td>
-        <td width="103"><font color="#0000CC"><?php echo $row2[6]; ?></font></td>
-        <td width="124"><?php echo $row2["ploc_prod_reject"]; ?></td>
-        <td width="149"><?php echo $row_type['wastage_desc']; ?></td>
-        <td width="59"><?php echo $row2["R2"]; ?></td>
-        <td width="81"><?php echo $row2["qty_wastage"]; ?></td>
-        <td width="64"><?php echo $row2["UOM_unit"]; ?></td>
-        <td width="269"><?php echo $row_reason['reason_wastage_desc']; ?></td>
-        <input name="uid" type="hidden" value="<?php echo $row2["id_disposal"]; ?> ">
+        <td><?php echo h($row2[9]); ?></td>
+        <td width="103"><font color="#0000CC"><?php echo h($row2[6]); ?></font></td>
+        <td width="124"><?php echo h($row2["ploc_prod_reject"]); ?></td>
+        <td width="149"><?php echo h($row_type['wastage_desc']); ?></td>
+        <td width="59"><?php echo h($row2["R2"]); ?></td>
+        <td width="81"><?php echo h($row2["qty_wastage"]); ?></td>
+        <td width="64"><?php echo h($row2["UOM_unit"]); ?></td>
+        <td width="269"><?php echo h($row_reason['reason_wastage_desc']); ?></td>
+        <input name="uid" type="hidden" value="<?php echo h($row2["id_disposal"]); ?> ">
       </tr> 
       
       <?php 

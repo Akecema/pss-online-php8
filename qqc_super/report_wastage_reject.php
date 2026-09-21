@@ -77,7 +77,7 @@ $rst_sta15 = mysqli_fetch_array($sta_res15);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -306,7 +306,7 @@ return "";
                 while($rowd1 = mysqli_fetch_array($resultd1)) 
                 {
 				?>    
-               <option value="<?php echo $rowd1['doc_disposal_no']; ?>"> <?php echo $rowd1['doc_disposal_no']; ?></option>
+               <option value="<?php echo h($rowd1['doc_disposal_no']); ?>"> <?php echo h($rowd1['doc_disposal_no']); ?></option>
                 <?php
                 }
                 ?>
@@ -321,7 +321,7 @@ return "";
                 while($rowd2 = mysqli_fetch_array($resultd2)) 
                 {
 				?>    
-               <option value="<?php echo $rowd2['doc_disposal_no']; ?>"> <?php echo $rowd2['doc_disposal_no']; ?></option>
+               <option value="<?php echo h($rowd2['doc_disposal_no']); ?>"> <?php echo h($rowd2['doc_disposal_no']); ?></option>
                 <?php
                 }
                 ?>
@@ -440,18 +440,18 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
                 <tr class="gradeX">
                 <td width="30"><?php echo $no; ?></td>
-                <td width="48"><font color="#0000CC"><?php echo $row["doc_disposal_no"]; ?></font></td>
-                <td width="80"><?php echo $row["R"]; ?></td> 
-                <td width="60"><?php echo $row["work_center"]; ?></td>  
-                <td width="80"><?php echo $row["model_code"]; ?></td>
-                <td><?php echo $row["material_no"]; ?></td>
-                <td width="60"><?php echo $row["qty_wastage"]; ?></td>
-                <td width="60"><?php echo $row["UOM_unit"]; ?></td> 
-                <td width="60"><?php echo $row["ploc"]; ?></td>
-                <td width="80"><?php echo $row_type['wastage_desc']; ?></td>
-                <td width="80"><?php echo $row_reason['reason_wastage_desc']; ?></td>
-                <td width="140"><?php echo $row["remarks"]; ?>
-               <input name="id" type="hidden" value="<?php echo $row["id_disposal"]; ?>">
+                <td width="48"><font color="#0000CC"><?php echo h($row["doc_disposal_no"]); ?></font></td>
+                <td width="80"><?php echo h($row["R"]); ?></td> 
+                <td width="60"><?php echo h($row["work_center"]); ?></td>  
+                <td width="80"><?php echo h($row["model_code"]); ?></td>
+                <td><?php echo h($row["material_no"]); ?></td>
+                <td width="60"><?php echo h($row["qty_wastage"]); ?></td>
+                <td width="60"><?php echo h($row["UOM_unit"]); ?></td> 
+                <td width="60"><?php echo h($row["ploc"]); ?></td>
+                <td width="80"><?php echo h($row_type['wastage_desc']); ?></td>
+                <td width="80"><?php echo h($row_reason['reason_wastage_desc']); ?></td>
+                <td width="140"><?php echo h($row["remarks"]); ?>
+               <input name="id" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
                 </td>
                 </tr>
                 

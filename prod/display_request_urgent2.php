@@ -60,7 +60,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -464,13 +464,13 @@ echo '<div align="center">There are currently  '. $num.' record(s).</div>';
          
   <tr>
    <td><div align="center">
-    <input type="checkbox" name="cancel[]" value="<?php echo $row_scan['id_scan']; ?>" />
-    <input name="id" type="hidden" value="<?php echo $row_scan['id_scan']; ?>" />
+    <input type="checkbox" name="cancel[]" value="<?php echo h($row_scan['id_scan']); ?>" />
+    <input name="id" type="hidden" value="<?php echo h($row_scan['id_scan']); ?>" />
   </div></td>
     <td><?php echo $no; ?></td>
-    <td>&nbsp;<?php echo $row_scan["material_no"]; ?></td>
-    <td>&nbsp;<font color="#0000CC"><b><?php echo $row_scan["prod_order"]; ?></b></font></td>
-    <td ><font color="#FF0000"><?php echo $row2["R"]; ?>&nbsp;<?php echo $row2["time_mrin"]; ?></font></td>
+    <td>&nbsp;<?php echo h($row_scan["material_no"]); ?></td>
+    <td>&nbsp;<font color="#0000CC"><b><?php echo h($row_scan["prod_order"]); ?></b></font></td>
+    <td ><font color="#FF0000"><?php echo h($row2["R"]); ?>&nbsp;<?php echo h($row2["time_mrin"]); ?></font></td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     </tr></thead><tbody>
@@ -496,16 +496,16 @@ echo '<div align="center">There are currently  '. $num.' record(s).</div>';
          <tr>
          <td width="52">&nbsp;</td>
          <td width="60">&nbsp;</td>
-         <td width="154">&nbsp;<?php  echo $row4_p["bill_component"]; ?></td>
-         <td><?php  echo $row4_p["material_desc_c"]; ?></td>
+         <td width="154">&nbsp;<?php  echo h($row4_p["bill_component"]); ?></td>
+         <td><?php  echo h($row4_p["material_desc_c"]); ?></td>
          <td width="144"><div align="right">
-	 <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo $row["bom_qty"];   } ?>" class="span8" /></div></td>
-         <td width="80"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-         <td width="100" ><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
+	 <input name="bom_qty[<?php echo $i; ?>]" type="text" value="<?php if(isset($_POST["bom_qty"])) { echo h($_POST["bom_qty"][$i]); }else{  echo h($row["bom_qty"]);   } ?>" class="span8" /></div></td>
+         <td width="80"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+         <td width="100" ><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
           </tr>
-          <input name="user_no" type="hidden" value="<?php echo $res["user_no"]; ?>">
-          <input name="id_req[<?php echo $i; ?>]" type="hidden" value="<?php echo $row["id_req"]; ?>">
-          <input name="id_scan[<?php echo $i; ?>]" type="hidden" value="<?php echo $row["id_scan"]; ?>">
+          <input name="user_no" type="hidden" value="<?php echo h($res["user_no"]); ?>">
+          <input name="id_req[<?php echo $i; ?>]" type="hidden" value="<?php echo h($row["id_req"]); ?>">
+          <input name="id_scan[<?php echo $i; ?>]" type="hidden" value="<?php echo h($row["id_scan"]); ?>">
          
          <?php 
 		 

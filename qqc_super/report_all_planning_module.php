@@ -90,7 +90,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -304,7 +304,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -327,7 +327,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row10 = mysqli_fetch_array($result10)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row10["material_no"]; ?>"> <?php echo $row10["material_no"]; ?></option>
+                  <option value="<?php echo h($row10["material_no"]); ?>"> <?php echo h($row10["material_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -454,19 +454,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		
 	?>	
 		        <tr class="gradeX">
-                <td width="90"><?php echo $row["R"]; ?></td>
-                <td width="100" height="28"><?php echo $row["plan_no"]; ?></td>
+                <td width="90"><?php echo h($row["R"]); ?></td>
+                <td width="100" height="28"><?php echo h($row["plan_no"]); ?></td>
                 <td width="60"><?php echo intval($row["qty_plan"]); ?></td> 
-                <td width="60"><?php echo $data_mat_h["material_type"]; ?></td>
-                <td width="100"><?php echo $row["material_no"]; ?></td>
-               <!-- <td width="120"><?php //echo $data_mat_h["material_desc"]; ?></td>-->
-                <td width="60"><?php echo $row["work_center"]; ?></td>
-                <td width="60"><?php echo $row["R2"]; ?></td>
-                <td width="60"><?php echo $row["T2"]; ?></td>
-                <td width="60"><?php echo $data_mat_h["sloc"]; ?></td>
-                <td width="60"><?php echo $row["plan_no"]; ?></td>
+                <td width="60"><?php echo h($data_mat_h["material_type"]); ?></td>
+                <td width="100"><?php echo h($row["material_no"]); ?></td>
+               <!-- <td width="120"><?php //echo h($data_mat_h["material_desc"]); ?></td>-->
+                <td width="60"><?php echo h($row["work_center"]); ?></td>
+                <td width="60"><?php echo h($row["R2"]); ?></td>
+                <td width="60"><?php echo h($row["T2"]); ?></td>
+                <td width="60"><?php echo h($data_mat_h["sloc"]); ?></td>
+                <td width="60"><?php echo h($row["plan_no"]); ?></td>
                 <td width="60"><?php echo intval($row["qty_plan"]); ?></td>
-                <td width="60"><?php echo $row["status_pps"]; ?></td>
+                <td width="60"><?php echo h($row["status_pps"]); ?></td>
                 </tr>
 		
 <?php		
@@ -523,19 +523,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
             
              ?>
                 <tr class="gradeX">
-                <td width="90"><?php echo $row_display["R"]; ?></td>
-                <td width="100">&nbsp;<?php echo $row_display["plan_no"]; ?></td>  
+                <td width="90"><?php echo h($row_display["R"]); ?></td>
+                <td width="100">&nbsp;<?php echo h($row_display["plan_no"]); ?></td>  
                 <td width="60">&nbsp;<?php echo intval($row["qty_plan"]); ?></td>
-                <td width="60"><?php echo $data_mat_h["material_type"]; ?></td>
-                <td width="100">&nbsp;<?php echo $row_display["material_no"]; ?></td>
-               <!-- <td width="120">&nbsp;<?php //echo $data_mat_h["material_desc"]; ?></td>-->
+                <td width="60"><?php echo h($data_mat_h["material_type"]); ?></td>
+                <td width="100">&nbsp;<?php echo h($row_display["material_no"]); ?></td>
+               <!-- <td width="120">&nbsp;<?php //echo h($data_mat_h["material_desc"]); ?></td>-->
                 <td width="60">&nbsp;<?php echo strtoupper($row["work_center"]); ?></td>
-                <td width="60"><?php echo $row_display["R2"]; ?></td> 
-                <td width="60"><?php echo $row_display["time_posting"]; ?></td>
-                <td width="60"><?php echo $row_display["ploc"]; ?></td>
-                <td width="60"><font color="#0000CC"><?php echo $row_display["bflush_no"]; ?></font></td>
+                <td width="60"><?php echo h($row_display["R2"]); ?></td> 
+                <td width="60"><?php echo h($row_display["time_posting"]); ?></td>
+                <td width="60"><?php echo h($row_display["ploc"]); ?></td>
+                <td width="60"><font color="#0000CC"><?php echo h($row_display["bflush_no"]); ?></font></td>
                 <td width="60"><?php echo intval($qty_final); ?></td>
-                <td width="60"><?php echo $status_output; ?><input name="uid" type="hidden" value="<?php echo $row_display["bflush_no"]; ?> "></td>
+                <td width="60"><?php echo $status_output; ?><input name="uid" type="hidden" value="<?php echo h($row_display["bflush_no"]); ?> "></td>
                </tr>  
 	
 	
@@ -547,20 +547,20 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	   
 	   ?> 
      	<tr class="gradeX">
-        <td width="90"><?php echo $row3["B"]; ?></td>
-        <td width="100">&nbsp;<?php echo $row3["plan_no"]; ?></td> 
+        <td width="90"><?php echo h($row3["B"]); ?></td>
+        <td width="100">&nbsp;<?php echo h($row3["plan_no"]); ?></td> 
         <td width="60">&nbsp;<?php echo intval($row["qty_plan"]); ?></td>
-        <td width="60"><?php echo $data_mat_h["material_type"]; ?></td>
-        <td width="100">&nbsp;<?php echo $row3["material_no"]; ?></td>
-        <!--  <td width="60">&nbsp;<?php //echo $data_mat_h["material_desc"]; ?></td> -->
+        <td width="60"><?php echo h($data_mat_h["material_type"]); ?></td>
+        <td width="100">&nbsp;<?php echo h($row3["material_no"]); ?></td>
+        <!--  <td width="60">&nbsp;<?php //echo h($data_mat_h["material_desc"]); ?></td> -->
         <td width="60">&nbsp;<?php echo strtoupper($row["work_center"]); ?></td>
-        <td width="60"><?php echo $row3["B2"]; ?></td>
-        <td width="60"><?php echo $row3["time_qc_posting"]; ?></td>
-        <td width="60"><?php echo $row3["ploc_qc"]; ?></td>
-        <td width="60"><font color="#0000CC"><?php echo $row3["bflush_no"]; ?></font>
-            <br><?php echo $row3["qqc_doc_no"]; ?></td>
+        <td width="60"><?php echo h($row3["B2"]); ?></td>
+        <td width="60"><?php echo h($row3["time_qc_posting"]); ?></td>
+        <td width="60"><?php echo h($row3["ploc_qc"]); ?></td>
+        <td width="60"><font color="#0000CC"><?php echo h($row3["bflush_no"]); ?></font>
+            <br><?php echo h($row3["qqc_doc_no"]); ?></td>
         <td width="60"><?php echo intval($row3["qty_balance"]); ?></td>
-        <td width="60"><?php echo $row3["status_QC"]; ?></td>
+        <td width="60"><?php echo h($row3["status_QC"]); ?></td>
         </tr>   
        
         <?php 
@@ -611,18 +611,18 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	?>
 	
  <tr class="gradeX">  
-        <td width="90"><?php echo $row_rst_display2["J"]; ?></td>
-        <td width="100">&nbsp;<?php echo $row_rst_display2["plan_no"]; ?></td>   
+        <td width="90"><?php echo h($row_rst_display2["J"]); ?></td>
+        <td width="100">&nbsp;<?php echo h($row_rst_display2["plan_no"]); ?></td>   
         <td width="60">&nbsp;<?php echo intval($row["qty_plan"]); ?></td>
-        <td width="60"><?php echo $data_mat_h["material_type"]; ?></td>
-        <td width="100">&nbsp;<?php echo $row_rst_display2["material_no"]; ?></td>
-     	<!--    <td width="60">&nbsp;<?php //echo $data_mat_h["material_desc"]; ?></td>-->
+        <td width="60"><?php echo h($data_mat_h["material_type"]); ?></td>
+        <td width="100">&nbsp;<?php echo h($row_rst_display2["material_no"]); ?></td>
+     	<!--    <td width="60">&nbsp;<?php //echo h($data_mat_h["material_desc"]); ?></td>-->
         <td width="60">&nbsp;<?php echo strtoupper($row["work_center"]); ?></td>
-        <td width="60"><?php echo $row_rst_display2["J2"]; ?></td>
-        <td width="60"><?php echo $row_rst_display2["time_qc_posting"]; ?></td>
-        <td width="60"><?php echo $row_rst_display2["ploc"]; ?></td>
-	<!-- <td width="60"><?php //echo $row_rst_display2["ploc_qc"]; ?></td>--> 
-        <td width="60"><font color="#669999"><?php echo $row_rst_display2["qqc_no"]; ?></font></td>
+        <td width="60"><?php echo h($row_rst_display2["J2"]); ?></td>
+        <td width="60"><?php echo h($row_rst_display2["time_qc_posting"]); ?></td>
+        <td width="60"><?php echo h($row_rst_display2["ploc"]); ?></td>
+	<!-- <td width="60"><?php //echo h($row_rst_display2["ploc_qc"]); ?></td>--> 
+        <td width="60"><font color="#669999"><?php echo h($row_rst_display2["qqc_no"]); ?></font></td>
         <td width="60"><?php echo intval($qty_final2); ?></td>
         <td width="60"><?php echo $status_output2; ?></td>
       </tr> 

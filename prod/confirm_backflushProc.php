@@ -81,7 +81,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -882,42 +882,42 @@ $message = NULL; // create an empty new variable.
            <tr>
              <th width="33%"><div align="left">Planned Order No.</div></th>
              <td width="5%"> :</td>
-             <td width="62%"><?php echo $data_scan["plan_no"]; ?></td>
+             <td width="62%"><?php echo h($data_scan["plan_no"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Work Center</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["work_center"]; ?></td>
+             <td><?php echo h($data_scan["work_center"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Shift</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["scan_shift"]; ?></td>
+             <td><?php echo h($data_scan["scan_shift"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Planned Date</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["scan_date_plan"]; ?></td>
+             <td><?php echo h($data_scan["scan_date_plan"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Planned Quantity</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["scan_qty"]; ?></td>
+             <td><?php echo h($data_scan["scan_qty"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">UOM</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["scan_uom"]; ?></td>
+             <td><?php echo h($data_scan["scan_uom"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Part No.</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["material_no"]; ?></td>
+             <td><?php echo h($data_scan["material_no"]); ?></td>
              </tr>
            <tr>
              <th scope="row"><div align="left">Part Name</div></th>
              <td>:</td>
-             <td><?php echo $data_scan["material_desc"]; ?></td>
+             <td><?php echo h($data_scan["material_desc"]); ?></td>
              </tr>
            </table></td>
        <td width="48%">
@@ -1123,13 +1123,13 @@ $message = NULL; // create an empty new variable.
 				   ?>
                      <?php if($_POST["confirm2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_type["id_type"]; ?>"<?php if($row_type["id_type"] == $_POST["type_reject"]) echo "selected"; ?>> <?php echo $row_type["type_desc"]; ?></option>
+                    <option value="<?php echo h($row_type["id_type"]); ?>"<?php if($row_type["id_type"] == $_POST["type_reject"]) echo "selected"; ?>> <?php echo h($row_type["type_desc"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-                  <option value="<?php echo $row_type["id_type"]; ?>"> <?php echo $row_type["type_desc"]; ?></option>
+                  <option value="<?php echo h($row_type["id_type"]); ?>"> <?php echo h($row_type["type_desc"]); ?></option>
                   <?php
 				    }  // else
 				  
@@ -1151,13 +1151,13 @@ $message = NULL; // create an empty new variable.
 			      {
 					   if($_POST["confirm2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_reason["id_reject"]; ?>"<?php if($row_reason["id_reject"] == $_POST["reason_reject"]) echo "selected"; ?>> <?php echo $row_reason["reject_desc"]; ?></option>
+                    <option value="<?php echo h($row_reason["id_reject"]); ?>"<?php if($row_reason["id_reject"] == $_POST["reason_reject"]) echo "selected"; ?>> <?php echo h($row_reason["reject_desc"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-		    <option value="<?php echo $row_reason["id_reject"]; ?>"> <?php echo $row_reason["reject_desc"]; ?></option>
+		    <option value="<?php echo h($row_reason["id_reject"]); ?>"> <?php echo h($row_reason["reject_desc"]); ?></option>
                   <?php
 				    }//else
                   }

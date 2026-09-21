@@ -84,7 +84,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -471,17 +471,17 @@ $result_display = mysqli_query($dbc, $query_display);   //run the query.
       ?>
       <tr class="gradeX">
         <td width="44"><?php echo $no; ?></td>
-        <td><?php echo $row_model["model_code"]; ?></td>
-        <td><?php echo $row2["qqc_no"]; ?></td>
-        <td width="59"><font color="#0000CC"><?php echo $row2["material_no"]; ?></font></td>
-        <td width="81"><?php echo $row2["ploc"]; ?></td>
-        <td width="50"><?php  echo $row2["shift_day"]; ?></td>
-        <td width="90"><?php echo $row2["R2"]; ?></td>
+        <td><?php echo h($row_model["model_code"]); ?></td>
+        <td><?php echo h($row2["qqc_no"]); ?></td>
+        <td width="59"><font color="#0000CC"><?php echo h($row2["material_no"]); ?></font></td>
+        <td width="81"><?php echo h($row2["ploc"]); ?></td>
+        <td width="50"><?php  echo h($row2["shift_day"]); ?></td>
+        <td width="90"><?php echo h($row2["R2"]); ?></td>
         <td width="69"><?php echo intval($qty_final); ?></td>
-        <td width="80"><?php  echo $row_mat["BUn"]; ?></td>
-        <td width="157"><?php echo $row_reason['reject_desc']; ?></td>
-        <input name="uid" type="hidden" value="<?php echo $row2["id_tran"]; ?> ">
-         <td width="50"><div align="center"><?php if(($row2["qqc_no_ref"]) == "") {  ?><input type="checkbox" name="cancel[]" value="<?php echo $row2["id_qqc"]; ?>" <?=was_checked($row2["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)"> <?php }  ?></div></td>
+        <td width="80"><?php  echo h($row_mat["BUn"]); ?></td>
+        <td width="157"><?php echo h($row_reason['reject_desc']); ?></td>
+        <input name="uid" type="hidden" value="<?php echo h($row2["id_tran"]); ?> ">
+         <td width="50"><div align="center"><?php if(($row2["qqc_no_ref"]) == "") {  ?><input type="checkbox" name="cancel[]" value="<?php echo h($row2["id_qqc"]); ?>" <?=was_checked($row2["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)"> <?php }  ?></div></td>
       </tr> 
       
       <?php 

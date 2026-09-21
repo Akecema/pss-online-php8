@@ -47,7 +47,7 @@ $temp_mrin = $_GET["mrin_no"];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -212,23 +212,23 @@ $row_k2 = mysqli_fetch_array($result_k2);
           <td width="257"><span class="style3"><?php echo h($temp_mrin); ?></span></td>
           <th width="173" height="28"><div align="left"><span class="style3">Factory</span></div></th>
           <th width="11" height="28"><span class="style3">:</span></th>
-          <td width="218" height="28"><span class="style3"><?php echo $data_2["factory"];  ?></span></td>
+          <td width="218" height="28"><span class="style3"><?php echo h($data_2["factory"]);  ?></span></td>
         </tr>
         <tr>
           <th width="204" height="28"><div align="left"><span class="style3">Date &amp; Time</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td><span class="style3"><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></span></td>
+          <td><span class="style3"><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></span></td>
           <th width="173" height="28"><div align="left"><span class="style3">Required Date &amp; Time</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td height="28"><span class="style3">&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_require"]; ?></span></td>
+          <td height="28"><span class="style3">&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_require"]); ?></span></td>
         </tr>
         <tr>
           <th height="28"><div align="left"><span class="style3">Requested by</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td><span class="style3"><?php echo $row_k["user_fullname"]; ?></span></td>
+          <td><span class="style3"><?php echo h($row_k["user_fullname"]); ?></span></td>
           <th height="28"><div align="left"><span class="style3">Prepared by (PPC)</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td height="28"><span class="style3"><?php echo $row_k2["user_fullname"]; ?></span></td>
+          <td height="28"><span class="style3"><?php echo h($row_k2["user_fullname"]); ?></span></td>
         </tr>
       </table>
 <p>&nbsp;</p>
@@ -276,14 +276,14 @@ $row_k2 = mysqli_fetch_array($result_k2);
 	
 	?>
   <tr>
-    <td width="73" height="28"><?php  echo $row["material_no"]; ?></td>
-    <td width="220" height="28"><?php  echo $row["mat_desc"]; ?></td>
-    <td width="80" height="28"><div align="right"><?php echo $row["con_qty"]; ?>&nbsp;</div></td>
-    <td width="63" height="28"><div align="center"><?php echo $row["con_uom"]; ?></div></td>
-    <td width="80" height="28"><div align="center"><?php echo $row["id_work"]; ?></div></td>
-    <td width="80"><div align="center"><?php echo $row["cost_center"]; ?></div></td>
+    <td width="73" height="28"><?php  echo h($row["material_no"]); ?></td>
+    <td width="220" height="28"><?php  echo h($row["mat_desc"]); ?></td>
+    <td width="80" height="28"><div align="right"><?php echo h($row["con_qty"]); ?>&nbsp;</div></td>
+    <td width="63" height="28"><div align="center"><?php echo h($row["con_uom"]); ?></div></td>
+    <td width="80" height="28"><div align="center"><?php echo h($row["id_work"]); ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row["cost_center"]); ?></div></td>
     <td width="80">&nbsp;</td>
-    <td width="80"><div align="center"><?php echo $row_cost_center["cost_center"]; ?></div></td>
+    <td width="80"><div align="center"><?php echo h($row_cost_center["cost_center"]); ?></div></td>
     <td width="80">&nbsp;</td>
     <td width="200"><?php
 

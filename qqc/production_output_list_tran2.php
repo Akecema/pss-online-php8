@@ -70,7 +70,7 @@ $rst_sta7 = mysqli_fetch_array($sta_res7);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -223,7 +223,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                  <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                   <?php
                   }
 				?>
@@ -240,7 +240,7 @@ function getXMLHTTP() { //fuction to return the xml http object
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -257,7 +257,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -280,7 +280,7 @@ function getXMLHTTP() { //fuction to return the xml http object
                    while($row7=mysqli_fetch_array($result7)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row7["model_name"]; ?>" <?php if($row7["model_name"] == $_GET["model_code"]) { ?> selected="selected"<?php } ?>> <?php echo $row7["model_name"]; ?></option>
+                  <option value="<?php echo h($row7["model_name"]); ?>" <?php if($row7["model_name"] == $_GET["model_code"]) { ?> selected="selected"<?php } ?>> <?php echo h($row7["model_name"]); ?></option>
                   
                   <?php
                   }
@@ -498,19 +498,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
            
                 <tr class="gradeX">
                 <td width="30"><?php echo $no; ?></td>
-                <td width="80"><?php echo $row["R2"]; ?></td>
-                <td width="48"><?php echo $row[31]; ?></td>
-                <td width="80"><?php echo $row["model_code"]; ?></td>
-                <td><?php echo $row[9]; ?></td>
-                <td width="80"><font color="#0000CC"><?php echo $row[4]; ?></font></td>
-                <td width="80"><?php echo $row["R"]; ?></td> 
-                <td width="60"><?php echo $row[18]; ?></td>
+                <td width="80"><?php echo h($row["R2"]); ?></td>
+                <td width="48"><?php echo h($row[31]); ?></td>
+                <td width="80"><?php echo h($row["model_code"]); ?></td>
+                <td><?php echo h($row[9]); ?></td>
+                <td width="80"><font color="#0000CC"><?php echo h($row[4]); ?></font></td>
+                <td width="80"><?php echo h($row["R"]); ?></td> 
+                <td width="60"><?php echo h($row[18]); ?></td>
                 <td width="40"><?php echo $sta; ?></td>
-                <td width="50"><?php echo $row[32]; ?></td>
-                <td width="90"><font color="#0000CC"><?php echo $row[3]; ?></font></td>
+                <td width="50"><?php echo h($row[32]); ?></td>
+                <td width="90"><font color="#0000CC"><?php echo h($row[3]); ?></font></td>
                 <td width="50"><font color="#FF9900"><?php echo $status_output; ?></font></td>
                 <td width="60"><?php echo number_format($qty_final); ?></td>
-                <td width="99"><?php echo $row[16]; ?></td>
+                <td width="99"><?php echo h($row[16]); ?></td>
                 <td width="99"> <?php
 			  
 			  //-------info qqc detail --------- 
@@ -521,7 +521,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 	     if($data_qqc == 0) { //If it ran ok
 				   ?> 
                 
-                <a value="Quality Control" href="qc_production_output_list.php?uid=<?php echo $row["id"]; ?>&&TB_iframe=true&height=400&width=650" class="thickbox" target="_self"><img src="../img/page_white_magnify.png" width="16" height="16" alt="Quality Control">QC</a>
+                <a value="Quality Control" href="qc_production_output_list.php?uid=<?php echo h($row["id"]); ?>&&TB_iframe=true&height=400&width=650" class="thickbox" target="_self"><img src="../img/page_white_magnify.png" width="16" height="16" alt="Quality Control">QC</a>
                 
                 <?php   }   ?></td>
                 </tr>

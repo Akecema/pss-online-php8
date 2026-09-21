@@ -89,7 +89,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -221,7 +221,7 @@ $message = NULL; // create an empty new variable.
   $result_info = mysqli_query($dbc, $query_info);
   $data_info = mysqli_fetch_array($result_info);
   
-  //echo $data_info["qqc_doc_no"];
+  //echo h($data_info["qqc_doc_no"]);
   
   $query_upd_detail2 = "UPDATE qqc_detail_transaction SET status_QC = '".db_esc($dbc, $rst_sta8["status_desc"])."' WHERE id_qqc = '".db_esc($dbc, $data_info["id_tran"])."' AND qqc_doc_no = '".db_esc($dbc, $data_info["qqc_doc_no"])."'";
   $result_upd_detail2 = mysqli_query($dbc, $query_upd_detail2) or die(db_fail($dbc));
@@ -482,17 +482,17 @@ $result_display = mysqli_query($dbc, $query_display);   //run the query.
       ?>
       <tr class="gradeX">
         <td width="44"><?php echo $no; ?></td>
-        <td><?php echo $row_model["model_code"]; ?></td>
-        <td><?php echo $row2["qqc_no"]; ?></td>
-        <td width="59"><font color="#0000CC"><?php echo $row2["material_no"]; ?></font></td>
-        <td width="81"><?php echo $row2["ploc"]; ?></td>
-        <td width="50"><?php  echo $row2["shift_day"]; ?></td>
-        <td width="90"><?php echo $row2["R2"]; ?></td>
+        <td><?php echo h($row_model["model_code"]); ?></td>
+        <td><?php echo h($row2["qqc_no"]); ?></td>
+        <td width="59"><font color="#0000CC"><?php echo h($row2["material_no"]); ?></font></td>
+        <td width="81"><?php echo h($row2["ploc"]); ?></td>
+        <td width="50"><?php  echo h($row2["shift_day"]); ?></td>
+        <td width="90"><?php echo h($row2["R2"]); ?></td>
         <td width="69"><?php echo intval($qty_final); ?></td>
-        <td width="80"><?php  echo $row_mat["BUn"]; ?></td>
-        <td width="157"><?php echo $row_reason["reject_desc"]; ?></td>
-        <input name="uid2" type="hidden" value="<?php echo $row2["id_qqc"]; ?> ">
-        <td width="50"><div align="center"><?php if(($row2["qqc_no_ref"]) == "") {  ?><input type="checkbox" name="cancel[]" value="<?php echo $row2["id_qqc"]; ?>" <?=was_checked($row2["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)"> <?php }  ?></div></td>
+        <td width="80"><?php  echo h($row_mat["BUn"]); ?></td>
+        <td width="157"><?php echo h($row_reason["reject_desc"]); ?></td>
+        <input name="uid2" type="hidden" value="<?php echo h($row2["id_qqc"]); ?> ">
+        <td width="50"><div align="center"><?php if(($row2["qqc_no_ref"]) == "") {  ?><input type="checkbox" name="cancel[]" value="<?php echo h($row2["id_qqc"]); ?>" <?=was_checked($row2["id_qqc"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" onClick="Check(document.myform.cancel)"> <?php }  ?></div></td>
       </tr> 
       
       <?php 

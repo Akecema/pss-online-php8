@@ -59,7 +59,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -170,23 +170,23 @@ $row_k2 = mysqli_fetch_array($result_k2);
           <th><?php echo h($temp_mrin); ?></th>
           <th>Factory</th>
           <th>:</th>
-          <th><?php echo $data_2["factory"];  ?></th>
+          <th><?php echo h($data_2["factory"]);  ?></th>
         </tr>
         <tr>
           <th>Date &amp; Time</th>
           <th>:</th>
-          <th><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></th>
+          <th><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></th>
           <th>Required Date &amp; Time</th>
           <th>:</th>
-          <th>&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_mrin"]; ?></th>
+          <th>&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_mrin"]); ?></th>
         </tr>
         <tr>
           <th>Requested by</th>
           <th>:</th>
-          <th><?php echo $row_k["user_fullname"]; ?></th>
+          <th><?php echo h($row_k["user_fullname"]); ?></th>
           <th>Prepared by (PPC)</th>
           <th>:</th>
-          <th><?php echo $row_k2["user_fullname"]; ?></th>
+          <th><?php echo h($row_k2["user_fullname"]); ?></th>
         </tr>
       </table>
 
@@ -255,15 +255,15 @@ $row_k2 = mysqli_fetch_array($result_k2);
 		 ?>
 
             <tr>
-               <td width="100"><?php  echo $row4_p["bill_component"]; ?></td>
-               <td width="122"><?php  echo $row4_p["material_desc_c"]; ?></td>
-                <td width="45"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-                <td width="120"><div align="center"><?php echo $row_scan["prod_order"]; ?></div></td>
-                <td width="93"><?php  echo $row4_p["material"]; ?></td>
-                <td width="45"><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
+               <td width="100"><?php  echo h($row4_p["bill_component"]); ?></td>
+               <td width="122"><?php  echo h($row4_p["material_desc_c"]); ?></td>
+                <td width="45"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="120"><div align="center"><?php echo h($row_scan["prod_order"]); ?></div></td>
+                <td width="93"><?php  echo h($row4_p["material"]); ?></td>
+                <td width="45"><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
                 <td width="55"><div align="center"><?php echo $sta; ?></div></td>
-                <td width="55"><div align="center"><font color="#FF0000"><?php echo $row4_p["isloc"]; ?></font></div></td>
-                <td width="90"><div align="right"><?php echo $row["bom_qty"]; ?>&nbsp;</div></td>
+                <td width="55"><div align="center"><font color="#FF0000"><?php echo h($row4_p["isloc"]); ?></font></div></td>
+                <td width="90"><div align="right"><?php echo h($row["bom_qty"]); ?>&nbsp;</div></td>
                 <td width="90"><div align="right">
 	                <?php 
 					
@@ -276,7 +276,7 @@ $row_k2 = mysqli_fetch_array($result_k2);
 					
 	while($row_tp = mysqli_fetch_assoc($result_tp))
    {
-	echo $row_tp["TOT"]; 
+	echo h($row_tp["TOT"]); 
 	
 	$tp_quantity = $row_tp["TOT"]; 
 	

@@ -47,7 +47,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -166,11 +166,11 @@ $rs = mysqli_query($dbc, $query);   //run the query.
       ?>
            
                 <tr class="gradeX">
-                <td><div align="center"><?php  echo $row2["id_type"]; ?></div></td>
-                <td>&nbsp;<?php  echo $row2["type_desc"]; ?></td>
-                <td>&nbsp;<?php  echo $row2["status_type"]; ?></td>
-                <td><div align="center"><a value="Details" href="type_reject_view.php?id_type=<?php echo $row2["id_type"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></div></td>
-                <td>&nbsp; <a value="Edit" href="type_reject_edit.php?id_type=<?php echo $row2["id_type"]; ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>             
+                <td><div align="center"><?php  echo h($row2["id_type"]); ?></div></td>
+                <td>&nbsp;<?php  echo h($row2["type_desc"]); ?></td>
+                <td>&nbsp;<?php  echo h($row2["status_type"]); ?></td>
+                <td><div align="center"><a value="Details" href="type_reject_view.php?id_type=<?php echo h($row2["id_type"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View" />View</a></div></td>
+                <td>&nbsp; <a value="Edit" href="type_reject_edit.php?id_type=<?php echo h($row2["id_type"]); ?>&amp;&amp;TB_iframe=true&amp;height=400&amp;width=700" class="thickbox" target="_self"> <img src="../img/edit.gif" width="16" height="16" alt="Edit" />Edit</a></td>             
                 </tr>
                 
           <?php 

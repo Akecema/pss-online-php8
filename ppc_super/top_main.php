@@ -42,7 +42,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
@@ -77,7 +77,7 @@ function newPopup(url) {
       <h1 class="style1 style3">
      Material Requisition Issue Note Online</h1>
       <!--  <marquee>Scrolling text</marquee> -->
-      <div id="top-navigation"> Welcome <strong><?php echo $res['user_fullname']; ?></strong> <span>|</span><img src="../images/help.png" width="16" height="16" /> <a href="#">Help</a> <span>|</span><img src="../images/user.png" width="16" height="16" />  <a href="JavaScript:newPopup('profile_setting.php?user_no=<?php echo $res["user_no"]; ?>');" >Accounts</a> <span>|</span> <img src="../images/exit.png" width="16" height="16" /><a href="../logout.php" target="_parent">Log out</a> </div>
+      <div id="top-navigation"> Welcome <strong><?php echo h($res['user_fullname']); ?></strong> <span>|</span><img src="../images/help.png" width="16" height="16" /> <a href="#">Help</a> <span>|</span><img src="../images/user.png" width="16" height="16" />  <a href="JavaScript:newPopup('profile_setting.php?user_no=<?php echo h($res["user_no"]); ?>');" >Accounts</a> <span>|</span> <img src="../images/exit.png" width="16" height="16" /><a href="../logout.php" target="_parent">Log out</a> </div>
     </div>
     <!-- End Logo + Top Nav -->
     <!-- Main Nav -->

@@ -44,7 +44,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -130,13 +130,13 @@ $url = 'material_master_list.php';
                </tr>
                <tr bgcolor="#FFFFFF">
                  <td height="35"><?php echo $no; ?></td>
-                 <td height="35"><?php echo $data_scan["material_no"]; ?></td>
-                 <td height="35"><?php echo $data_scan["material_desc"]; ?></td>
-                 <td><?php echo $data_scan["material_type"]; ?></td>
-                 <td><?php echo $data_scan["BUn"]; ?></td>
-                 <td><?php echo $data_scan["plant"]; ?></td>
-                 <td><?php echo $data_scan["bom"]; ?></td>
-                 <td><?php echo $data_scan["R2"]; ?></td>
+                 <td height="35"><?php echo h($data_scan["material_no"]); ?></td>
+                 <td height="35"><?php echo h($data_scan["material_desc"]); ?></td>
+                 <td><?php echo h($data_scan["material_type"]); ?></td>
+                 <td><?php echo h($data_scan["BUn"]); ?></td>
+                 <td><?php echo h($data_scan["plant"]); ?></td>
+                 <td><?php echo h($data_scan["bom"]); ?></td>
+                 <td><?php echo h($data_scan["R2"]); ?></td>
                </tr>
             </table>
              <p>--------------------------------------------------------------------------------------------------------------------------------------------- </p>
@@ -175,15 +175,15 @@ $url = 'material_master_list.php';
               
                <tr>
                  <td><?php echo $no2; ?></td>
-                 <td><?php echo $row["bill_component"];   ?></td>
-                 <td><?php echo $row["material_desc_c"];   ?></td>
-                 <td><?php echo $row["R"];   ?></td>
-                 <td><?php echo $row["sloc"];   ?></td>
-                 <td><?php echo $row["isloc"];   ?></td>
-                 <td><?php echo $row["mat_type"];   ?></td>
-                 <td><?php echo $row["comp_unit"];   ?></td>
-                 <td><?php echo $row["consumption"];   ?></td> 
-                 <input name="id_dtl[<?php echo $i; ?>]" type="hidden" value="<?php echo $row["id_dtl"]; ?>">
+                 <td><?php echo h($row["bill_component"]);   ?></td>
+                 <td><?php echo h($row["material_desc_c"]);   ?></td>
+                 <td><?php echo h($row["R"]);   ?></td>
+                 <td><?php echo h($row["sloc"]);   ?></td>
+                 <td><?php echo h($row["isloc"]);   ?></td>
+                 <td><?php echo h($row["mat_type"]);   ?></td>
+                 <td><?php echo h($row["comp_unit"]);   ?></td>
+                 <td><?php echo h($row["consumption"]);   ?></td> 
+                 <input name="id_dtl[<?php echo $i; ?>]" type="hidden" value="<?php echo h($row["id_dtl"]); ?>">
                   <input name="id_hdr" type="hidden" value="<?php echo h($id_hdr); ?>">
                </tr>
               <?php

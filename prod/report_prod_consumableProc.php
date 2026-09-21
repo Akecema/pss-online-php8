@@ -53,7 +53,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -165,7 +165,7 @@ visibility:hidden;
 				  
 				  
 				  ?>
-                    <option value="<?php echo $row3[2]; ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3[1]; ?></option>
+                    <option value="<?php echo h($row3[2]); ?>" <?php if($row3[2] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3[1]); ?></option>
                     <?php
                   }
 				?>
@@ -196,7 +196,7 @@ visibility:hidden;
 			while ($row_convert2 = mysqli_fetch_array($result_convert2))
 			{
 			
-			//echo $row_convert2["id_fac"];
+			//echo h($row_convert2["id_fac"]);
 			
 			}
 			
@@ -289,7 +289,7 @@ $rs = mysqli_query($dbc, $query);   //run the query.
     
     <tr>
     <td width="55"><?php echo $no; ?></td>
-    <td>&nbsp;<?php if ($row2["status"] == "Close") {  ?><font color="#FF0000"><b><?php echo $row2["temp_mrin"]; ?> </b></font> <?php } else { ?><font color="#000099"><b><?php echo $row2["temp_mrin"]; ?></b></font> <?php }  ?></td>
+    <td>&nbsp;<?php if ($row2["status"] == "Close") {  ?><font color="#FF0000"><b><?php echo h($row2["temp_mrin"]); ?> </b></font> <?php } else { ?><font color="#000099"><b><?php echo h($row2["temp_mrin"]); ?></b></font> <?php }  ?></td>
      <td>&nbsp;</td>
      <td>&nbsp;</td>
      <td>&nbsp;</td>
@@ -310,11 +310,11 @@ $rs = mysqli_query($dbc, $query);   //run the query.
  			
                <tr>
                <td width="55">&nbsp;&nbsp;</td>
-                <td width="154">&nbsp;<?php  echo $row["material_no"]; ?></td>
-                <td><?php  echo $row["mat_desc"]; ?></td>
-                <td width="144"><div align="right"><?php echo $row["con_qty"];  ?>&nbsp;</div></td>
-                <td width="80"><div align="center"><?php echo $row["con_uom"]; ?></div></td>
-                <td width="100"><div align="center"><font color="#FF0000"><?php echo $row["id_work"]; ?></font></div></td>
+                <td width="154">&nbsp;<?php  echo h($row["material_no"]); ?></td>
+                <td><?php  echo h($row["mat_desc"]); ?></td>
+                <td width="144"><div align="right"><?php echo h($row["con_qty"]);  ?>&nbsp;</div></td>
+                <td width="80"><div align="center"><?php echo h($row["con_uom"]); ?></div></td>
+                <td width="100"><div align="center"><font color="#FF0000"><?php echo h($row["id_work"]); ?></font></div></td>
                </tr>
       
          <?php 

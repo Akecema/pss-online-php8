@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -123,33 +123,33 @@ $message = NULL; // create an empty new variable.
                <tr>
                  <td width="26%" height="25">Work Center </td>
                  <td width="3%" height="25">:</td>
-                 <td width="71%" height="25"><?php echo $row[0]; ?></td>
+                 <td width="71%" height="25"><?php echo h($row[0]); ?></td>
                </tr>
                <tr>
                  <td height="25">Work Center Description </td>
                  <td height="25">:</td>
-                 <td height="25"><b><font color="blue"><?php echo $row[2]; ?></font></b></td>
+                 <td height="25"><b><font color="blue"><?php echo h($row[2]); ?></font></b></td>
                </tr>
                  <tr>
                  <td height="25">Plant Code</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[1]; ?> </td> 
+                 <td height="25"><?php echo h($row[1]); ?> </td> 
                </tr>
                <tr>
                  <td height="25">Cost Center</td>
                  <td height="25">:</td>
-                 <td height="25"><?php echo $row[3];  ?></td>
+                 <td height="25"><?php echo h($row[3]);  ?></td>
                </tr>
       
                <tr>
                  <td height="25">Cost Center Description</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[4];  ?></td>
+                 <td height="25"><?php	echo h($row[4]);  ?></td>
                </tr>
                <tr>
                  <td height="25">Factory</td>
                  <td height="25">:</td>
-                 <td height="25"><?php	echo $row[5];	?></td>
+                 <td height="25"><?php	echo h($row[5]);	?></td>
                </tr>
                <tr>
                  <td height="25">&nbsp;</td>

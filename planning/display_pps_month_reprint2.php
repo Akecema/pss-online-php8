@@ -79,7 +79,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <title><?php echo $data_setup["title_desc"]; ?></title>
+   <title><?php echo h($data_setup["title_desc"]); ?></title>
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <link rel="shortcut icon" href="../img/favicon.ico">
@@ -230,7 +230,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 				  
 				  
 				  ?>
-                  <option value="<?php echo $row3["factory_desc2"]; ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo $row3["factory_desc"]; ?></option>
+                  <option value="<?php echo h($row3["factory_desc2"]); ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3["factory_desc"]); ?></option>
                   <?php
                   }
 				?>
@@ -247,7 +247,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 				    { 
 				   
 				   ?>
-                <option value="<?php echo $row5["id_work"]; ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo $row5["id_work"],' - ',stripslashes($row5["wc_desc"]); ?></option>
                 <?php
                   }
 				?>
@@ -264,7 +264,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["plan_no"]; ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo $row9["plan_no"]; ?></option>
+                  <option value="<?php echo h($row9["plan_no"]); ?>"<?php if($row9["plan_no"] == $_GET["plan_no"]) echo "selected"; ?>> <?php echo h($row9["plan_no"]); ?></option>
                   <?php
                   }
 				?>
@@ -281,8 +281,8 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
               <td>
                <select name="status" id="status" class="span11">
                   <option value="NULL" placeholder="Select Status"> -- Select Status --</option>
-                  <option value="<?php echo $rst_sta["status_desc"]; ?>" <?php if($_GET["status"] == $rst_sta["status_desc"]) { ?> selected="selected"<?php } ?>><?php echo $rst_sta["status_desc"]; ?></option>
-                  <option value="<?php echo $rst_sta2["status_desc"]; ?>" <?php if($_GET["status"] == $rst_sta2["status_desc"]) { ?> selected="selected"<?php } ?>><?php echo $rst_sta2["status_desc"]; ?></option>
+                  <option value="<?php echo h($rst_sta["status_desc"]); ?>" <?php if($_GET["status"] == $rst_sta["status_desc"]) { ?> selected="selected"<?php } ?>><?php echo h($rst_sta["status_desc"]); ?></option>
+                  <option value="<?php echo h($rst_sta2["status_desc"]); ?>" <?php if($_GET["status"] == $rst_sta2["status_desc"]) { ?> selected="selected"<?php } ?>><?php echo h($rst_sta2["status_desc"]); ?></option>
               </select>
              </td>
              <th>Filename :</th>
@@ -295,7 +295,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
                    while($row19=mysqli_fetch_array($result19)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row19["file_name"]; ?>" <?php if($row19["file_name"] == $_GET["name_file"]) echo "selected"; ?>> <?php echo $row19["file_name"]; ?></option>
+                  <option value="<?php echo h($row19["file_name"]); ?>" <?php if($row19["file_name"] == $_GET["name_file"]) echo "selected"; ?>> <?php echo h($row19["file_name"]); ?></option>
                   <?php
                   }
 				?>
@@ -312,7 +312,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
                    while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
-                     <option value="<?php echo $row29["id_plan"]; ?>" <?php if($row29["id_plan"] == $_GET["plan_category"]) echo "selected"; ?>> <?php echo $row29["plan_category_desc"]; ?></option>
+                     <option value="<?php echo h($row29["id_plan"]); ?>" <?php if($row29["id_plan"] == $_GET["plan_category"]) echo "selected"; ?>> <?php echo h($row29["plan_category_desc"]); ?></option>
                  
                   <?php
                   }
@@ -352,7 +352,7 @@ $rst_sta16 = mysqli_fetch_array($sta_res16);
 			$result_convert2 = mysqli_query($dbc, $query_convert2); 
 			$row_convert2 = mysqli_fetch_array($result_convert2);
 			
-		   // echo $row_convert2["upload_id"];
+		   // echo h($row_convert2["upload_id"]);
 		  
 		  		
 			//-------Count all results------------------------//
@@ -497,15 +497,15 @@ $num = mysqli_num_rows($rs);   //how many material are there?
                         ?>
                            <tr>
                               <td width="48"><?php echo $no; ?></td>
-                              <td><?php echo $row["material_no"]; ?></td>
-                              <td width="124" height="28"><?php echo $row["plan_no"]; ?></td>
-                              <td width="97"><?php echo $row["R"]; ?></td>
-                              <td width="99"><?php echo $row["work_center"]; ?></td>
+                              <td><?php echo h($row["material_no"]); ?></td>
+                              <td width="124" height="28"><?php echo h($row["plan_no"]); ?></td>
+                              <td width="97"><?php echo h($row["R"]); ?></td>
+                              <td width="99"><?php echo h($row["work_center"]); ?></td>
                               <td width="99"><?php echo $sta; ?></td>
                               <td width="99"><?php echo intval($row["qty_plan"]); ?></td>
-                              <td width="99"><?php echo $row["status_pps"]; ?></td>
-                              <td width="99">&nbsp; <a value="Print" href="detail_pps_sheet_print_by_sel.php?plan_date=<?php echo $row["date_plan"]; ?>&&work_centerA=<?php echo $row["work_center"]; ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/print.jpg" width="20" height="20" alt="Print">Print</a></td>
-                              <td width="99">&nbsp; <a value="PDF" href="detail_pps_sheet_print_by_sel_pdf.php?plan_date=<?php echo $row["date_plan"]; ?>&&work_centerA=<?php echo $row["work_center"]; ?>TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/pdf.png" width="20" height="20" alt="Print">PDF</a></td>
+                              <td width="99"><?php echo h($row["status_pps"]); ?></td>
+                              <td width="99">&nbsp; <a value="Print" href="detail_pps_sheet_print_by_sel.php?plan_date=<?php echo h($row["date_plan"]); ?>&&work_centerA=<?php echo h($row["work_center"]); ?>&&TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/print.jpg" width="20" height="20" alt="Print">Print</a></td>
+                              <td width="99">&nbsp; <a value="PDF" href="detail_pps_sheet_print_by_sel_pdf.php?plan_date=<?php echo h($row["date_plan"]); ?>&&work_centerA=<?php echo h($row["work_center"]); ?>TB_iframe=true&height=500&width=1000" class="thickbox" target="_self"> <img src="../img/pdf.png" width="20" height="20" alt="Print">PDF</a></td>
 
                            </tr>
                         <?php

@@ -66,7 +66,7 @@ $rst_sta20 = mysqli_fetch_array($sta_res20);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -399,16 +399,16 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
       
    <tr class="gradeX">
     <td width="5"><?php echo $no; ?> </td>
-    <td width="100"><?php echo $data_sql3["material_no"];  ?></td>
-    <td width="150"><?php echo $data_sql3["material_desc"];  ?></td>
-    <td width="70"><?php echo $data_sql3["R3"];  ?></td>
-    <td width="70"><?php echo $data_sql3["posting_time"];  ?></td>
-    <td width="70"><?php echo $data_sql3["qty_tp"];   ?> </td>
-    <td width="70"><?php echo $data_sql3["uom"];  ?></td>
+    <td width="100"><?php echo h($data_sql3["material_no"]);  ?></td>
+    <td width="150"><?php echo h($data_sql3["material_desc"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["R3"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["posting_time"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["qty_tp"]);   ?> </td>
+    <td width="70"><?php echo h($data_sql3["uom"]);  ?></td>
     <td width="70"><?php echo $shift_desc;  ?></td>
-    <td width="70"><?php echo $data_sql3["ref_doc_no_return"];   ?></td>
-    <td width="100"><?php echo $data_sql3["doc_tp"];  ?></td>
-    <td width="100"><div align="center"><a value="Cancel Document Return from PLB" href="cancel_return_to_plb.php?uid=<?php echo $data_sql3["doc_tp"]; ?>&&TB_iframe=true&height=400&width=850" class="thickbox" target="_self"><img src="../img/font_red_delete.png" width="16" height="16" alt="Cancel Document Return from PLB">Cancel</a></div></td>
+    <td width="70"><?php echo h($data_sql3["ref_doc_no_return"]);   ?></td>
+    <td width="100"><?php echo h($data_sql3["doc_tp"]);  ?></td>
+    <td width="100"><div align="center"><a value="Cancel Document Return from PLB" href="cancel_return_to_plb.php?uid=<?php echo h($data_sql3["doc_tp"]); ?>&&TB_iframe=true&height=400&width=850" class="thickbox" target="_self"><img src="../img/font_red_delete.png" width="16" height="16" alt="Cancel Document Return from PLB">Cancel</a></div></td>
   </tr>
 
 

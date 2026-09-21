@@ -60,7 +60,7 @@ $rst_sta19 = mysqli_fetch_array($sta_res19);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -230,7 +230,7 @@ return "";
                    while($row9=mysqli_fetch_array($result9)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row9["vendor_code"]; ?>"<?php if($row9["vendor_code"] == $_GET["vendor_no"]) echo "selected"; ?>> <?php echo $row9["vendor_name"]; ?></option>
+                  <option value="<?php echo h($row9["vendor_code"]); ?>"<?php if($row9["vendor_code"] == $_GET["vendor_no"]) echo "selected"; ?>> <?php echo h($row9["vendor_name"]); ?></option>
                   <?php
                   }
 				?>
@@ -385,14 +385,14 @@ $result_sql2 = mysqli_query($dbc, $query_sql2);   //run the query.
       
    <tr class="gradeX">
     <td width="50"><?php echo $no; ?> </td>
-    <td width="100"><?php echo $data_sql3["material_no"];  ?></td>
-    <td width="150"><?php echo $data_sql3["material_desc"];  ?></td>
-    <td width="70"><?php echo $data_sql3["R3"];  ?></td>
-    <td width="70"><?php echo $data_sql3["posting_time"];  ?></td>
-    <td width="70"><?php echo $data_sql3["qty_tp"];   ?> </td>
-    <td width="70"><?php echo $data_sql3["uom"];  ?></td>
+    <td width="100"><?php echo h($data_sql3["material_no"]);  ?></td>
+    <td width="150"><?php echo h($data_sql3["material_desc"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["R3"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["posting_time"]);  ?></td>
+    <td width="70"><?php echo h($data_sql3["qty_tp"]);   ?> </td>
+    <td width="70"><?php echo h($data_sql3["uom"]);  ?></td>
     <td width="70"><?php echo $shift_desc;  ?></td>
-    <td width="100"><?php echo $data_sql3["doc_tp"];  ?></td>
+    <td width="100"><?php echo h($data_sql3["doc_tp"]);  ?></td>
     <td width="100"><div align="center"><a value="Subcont Delivery Order" href="print_subcont_delivery_order.php?uid=<?php echo base64_encode($data_sql3["doc_tp"]); ?>"  target="_blank"><img src="../img/pdf-download.png" width="30" height="30" alt="Subcont Delivery Order"></a></div></td>
   </tr>
 

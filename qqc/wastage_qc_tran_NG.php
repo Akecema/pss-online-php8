@@ -77,7 +77,7 @@ $rst_sta15 = mysqli_fetch_array($sta_res15);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -251,7 +251,7 @@ return "";
   
                    while($row3=mysqli_fetch_array($result3)) 
 			      {  ?>
-			 <option value="<?php echo $row3["factory_desc2"]; ?>" <?php if($row3["factory_desc2"] == "1") echo "selected"; ?>> <?php echo $row3["factory_desc"]; ?> </option>  
+			 <option value="<?php echo h($row3["factory_desc2"]); ?>" <?php if($row3["factory_desc2"] == "1") echo "selected"; ?>> <?php echo h($row3["factory_desc"]); ?> </option>  
                 <!--  echo'<option value="',$row3[2],'">',stripslashes($row3[1]),'</option>';-->
              <?php     
 			 }
@@ -270,7 +270,7 @@ return "";
                    while($row7=mysqli_fetch_array($result7)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row7["model_name"]; ?>"> <?php echo $row7["model_name"]; ?></option>
+                  <option value="<?php echo h($row7["model_name"]); ?>"> <?php echo h($row7["model_name"]); ?></option>
                   
                   <?php
                   }
@@ -296,7 +296,7 @@ return "";
                    while($row10=mysqli_fetch_array($result10)) 
 			      {
 				   ?>
-                  <option value="<?php echo $row10["sloc_code"]; ?>"> <?php echo $row10["sloc_code"]; ?></option>
+                  <option value="<?php echo h($row10["sloc_code"]); ?>"> <?php echo h($row10["sloc_code"]); ?></option>
                   <?php
                   }
 				?>
@@ -317,13 +317,13 @@ return "";
 				   ?>
                      <?php if($_POST["Submit2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_type["id_wastage"]; ?>"<?php if($row_type["id_wastage"] == $_POST["type_wastage"]) echo "selected"; ?>> <?php echo $row_type["wastage_desc"]; ?></option>
+                    <option value="<?php echo h($row_type["id_wastage"]); ?>"<?php if($row_type["id_wastage"] == $_POST["type_wastage"]) echo "selected"; ?>> <?php echo h($row_type["wastage_desc"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-                  <option value="<?php echo $row_type["id_wastage"]; ?>"> <?php echo $row_type["wastage_desc"]; ?></option>
+                  <option value="<?php echo h($row_type["id_wastage"]); ?>"> <?php echo h($row_type["wastage_desc"]); ?></option>
                   <?php
 				    }  // else
 				  
@@ -344,13 +344,13 @@ return "";
 			      {
 					   if($_POST["Submit2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_reason["id_reason_wastage"]; ?>"<?php if($row_reason["id_reason_wastage"] == $_POST["reason_wastage"]) echo "selected"; ?>> <?php echo $row_reason["reason_wastage_desc"]; ?></option>
+                    <option value="<?php echo h($row_reason["id_reason_wastage"]); ?>"<?php if($row_reason["id_reason_wastage"] == $_POST["reason_wastage"]) echo "selected"; ?>> <?php echo h($row_reason["reason_wastage_desc"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-		    <option value="<?php echo $row_reason["id_reason_wastage"]; ?>"> <?php echo $row_reason["reason_wastage_desc"]; ?></option>
+		    <option value="<?php echo h($row_reason["id_reason_wastage"]); ?>"> <?php echo h($row_reason["reason_wastage_desc"]); ?></option>
                   <?php
 				    }//else
                   }
@@ -376,13 +376,13 @@ return "";
 				   ?>
                      <?php if($_POST["Submit2"] == true)  
 		         {   ?>
-                    <option value="<?php echo $row_uom["UOM"]; ?>"<?php if($row_uom["UOM"] == $_POST["UOM_unit"]) echo "selected"; ?>> <?php echo $row_uom["UOM"]; ?></option>
+                    <option value="<?php echo h($row_uom["UOM"]); ?>"<?php if($row_uom["UOM"] == $_POST["UOM_unit"]) echo "selected"; ?>> <?php echo h($row_uom["UOM"]); ?></option>
                      
                   <?php
 				 }else{
 				  
 				  ?> 
-                  <option value="<?php echo $row_uom["UOM"]; ?>"> <?php echo $row_uom["UOM"]; ?></option>
+                  <option value="<?php echo h($row_uom["UOM"]); ?>"> <?php echo h($row_uom["UOM"]); ?></option>
                   <?php
 				    }  // else
 				  
@@ -650,7 +650,7 @@ $message = NULL; // create an empty new variable.
 						
 		   for ($i=0; $i<$how_many; $i++) { 
 		   			
-		//echo ($i+1).'-'.$cancel[$i]; echo $string[$i];
+		//echo ($i+1).'-'.$cancel[$i]; echo h($string[$i]);
 		//echo "</br>";
 		
 			  
@@ -821,20 +821,20 @@ $num = mysqli_num_rows($rs);   //how many material are there?
       ?>
            
                 <tr class="gradeX">
-                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo $row["id_disposal"]; ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id_disposal"]); ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
 onClick="Check(document.myform.cancel)">  </div><?php echo $no; ?></td>
-                <td width="80"><?php echo $row["model_code"]; ?></td>
-                <td><?php echo $row["material_no"]; ?></td>
-               <!-- <td width="60"><?php //echo $row["ploc_prod_reject"]; ?></td>-->
-                <td width="60"><?php echo $row["cost_center"]; ?></td>
-                <td width="80"><?php echo $row_type['wastage_desc']; ?></td>
-                <td width="80"><?php echo $row["R2"]; ?></td>  
-                <td width="60"><?php echo $row["qty_wastage"]; ?></td>
-                <td width="60"><?php echo $row["UOM_unit"]; ?></td> 
-                <td width="80"><?php echo $row_reason['reason_wastage_desc']; ?></td>
-                <td width="140"><textarea name="remark_reject[<?php echo $row["id_disposal"]; ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_reject'][($row["id_disposal"])])) { echo $_POST['remark_reject'][($row["id_disposal"])]; } ?></textarea>
-               <input name="id_disposal[<?php echo $k; ?>]" type="hidden" value="<?php echo $row["id_disposal"]; ?>">
-          </td><td><a value="Remove Item" href="cancel_wastage_tran_proc.php?uid=<?php echo $row["id_disposal"]; ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Remove Item">Remove Item</a>
+                <td width="80"><?php echo h($row["model_code"]); ?></td>
+                <td><?php echo h($row["material_no"]); ?></td>
+               <!-- <td width="60"><?php //echo h($row["ploc_prod_reject"]); ?></td>-->
+                <td width="60"><?php echo h($row["cost_center"]); ?></td>
+                <td width="80"><?php echo h($row_type['wastage_desc']); ?></td>
+                <td width="80"><?php echo h($row["R2"]); ?></td>  
+                <td width="60"><?php echo h($row["qty_wastage"]); ?></td>
+                <td width="60"><?php echo h($row["UOM_unit"]); ?></td> 
+                <td width="80"><?php echo h($row_reason['reason_wastage_desc']); ?></td>
+                <td width="140"><textarea name="remark_reject[<?php echo h($row["id_disposal"]); ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_reject'][($row["id_disposal"])])) { echo $_POST['remark_reject'][($row["id_disposal"])]; } ?></textarea>
+               <input name="id_disposal[<?php echo $k; ?>]" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
+          </td><td><a value="Remove Item" href="cancel_wastage_tran_proc.php?uid=<?php echo h($row["id_disposal"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Remove Item">Remove Item</a>
                </td>
                 </tr>
                 

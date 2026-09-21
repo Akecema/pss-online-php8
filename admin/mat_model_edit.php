@@ -46,7 +46,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -199,20 +199,20 @@ if (isset($message))
                  <td>ID Reason *</td>
                  <td>:</td>
                  <td>
-                   <input name="model_name" type="text" id="model_name" size="20" maxlength="8" readonly value="<?php echo $row[1]; ?>" /></td>
+                   <input name="model_name" type="text" id="model_name" size="20" maxlength="8" readonly value="<?php echo h($row[1]); ?>" /></td>
                </tr>
                <tr>
                  <td>Reason Reject Desc *</td>
                  <td>:</td>
                  <td>
-                   <input name="model_desc" type="text" class="span11" id="model_desc" size="55" maxlength="100" value="<?php echo $row[2]; ?>" />
+                   <input name="model_desc" type="text" class="span11" id="model_desc" size="55" maxlength="100" value="<?php echo h($row[2]); ?>" />
                </td>
                </tr>
                  <tr>
                  <td>Company*</td>
                  <td>:</td>
                  <td>
-                   <input name="comp_code" type="text" class="span11" id="comp_code" size="55" maxlength="100" value="<?php echo $row[3]; ?>" />
+                   <input name="comp_code" type="text" class="span11" id="comp_code" size="55" maxlength="100" value="<?php echo h($row[3]); ?>" />
                 </td>
                 </tr>
                  <tr>

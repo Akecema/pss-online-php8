@@ -84,7 +84,7 @@ $rst_sta8 = mysqli_fetch_array($sta_res8);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -163,7 +163,7 @@ if (bV >= 4) window.print();
   <td><div align="center"><span class="style4">Planned Order Details</span></div></td>
   </tr>
 <tr>
-  <td>Planned Order No. : <?php echo $data_pps["plan_no"];  ?></td>
+  <td>Planned Order No. : <?php echo h($data_pps["plan_no"]);  ?></td>
 </tr>
 </table> 
   <table class="table table-bordered data-table">
@@ -232,10 +232,10 @@ $result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
    
    
       <tr class="gradeX">
-        <td width="60"><?php echo $no; ?><input name="uid" type="hidden" value="<?php echo $row2["bflush_no"]; ?> "></td>
-        <td><font color="#0000CC"><?php echo $row2["bflush_no"]; ?></font></td>
-        <td width="188"><?php echo $row2["R2"]; ?></td>
-        <td width="188"><?php echo $row2["R3"]; ?></td>
+        <td width="60"><?php echo $no; ?><input name="uid" type="hidden" value="<?php echo h($row2["bflush_no"]); ?> "></td>
+        <td><font color="#0000CC"><?php echo h($row2["bflush_no"]); ?></font></td>
+        <td width="188"><?php echo h($row2["R2"]); ?></td>
+        <td width="188"><?php echo h($row2["R3"]); ?></td>
         <td width="167"><?php echo $qty_final; ?></td>
         <td width="161"><?php echo $status_output; ?></td>
       </tr>  
@@ -249,12 +249,12 @@ $result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
 	  
 	   ?> 
          <tr class="gradeX">
-        <td width="60"><?php //echo $no3; ?><input name="uid3" type="hidden" value="<?php echo $row3["qqc_doc_no"]; ?> "></td>
-        <td><font color="#0000CC"><?php echo $row3["bflush_no"]; ?></font><br><?php echo $row3["qqc_doc_no"]; ?></td>
-        <td width="188"><?php echo $row3["B2"]; ?></td>
-        <td width="188"><?php echo $row3["B3"]; ?></td>
-        <td width="167"><?php echo $row3["qty_balance"]; ?></td>
-        <td width="161"><?php echo $row3["status_QC"]; ?></td>
+        <td width="60"><?php //echo $no3; ?><input name="uid3" type="hidden" value="<?php echo h($row3["qqc_doc_no"]); ?> "></td>
+        <td><font color="#0000CC"><?php echo h($row3["bflush_no"]); ?></font><br><?php echo h($row3["qqc_doc_no"]); ?></td>
+        <td width="188"><?php echo h($row3["B2"]); ?></td>
+        <td width="188"><?php echo h($row3["B3"]); ?></td>
+        <td width="167"><?php echo h($row3["qty_balance"]); ?></td>
+        <td width="161"><?php echo h($row3["status_QC"]); ?></td>
         </tr>   
        
         <?php 
@@ -299,10 +299,10 @@ $result_display2 = mysqli_query($dbc, $query_display2);   //run the query.
   
      ?>   
         <tr class="gradeX">
-        <td width="60"><?php echo $no2; ?><input name="uid2" type="hidden" value="<?php echo $row_rst_display2["qqc_no"]; ?> "></td>
-        <td><font color="#669999"><?php echo $row_rst_display2["qqc_no"]; ?></font></td>
-        <td width="188"><?php echo $row_rst_display2["J2"]; ?></td>
-        <td width="188"><?php echo $row_rst_display2["J3"]; ?></td>
+        <td width="60"><?php echo $no2; ?><input name="uid2" type="hidden" value="<?php echo h($row_rst_display2["qqc_no"]); ?> "></td>
+        <td><font color="#669999"><?php echo h($row_rst_display2["qqc_no"]); ?></font></td>
+        <td width="188"><?php echo h($row_rst_display2["J2"]); ?></td>
+        <td width="188"><?php echo h($row_rst_display2["J3"]); ?></td>
         <td width="167"><?php echo $qty_final2; ?></td>
         <td width="161"><?php echo $status_output2; ?></td>
       </tr> 

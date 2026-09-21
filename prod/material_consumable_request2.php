@@ -55,7 +55,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -432,7 +432,7 @@ if (isset($message))
                  <td width="20%">&nbsp;</td>
                </tr>
                <tr>
-                 <td height="19"><input name="user_no" type="hidden" value="<?php echo $res["user_no"]; ?>" /></td>
+                 <td height="19"><input name="user_no" type="hidden" value="<?php echo h($res["user_no"]); ?>" /></td>
                  <td height="19">&nbsp;</td>
                  <td height="10" colspan="2"><div align="right">
                      <input name="saveT" type="submit" id="submit" value="+ Add Consumable Item" class="btn btn-warning" onclick="return confirm('Confirm to add request?');" />
@@ -489,18 +489,18 @@ if (isset($message))
              
              <table width="98%" height="26" border="0" cellspacing="2" bgcolor="#eee">
                <tr> 
-                 <td width="21%"><?php echo  $row_data2["material_no"]; ?>
+                 <td width="21%"><?php echo  h($row_data2["material_no"]); ?>
                  
-                  <input name="id_req_con[<?php echo $i; ?>]" type="hidden" value="<?php echo  $row_data2["id_req_con"]; ?>" /></td>
+                  <input name="id_req_con[<?php echo $i; ?>]" type="hidden" value="<?php echo  h($row_data2["id_req_con"]); ?>" /></td>
                 
-                 <td width="21%"><?php echo  $row_con_detail["mat_desc"]; ?></td>
+                 <td width="21%"><?php echo  h($row_con_detail["mat_desc"]); ?></td>
                  <td width="32%"><div align="center">
-                 <input name="con_qty[<?php echo $i; ?>]" type="text" value="<?php  echo $row_data2["con_qty"];   ?>" size="10"/>
+                 <input name="con_qty[<?php echo $i; ?>]" type="text" value="<?php  echo h($row_data2["con_qty"]);   ?>" size="10"/>
                
                  </div></td>
-                 <td width="20%"><div align="center"><?php echo $row_data2["con_uom"]; ?></div></td>
+                 <td width="20%"><div align="center"><?php echo h($row_data2["con_uom"]); ?></div></td>
                  <td width="6%">
-                 <div align="center"><a href="delete_consumable_request.php?id_req_con=<?php echo $row_data2["id_req_con"]; ?>&&lastID=<?php echo $lastID; ?>&&date1=<?php echo h($date1); ?>&&t_time=<?php echo h($t_time); ?>&&factory=<?php echo h($factory); ?>" onclick="return confirm('Are you sure you want to delete?')"><img src="../img/delete.png" width="16" height="16"  /></a></div></td>
+                 <div align="center"><a href="delete_consumable_request.php?id_req_con=<?php echo h($row_data2["id_req_con"]); ?>&&lastID=<?php echo $lastID; ?>&&date1=<?php echo h($date1); ?>&&t_time=<?php echo h($t_time); ?>&&factory=<?php echo h($factory); ?>" onclick="return confirm('Are you sure you want to delete?')"><img src="../img/delete.png" width="16" height="16"  /></a></div></td>
                </tr>
              </table>
              

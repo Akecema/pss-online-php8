@@ -98,7 +98,7 @@ $rst_sta17 = mysqli_fetch_array($sta_res17);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -361,7 +361,7 @@ return "";
                    while($row29=mysqli_fetch_array($result29)) 
 			      {
 				   ?>
-                     <option value="<?php echo $row29["id_plan"]; ?>"> <?php echo $row29["plan_category_desc"]; ?></option>
+                     <option value="<?php echo h($row29["id_plan"]); ?>"> <?php echo h($row29["plan_category_desc"]); ?></option>
                  
                   <?php
                   }

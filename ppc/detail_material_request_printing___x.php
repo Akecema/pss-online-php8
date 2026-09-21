@@ -179,23 +179,23 @@ $row_k2 = mysqli_fetch_array($result_k2);
           
           <th width="204" height="28"><div align="left"><span class="style3">Factory</span></div></th>
           <th width="11" height="28"><span class="style3">:</span></th>
-          <td width="218" height="28"><span class="style3"><?php echo $data_2["factory"];  ?></span></td>
+          <td width="218" height="28"><span class="style3"><?php echo h($data_2["factory"]);  ?></span></td>
         </tr>
         <tr>
           <th width="204" height="28"><div align="left"><span class="style3">Date &amp; Time</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td><span class="style3"><?php echo $data_2["R2"]; ?>&nbsp;<?php echo $data_2["time_posting"]; ?></span></td>
+          <td><span class="style3"><?php echo h($data_2["R2"]); ?>&nbsp;<?php echo h($data_2["time_posting"]); ?></span></td>
           <th width="208" height="28"><div align="left"><span class="style3">Required Date &amp; Time</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td height="28"><span class="style3">&nbsp;<?php echo $data_2["R"]; ?>&nbsp;<?php echo $data_2["time_mrin"]; ?></span></td>
+          <td height="28"><span class="style3">&nbsp;<?php echo h($data_2["R"]); ?>&nbsp;<?php echo h($data_2["time_mrin"]); ?></span></td>
         </tr>
         <tr>
           <th height="28"><div align="left"><span class="style3">Requested by</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td><span class="style3"><?php echo $row_k["user_fullname"]; ?></span></td>
+          <td><span class="style3"><?php echo h($row_k["user_fullname"]); ?></span></td>
           <th height="28"><div align="left"><span class="style3">Prepared by (PPC)</span></div></th>
           <th height="28"><span class="style3">:</span></th>
-          <td height="28"><span class="style3"><?php echo $row_k2["user_fullname"]; ?></span></td>
+          <td height="28"><span class="style3"><?php echo h($row_k2["user_fullname"]); ?></span></td>
         </tr>
       </table>
     
@@ -283,15 +283,15 @@ $row_k2 = mysqli_fetch_array($result_k2);
 	++$k; 
 	
 	?>
-               <td width="100" height="60"><?php  echo $row4_p["bill_component"]; ?></td>
-               <td width="122" height="60"><?php  echo $row4_p["material_desc_c"]; ?></td>
-                <td width="100" height="60"><div align="right"><?php echo $row["bom_qty"]; ?>&nbsp;</div></td>
-                <td width="45" height="60"><div align="center"><?php echo $row["bom_oum"]; ?></div></td>
-                <td width="146" height="60"><div align="center"><?php echo $row_scan["prod_order"]; ?></div></td>
-                <td width="42" height="60"><div align="center"><font color="#FF0000"><?php echo $row1_p["work_center"]; ?></font></div></td>
+               <td width="100" height="60"><?php  echo h($row4_p["bill_component"]); ?></td>
+               <td width="122" height="60"><?php  echo h($row4_p["material_desc_c"]); ?></td>
+                <td width="100" height="60"><div align="right"><?php echo h($row["bom_qty"]); ?>&nbsp;</div></td>
+                <td width="45" height="60"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="146" height="60"><div align="center"><?php echo h($row_scan["prod_order"]); ?></div></td>
+                <td width="42" height="60"><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
                 <td width="90" height="60"><div align="center"><?php echo $sta; ?></div></td>
                 <td width="90" height="60">&nbsp;</td>
-                <td width="65" height="60"><div align="center"><font color="#FF0000"><?php echo $row4_p["sloc"]; ?></font></div></td>
+                <td width="65" height="60"><div align="center"><font color="#FF0000"><?php echo h($row4_p["sloc"]); ?></font></div></td>
                  <td width="60" height="60">&nbsp;</td>
                 <td height="60">
                   

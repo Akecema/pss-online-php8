@@ -34,7 +34,7 @@ $result9 = mysqli_query($dbc, $query9);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -65,7 +65,7 @@ $result9 = mysqli_query($dbc, $query9);
     {
           
     ?>
-    <option value="<?php echo $row9[1]; ?>" > <?php echo $row9[1]; ?> - <?php echo $row9[2]; ?></option>
+    <option value="<?php echo h($row9[1]); ?>" > <?php echo h($row9[1]); ?> - <?php echo h($row9[2]); ?></option>
     
     <?php     }
     

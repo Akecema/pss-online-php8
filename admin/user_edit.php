@@ -45,7 +45,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -243,21 +243,21 @@ if (isset($message))
                  <td>Vendor ID *</td>
                  <td>:</td>
                  <td>
-                   <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="8" readonly value="<?php echo $row[1]; ?>" />
+                   <input name="vendor_no" type="text" id="vendor_no" size="20" maxlength="8" readonly value="<?php echo h($row[1]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>Staff ID *</td>
                  <td>:</td>
                  <td>
-                   <input name="user_id" type="text" id="user_id" size="20" maxlength="20" readonly value="<?php echo $row[2]; ?>" />
+                   <input name="user_id" type="text" id="user_id" size="20" maxlength="20" readonly value="<?php echo h($row[2]); ?>" />
                  </td>
                </tr>
                  <tr>
                  <td height="25">Name *</td>
                  <td height="25">:</td>
                  <td height="25">
-         <input name="user_fullname" type="text" class="span11" id="user_fullname" size="55" maxlength="100" value="<?php echo $row[5]; ?>" />
+         <input name="user_fullname" type="text" class="span11" id="user_fullname" size="55" maxlength="100" value="<?php echo h($row[5]); ?>" />
                 </td>
                </tr>
                
@@ -343,28 +343,28 @@ if (isset($message))
                  <td>Telephone No. 1 *</td>
                  <td>:</td>
                  <td>
-         <input name="user_telno1" type="text" class="span11" id="user_telno1" size="20" maxlength="20" value="<?php echo $row[9]; ?>" />
+         <input name="user_telno1" type="text" class="span11" id="user_telno1" size="20" maxlength="20" value="<?php echo h($row[9]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td height="25">Telephone No. 2</td>
                  <td height="25">:</td>
                  <td height="25">
-                   <input name="user_telno2" type="text" class="span11" id="user_telno2" size="20" maxlength="20" value="<?php echo $row[10]; ?>" />
+                   <input name="user_telno2" type="text" class="span11" id="user_telno2" size="20" maxlength="20" value="<?php echo h($row[10]); ?>" />
                 </td>
                </tr>
                <tr>
                  <td>Fax No</td>
                  <td>:</td>
                  <td>
-                   <input name="user_fax" type="text" class="span11" id="user_fax" size="20" maxlength="20" value="<?php echo $row[11]; ?>" />
+                   <input name="user_fax" type="text" class="span11" id="user_fax" size="20" maxlength="20" value="<?php echo h($row[11]); ?>" />
                  </td>
                </tr>
                <tr>
                  <td>E-mail *</td>
                  <td>:</td>
                  <td>
-       <input name="user_email" type="text" class="span11" id="user_email" size="55" maxlength="200" value="<?php echo $row[12]; ?>" /></td>
+       <input name="user_email" type="text" class="span11" id="user_email" size="55" maxlength="200" value="<?php echo h($row[12]); ?>" /></td>
                </tr>
                <tr>
                  <td>Level *</td>
@@ -409,7 +409,7 @@ if (isset($message))
                  <td>Status User *</td>
                  <td>:</td>
                  <td><select name="status" class="span11" >
-	  <option value ="<?php  echo $row[15]; ?>" ><?php  echo $sts; ?></option>
+	  <option value ="<?php  echo h($row[15]); ?>" ><?php  echo $sts; ?></option>
 	  <option value="AC">Active</option>
 	  <option value="NA">Inactive</option>
 	      </select>
@@ -418,7 +418,7 @@ if (isset($message))
                 <tr>
                  <td>Date Created</td>
                  <td>:</td>
-                 <td><?php  echo $row[14]; ?></td>
+                 <td><?php  echo h($row[14]); ?></td>
                </tr>
                <tr>
                  <td>&nbsp;</td>
@@ -436,7 +436,7 @@ if (isset($message))
            
           <input name="submit" type="submit"  id="submit" value="UPDATE" class="btn btn-success">
           <input name="Reset" type="reset" id="Reset" value="CLEAR" class="btn btn-danger">
-          <input type="hidden" name="user_no" id="user_no" value="<?php echo $row[0]; ?>">
+          <input type="hidden" name="user_no" id="user_no" value="<?php echo h($row[0]); ?>">
      
            
           </form>

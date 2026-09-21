@@ -44,7 +44,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $data_setup["title_desc"]; ?></title>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="../img/favicon.ico">
@@ -169,11 +169,11 @@ $num = mysqli_num_rows($rs);   //how many material are there?
            
                 <tr class="gradeX">
                 <td width="30"><?php echo $no; ?></td>
-                <td><a href="#"><?php echo $row[1]; ?></a></td>
-                <td width="150"><?php echo $row[2]; ?></td>
-                <td width="200" height="28"><?php  echo $row[4]; ?></td>
+                <td><a href="#"><?php echo h($row[1]); ?></a></td>
+                <td width="150"><?php echo h($row[2]); ?></td>
+                <td width="200" height="28"><?php  echo h($row[4]); ?></td>
                 <td width="100"><font color="#FF0000"><?php echo $sts; ?></font></td>
-                <td><?php echo $row[7]; ?></td>
+                <td><?php echo h($row[7]); ?></td>
                 </tr>
           
           <?php 

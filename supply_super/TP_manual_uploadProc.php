@@ -32,7 +32,7 @@ exit();
 $url = "TP_manual_upload.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -207,7 +207,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 			
 		    //convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
+			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = '".db_esc($dbc, $_GET["material_no"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 		

@@ -32,7 +32,7 @@ exit();
 }
 $url = "add_user.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -108,7 +108,7 @@ $message = NULL; // create an empty new variable.
     
       else {
 	  
-	      $query_all = "SELECT * FROM user_detail where user_no = '".$_POST['username1']."'";
+	      $query_all = "SELECT * FROM user_detail where user_no = '".db_esc($dbc, $_POST['username1'])."'";
 		  $result_all = mysqli_query($dbc, $query_all);
 		  $db_all = mysqli_fetch_array($result_all);
 	  
@@ -148,7 +148,7 @@ $message = NULL; // create an empty new variable.
 				 $newpass = md5($_POST['newpass']);
 				 // $pass = md5($password);
 				 
-				  $query = "SELECT * FROM user_detail WHERE user_no = '$user'";
+				  $query = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $user)."'";
 				  $result = mysqli_query($dbc, $query);
 				  $num = mysqli_num_rows($result);
 				  
@@ -157,10 +157,10 @@ $message = NULL; // create an empty new variable.
 					
 					//Make the query
 			
-		          $query2 = "UPDATE user_detail set password = '$newpass' where user_no ='".$row["user_no"]."'";
+		          $query2 = "UPDATE user_detail set password = '".db_esc($dbc, $newpass)."' where user_no ='".db_esc($dbc, $row["user_no"])."'";
 				  $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 				  
-				  $query12 = "UPDATE login_detail SET password = '$newpass', user_update = '".$row["username"]."', date_update = NOW() WHERE username = '".$row["username"]."'";
+				  $query12 = "UPDATE login_detail SET password = '".db_esc($dbc, $newpass)."', user_update = '".db_esc($dbc, $row["username"])."', date_update = NOW() WHERE username = '".db_esc($dbc, $row["username"])."'";
 				  $result12 = mysqli_query($dbc, $query12) or die (mysqli_error($dbc));
 				  
 				  if(mysqli_affected_rows($dbc) == 1) { //If it ran ok

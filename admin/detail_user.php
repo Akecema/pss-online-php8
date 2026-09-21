@@ -30,7 +30,7 @@ exit();
 }
 $url = "detail_user.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -98,7 +98,7 @@ return $ss;
 
 $user_no = $_GET["user_no"];
 
-$queryu = "SELECT * from user_detail where user_no = '$user_no'";
+$queryu = "SELECT * from user_detail where user_no = '".db_esc($dbc, $user_no)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -144,7 +144,7 @@ $message = NULL; // create an empty new variable.
                  <td height="25"><?php		
  	
   //Retrieve and display the available types
-  $query3 = "SELECT * FROM company WHERE comp_code = '$row[8]'";
+  $query3 = "SELECT * FROM company WHERE comp_code = '".db_esc($dbc, $row[8])."'";
   $result3 = mysqli_query($dbc, $query3);
   $row3 = mysqli_fetch_array($result3);
   
@@ -159,7 +159,7 @@ $message = NULL; // create an empty new variable.
                  <td height="25">:</td>
                  <td height="25"><?php		
    //Retrieve and display the available types
-  $query2 ="SELECT * from department WHERE id_dept = '$row[6]'";
+  $query2 ="SELECT * from department WHERE id_dept = '".db_esc($dbc, $row[6])."'";
   $result2 = mysqli_query($dbc, $query2);
    $row2 = mysqli_fetch_array($result2);
 	    
@@ -173,7 +173,7 @@ $message = NULL; // create an empty new variable.
                  <td height="25"><?php		
 
   //Retrieve and display the available types
-  $query2b = "SELECT * FROM designation WHERE id_design = '$row[7]'";
+  $query2b = "SELECT * FROM designation WHERE id_design = '".db_esc($dbc, $row[7])."'";
   $result2b = mysqli_query($dbc, $query2b);
    $row2b =mysqli_fetch_array($result2b);
    
@@ -207,7 +207,7 @@ $message = NULL; // create an empty new variable.
                  <td height="25"><?php		
  
   //Retrieve and display the available types
-  $query4 = "SELECT * FROM level_detail WHERE status_level = 'Y' AND id_level = '$row[16]'";
+  $query4 = "SELECT * FROM level_detail WHERE status_level = 'Y' AND id_level = '".db_esc($dbc, $row[16])."'";
   $result4 = mysqli_query($dbc, $query4);
   $row4 =mysqli_fetch_array($result4);
 	    echo $row4["desc_level"];

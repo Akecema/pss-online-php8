@@ -106,7 +106,7 @@ $col17 = trim($allDataInSheet[$i]["Q"]);
 $col18 = trim($allDataInSheet[$i]["R"]);
 
 
-$q = "INSERT INTO mat_master_detail_upload(id_dtl, id_hdr, material, bom_category, bom, alternative_bom, valid_from, plant, sloc, isloc, bill_component, matl_group, bom_item_category, bom_item_no, comp_unit, consumption, material_desc_c, mat_type, usage_c, date_create_bom, bom_status) VALUES('','','".$col3."','4','".$col5."','".$col6."','".$col9."','".$col1."','".$col18."','','".$col10."','','','".$col14."','".$col13."','".$col12."','".$col15."','".$col2."','".$col4."','".$col16."','Y')";
+$q = "INSERT INTO mat_master_detail_upload(id_dtl, id_hdr, material, bom_category, bom, alternative_bom, valid_from, plant, sloc, isloc, bill_component, matl_group, bom_item_category, bom_item_no, comp_unit, consumption, material_desc_c, mat_type, usage_c, date_create_bom, bom_status) VALUES('','','".db_esc($dbc, $col3)."','4','".db_esc($dbc, $col5)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col9)."','".db_esc($dbc, $col1)."','".db_esc($dbc, $col18)."','','".db_esc($dbc, $col10)."','','','".db_esc($dbc, $col14)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col12)."','".db_esc($dbc, $col15)."','".db_esc($dbc, $col2)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col16)."','Y')";
 $rst = mysqli_query($dbc, $q);	
 
 
@@ -114,14 +114,14 @@ $rst = mysqli_query($dbc, $q);
 //update the id_hdr refering the header table.....
 //----------------------------------------------------------
 
-$query_find_id = "SELECT * from mat_master_header WHERE material_no = '".$col3."' AND bom = '".$col5."'";
+$query_find_id = "SELECT * from mat_master_header WHERE material_no = '".db_esc($dbc, $col3)."' AND bom = '".db_esc($dbc, $col5)."'";
 $result_find_id = mysqli_query($dbc, $query_find_id);
 $db_find_id = mysqli_fetch_array($result_find_id);
 
 	 
 //--------update-------------
 
-$q2 = "UPDATE mat_master_detail_upload SET id_hdr = '".$db_find_id["id_hdr"]."' WHERE material = '".$col3."' AND bom = '".$col5."'";
+$q2 = "UPDATE mat_master_detail_upload SET id_hdr = '".db_esc($dbc, $db_find_id["id_hdr"])."' WHERE material = '".db_esc($dbc, $col3)."' AND bom = '".db_esc($dbc, $col5)."'";
 $rst2 = mysqli_query($dbc, $q2);
 
 
@@ -130,7 +130,7 @@ $rst2 = mysqli_query($dbc, $q2);
 //-----------------------------------------------------------------------------------
 
 
-$q3 = "UPDATE mat_master_detail SET bom_status = 'N' WHERE material = '".$col3."' AND bom = '".$col5."'";
+$q3 = "UPDATE mat_master_detail SET bom_status = 'N' WHERE material = '".db_esc($dbc, $col3)."' AND bom = '".db_esc($dbc, $col5)."'";
 $rst3 = mysqli_query($dbc, $q3);
 
 
@@ -150,15 +150,15 @@ while ($rst_del = mysqli_fetch_array($result_del))
 {
 
 
-$query_check = "SELECT * FROM mat_master_header WHERE material_no = '".$rst_del["material"]."'";
+$query_check = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $rst_del["material"])."'";
 $result_check = mysqli_query($dbc, $query_check);		
 $rst_check = mysqli_fetch_array($result_check);
 	
-$q_header = "INSERT INTO mat_master_detail(id_dtl, id_hdr, material, bom_category, bom, alternative_bom, valid_from, plant, sloc, isloc, bill_component, matl_group, bom_item_category, bom_item_no, comp_unit, consumption, material_desc_c, mat_type, usage_c, date_create_bom, bom_status) VALUES('','','".$rst_del["material"]."', '".$rst_del["bom_category"]."', '".$rst_del["bom"]."', '".$rst_del["alternative_bom"]."', '".$rst_del["valid_from"]."','".$rst_del["plant"]."','".$rst_del["sloc"]."', '".$rst_del["isloc"]."','".$rst_del["bill_component"]."','".$rst_del["matl_group"]."','".$rst_del["bom_item_category"]."','".$rst_del["bom_item_no"]."','".$rst_del["comp_unit"]."','".$rst_del["consumption"]."','".$rst_del["material_desc_c"]."','".$rst_del["mat_type"]."','".$rst_del["usage_c"]."','".$rst_del["date_create_bom"]."','".$rst_del["bom_status"]."')";
+$q_header = "INSERT INTO mat_master_detail(id_dtl, id_hdr, material, bom_category, bom, alternative_bom, valid_from, plant, sloc, isloc, bill_component, matl_group, bom_item_category, bom_item_no, comp_unit, consumption, material_desc_c, mat_type, usage_c, date_create_bom, bom_status) VALUES('','','".db_esc($dbc, $rst_del["material"])."', '".db_esc($dbc, $rst_del["bom_category"])."', '".db_esc($dbc, $rst_del["bom"])."', '".db_esc($dbc, $rst_del["alternative_bom"])."', '".db_esc($dbc, $rst_del["valid_from"])."','".db_esc($dbc, $rst_del["plant"])."','".db_esc($dbc, $rst_del["sloc"])."', '".db_esc($dbc, $rst_del["isloc"])."','".db_esc($dbc, $rst_del["bill_component"])."','".db_esc($dbc, $rst_del["matl_group"])."','".db_esc($dbc, $rst_del["bom_item_category"])."','".db_esc($dbc, $rst_del["bom_item_no"])."','".db_esc($dbc, $rst_del["comp_unit"])."','".db_esc($dbc, $rst_del["consumption"])."','".db_esc($dbc, $rst_del["material_desc_c"])."','".db_esc($dbc, $rst_del["mat_type"])."','".db_esc($dbc, $rst_del["usage_c"])."','".db_esc($dbc, $rst_del["date_create_bom"])."','".db_esc($dbc, $rst_del["bom_status"])."')";
 $rst_header = mysqli_query($dbc, $q_header) or die (mysqli_error($dbc));	
 	
 
-$query_2_b = "UPDATE mat_master_detail SET id_hdr = '".$rst_check["id_hdr"]."' WHERE material = '".$rst_check["material_no"]."'";
+$query_2_b = "UPDATE mat_master_detail SET id_hdr = '".db_esc($dbc, $rst_check["id_hdr"])."' WHERE material = '".db_esc($dbc, $rst_check["material_no"])."'";
 $result_2_b = mysqli_query($dbc, $query_2_b); 
 
 } // end while loop

@@ -29,7 +29,7 @@ exit();
 
 $url = "material_master_list.php";
 
-$query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 $res = mysqli_fetch_array($result2);
 

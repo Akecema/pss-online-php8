@@ -31,7 +31,7 @@ exit();
 
     $url = 'mat_model_edit.php';
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -107,7 +107,7 @@ return $ss;
 
 $code_model = $_GET['code_model'];
 
-$queryu = "SELECT * FROM model_detail WHERE code_model = '$code_model'";
+$queryu = "SELECT * FROM model_detail WHERE code_model = '".db_esc($dbc, $code_model)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -156,7 +156,7 @@ if (empty($_POST['comp_code']))
    
  if($model_desc && $comp_code) //everything ok
 {     	
-		  	  $query_search = "SELECT * FROM model_detail WHERE code_model = '".$code_model."'";
+		  	  $query_search = "SELECT * FROM model_detail WHERE code_model = '".db_esc($dbc, $code_model)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
@@ -165,7 +165,7 @@ if (empty($_POST['comp_code']))
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
-		$query_upd = "UPDATE model_detail SET model_desc = '".$model_desc."', comp_code = '".strtoupper($comp_code)."' WHERE code_model = '$code_model'"; 
+		$query_upd = "UPDATE model_detail SET model_desc = '".db_esc($dbc, $model_desc)."', comp_code = '".strtoupper($comp_code)."' WHERE code_model = '".db_esc($dbc, $code_model)."'"; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)

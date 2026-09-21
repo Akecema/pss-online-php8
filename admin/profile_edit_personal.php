@@ -87,7 +87,7 @@ ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs select
 
 $user_no = $_GET['user_no'];
 
-$queryu = "SELECT * FROM user_detail WHERE user_no = '$user_no'";
+$queryu = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $user_no)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -177,15 +177,15 @@ if (empty($_POST['user_telno1']))
 {  
 
 
-		  	  $query_search = "select user_no from user_detail where user_no = '$user_no'";
+		  	  $query_search = "select user_no from user_detail where user_no = '".db_esc($dbc, $user_no)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  if($num_search == 1) {
 			  //echo $num_search; 
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
-				$query_upd = "UPDATE user_detail SET user_fullname='$user_fullname', department = '$department', designation = '$designation', company = '$company', user_telno1='$user_telno1', user_telno2='$user_telno2', user_fax='$user_fax', user_email='$user_email', 
-							  date_update= NOW(), user_update ='$username' WHERE user_no = '$user_no'";
+				$query_upd = "UPDATE user_detail SET user_fullname='".db_esc($dbc, $user_fullname)."', department = '".db_esc($dbc, $department)."', designation = '".db_esc($dbc, $designation)."', company = '".db_esc($dbc, $company)."', user_telno1='".db_esc($dbc, $user_telno1)."', user_telno2='".db_esc($dbc, $user_telno2)."', user_fax='".db_esc($dbc, $user_fax)."', user_email='".db_esc($dbc, $user_email)."', 
+							  date_update= NOW(), user_update ='".db_esc($dbc, $username)."' WHERE user_no = '".db_esc($dbc, $user_no)."'";
 				$result_upd = mysqli_query($dbc, $query_upd); 
 				if(mysqli_affected_rows($dbc) == 1)
 				{
@@ -246,7 +246,7 @@ if (isset($message))
                  
                  <td height="25"><?php	
 				 
-  $query3_a = "SELECT * FROM company WHERE comp_code = '$row[8]'";
+  $query3_a = "SELECT * FROM company WHERE comp_code = '".db_esc($dbc, $row[8])."'";
   $result3_a = mysqli_query($dbc, $query3_a);
   $row3_a = mysqli_fetch_array($result3_a);
 				 
@@ -272,7 +272,7 @@ if (isset($message))
                  <td height="25">Department</td>
                  <td height="25">:</td>
                  <td height="25"><?php	
-   $query2_a ="SELECT * from department WHERE id_dept = '$row[6]'";
+   $query2_a ="SELECT * from department WHERE id_dept = '".db_esc($dbc, $row[6])."'";
    $result2_a = mysqli_query($dbc, $query2_a);
    $row2_a = mysqli_fetch_array($result2_a);
 				 
@@ -297,7 +297,7 @@ if (isset($message))
                  <td height="25">Designation</td>
                  <td height="25">:</td>
                  <td height="25"><?php		
-	 $query2b_a = "SELECT * FROM designation WHERE id_design = '$row[7]'";
+	 $query2b_a = "SELECT * FROM designation WHERE id_design = '".db_esc($dbc, $row[7])."'";
      $result2b_a = mysqli_query($dbc, $query2b_a);
      $row2b_a =mysqli_fetch_array($result2b_a);
 				 

@@ -30,7 +30,7 @@ exit();
 }
 $url = "type_wastage_view.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -97,7 +97,7 @@ return $ss;
 
 $id_wastage = $_GET["id_wastage"];
 
-$queryu = "SELECT * from type_wastage_detail where id_wastage = '$id_wastage'";
+$queryu = "SELECT * from type_wastage_detail where id_wastage = '".db_esc($dbc, $id_wastage)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 

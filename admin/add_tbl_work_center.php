@@ -30,7 +30,7 @@ exit();
 }
 $url = "work_center_table.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 
@@ -164,7 +164,7 @@ if (empty($_POST['id_factory']) || ($_POST['id_factory'] == "NULL"))
 
 //register the user in the db.
 $query_db = "INSERT INTO work_center_detail(id_work,plant_code,wc_desc,cost_center,cc_desc,id_factory) VALUES
-                                ('$id_work','$plant_code','$wc_desc','$cost_center','$cc_desc','$id_factory')";
+                                ('".db_esc($dbc, $id_work)."','".db_esc($dbc, $plant_code)."','".db_esc($dbc, $wc_desc)."','".db_esc($dbc, $cost_center)."','".db_esc($dbc, $cc_desc)."','".db_esc($dbc, $id_factory)."')";
 $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 

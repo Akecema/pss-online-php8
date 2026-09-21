@@ -30,7 +30,7 @@ exit();
 }
 $url = "con_detail_table.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -176,7 +176,7 @@ if (empty($_POST['con_status']) || ($_POST['con_status'] == "NULL"))
 
 //register the user in the db.
 $query_db = "INSERT INTO consumable_detail(id_con,material_no, mat_desc, BUn, cost_center,plant,con_status) VALUES
-                                ('','$material_no','".strtoupper($mat_desc)."','$BUn','$cost_center','$plant','$con_status')";
+                                ('','".db_esc($dbc, $material_no)."','".strtoupper($mat_desc)."','".db_esc($dbc, $BUn)."','".db_esc($dbc, $cost_center)."','".db_esc($dbc, $plant)."','".db_esc($dbc, $con_status)."')";
 $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 

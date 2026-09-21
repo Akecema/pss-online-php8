@@ -30,7 +30,7 @@ exit();
 }
 $url = "add_user.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -114,7 +114,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
            <?php
 
 
-$query8 = "SELECT COUNT(*) FROM user_detail where (staff_ID LIKE '%".$_GET["txtKeyword"]."%' or user_fullname LIKE '%".$_GET["txtKeyword"]."%' ) ORDER BY user_no ASC";
+$query8 = "SELECT COUNT(*) FROM user_detail where (staff_ID LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' or user_fullname LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' ) ORDER BY user_no ASC";
 
 $result8 = mysqli_query($dbc, $query8)or die(mysqli_error($dbc));
 $num_rows = mysqli_fetch_row($result8);
@@ -131,7 +131,7 @@ $msg2="";
 if(isset($_GET['txtKeyword']) != "")
 {
 	
-	$query = "SELECT * FROM user_detail WHERE (staff_ID LIKE '%".$_GET["txtKeyword"]."%' or user_fullname LIKE '%".$_GET["txtKeyword"]."%' )";
+	$query = "SELECT * FROM user_detail WHERE (staff_ID LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' or user_fullname LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' )";
   
 	//$query = "SELECT * FROM supplier_detail where (level_id != '1' or level_id != '2') and (vendor_no LIKE '%".$_GET["txtKeyword"]."%' or user_name LIKE '%".$_GET["txtKeyword"]."%' )";
 	
@@ -189,7 +189,7 @@ if(isset($_GET['txtKeyword']) != "")
 		 $sts = "Inactive";
 		 }
 		 
-	  $query4_p = "SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'";
+	  $query4_p = "SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.".db_esc($dbc, $row[16]).".'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p);
 	 

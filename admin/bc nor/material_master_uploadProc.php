@@ -115,7 +115,7 @@ $dcol12 = $dateArray[2].'-'.$dateArray[1].'-'.$dateArray[0];
 //1.INSERT INTO TABLE MAT HEADER
 //select duplicate material from header
 /*$query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".$col2."' AND material_type = '".$col4."' AND bom = '".$col8."' AND status_BOM = 'Y'";*/
-$query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".$col2."' AND status_BOM = 'Y'";
+$query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $col2)."' AND status_BOM = 'Y'";
 $result_Ms = mysqli_query($dbc, $query_Ms)or die(mysqli_error($dbc));
 $res_Ms = mysqli_fetch_array($result_Ms);
 
@@ -124,13 +124,13 @@ if($res_Ms > 0)
 {
 	//update bom status = 'N' for current material 
 	/*$query_upMh = "UPDATE mat_master_header SET status_BOM = 'N' WHERE material_no = '".$col2."' AND material_type = '".$col4."' AND bom = '".$col8."' AND status_BOM = 'Y'";*/
-	$query_upMh = "UPDATE mat_master_header SET status_BOM = 'N' WHERE material_no = '".$col2."' AND status_BOM = 'Y'";
+	$query_upMh = "UPDATE mat_master_header SET status_BOM = 'N' WHERE material_no = '".db_esc($dbc, $col2)."' AND status_BOM = 'Y'";
 	$result_upMh = mysqli_query($dbc, $query_upMh);	
 	
 	
 	//insert
 	$ist_hd = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create,status_BOM,std_package,type_package,location_deliver,station_deliver,rcv_point,part_side,date_uploaded,uploaded_by)
-					VALUES('','".$col2."','".$col3."','".$col4."','".$col5."','".$col6."','".$col7."','".$col8."','".$col9."','".$col10."','".$dcol11."','".$dcol12."','".$col13."','".$col14."','".$col15."','".$col16."','".$col17."','".$col18."','".$col19."',NOW(),'".$username."')";
+					VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col5)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col7)."','".db_esc($dbc, $col8)."','".db_esc($dbc, $col9)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $dcol11)."','".db_esc($dbc, $dcol12)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col14)."','".db_esc($dbc, $col15)."','".db_esc($dbc, $col16)."','".db_esc($dbc, $col17)."','".db_esc($dbc, $col18)."','".db_esc($dbc, $col19)."',NOW(),'".db_esc($dbc, $username)."')";
 						
 	$result_hd = mysqli_query($dbc, $ist_hd) or die('Error, failed to add into material.');		
 	
@@ -139,7 +139,7 @@ if($res_Ms > 0)
 else
 {
 	$ist_hd22 = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create,status_BOM,std_package,type_package,location_deliver,station_deliver,rcv_point,part_side,date_uploaded,uploaded_by)
-					VALUES('','".$col2."','".$col3."','".$col4."','".$col5."','".$col6."','".$col7."','".$col8."','".$col9."','".$col10."','".$dcol11."','".$dcol12."','".$col13."','".$col14."','".$col15."','".$col16."','".$col17."','".$col18."','".$col19."',NOW(),'".$username."')";
+					VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col5)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col7)."','".db_esc($dbc, $col8)."','".db_esc($dbc, $col9)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $dcol11)."','".db_esc($dbc, $dcol12)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col14)."','".db_esc($dbc, $col15)."','".db_esc($dbc, $col16)."','".db_esc($dbc, $col17)."','".db_esc($dbc, $col18)."','".db_esc($dbc, $col19)."',NOW(),'".db_esc($dbc, $username)."')";
 						
 	$result_hd22 = mysqli_query($dbc, $ist_hd22) or die('Error, failed to add into header material 2.');		
 }
@@ -148,14 +148,14 @@ else
 //2.INSERT INTO TABLE MAT 
 //select duplicate material from table material
 /*$query_Mtr = "SELECT * FROM table_material WHERE material_no = '".$col2."' AND mat_type = '".$col4."' AND bom_status = 'Y'";*/
-$query_Mtr = "SELECT * FROM table_material WHERE material_no = '".$col2."' AND bom_status = 'Y'";
+$query_Mtr = "SELECT * FROM table_material WHERE material_no = '".db_esc($dbc, $col2)."' AND bom_status = 'Y'";
 $result_Mtr = mysqli_query($dbc, $query_Mtr)or die(mysqli_error($dbc));
 $res_Mtr = mysqli_fetch_array($result_Mtr);
 
 
 if($res_Mtr > 0) //if exist
 {
-	$query_upMtb = "UPDATE table_material SET bom_status = 'N' WHERE material_no = '".$col2."'  ";
+	$query_upMtb = "UPDATE table_material SET bom_status = 'N' WHERE material_no = '".db_esc($dbc, $col2)."'  ";
 	$result_upMtb = mysqli_query($dbc, $query_upMtb);	
 	
 	if($result_upMtb)
@@ -163,7 +163,7 @@ if($res_Mtr > 0) //if exist
 		//insert into table material
 		$ist_mt = "INSERT INTO table_material
 					(id_mat,material_no,material_desc,mat_type,plan_code,BUn,date_create_bom,bom_status,date_uploaded,uploaded_by)
-						VALUES('','".$col2."','".$col3."','".$col4."','".$col6."','".$col10."','".$dcol11."','".$col13."',NOW(),'".$username."') ";
+						VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $dcol11)."','".db_esc($dbc, $col13)."',NOW(),'".db_esc($dbc, $username)."') ";
 							
 		$result_mt = mysqli_query($dbc, $ist_mt) or die('Error, failed to add into table material.');	
 	}	
@@ -174,7 +174,7 @@ else
 	//insert into table material
 	$ist_mt22 = "INSERT INTO table_material
 					(id_mat,material_no,material_desc,mat_type,plan_code,BUn,date_create_bom,bom_status,date_uploaded,uploaded_by)
-						VALUES('','".$col2."','".$col3."','".$col4."','".$col6."','".$col10."','".$dcol11."','".$col13."',NOW(),'".$username."') ";
+						VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $dcol11)."','".db_esc($dbc, $col13)."',NOW(),'".db_esc($dbc, $username)."') ";
 						
 	$result_mt22 = mysqli_query($dbc, $ist_mt22) or die('Error, failed to add into table material 2.');	
 }
@@ -184,20 +184,20 @@ else
 if($col4 == 'Z310')
 {
 	/*$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".$col2."' AND mat_type = 'Z310' AND material_group = '".$col5."' AND bom_status = 'Y'";*/
-	$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".$col2."' AND bom_status = 'Y'";
+	$query_Mtrqc = "SELECT * FROM table_material_qc WHERE material_no = '".db_esc($dbc, $col2)."' AND bom_status = 'Y'";
 	$result_Mtrqc = mysqli_query($dbc, $query_Mtrqc)or die(mysqli_error($dbc));
 	$res_Mtrqc = mysqli_fetch_array($result_Mtrqc);
 	
 	if($res_Mtrqc > 0)
 	{
 		
-		$query_upMqc = "UPDATE table_material_qc SET bom_status = 'N' WHERE material_no = '".$col2."' ";
+		$query_upMqc = "UPDATE table_material_qc SET bom_status = 'N' WHERE material_no = '".db_esc($dbc, $col2)."' ";
 		$result_upMqc = mysqli_query($dbc, $query_upMqc);
 		
 		//insert into table material
 		$ist_qc = "INSERT INTO table_material_qc
 					(id_mat,material_no,material_desc,mat_type,plan_code,BUn,date_create_bom,bom_status,material_group,date_uploaded,uploaded_by)
-						VALUES('','".$col2."','".$col3."','".$col4."','".$col6."','".$col10."','".$dcol11."','".$col13."','".$col5."',NOW(),'".$username."') ";
+						VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $dcol11)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col5)."',NOW(),'".db_esc($dbc, $username)."') ";
 						
 		$result_qc = mysqli_query($dbc, $ist_qc) or die('Error, failed to add into table material qc.');		
 	}
@@ -206,7 +206,7 @@ if($col4 == 'Z310')
 		//insert into table material
 		$ist_mtqc22 = "INSERT INTO table_material_qc
 						(id_mat,material_no,material_desc,mat_type,plan_code,BUn,date_create_bom,bom_status,material_group,date_uploaded,uploaded_by)
-							VALUES('','".$col2."','".$col3."','".$col4."','".$col6."','".$col10."','".$dcol11."','".$col13."','".$col5."',NOW(),'".$username."') ";
+							VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $dcol11)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col5)."',NOW(),'".db_esc($dbc, $username)."') ";
 							
 		$result_mtqc22 = mysqli_query($dbc, $ist_mtqc22) or die('Error, failed to add into table material qc 2.');		
 	

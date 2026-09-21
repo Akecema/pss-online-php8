@@ -30,7 +30,7 @@ exit();
 }
 $url = "con_detail_table.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -106,7 +106,7 @@ return $ss;
 
 $id_con = $_GET['id_con'];
 
-$queryu = "SELECT * FROM consumable_detail WHERE id_con = '$id_con'";
+$queryu = "SELECT * FROM consumable_detail WHERE id_con = '".db_esc($dbc, $id_con)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -197,7 +197,7 @@ if (empty($_POST['con_status']) || ($_POST['con_status'] == "NULL"))
    
  if($id_con && $material_no && $mat_desc && $plant && $cost_center && $BUn && $con_status) //everything ok
 {     	
-		  	  $query_search = "SELECT * FROM consumable_detail WHERE id_con = '$id_con'";
+		  	  $query_search = "SELECT * FROM consumable_detail WHERE id_con = '".db_esc($dbc, $id_con)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
@@ -206,7 +206,7 @@ if (empty($_POST['con_status']) || ($_POST['con_status'] == "NULL"))
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
-		$query_upd = "UPDATE consumable_detail SET mat_desc = '$mat_desc', cost_center = '$cost_center', plant = '$plant', BUn = '$BUn', con_status = '$con_status' WHERE id_con = '$id_con'"; 
+		$query_upd = "UPDATE consumable_detail SET mat_desc = '".db_esc($dbc, $mat_desc)."', cost_center = '".db_esc($dbc, $cost_center)."', plant = '".db_esc($dbc, $plant)."', BUn = '".db_esc($dbc, $BUn)."', con_status = '".db_esc($dbc, $con_status)."' WHERE id_con = '".db_esc($dbc, $id_con)."'"; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)

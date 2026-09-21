@@ -30,7 +30,7 @@ exit();
 }
 $url = "add_user.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 //--------setup website page --------------------------
@@ -180,7 +180,7 @@ $num = mysqli_num_rows($rs);   //how many material are there?
 		 $sts = "Inactive";
 		 }
 		 
-	  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.$row[16].'";
+	  $query4_p ="SELECT * from level_detail as LD, user_detail as SD where SD.level_id = LD.id_level and LD.id_level = '.".db_esc($dbc, $row[16]).".'";
   $result4_p = mysqli_query($dbc, $query4_p);
   $row4_p = mysqli_fetch_array($result4_p);
 	 

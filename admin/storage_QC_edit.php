@@ -31,7 +31,7 @@ exit();
 
 $url = 'storage_PD_edit.php';
 
-$query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 $res = mysqli_fetch_array($result2);
 	
@@ -109,7 +109,7 @@ return $ss;
 
 $cd = $_GET['code'];
 
-$queryu = "SELECT * FROM storage2_tbl WHERE qc_sloc_code = '$cd' ";
+$queryu = "SELECT * FROM storage2_tbl WHERE qc_sloc_code = '".db_esc($dbc, $cd)."' ";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -156,7 +156,7 @@ if (isset($_POST['submit']))
 	if($pd_dc) //everything ok
 	{     	
 	
-		$query_search = "SELECT * FROM storage2_tbl WHERE qc_sloc_code = '".$cd."'";
+		$query_search = "SELECT * FROM storage2_tbl WHERE qc_sloc_code = '".db_esc($dbc, $cd)."'";
 		$result_search = mysqli_query($dbc, $query_search);   //run the query.
 		$num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 		
@@ -165,7 +165,7 @@ if (isset($_POST['submit']))
 		$row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 		// make the update query
 		
-		$query_upd = "UPDATE storage2_tbl SET qc_sloc_desc = '".$_POST['qc_sloc_desc']."' WHERE qc_sloc_code = '".$cd."' "; 
+		$query_upd = "UPDATE storage2_tbl SET qc_sloc_desc = '".db_esc($dbc, $_POST['qc_sloc_desc'])."' WHERE qc_sloc_code = '".db_esc($dbc, $cd)."' "; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 		
 						

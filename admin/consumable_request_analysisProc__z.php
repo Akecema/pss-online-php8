@@ -35,7 +35,7 @@ exit();
 $url = "consumable_request_analysis.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -211,7 +211,7 @@ $year = $today['year'];
 			
 		    //convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `consumable_detail` as MH WHERE MH.material_no = '".$_GET["material_no"]."'";
+			$query_convert = "SELECT * FROM `consumable_detail` as MH WHERE MH.material_no = '".db_esc($dbc, $_GET["material_no"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			$row_convert = mysqli_fetch_array($result_convert);
 		
@@ -328,19 +328,19 @@ $num = mysqli_num_rows($rs);   //how many material are there?
    while ($row2 = mysqli_fetch_array($rs))
    {
   	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '".$row2["user_create"]."'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row2["user_create"])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row2["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row2["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	
-	$query5 = "SELECT * FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND material_no = '".$row2["material_no"]."' AND mvt_type = 201";
+	$query5 = "SELECT * FROM post_consumable_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND material_no = '".db_esc($dbc, $row2["material_no"])."' AND mvt_type = 201";
     $result5 = mysqli_query($dbc, $query5);
 	$row5 = mysqli_fetch_array($result5);
 	
-	$query6 = "SELECT * FROM post_consumable_detail_header AS PD, consumable_request AS MR WHERE PD.mrin_no = MR.temp_mrin AND PD.material_no = MR.material_no AND PD.mrin_no = '".$row2["temp_mrin"]."' AND PD.material_no = '".$row2["material_no"]."' AND PD.mvt_type = 201";
+	$query6 = "SELECT * FROM post_consumable_detail_header AS PD, consumable_request AS MR WHERE PD.mrin_no = MR.temp_mrin AND PD.material_no = MR.material_no AND PD.mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND PD.material_no = '".db_esc($dbc, $row2["material_no"])."' AND PD.mvt_type = 201";
     $result6 = mysqli_query($dbc, $query6);
 	$row6 = mysqli_fetch_array($result6);
 	
@@ -367,7 +367,7 @@ echo $since_start->s.' seconds<br>';
 //------------------------------------------------------------------------------------------------------------------	
 
 					
-    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".$row2["temp_mrin"]."' AND mvt_type = 201 AND material_no = '".$row2["material_no"]."'";
+    $query_tp = "SELECT *,SUM(rquantity) as TOT FROM post_consumable_detail_header WHERE mrin_no = '".db_esc($dbc, $row2["temp_mrin"])."' AND mvt_type = 201 AND material_no = '".db_esc($dbc, $row2["material_no"])."'";
 	$result_tp  = mysqli_query($dbc, $query_tp); 
 
     $outs_qty = 0;

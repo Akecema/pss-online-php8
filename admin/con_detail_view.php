@@ -30,7 +30,7 @@ exit();
 }
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -109,7 +109,7 @@ $url = 'con_detail_table.php';
 
 $id_con = $_GET["id_con"];
 
-$queryu = "SELECT * FROM consumable_detail WHERE id_con = '$id_con'";
+$queryu = "SELECT * FROM consumable_detail WHERE id_con = '".db_esc($dbc, $id_con)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 

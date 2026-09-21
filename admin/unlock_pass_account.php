@@ -31,7 +31,7 @@ exit();
 }
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -111,7 +111,7 @@ $url2 = 'display_user.php';
 $user_no = $_GET["user_no"];
 
 
-$queryu = "SELECT * from user_detail where user_no = '$user_no'";
+$queryu = "SELECT * from user_detail where user_no = '".db_esc($dbc, $user_no)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -152,7 +152,7 @@ if (empty($_POST["status_failed"]) || ($_POST["status_failed"] == ""))
  if ($status_failed)
 {  
 
-		  	  $query_search = "SELECT * FROM user_detail WHERE user_no = '$user_no'";
+		  	  $query_search = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $user_no)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  $row_search = mysqli_fetch_array($result_search);
@@ -162,7 +162,7 @@ if (empty($_POST["status_failed"]) || ($_POST["status_failed"] == ""))
 			    
 				// make the update query
 				
-				$query_upd = "UPDATE user_detail SET status_failed = 'N', date_update= NOW(), user_update ='$username', date_failed = '' WHERE user_no = '$user_no'";
+				$query_upd = "UPDATE user_detail SET status_failed = 'N', date_update= NOW(), user_update ='".db_esc($dbc, $username)."', date_failed = '' WHERE user_no = '".db_esc($dbc, $user_no)."'";
 				$result_upd = mysqli_query($dbc, $query_upd); 
 			
 			 if(mysqli_affected_rows($dbc) == 1) { //If it ran ok
@@ -192,7 +192,7 @@ if (empty($_POST["status_failed"]) || ($_POST["status_failed"] == ""))
 			mail($to, $subject, $mess2.$mess, $headers);
 			
 				//-----------------delete clear table failed_login-----------
-			$query_failed_del = "DELETE FROM failed_login WHERE staff_ID = '".$row_search["staff_ID"]."'";
+			$query_failed_del = "DELETE FROM failed_login WHERE staff_ID = '".db_esc($dbc, $row_search["staff_ID"])."'";
 		    $result_failed_del = mysqli_query($dbc, $query_failed_del); 			
 			
 			  }

@@ -34,7 +34,7 @@ exit();
 $url = "report_PPC_consumable.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -181,7 +181,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
 			
 			//convert material no kpd id_hdr
 			
-			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".$_GET["factory"]."'";
+			$query_convert = "SELECT * FROM `factory_detail` as MH WHERE MH.factory_desc = '".db_esc($dbc, $_GET["factory"])."'";
 			$result_convert = mysqli_query($dbc, $query_convert); 
 			
 			while ($row_convert = mysqli_fetch_array($result_convert))
@@ -284,15 +284,15 @@ $rs = mysqli_query($dbc, $query);   //run the query.
    {
 	
 	
-	$query_again = "SELECT * FROM consumable_request WHERE status_request = 'Y' and id_scan = '".$row2[5]."' ORDER BY id_req_con ASC";
+	$query_again = "SELECT * FROM consumable_request WHERE status_request = 'Y' and id_scan = '".db_esc($dbc, $row2[5])."' ORDER BY id_req_con ASC";
     $rs_again = mysqli_query($dbc, $query_again);   //run the query.
     $row = mysqli_fetch_array($rs_again);
 	
-	$query_u = "SELECT * FROM user_detail WHERE user_no = '$row[user_create]'";
+	$query_u = "SELECT * FROM user_detail WHERE user_no = '".db_esc($dbc, $row['user_create'])."'";
 	$result_u = mysqli_query($dbc, $query_u);   //run the query.
 	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
 
- 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".$row["factory"]."'";
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = '".db_esc($dbc, $row["factory"])."'";
     $result3 = mysqli_query($dbc, $query3);
 	$row3 = mysqli_fetch_array($result3);
 	

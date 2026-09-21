@@ -31,7 +31,7 @@ exit();
 
     $url = 'reason_reject_edit.php';
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -107,7 +107,7 @@ return $ss;
 
 $id_reject = $_GET['id_reject'];
 
-$queryu = "SELECT * FROM reason_ng_reject WHERE id_reject = '$id_reject'";
+$queryu = "SELECT * FROM reason_ng_reject WHERE id_reject = '".db_esc($dbc, $id_reject)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -157,7 +157,7 @@ if (empty($_POST['status_reject']))
    
  if($reject_desc && $status_reject) //everything ok
 {     	
-		  	  $query_search = "SELECT * FROM reason_ng_reject WHERE id_reject = '".$id_reject."'";
+		  	  $query_search = "SELECT * FROM reason_ng_reject WHERE id_reject = '".db_esc($dbc, $id_reject)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
@@ -166,7 +166,7 @@ if (empty($_POST['status_reject']))
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
-		$query_upd = "UPDATE reason_ng_reject SET reject_desc = '".$reject_desc."', status_reject = '".$status_reject."' WHERE id_reject = '$id_reject'"; 
+		$query_upd = "UPDATE reason_ng_reject SET reject_desc = '".db_esc($dbc, $reject_desc)."', status_reject = '".db_esc($dbc, $status_reject)."' WHERE id_reject = '".db_esc($dbc, $id_reject)."'"; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)

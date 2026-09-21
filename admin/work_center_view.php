@@ -30,7 +30,7 @@ exit();
 }
 $url = "work_center_view.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -97,7 +97,7 @@ return $ss;
 
 $id_work = $_GET["id_work"];
 
-$queryu = "SELECT * from work_center_detail where id_work = '$id_work'";
+$queryu = "SELECT * from work_center_detail where id_work = '".db_esc($dbc, $id_work)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 

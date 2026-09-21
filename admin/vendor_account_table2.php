@@ -32,7 +32,7 @@ exit();
 $url = "add_vendor_account.php";
 
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -115,7 +115,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
            <?php
 
 
- $query8 = "SELECT COUNT(*) FROM vendor_detail WHERE (vendor_code LIKE '%".$_GET["txtKeyword"]."%') or (vendor_name LIKE '%".$_GET["txtKeyword"]."%')";
+ $query8 = "SELECT COUNT(*) FROM vendor_detail WHERE (vendor_code LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%') or (vendor_name LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%')";
    $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
    $num_rows = mysqli_fetch_row($result8); 
 
@@ -126,7 +126,7 @@ $data_setup = mysqli_fetch_array($rs_setup);
  
  
   
-$query = "SELECT * FROM vendor_detail WHERE (vendor_code LIKE '%".$_GET["txtKeyword"]."%') or (vendor_name LIKE '%".$_GET["txtKeyword"]."%') ORDER BY vendor_code ASC";
+$query = "SELECT * FROM vendor_detail WHERE (vendor_code LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%') or (vendor_name LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%') ORDER BY vendor_code ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 //$num = mysqli_num_rows($rs);   //how many material are there?
 

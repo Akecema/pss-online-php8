@@ -104,7 +104,7 @@ $col18 = trim($allDataInSheet[$i]["R"]);
 $col19 = trim($allDataInSheet[$i]["S"]);
 
 
-$query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".$col2."' ";
+$query_Ms = "SELECT * FROM mat_master_header WHERE material_no = '".db_esc($dbc, $col2)."' ";
 $result_Ms = mysqli_query($dbc, $query_Ms);
 $res_Ms = mysqli_fetch_array($result_Ms);
 
@@ -112,14 +112,14 @@ $res_Ms = mysqli_fetch_array($result_Ms);
 if($res_Ms > 0)
 {
 	//update current material
-	$query_upMh = "UPDATE mat_master_header SET status_BOM = 'N' WHERE material_no = '".$col2."' ";
+	$query_upMh = "UPDATE mat_master_header SET status_BOM = 'N' WHERE material_no = '".db_esc($dbc, $col2)."' ";
 	$result_upMh = mysqli_query($dbc, $query_upMh);	
 	
 	if($result_upMh)
 	{
 		//insert
 		$ist_hd = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create,status_BOM,std_package,type_package,location_deliver,station_deliver,rcv_point,part_side)
-						VALUES('','".$col2."','".$col3."','".$col4."','".$col5."','".$col6."','".$col7."','".$col8."','".$col9."','".$col10."','".$col11."','".$col12."','".$col13."','".$col14."','".$col15."','".$col16."','".$col17."','".$col18."','".$col19."')";
+						VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col5)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col7)."','".db_esc($dbc, $col8)."','".db_esc($dbc, $col9)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $col11)."','".db_esc($dbc, $col12)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col14)."','".db_esc($dbc, $col15)."','".db_esc($dbc, $col16)."','".db_esc($dbc, $col17)."','".db_esc($dbc, $col18)."','".db_esc($dbc, $col19)."')";
 							
 		$result_hd = mysqli_query($dbc, $ist_hd) or die('Error, failed to add into material_1.');	
 	
@@ -129,7 +129,7 @@ if($res_Ms > 0)
 else
 {
 	$ist_hd = "INSERT INTO mat_master_header(id_hdr,material_no,material_desc,material_type,material_group,plant,bom_usage,bom,alternative_bom,BUn,date_create,date_bom_create,status_BOM,std_package,type_package,location_deliver,station_deliver,rcv_point,part_side)
-					VALUES('','".$col2."','".$col3."','".$col4."','".$col5."','".$col6."','".$col7."','".$col8."','".$col9."','".$col10."','".$col11."','".$col12."','".$col13."','".$col14."','".$col15."','".$col16."','".$col17."','".$col18."','".$col19."')";
+					VALUES('','".db_esc($dbc, $col2)."','".db_esc($dbc, $col3)."','".db_esc($dbc, $col4)."','".db_esc($dbc, $col5)."','".db_esc($dbc, $col6)."','".db_esc($dbc, $col7)."','".db_esc($dbc, $col8)."','".db_esc($dbc, $col9)."','".db_esc($dbc, $col10)."','".db_esc($dbc, $col11)."','".db_esc($dbc, $col12)."','".db_esc($dbc, $col13)."','".db_esc($dbc, $col14)."','".db_esc($dbc, $col15)."','".db_esc($dbc, $col16)."','".db_esc($dbc, $col17)."','".db_esc($dbc, $col18)."','".db_esc($dbc, $col19)."')";
 						
 	$result_hd = mysqli_query($dbc, $ist_hd) or die('Error, failed to add into material_1.');		
 }

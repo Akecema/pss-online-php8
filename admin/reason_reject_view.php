@@ -30,7 +30,7 @@ exit();
 }
 $url = "reason_reject_table.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -97,7 +97,7 @@ return $ss;
 
 $id_reject = $_GET["id_reject"];
 
-$queryu = "SELECT * from reason_ng_reject where id_reject = '$id_reject'";
+$queryu = "SELECT * from reason_ng_reject where id_reject = '".db_esc($dbc, $id_reject)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 

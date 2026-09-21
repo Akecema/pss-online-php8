@@ -30,7 +30,7 @@ exit();
 }
 $url = "display_model_table.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 
@@ -138,7 +138,7 @@ if (empty($_POST['comp_code']))
 {
 
 //register the user in the db.
-$query_db = "INSERT INTO model_detail(code_model,model_name,model_desc,comp_code) VALUES('','".strtoupper($model_name)."','".$model_desc."','".strtoupper($comp_code)."')";
+$query_db = "INSERT INTO model_detail(code_model,model_name,model_desc,comp_code) VALUES('','".strtoupper($model_name)."','".db_esc($dbc, $model_desc)."','".strtoupper($comp_code)."')";
 $result = mysqli_query($dbc, $query_db) or die(mysqli_error($dbc));
 
 

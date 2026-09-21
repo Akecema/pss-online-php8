@@ -31,7 +31,7 @@ exit();
 
     $url = 'work_center_edit.php';
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -107,7 +107,7 @@ return $ss;
 
 $id_work = $_GET['id_work'];
 
-$queryu = "SELECT * FROM work_center_detail WHERE id_work = '$id_work'";
+$queryu = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $id_work)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -195,7 +195,7 @@ if (empty($_POST['id_factory']) || ($_POST['id_factory'] == ""))
    
  if($id_work && $wc_desc && $plant_code && $cost_center && $cc_desc && $id_factory) //everything ok
 {     	
-		  	  $query_search = "SELECT * FROM work_center_detail WHERE id_work = '$id_work'";
+		  	  $query_search = "SELECT * FROM work_center_detail WHERE id_work = '".db_esc($dbc, $id_work)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
@@ -204,7 +204,7 @@ if (empty($_POST['id_factory']) || ($_POST['id_factory'] == ""))
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
-		$query_upd = "UPDATE work_center_detail SET wc_desc = '$wc_desc', cost_center = '$cost_center', cc_desc = '$cc_desc', plant_code = '$plant_code', id_factory = '$id_factory' WHERE id_work = '$id_work'"; 
+		$query_upd = "UPDATE work_center_detail SET wc_desc = '".db_esc($dbc, $wc_desc)."', cost_center = '".db_esc($dbc, $cost_center)."', cc_desc = '".db_esc($dbc, $cc_desc)."', plant_code = '".db_esc($dbc, $plant_code)."', id_factory = '".db_esc($dbc, $id_factory)."' WHERE id_work = '".db_esc($dbc, $id_work)."'"; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)

@@ -31,7 +31,7 @@ exit();
 
 $url = "add_tbl_storage_QC.php";
 
-$query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+$query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
 $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
 $res = mysqli_fetch_array($result2);
 
@@ -138,7 +138,7 @@ else
 if($slocCD && $slocDC) //everything ok
 {
 	//register the user in the db.
-	$query_db = "INSERT INTO storage2_tbl(qc_sloc_code,qc_sloc_desc) VALUES('".$slocCD."','".$slocDC."')";
+	$query_db = "INSERT INTO storage2_tbl(qc_sloc_code,qc_sloc_desc) VALUES('".db_esc($dbc, $slocCD)."','".db_esc($dbc, $slocDC)."')";
 	$result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 	
 	if($result)

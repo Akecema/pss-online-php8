@@ -96,18 +96,18 @@ $col10 = trim($allDataInSheet[$i]["J"]);
 $col11 = trim($allDataInSheet[$i]["K"]);
 $col12 = trim($allDataInSheet[$i]["L"]);
 
-$query_Ms = "SELECT * FROM mat_master_header as mh WHERE mh.material_type ='Z310' and material_no = '".$col3."'";
+$query_Ms = "SELECT * FROM mat_master_header as mh WHERE mh.material_type ='Z310' and material_no = '".db_esc($dbc, $col3)."'";
 $result_Ms = mysqli_query($dbc, $query_Ms);
 $res_Ms = mysqli_fetch_array($result_Ms);
 
 
 if($res_Ms > 0)
 {
-	$query_upMh = "UPDATE mat_master_header SET material_desc ='".$col4."' WHERE material_no = '".$col3."' ";
+	$query_upMh = "UPDATE mat_master_header SET material_desc ='".db_esc($dbc, $col4)."' WHERE material_no = '".db_esc($dbc, $col3)."' ";
 	$result_upMh = mysqli_query($dbc, $query_upMh);
 	
 	//mm
-	$query_upMh2 = "UPDATE table_material SET material_desc ='".$col4."' WHERE material_no = '".$col3."' ";
+	$query_upMh2 = "UPDATE table_material SET material_desc ='".db_esc($dbc, $col4)."' WHERE material_no = '".db_esc($dbc, $col3)."' ";
 	$result_upMh2 = mysqli_query($dbc, $query_upMh2);
 }
 

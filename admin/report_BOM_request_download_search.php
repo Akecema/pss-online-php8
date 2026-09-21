@@ -52,7 +52,7 @@ $namaFile = "BOM_".$date_filename."Download.xls";
  //convert material no kpd id_hdr
 
 
-    $query8 = "SELECT * FROM mat_master_detail WHERE (material LIKE '%".$_GET["txtKeyword"]."%' or bill_component LIKE '%".$_GET["txtKeyword"]."%' ) ORDER BY material ASC";
+    $query8 = "SELECT * FROM mat_master_detail WHERE (material LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' or bill_component LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' ) ORDER BY material ASC";
     $result8 = mysqli_query($dbc, $query8) or die(mysqli_error($dbc));
     $num_rows = mysqli_num_rows($result8);
 
@@ -111,7 +111,7 @@ echo '</table>';
  
 //Display table
 // query menampilkan semua data
-$query = "SELECT *,DATE_FORMAT(valid_from,'%d-%m-%Y') AS R, DATE_FORMAT(date_create_bom,'%d-%m-%Y') AS R2 FROM mat_master_detail WHERE (material LIKE '%".$_GET["txtKeyword"]."%' or bill_component LIKE '%".$_GET["txtKeyword"]."%' ) ORDER BY material ASC";
+$query = "SELECT *,DATE_FORMAT(valid_from,'%d-%m-%Y') AS R, DATE_FORMAT(date_create_bom,'%d-%m-%Y') AS R2 FROM mat_master_detail WHERE (material LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' or bill_component LIKE '%".db_esc($dbc, $_GET["txtKeyword"])."%' ) ORDER BY material ASC";
 $rs = mysqli_query($dbc, $query);   //run the query.
 
 //count how many data

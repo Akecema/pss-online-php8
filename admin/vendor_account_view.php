@@ -30,7 +30,7 @@ exit();
 }
 $url = "add_vendor_account.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -97,7 +97,7 @@ return $ss;
 
 $vendor_code = $_GET["vendor_code"];
 
-$queryu = "SELECT *, DATE_FORMAT(date_create,'%d-%m-%Y') AS R, DATE_FORMAT(date_update,'%d-%m-%Y') AS R2 FROM vendor_detail WHERE vendor_code = '".$vendor_code."'";
+$queryu = "SELECT *, DATE_FORMAT(date_create,'%d-%m-%Y') AS R, DATE_FORMAT(date_update,'%d-%m-%Y') AS R2 FROM vendor_detail WHERE vendor_code = '".db_esc($dbc, $vendor_code)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_array($resultu);   //how many records are there?
 
@@ -116,13 +116,13 @@ $message = NULL; // create an empty new variable.
 
     //----user created -----
 
-    $query_create = "SELECT * FROM user_detail WHERE username = '".$row[13]."'";
+    $query_create = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row[13])."'";
     $result_create = mysqli_query($dbc, $query_create) or die (mysqli_error($dbc));
     $data_create = mysqli_fetch_array($result_create);
 	
 	//----user updated -----
 
-    $query_update = "SELECT * FROM user_detail WHERE username = '".$row[15]."'";
+    $query_update = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $row[15])."'";
     $result_update = mysqli_query($dbc, $query_update) or die (mysqli_error($dbc));
     $data_update = mysqli_fetch_array($result_update);
 	

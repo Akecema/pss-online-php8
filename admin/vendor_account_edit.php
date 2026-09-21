@@ -31,7 +31,7 @@ exit();
 
     $url = 'add_vendor_account.php';
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -107,7 +107,7 @@ return $ss;
 
 $vendor_code = $_GET["vendor_code"];
 
-$queryu = "SELECT * FROM vendor_detail WHERE vendor_code = '".$vendor_code."'";
+$queryu = "SELECT * FROM vendor_detail WHERE vendor_code = '".db_esc($dbc, $vendor_code)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_array($resultu);   //how many records are there?
 
@@ -250,7 +250,7 @@ if (empty($_POST["status_subcont"]) || ($_POST["status_subcont"] == ""))
  {  
  
  
- 	     	  $query_search = "SELECT * FROM vendor_detail WHERE vendor_code = '".$vendor_code."'";
+ 	     	  $query_search = "SELECT * FROM vendor_detail WHERE vendor_code = '".db_esc($dbc, $vendor_code)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
@@ -259,7 +259,7 @@ if (empty($_POST["status_subcont"]) || ($_POST["status_subcont"] == ""))
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
-		$query_upd = "UPDATE vendor_detail SET vendor_name = '".strtoupper($vendor_name)."', add_no1 = '".$add_no1."', add_no2 = '".$add_no2."', search_term = '".strtoupper($search_term)."', post_code = '".$post_code."', post_city = '".$post_city."', post_region = '".$post_region."', post_country = '".$post_country."', tphone = '".$tphone."', fax_no = '".$fax_no."', payment_method = '".$payment_method."', term_payment = '".$term_payment."', status_acc = '".$status_acc."', status_subcont = '".$status_subcont."', user_update = '".$username."', date_update = NOW() WHERE vendor_code = '".$vendor_code."'"; 
+		$query_upd = "UPDATE vendor_detail SET vendor_name = '".strtoupper($vendor_name)."', add_no1 = '".db_esc($dbc, $add_no1)."', add_no2 = '".db_esc($dbc, $add_no2)."', search_term = '".strtoupper($search_term)."', post_code = '".db_esc($dbc, $post_code)."', post_city = '".db_esc($dbc, $post_city)."', post_region = '".db_esc($dbc, $post_region)."', post_country = '".db_esc($dbc, $post_country)."', tphone = '".db_esc($dbc, $tphone)."', fax_no = '".db_esc($dbc, $fax_no)."', payment_method = '".db_esc($dbc, $payment_method)."', term_payment = '".db_esc($dbc, $term_payment)."', status_acc = '".db_esc($dbc, $status_acc)."', status_subcont = '".db_esc($dbc, $status_subcont)."', user_update = '".db_esc($dbc, $username)."', date_update = NOW() WHERE vendor_code = '".db_esc($dbc, $vendor_code)."'"; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)

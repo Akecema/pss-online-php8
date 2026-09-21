@@ -31,7 +31,7 @@ exit();
 
     $url = 'reason_wastage_edit.php';
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -107,7 +107,7 @@ return $ss;
 
 $id_reason_wastage = $_GET['id_reason_wastage'];
 
-$queryu = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '$id_reason_wastage'";
+$queryu = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".db_esc($dbc, $id_reason_wastage)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
@@ -157,7 +157,7 @@ if (empty($_POST['status_reason_wastage']))
    
  if($reason_wastage_desc && $status_reason_wastage) //everything ok
 {     	
-		  	  $query_search = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".$id_reason_wastage."'";
+		  	  $query_search = "SELECT * FROM reason_wastage WHERE id_reason_wastage = '".db_esc($dbc, $id_reason_wastage)."'";
               $result_search = mysqli_query($dbc, $query_search);   //run the query.
               $num_search = mysqli_num_rows($result_search);   //how many suppliers are there?
 			  
@@ -166,7 +166,7 @@ if (empty($_POST['status_reason_wastage']))
 			    $row = mysqli_fetch_array($result_search, MYSQLI_NUM);
 				// make the update query
 	
-		$query_upd = "UPDATE reason_wastage SET reason_wastage_desc = '".$reason_wastage_desc."', status_reason_wastage = '".$status_reason_wastage."' WHERE id_reason_wastage = '$id_reason_wastage'"; 
+		$query_upd = "UPDATE reason_wastage SET reason_wastage_desc = '".db_esc($dbc, $reason_wastage_desc)."', status_reason_wastage = '".db_esc($dbc, $status_reason_wastage)."' WHERE id_reason_wastage = '".db_esc($dbc, $id_reason_wastage)."'"; 
 		$result_upd = mysqli_query($dbc, $query_upd); 
 								
 			if($result_upd)

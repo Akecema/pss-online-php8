@@ -30,7 +30,7 @@ exit();
 }
 $url = "mat_model_view.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -97,7 +97,7 @@ return $ss;
 
 $code_model = $_GET["code_model"];
 
-$queryu = "SELECT * from model_detail where code_model = '$code_model'";
+$queryu = "SELECT * from model_detail where code_model = '".db_esc($dbc, $code_model)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 

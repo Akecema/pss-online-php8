@@ -30,7 +30,7 @@ exit();
 }
 $url = "type_reject_view.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 	
@@ -97,7 +97,7 @@ return $ss;
 
 $id_type = $_GET["id_type"];
 
-$queryu = "SELECT * from type_reject_detail where id_type = '$id_type'";
+$queryu = "SELECT * from type_reject_detail where id_type = '".db_esc($dbc, $id_type)."'";
 $resultu = mysqli_query($dbc, $queryu);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 

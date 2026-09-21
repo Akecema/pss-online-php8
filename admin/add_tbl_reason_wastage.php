@@ -30,7 +30,7 @@ exit();
 }
 $url = "reason_wastage_table.php";
 
-    $query2 = "SELECT * FROM user_detail WHERE username = '$username'";
+    $query2 = "SELECT * FROM user_detail WHERE username = '".db_esc($dbc, $username)."'";
     $result2 = mysqli_query($dbc, $query2) or die (mysqli_error($dbc));
     $res = mysqli_fetch_array($result2);
 
@@ -130,7 +130,7 @@ if (empty($_POST['status_reason_wastage']))
 
 //register the user in the db.
 $query_db = "INSERT INTO reason_wastage(id_reason_wastage,reason_wastage_desc,status_reason_wastage) VALUES
-                                ('','".$reason_wastage_desc."','".$status_reason_wastage."')";
+                                ('','".db_esc($dbc, $reason_wastage_desc)."','".db_esc($dbc, $status_reason_wastage)."')";
 $result = mysqli_query($dbc, $query_db) or die (mysqli_error($dbc));
 
 

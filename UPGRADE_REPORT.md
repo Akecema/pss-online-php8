@@ -32,7 +32,7 @@ Result: `php -l` on all 2,201 PHP files = 0 errors; the only remaining deprecati
 ## D. Coding-standard compliance (gap analysis)
 | Area | Before | IQIMS standard | Now |
 |---|---|---|---|
-| DB access | ~1,540 concatenated SQL strings, 203 files with raw request values | prepared statements / no raw input | Values inside quotes wrapped by `db_esc()` (token-based rewrite, about 9,000 sites); `db_query_params()` (prepared) for new code and `require_role()` |
+| DB access | ~1,540 concatenated SQL strings, 203 files with raw request values | prepared statements / no raw input | Values inside quotes wrapped by `db_esc()` (about 9,000 sites); `ppc_store` converted to prepared statements (263); `db_query_params()` / `db_query_bind()` for new code and `require_role()` |
 | Config | env with hard-coded fallbacks incl. a leaked password in `PSSboard/include/config.php` | `getenv()` only, die if missing | `include/config.php` env-only, one connection file, `PSSboard` reuses it |
 | Auth gate | session check in each page | session gate + role check per script | `require_role($dbc, N)` in 843 pages |
 | Sessions | password cached in session, no ID regeneration | regenerate on login, no secrets | `session_regenerate_id(true)`, password no longer stored, hardened cookie ini |
@@ -70,7 +70,7 @@ Workflow, menus, forms, calculations, approvals, redirects and output are unchan
 * Crawl of every top-level page in each role folder with a read-only DB session, before and after the fixes above (results in section K).
 
 ## I. Remaining issues / not changed
-* **SQL is not on prepared statements.** About 1,500 legacy queries are escaped in place with `db_esc()` (quoted values only). Converting them one by one without a regression suite risks changing behaviour; the gain over correct escaping is small. New code and the role gate use prepared statements (`db_query_params()`); convert module by module as files are touched.
+* **SQL is prepared only in `ppc_store` (trial); the other modules are escaped in place.** `ppc_store`: 263 statements / 698 parameters converted (`db_query_bind()`), 131 `db_esc` calls remain where a statement did not qualify (variable modified with `.=`, used more than once, fragment strings, unquoted numeric values, or SQL assembled from other variables). Verified on real data: 112 of 120 responses byte-identical to the pre-conversion pages, the other 8 explained (2 giant pages cut by the 25 s test limit with identical prefix, 4 PDFs differing only in creation date), zero SQL/bind errors logged, and `tests/test_db_prepared.php` covers insert_id, affected_rows, quotes/backslashes, LIKE, NULL, injection literals on a TEMPORARY table. The converter (`_tools/prep.php`, outside the repo) can be re-run per module; each module should get the same before/after comparison.
 * **Passwords are still e-mailed in clear text** (`change_password*.php`, `forgot_password.php`). Fixing that needs a reset-link flow, i.e. a new business process. Decision for the business owner.
 * **Vendored libraries are old but no longer emit deprecations.** TCPDF (12 copies), FPDF, PHPExcel (abandoned) and jQuery 1.7.2 were patched only where PHP 8 required it. Replacing them with maintained packages (PhpSpreadsheet, one shared TCPDF) changes generated Excel/PDF output and needs its own project.
 * **Duplicated `*_super` modules remain.** Merging them changes which role sees which behaviour; it is a redesign, not a compatibility fix.

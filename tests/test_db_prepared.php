@@ -1,8 +1,7 @@
 <?php
 // Needs a reachable MySQL (DB_HOST/DB_USER/DB_PASSWORD/DB_NAME env vars); uses a TEMPORARY table only, so no data is touched.
 // Run from the project root: php tests/test_db_prepared.php
-if (getenv('DB_HOST') === false || getenv('DB_PASSWORD') === false) { echo "SKIP: no DB configured
-"; exit(0); }
+if (getenv('DB_HOST') === false || getenv('DB_PASSWORD') === false) { echo "SKIP: no DB configured" . PHP_EOL; exit(0); }
 $_SERVER['REQUEST_METHOD'] = 'GET';
 require __DIR__ . '/../include/config.php';
 $f = 0; function ck($n,$ok){ global $f; echo ($ok?'PASS ':'FAIL ').$n."\n"; if(!$ok) $f++; }

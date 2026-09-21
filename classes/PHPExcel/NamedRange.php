@@ -79,7 +79,7 @@ class PHPExcel_NamedRange
      * @param bool $pLocalOnly
      * @param PHPExcel_Worksheet|null $pScope	Scope. Only applies when $pLocalOnly = true. Null for global scope.
      */
-    public function __construct($pName = null, PHPExcel_Worksheet $pWorksheet, $pRange = 'A1', $pLocalOnly = false, $pScope = null)
+    public function __construct($pName, PHPExcel_Worksheet $pWorksheet, $pRange = 'A1', $pLocalOnly = false, $pScope = null)
     {
     	// Validate data
     	if (($pName === NULL) || ($pWorksheet === NULL) || ($pRange === NULL)) {
@@ -225,7 +225,7 @@ class PHPExcel_NamedRange
      * @param PHPExcel_Worksheet|null $pSheet Scope. Use null for global scope
      * @return PHPExcel_NamedRange
      */
-    public static function resolveRange($pNamedRange = '', PHPExcel_Worksheet $pSheet) {
+    public static function resolveRange($pNamedRange, PHPExcel_Worksheet $pSheet) {
 		return $pSheet->getParent()->getNamedRange($pNamedRange, $pSheet);
     }
 

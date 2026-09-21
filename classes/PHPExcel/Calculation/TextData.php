@@ -502,7 +502,7 @@ class PHPExcel_Calculation_TextData {
 	 * @param	int		$chars	Number of characters
 	 * @return	string
 	 */
-	public static function REPLACE($oldText = '', $start = 1, $chars = null, $newText) {
+	public static function REPLACE($oldText, $start, $chars, $newText) {
 		$oldText	= PHPExcel_Calculation_Functions::flattenSingleValue($oldText);
 		$start		= PHPExcel_Calculation_Functions::flattenSingleValue($start);
 		$chars		= PHPExcel_Calculation_Functions::flattenSingleValue($chars);

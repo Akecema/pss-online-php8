@@ -841,7 +841,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 	 * @param	bool        $isHidden
 	 * @return	string	Complete binary record data
 	 * */
-	private function _writeShortNameBiff8($name, $sheetIndex = 0, $rangeBounds, $isHidden = false){
+	private function _writeShortNameBiff8($name, $sheetIndex, $rangeBounds, $isHidden = false){
 		$record = 0x0018;
 
 		// option flags

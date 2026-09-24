@@ -49,6 +49,19 @@ single-value SELECT/UPDATE call sites in `dash.php`, `backjob_initial_pass.php`,
 `change_password_prod.php`, `top_modal_menu.php` and `index_planning_super.php` now use `db_query_bind()`; no
 `db_esc()` calls remain in the module. `php -l` and `tests/test_helpers.php` pass unchanged.
 
+**Also found and fixed while re-verifying PHP 8 compatibility (unrelated to the above, but a real fatal):**
+curly-brace string-offset syntax (`$var{0}`), removed in PHP 8.0, still existed in 11 copies of
+`tcpdf_parser.php` (one per role folder) and in `classes/PHPExcel/Calculation.php` and
+`classes/PHPExcel/Cell.php` (missed by the earlier utf8_encode/decode-focused vendor pass). These are
+parse errors, not just deprecations: any request that reached that code path would have fataled on
+PHP 8.0+. Changed to `$var[0]` (the same fix already applied to the neighbouring line in
+`Calculation.php`); verified `PHPExcel_Cell::columnIndexFromString()` still returns the same values
+(A=1, Z=26, AB=28, ABC=731) and throws the same messages for empty/4+ character input. `php -l` on
+all 2,168 app PHP files (PHP 8.4.19): 0 errors.
+Note: this session has no Docker daemon or live MySQL, so the full role-crawl this report used
+earlier could not be repeated here; verification for this change is static (`php -l`, the existing
+test harness, and a standalone functional check of the one fixed method).
+
 ## E. Security improvements (behaviour changes marked WARNING)
 1. SQL injection: quoted request/DB values escaped in all modules (`db_esc`). Verified live: `x%' OR '1'='1' --` matches 0 rows.
 2. WARNING - **Authorization:** each role folder now requires that role's `level_id` (admin=1, prod=2, prod_super=3, ppc=4, ppc_super=5, supply=6, supply_super=7, planning=8, planning_super=9, qqc=10, qqc_super=11, ppc_store=12 - taken from the login redirects). A logged-in user of another role gets **403** instead of the page. No folder links into another, so normal use is unaffected. Also gates 8 previously ungated `ppc_store` pages and all `find*` AJAX lookups.

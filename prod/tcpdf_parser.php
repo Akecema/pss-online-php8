@@ -528,7 +528,7 @@ class TCPDF_PARSER {
 				if ($char == '(') {
 					$open_bracket = 1;
 					while ($open_bracket > 0) {
-						if (!isset($this->pdfdata{$strpos})) {
+						if (!isset($this->pdfdata[$strpos])) {
 							break;
 						}
 						$ch = $this->pdfdata[$strpos];

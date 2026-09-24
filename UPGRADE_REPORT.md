@@ -44,6 +44,10 @@ Result: `php -l` on all 2,201 PHP files = 0 errors; the only remaining deprecati
 Deliberate deviation: SQL was **not** mass-converted to prepared statements. Rewriting about 1,500 queries without a
 regression suite risks changing behaviour; quoted values are escaped in place (equivalent to the old query text),
 and prepared statements are used for all new/auth code. Recommend converting module by module as files are touched.
+`planning_super` (15 files, 6 with app logic) has since been converted the same way: all 12 `db_esc()`-quoted
+single-value SELECT/UPDATE call sites in `dash.php`, `backjob_initial_pass.php`, `backjob_reminder_pass.php`,
+`change_password_prod.php`, `top_modal_menu.php` and `index_planning_super.php` now use `db_query_bind()`; no
+`db_esc()` calls remain in the module. `php -l` and `tests/test_helpers.php` pass unchanged.
 
 ## E. Security improvements (behaviour changes marked WARNING)
 1. SQL injection: quoted request/DB values escaped in all modules (`db_esc`). Verified live: `x%' OR '1'='1' --` matches 0 rows.

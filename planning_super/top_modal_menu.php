@@ -37,8 +37,8 @@
           
   <?php
 
-$queryu = "SELECT * from user_detail where user_no = '".db_esc($dbc, $res["user_no"])."'";
-$resultu = mysqli_query($dbc, $queryu);   //run the query.
+$queryu = "SELECT * from user_detail where user_no = ?";
+$resultu = db_query_bind($dbc, $queryu, [$res["user_no"]]);   //run the query.
 $row = mysqli_fetch_row($resultu);   //how many records are there?
 
  ?>
@@ -65,8 +65,8 @@ $row = mysqli_fetch_row($resultu);   //how many records are there?
                  <td height="25"><?php		
  	
   //Retrieve and display the available types
-  $query3 = "SELECT * FROM company WHERE comp_code = '".db_esc($dbc, $row[8])."'";
-  $result3 = mysqli_query($dbc, $query3);
+  $query3 = "SELECT * FROM company WHERE comp_code = ?";
+  $result3 = db_query_bind($dbc, $query3, [$row[8]]);
   $row3 = mysqli_fetch_array($result3);
   
 	    echo h($row3["comp_name"]);
@@ -80,8 +80,8 @@ $row = mysqli_fetch_row($resultu);   //how many records are there?
                  <td height="25">:</td>
                  <td height="25"><?php		
    //Retrieve and display the available types
-  $query2 ="SELECT * from department WHERE id_dept = '".db_esc($dbc, $row[6])."'";
-  $result2 = mysqli_query($dbc, $query2);
+  $query2 ="SELECT * from department WHERE id_dept = ?";
+  $result2 = db_query_bind($dbc, $query2, [$row[6]]);
   $row2 = mysqli_fetch_array($result2);
 	    
 		echo h($row2["dept_name"]); 
@@ -94,8 +94,8 @@ $row = mysqli_fetch_row($resultu);   //how many records are there?
                  <td height="25"><?php		
 
   //Retrieve and display the available types
-  $query2b = "SELECT * FROM designation WHERE id_design = '".db_esc($dbc, $row[7])."'";
-  $result2b = mysqli_query($dbc, $query2b);
+  $query2b = "SELECT * FROM designation WHERE id_design = ?";
+  $result2b = db_query_bind($dbc, $query2b, [$row[7]]);
   $row2b =mysqli_fetch_array($result2b);
    
   echo h($row2b[1]);
@@ -128,8 +128,8 @@ $row = mysqli_fetch_row($resultu);   //how many records are there?
                  <td height="25"><?php		
  
   //Retrieve and display the available types
-  $query4 = "SELECT * FROM level_detail WHERE status_level = 'Y' AND id_level = '".db_esc($dbc, $row[16])."'";
-  $result4 = mysqli_query($dbc, $query4);
+  $query4 = "SELECT * FROM level_detail WHERE status_level = 'Y' AND id_level = ?";
+  $result4 = db_query_bind($dbc, $query4, [$row[16]]);
   $row4 =mysqli_fetch_array($result4);
 	    echo h($row4["desc_level"]);
 	

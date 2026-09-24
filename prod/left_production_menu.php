@@ -7,7 +7,7 @@
  * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
  * Database tables referenced: consumable_request.
  *
- * NOTE: this summary was generated automatically by static analysis during
+ * NOTE: this summary was generated automatichally by static analysis during
  * the PHP8 migration (looking at queries/includes/superglobals actually used
  * in this file). It describes *what the code touches*, not necessarily *why* -
  * treat it as a starting point and refine as you work in this file.
@@ -97,9 +97,9 @@
    <a href="display_consumable_request.php"><i class="icon icon-barcode"></i> <span>Consumable Request
    <?php
 	  
-	  $query = "SELECT *, DATE_FORMAT(MR.date_require,'%d-%m-%Y') AS R FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status_view = 'N' AND (MR.status != 'Close' AND MR.status  != 'Cancel') GROUP BY MR.temp_mrin";
-$rs = mysqli_query($dbc, $query);   //run the query.
-	    $num_rows = mysqli_num_rows($rs); 
+	              $query = "SELECT COUNT(DISTINCT MR.temp_mrin) AS cnt FROM consumable_request AS MR WHERE MR.status_request = 'Y' AND MR.status_view = 'N' AND (MR.status != 'Close' AND MR.status != 'Cancel')";
+            $rs = mysqli_query($dbc, $query) or die(mysqli_error($dbc)); //run the query.
+	                $num_rows = mysqli_fetch_assoc($rs)['cnt'];
 
 	  ?></span> </a> 
       <ul>

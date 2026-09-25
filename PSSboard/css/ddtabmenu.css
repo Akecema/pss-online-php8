@@ -1,0 +1,66 @@
+.basictab {
+	float:left;
+	margin: 4px;
+    padding: 3px 0;
+	width:98%;
+	font-size:93%;
+	line-height:normal;
+	border-bottom:1px solid #E9F58D;
+	}
+
+.basictab uk{
+margin: 4px;
+padding: 3px 0;
+margin-left: 0;
+font: bold 12px Trebuchet MS, Arial, Helvetica, Sans-Serif;
+/*border-bottom: 1px solid gray; */
+list-style-type: none;
+text-align: left; /*set to left, center, or right to align the menu as desired*/
+}
+
+.basictab lk{
+display: inline;
+margin: 0;
+}
+
+.basictab lk a{
+	text-decoration: none;
+	padding: 3px 7px;
+	margin-right: 3px;
+	border: 1px solid gray;
+	border-bottom: none;
+	background-color: #E9F58D;
+	color: #978f6c;
+}
+
+.basictab lk a:visited{
+color: #fff;
+}
+
+.basictab lk a:hover, .basictab lk a.current{
+	background-color: #FFFFFF;
+	color: black;
+}
+
+.basictab .selected a, #basictab .selected a span{ /*currently selected tab*/
+background-color: #E9F58D;
+}
+
+.basictab .select a, #basictab .selected a span{ /*currently selected tab*/
+	background-color: #978f6c;
+	color:#000000;
+}
+
+.basictab lk a:active{
+color: black;
+}
+
+.tabcontainer{
+clear: left;
+width:95%; /*width of 2nd level sub menus*/
+height:1.5em; /*height of 2nd level sub menus. Set to largest's sub menu's height to avoid jittering.*/
+}
+
+.tabcontent{
+display:none;
+}

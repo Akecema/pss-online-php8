@@ -1,0 +1,434 @@
+<?php
+
+/**
+ * ppc/close_MRIN_ppc.php
+ * Part of: PPC module (Production Planning & Control)
+ * Filename suggests: close MRIN ppc
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, factory_detail, work_center_detail, material_request, scan_detail, mat_master_header.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_ppc_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+session_start();
+$username = $_SESSION['username'] ?? '';
+include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 4);
+include_once ("../classes/paginator.class2.php");
+require_once("../calendar/classes/tc_calendar.php");
+
+$Cdate = date ("l, j F Y ");
+set_time_limit(0);
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
+
+$url = "close_MRIN_ppc.php";
+
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
+    $res = mysqli_fetch_array($result2);
+	
+$today = getdate();
+$hours = $today['hours']; 
+$minutes = $today['minutes'];
+$seconds = $today['seconds'];
+$month = $today['mon']; 
+$mday = $today['mday']; 
+$year = $today['year']; 	
+		
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
+//----------------------------------------------------	
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<!--<link rel="stylesheet" href="../css/datepicker.css">
+<script src="../js/bootstrap-datepicker.js"></script>-->
+
+<!----------------->
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>	
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>
+	
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h1>&nbsp;</h1>
+</div>
+<?php  include "top_modal_menu.php";   ?>
+<!--close-Header-part--> 
+
+<!--sidebar-menu-->
+<?php include "left_ppc_menu.php";  ?>
+<!--sidebar-menu-->
+
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="index_ppc.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Material Request Maintenance</a> </div>
+  <h1>Material Request Maintenance</h1>
+</div>
+
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+  <!--  <div class="span6">-->
+  <!--    
+    <div class="input-append date" id="dp2" data-date="15-07-2013" data-date-format="dd-mm-yyyy">
+      <input class="span2" size="16" type="text" value="15-07-2013">
+      <label class="add-on"><i class="icon-calendar"></i></label>
+    </div>  -->
+   
+            <form action="<?php echo h($_SERVER['PHP_SELF']); ?>" method="post" name="frmSearch" id="frmSearch">
+            <table class="table table-bordered table-striped">
+              <tr>
+                  <th>Posting Date From :</th>
+                  <td>
+				  <?php
+				  
+				  
+				  /* $myCalendar = new tc_calendar("date_theme", true, false);
+					 $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					 $myCalendar->setDate(0,0,0);
+					 $myCalendar->setPath("/calendar/");
+					 $myCalendar->setYearInterval(2000, 2015);
+					 $myCalendar->setDateFormat('j F Y');
+					 $myCalendar->setAlignment('left', 'bottom');
+					 $myCalendar->setAutoHide(true, 10000); //10 secs
+					 $myCalendar->showWeeks(true);
+					 $myCalendar->startMonday(true);
+					 $myCalendar->writeScript();*/
+				  
+	
+								 if(isset($_POST['date1']))
+								{ 
+									
+									//GET value
+									$dd1 = substr($_POST['date1'],8,2);
+									$mm1 = substr($_POST['date1'],5,2);
+									$yy1 = substr($_POST['date1'],0,4);
+									
+									$myCalendar = new tc_calendar("date1", true, false);
+									$myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+									$myCalendar->setDate($dd1, $mm1, $yy1);
+									$myCalendar->setPath("/calendar/");
+									$myCalendar->setYearInterval(date('Y'), date('Y') + 10);
+									// $myCalendar->setOnChange("myChanged('test')");
+									$myCalendar->writeScript();
+									
+								}
+								else	 
+								{
+                                      
+										$dt = $today['mday'];
+										$mt = $today['mon'];
+										$yr = $today['year'];
+									 
+										$myCalendar = new tc_calendar("date1", true,false);
+										$myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+										$myCalendar->setDate(0,0,0);
+										$myCalendar->setPath("/calendar/");
+										$myCalendar->setYearInterval(date('Y'), date('Y') + 10);
+										// $myCalendar->setOnChange("myChanged('test')");
+									    $myCalendar->writeScript();
+				
+									}
+
+?></td>
+                  <th>Posting Date To :</th>
+                  <td colspan="2"><?php
+				  
+                             if(isset($_POST['date2']))
+								{ 
+									
+									//GET value
+									$dd2 = substr($_POST['date2'],8,2);
+									$mm2 = substr($_POST['date2'],5,2);
+									$yy2 = substr($_POST['date2'],0,4);
+									
+									$myCalendar = new tc_calendar("date2", true, false);
+									$myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+									$myCalendar->setDate($dd2, $mm2, $yy2);
+									$myCalendar->setPath("/calendar/");
+									$myCalendar->setYearInterval(date('Y'), date('Y') + 10);
+									// $myCalendar->setOnChange("myChanged('test')");
+									$myCalendar->writeScript();
+									
+								}
+								else	 
+								{
+                                      
+										$dt2 = $today['mday'];
+										$mt2 = $today['mon'];
+										$yr2 = $today['year'];
+									 
+										$myCalendar = new tc_calendar("date2", true, false);
+										$myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+								        $myCalendar->setDate(0,0,0);
+										$myCalendar->setPath("/calendar/");
+										$myCalendar->setYearInterval(date('Y'), date('Y') + 10);
+										// $myCalendar->setOnChange("myChanged('test')");
+										$myCalendar->writeScript();
+				
+									}
+                
+                
+                ?></td>
+                </tr>
+                <tr>
+                  <th>MRIN No :</th>
+                  <td><input name="temp_mrin" type="text" id="temp_mrin" size="25" class="span11" />
+                  </td>
+                  <th>Production Order :</th>
+                  <td ><input name="prod_order" type="text" id="prod_order" size="25" class="span11" />
+                  </td>
+                </tr>
+                <tr>
+                  <th>Factory :</th>
+                  <td><select name="factory" id="factory">
+                     <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
+                     <?php
+	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
+                   $result3 = mysqli_query($dbc, $query3);
+  
+                   while($row3=mysqli_fetch_array($result3, MYSQLI_NUM)) 
+			      {
+                  echo'<option value="',h($row3[2]),'">',stripslashes($row3[1]),'</option>';
+                  }
+				?>
+                   </select></td>
+                  <th>Work Center :</th>
+                  <td><select name="work_center" id="work_center">
+                    <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
+                    <?php
+	       $query4 = "SELECT * FROM work_center_detail ORDER BY id_work ASC";
+                   $result4 = mysqli_query($dbc, $query4);
+  
+                   while($row4=mysqli_fetch_array($result4, MYSQLI_NUM)) 
+			      {
+                  echo'<option value="',h($row4[0]),'">',stripslashes($row4[0]),'</option>';
+                  }
+				?>
+                  </select></td>
+                </tr>
+                <tr>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+                  <th><input name="Submit2" type="submit" class="btn btn-info" id="button" value="SEARCH" /></th>
+                </tr>
+                <tr>
+                  <th colspan="5">&nbsp;</th>
+                </tr>
+              </table>
+            </form>
+    <?php
+        if(isset($_POST["Submit2"]))
+        {
+            $temp_mrin = $_POST["temp_mrin"];
+			$factory = $_POST["factory"];
+			$prod_order = $_POST["prod_order"];
+            $dateF = $_POST["date1"];
+            $dateT = $_POST["date2"];
+			$work_center = $_POST["work_center"];
+			 
+            echo "<script>";
+			echo "window.location='close_MRIN_ppc2.php?temp_mrin=$temp_mrin&&prod_order=$prod_order&&date1=$dateF&&date2=$dateT&&work_center=$work_center&&factory=$factory'";
+            //echo "window.location='posting_request_all2.php'";
+            echo "</script>";
+            exit(); //quit the script
+        }
+        
+
+     $query8 = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin";
+	 $result8 = mysqli_query($dbc, $query8) or trigger_error("SQL", E_USER_ERROR);
+     //$num_8 = mysqli_fetch_row($result8);
+     $num_rows = mysqli_num_rows($result8);
+
+   $pages = new Paginator;
+   $pages->items_total = $num_rows;
+   $pages->mid_range = 5; // Number of pages to display. Must be odd and > 3
+   $pages->paginate(); 
+   
+$query = "SELECT *, DATE_FORMAT(MR.date_mrin,'%d-%m-%Y') AS R FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND (MR.status != 'Close' AND MR.status != 'Cancel') GROUP BY MR.temp_mrin ORDER BY MR.date_posting ASC, MR.temp_mrin ASC ";
+$rs = mysqli_query($dbc, $query);   //run the query.
+//$num = mysqli_num_rows($rs);   //how many material are there?
+
+
+	
+	 	if($num_rows > 0) {
+		
+	 echo '<div align="center">There are currently  '. $num_rows.' record(s).</div>';
+
+?>
+   <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Display Material Request</h5>
+          </div>
+             
+          <div class="widget-content nopadding">
+          
+            <table class="table table-bordered data-table">
+             <thead>
+              <tr>
+                <th>MRIN No.</th>
+                <th>Factory</th>
+                <th>Line</th>
+                <th>Request Date</th>
+                <th>Request Time</th>
+                <th>Requestor</th>
+                <th>Close</th>
+                <th>View</th>
+                <th>Print</th>
+            </tr>
+          </thead><tbody>
+     <?php
+	     
+   $counter = 1;
+   $no = 1;
+ 
+   
+   while ($row2 = mysqli_fetch_array($rs))
+   {
+   
+   	$query_scan = "SELECT * FROM scan_detail WHERE id_scan = ?"; $query_scan_args = [$row2[6]];
+   	$result_scan = db_query_bind($dbc, $query_scan, $query_scan_args);
+   	$row_scan = mysqli_fetch_array($result_scan);
+	
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = ? ORDER BY id_req ASC"; $query_again_args = [$row2[6]];
+    $rs_again = db_query_bind($dbc, $query_again, $query_again_args);   //run the query.
+    $row = mysqli_fetch_array($rs_again);
+	
+	$query_u = "SELECT * FROM user_detail WHERE user_no = ?"; $query_u_args = [$row['user_create']];
+	$result_u = db_query_bind($dbc, $query_u, $query_u_args);   //run the query.
+	$data_u = mysqli_fetch_array($result_u);   //how many records are there?    
+
+ 	$query3 = "SELECT * FROM factory_detail WHERE id_fac = ?"; $query3_args = [$row_scan["factory"]];
+    $result3 = db_query_bind($dbc, $query3, $query3_args);
+	$row3 = mysqli_fetch_array($result3);
+	
+	$query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = ?"; $query4_p_args = [$row2[5]];
+  	$result4_p = db_query_bind($dbc, $query4_p, $query4_p_args);
+ 	$row4_p = mysqli_fetch_array($result4_p); 
+  
+ 
+		  ?>        
+       
+    <tr>
+    <td width="143">&nbsp;<?php echo h($row2["temp_mrin"]); ?><?php if($row2["status_urgent"] == "Y") 
+	{
+	?>
+	<img src="../img/icon-urgent.gif" title="URGENT" />
+	<?php
+     }  ?></td>
+    <td width="50"><?php echo h($row_scan["factory"]); ?></td>
+    <td width="50"><?php echo h($row_scan["work_center"]); ?></td>
+    <td width="120"><div align="center"><?php echo h($row2["R"]); ?></div></td>
+    <td><div align="center"><?php echo h($row2["time_mrin"]); ?></div></td>
+    <td width="120"><?php echo h($data_u["user_fullname"]); ?></td>
+    <td width="50"><a value="Details" href="close_MRIN_manual.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&user_no=<?php echo h($data_u["user_no"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/exclamation.png" width="16" height="16" alt="View" />Close</a></td>
+    <td width="50"><a value="Details" href="detail_material_request.php?mrin_no=<?php echo h($row2["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/icon_view.jpg" width="16" height="16" alt="View">View</a></td>
+    <td width="50"><a href="detail_material_request_printing.php?mrin_no=<?php echo h($row["temp_mrin"]); ?>&&prod_order=<?php echo h($row2["prod_order"]); ?>&&TB_iframe=true&&height=400&&width=1000" class="thickbox" target="_self"><img src="../img/print.jpg" width="16" height="16" alt="Print">Print</a> </td>
+  </tr>
+
+  <?php 
+		 
+		  $no ++;
+		  $counter++; // menambah counter 
+		   
+		   //}// end if
+		
+		    
+		  } ?></tbody> </table>
+
+ 
+  <?php
+  mysqli_free_result($rs); 
+  ?>
+  <?php
+	}   // free up the resources 
+else
+{
+?><center>
+<table width="800" cellspacing="0" class="textboxred">
+  <tr> 
+    <td><div align="center"><font color="#FF0000"><strong>There are currently no material request.</strong></font></div></td>
+  </tr>
+</table></center>
+        <?php
+		   } 
+//mysqli_close($dbc)
+
+?>
+
+
+<p>Legend :</p>
+<table width="70%" border="1">
+  <tr>
+    <td width="10%"><div align="center"><img src="../img/red_icon2.jpg" alt="" width="20" height="20" /></div></td>
+    <td width="90%">Request has not been attended for more than 30 minutes.</td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="../img/yellow_icon2.jpg" alt="" width="20" height="20" /></div></td>
+    <td>Request has not been attended for more than 20 minutes.</td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="../img/green_icon2.jpg" alt="" width="20" height="20" /></div></td>
+    <td>Request has been posted not more than 19 minutes.</td>
+  </tr>
+</table>
+<br>
+     </div>     </div>
+
+
+
+</div></div></div></div>
+</div>
+<br>
+<!--Footer-part-->
+<?php include "footer.php";   ?>
+<!--end-Footer-part--> 
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/jquery.ui.custom.js"></script> 
+<script src="../js/bootstrap.min.js"></script> 
+<script src="../js/jquery.uniform.js"></script> 
+<script src="../js/select2.min.js"></script> 
+<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/matrix.js"></script> 
+<script src="../js/matrix.tables.js"></script>
+<!--<script src="../js/fullcalendar.min.js"></script> 
+-->
+</body>
+</html>

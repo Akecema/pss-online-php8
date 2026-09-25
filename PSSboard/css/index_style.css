@@ -1,0 +1,230 @@
+body{
+	margin:0;
+	padding:0;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#4d4d4d;
+}
+
+a img{border:none;}
+
+.wrapper{
+	background:#ffffff;
+	width:900px;
+	margin:0 auto;
+}
+
+.leftcol{
+	background:#FFF;
+	float:left;
+	width:600px;
+	margin:0;
+	padding:0 3px 0 0;
+}
+
+.leftcol h1{
+	color:#a80001;
+	font-size:24px;
+	margin:15px 0 0 0;
+	padding:0;
+	font-weight:normal;
+}
+
+.leftcol p{
+	margin:5px 0 15px 0;
+	padding:0;
+	font-family:"Times New Roman", Times, serif;
+	font-size:14px;
+	line-height:18px;
+}
+
+p.border{
+	border-bottom:dashed 1px #CCC;
+}
+
+.content-image{
+	width:150px;
+	height:113px;
+}
+
+.btn-more{
+	width:75px;
+	height:25px;
+	margin:10px 0 0 0;
+}
+
+.logo{
+	height:100px;
+}
+
+.logo h1{
+	color:#a80001;
+	font-size:36px;
+	margin:0;
+	padding:20px 0 0 0;
+}
+
+.logo h1 b{
+	color:#4d4d4d;
+}
+
+.logo i{
+	font-family:"Times New Roman", Times, serif;
+	font-size:14px;
+	color:#4d4d4d;
+}
+
+#header-image{
+	margin:0;
+	padding:0;
+	width:600px;
+	height:585px;
+	display:block;
+}
+
+#buttons{
+	margin:2px 0 0 0;
+	padding:0;
+	height:76px;
+	width:600px;
+	display:block;
+}
+
+.button{
+	display:block;
+	float:left;
+	background:url(images/btn-large.jpg) no-repeat;
+	width:193px;
+	height:61px;
+	margin:0 2px 0 0;
+	padding:15px 0 0 5px;
+}
+
+.button b{
+	margin:0;
+	padding:0;
+	height:76px;
+	font-weight:lighter;
+	color:#fefefe;
+	font-size:40px;
+}
+
+.button a{
+	height:40px;
+	width:120px;
+	display:block;
+	margin:-50px 0 -5px 50px;
+	padding:0;
+	font-size:30px;		
+	color:#000;
+	text-decoration:none;		
+}
+
+.button i{
+	margin:-50px 0 0 50px;
+	padding:0;
+	color:#4d4d4d;
+}
+
+.rightcol{
+	float:right;
+	width:297px;
+	margin:0;
+	padding:0;
+}
+
+.upper-rightcol{
+	background:#ffffff;
+	height:85px;
+	padding:15px 0 0 25px;
+	color:#999;
+}
+
+.upper-rightcol a{
+	color:#f7f7f7;
+	text-decoration:none;
+	margin:0 0 0 5px;
+}
+
+ul#nav{
+	margin:50px 0 0 25px;
+	padding:0;
+	text-indent:0;
+}
+
+ul#nav li{
+	list-style:none;
+	width:250px;
+	border-bottom:solid 1px #fefefe;
+	height:16px;
+	padding:20px 0 4px 0;
+}
+
+ul#nav li a{
+	width:280px;
+	text-decoration:none;
+	color:#fefefe;
+	height:14px;
+	margin:0;
+	padding:0;
+}
+
+ul#nav li a:hover{
+	color:#000;
+}
+
+.search-box{
+	background:url(images/search-box.png) no-repeat;
+	width:249px;
+	height:31px;
+	border:none;
+	margin:10px 0 0 0;
+	padding:0 0 0 10px;
+	line-height:30px;
+	color:#666;
+}
+
+#footer{
+	background:#a80000;
+	width:900px;
+	margin:0 auto;
+	padding:0;
+}
+
+#footer .leftcol{
+	height:20px;
+}
+
+#footer .rightcol{
+	height:40px;
+	margin:-40px 0 0 0;
+}
+
+#footer .rightcol p{
+	padding:0 30px;
+	color:#fefefe;
+}
+
+#footer a{
+	text-decoration:none; 
+	color:#fefefe;
+}
+
+#footer a:hover{
+	text-decoration:underline;
+}
+
+p{
+	margin:0;	
+	padding:0;
+}
+
+.clear{
+	clear:both;
+	margin:0;
+	height:0;
+}
+.login_but{
+	width:50px; height:16px; float:center; cursor:pointer; font-size:4; border:none;
+	background:url(../images/login_button.jpg) no-repeat 0 0; margin:10px 0 0 0;
+	}

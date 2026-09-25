@@ -1,0 +1,44 @@
+.paginate {
+	font-family: Verdana;
+	font-size: 10px;
+}
+
+a.paginate {
+	border: 1px solid #000080;
+	padding: 2px 6px 2px 6px;
+	text-decoration: none;
+	color: #000080;
+}
+
+
+a.paginate:hover {
+	background-color: #95AD19;
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+a.current {
+	border: 1px solid #000000;
+	font: bold 10px Verdana;
+	padding: 2px 6px 2px 6px;
+	cursor: default;
+	background:#003366;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+span.inactive {
+	border: 1px solid #999;
+	font-family: Verdana;
+	font-size: .7em;
+	padding: 2px 6px 2px 6px;
+	color: #999;
+	cursor: default;
+}
+
+search {
+	font-family: Verdana;
+	padding: 2px 6px;
+	font-size: .7em;
+	border: 1px solid #DDD;
+}

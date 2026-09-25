@@ -1,0 +1,266 @@
+<?php
+
+/**
+ * admin/vendor_account_view.php
+ * Part of: Admin module
+ * Filename suggests: vendor account view
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: user_detail, sys_setup_maintain, vendor_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+session_start();
+$username = $_SESSION['username'] ?? '';
+include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 1);
+include_once ('../classes/paginator.class2.php');
+require_once("../calendar/classes/tc_calendar.php");
+$Cdate = date ("l, j F Y ");
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+$url = "add_vendor_account.php";
+
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
+    $res = mysqli_fetch_array($result2);
+	
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
+//----------------------------------------------------			
+	
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
+<link href="../css/ddtabmenu.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+body,td,th {
+	font-family: "Open Sans", sans-serif;
+}
+body {
+	background-color: #EEEEEE;
+}
+</style>
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Begin
+function printWindow() {
+bV = parseInt(navigator.appVersion);
+if (bV >= 4) window.print();
+}
+//  End -->
+</script>
+<?php
+
+function encode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_encode($ss);
+    }
+return $ss;
+}
+
+
+function decode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_decode($ss);
+    }
+return $ss;
+}
+
+$vendor_code = $_GET["vendor_code"];
+
+$queryu = "SELECT *, DATE_FORMAT(date_create,'%d-%m-%Y') AS R, DATE_FORMAT(date_update,'%d-%m-%Y') AS R2 FROM vendor_detail WHERE vendor_code = ?"; $queryu_args = [$vendor_code];
+$resultu = db_query_bind($dbc, $queryu, $queryu_args);   //run the query.
+$row = mysqli_fetch_array($resultu);   //how many records are there?
+
+
+//--------------------function escape data from form ------------------------
+function escape_data ($data) {
+global $dbc;   // need the connection.
+if (ini_get('magic_quotes_gpc')) 
+{
+    $data = stripslashes($data);
+	}
+	return mysqli_real_escape_string($dbc, $data);
+	}   // end function.
+$message = NULL; // create an empty new variable.
+//------------------------------end function --------------------------------
+
+    //----user created -----
+
+    $query_create = "SELECT * FROM user_detail WHERE username = ?"; $query_create_args = [$row[13]];
+    $result_create = db_query_bind($dbc, $query_create, $query_create_args) or die(db_fail($dbc));
+    $data_create = mysqli_fetch_array($result_create);
+	
+	//----user updated -----
+
+    $query_update = "SELECT * FROM user_detail WHERE username = ?"; $query_update_args = [$row[15]];
+    $result_update = db_query_bind($dbc, $query_update, $query_update_args) or die(db_fail($dbc));
+    $data_update = mysqli_fetch_array($result_update);
+	
+	if($row[17] == "Y")
+	{
+		$sta_acc = "Active";
+		
+	}else
+	{
+		$sta_acc = "In Active";
+	}
+
+
+
+
+   if($row[18] == "Y")
+	{
+		$sta_sub = "YES";
+		
+	}else
+	{
+		$sta_sub = "NO";
+	}
+
+ ?>
+<body>
+<div id="content">
+  <h4>Display Vendor</h4>     
+   <!-- End Box Head -->
+         <form name="form1" method="post" action="<?php echo h($_SERVER["PHP_SELF"]); ?>">
+             <table class="table table-bordered">
+               <tr>
+                 <td width="30%" height="25">Vendor Code </td>
+                 <td width="3%" height="25">:</td>
+                 <td width="67%" height="25"><?php echo h($row[0]); ?></td>
+               </tr>
+               <tr>
+                 <td height="25">Vendor Name </td>
+                 <td height="25">:</td>
+                 <td height="25"><b><font color="blue"><?php echo h($row[1]); ?></font></b></td>
+               </tr> 
+               <tr>
+                 <td height="25">Search Term</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[8]);	?></td>
+               </tr>
+                 <tr>
+                 <td height="25">Address No. 1</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php echo h($row[2]); ?> </td> 
+               </tr>
+               <tr>
+                 <td height="25">Address No. 2</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php echo h($row[3]);  ?></td>
+               </tr>
+      
+               <tr>
+                 <td height="25">Postcode</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[4]);  ?></td>
+               </tr>
+               <tr>
+                 <td height="25">City</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[5]);	?></td>
+               </tr>
+                 <tr>
+                 <td height="25">Region</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[6]);	?></td>
+               </tr>
+                 <tr>
+                 <td height="25">Country</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[7]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">Phone</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[9]);	?></td>
+               </tr>
+                 <tr>
+                 <td height="25">Fax</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[10]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">Payment Method</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[11]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">Term Payment</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[12]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">User Created</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($data_create["user_fullname"]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">Date Created</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row["R"]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">User Updated</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($data_update["user_fullname"]);	?></td>
+               </tr>
+                <tr>
+                 <td height="25">Date Updated</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row["R2"]);	?></td>
+               </tr>
+                 <tr>
+                 <td height="25">Status Account <br>(Y = Active, N = In Active)</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[17]);	?> = <?php	echo $sta_acc;	?></td>
+               </tr>
+                <tr>
+                 <td height="25">Status Subcont <br> (Y = YES, N = NO)</td>
+                 <td height="25">:</td>
+                 <td height="25"><?php	echo h($row[18]);	?> = <?php	echo $sta_sub;	?></td>
+               </tr>
+               <tr>
+                 <td height="25">&nbsp;</td>
+                 <td height="25">&nbsp;</td>
+                 <td height="25">&nbsp;</td>
+               </tr>
+            </table>
+           </form>
+           </div>
+   <!--Footer-part-->
+<?php include "footer.php";   ?>
+<!--end-Footer-part-->     
+
+</body>
+</html>

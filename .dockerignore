@@ -1,0 +1,8 @@
+.git
+.env
+*.log
+node_modules
+docker/initdb/*.sql
+
+FromPortal2
+vendor

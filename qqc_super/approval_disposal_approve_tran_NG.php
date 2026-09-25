@@ -1,0 +1,498 @@
+<?php
+
+/**
+ * qqc_super/approval_disposal_approve_tran_NG.php
+ * Part of: QQC module (supervisor/admin tier)
+ * Filename suggests: approval disposal approve tran NG
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, reject_detail_disposal, type_reject_detail, reason_ng_reject, pps_detail, mat_master_header.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, tcpdf_barcodes_2d.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED);
+session_start();
+$username = $_SESSION['username'] ?? '';
+include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 11);
+include_once ("../classes/paginator.class2.php");
+require_once("../calendar/classes/tc_calendar.php");
+$Cdate = date ("l, j F Y ");
+
+set_time_limit(0);
+// include 2D barcode class (search for installation path)
+require_once(__DIR__ . '/tcpdf_barcodes_2d.php');
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+
+$url = "disposal_production_tran_NG.php";
+
+
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
+    $res = mysqli_fetch_array($result2);
+	
+$today = getdate();
+$hours = $today['hours']; 
+$minutes = $today['minutes'];
+$seconds = $today['seconds'];
+$month = $today['mon']; 
+$mday = $today['mday']; 
+$year = $today['year']; 	
+
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
+//----------------------------------------------------
+ $extension = explode ('.', $data_setup["logo_name"]);
+ $filename = $data_setup["logo_comp"].'.'.$extension[1];	
+
+//CR status (New)
+
+$sta = "SELECT * from request_status WHERE status_id = '1' ";
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
+
+//CR status (Approved)
+$sta3 = "SELECT * from request_status WHERE status_id = '3' ";
+$sta_res3 = mysqli_query($dbc, $sta3);
+$rst_sta3 = mysqli_fetch_array($sta_res3);	
+
+//CR status (Transfer QC)
+$sta18 = "SELECT * from request_status WHERE status_id = '18'";
+$sta_res18 = mysqli_query($dbc, $sta18);
+$rst_sta18 = mysqli_fetch_array($sta_res18);	
+
+//CR status (Approved QC)
+$sta17 = "SELECT * from request_status WHERE status_id = '17'";
+$sta_res17 = mysqli_query($dbc, $sta17);
+$rst_sta17 = mysqli_fetch_array($sta_res17);	
+		
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+<!----------------->
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>	
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>
+<style type="text/css">
+<!--
+.style3 {color: #000000}
+body { background-color:#FFFFFF }
+
+@media print{
+  body{
+	margin-top: -1.8cm;
+	margin-left:10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #FFFFFF;
+
+}
+a[href]:after {
+    content: none !important;
+  }
+  #ad{ display:none;}
+  #leftbar{ display:none;}
+  #contentarea{ width:100%;}
+  .header, .hide { visibility: hidden }
+  .tfoot { display: table-footer-group; }
+    @page {size: landscape;
+	margin-left:10px;
+	margin-right:10px;
+	margin-bottom:0px;
+	}
+	  
+  .bottom-left2{ visibility: hidden }
+  .footer_bawah{ margin-bottom:5px; }
+  
+  }
+.style4 {
+	font-size: 14px;
+	font-weight: bold;
+}
+-->
+</style>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Begin
+function printWindow() {
+bV = parseInt(navigator.appVersion);
+if (bV >= 4) window.print();
+}
+//  End -->
+</script>
+<?php
+//echo "the following values have been checked: ";
+$checked="";
+$amount ="";
+$amount2 ="";
+
+$a = array();
+if(isset($_POST["cancel"])) {
+	foreach($_POST["cancel"] as $j=>$i) {
+	    $amount .= $_POST["remark_approve"][$i]."|";
+		$checked .= ($checked==""?"":",") . "checkbox" . $i;
+		
+		array_push($a, $i);
+	//	 array_push($amount, $i);
+	}
+}
+//echo $checked;
+//echo $amount;
+
+function was_checked($i,$a) {
+if(in_array($i, $a)===true) {
+return "checked='checked'";
+return "";
+}
+}
+
+?>
+</head>
+<body>
+<?php
+
+ $doc_disposal = $_GET["doc_disposal"];
+  
+$queryu = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE doc_disposal_no = ?"; $queryu_args = [$doc_disposal];
+$rs = db_query_bind($dbc, $queryu, $queryu_args);   //run the query.
+
+//detail info disposal 
+
+$query_disposal = "SELECT *, DATE_FORMAT(date_disposal,'%d-%m-%Y %H:%i:%s') as W, DATE_FORMAT(date_posting,'%d-%m-%Y') as W2 FROM reject_detail_disposal WHERE doc_disposal_no = ?"; $query_disposal_args = [$doc_disposal];
+$result_disposal = db_query_bind($dbc, $query_disposal, $query_disposal_args);   //run the query.
+$row_disposal = mysqli_fetch_array($result_disposal);
+
+
+//FUNCTION RETAIN TEXTBOX VALUE
+function prepopulate($name) 
+{ 
+	if(isset($_POST[$name])) 
+	{ 
+		return $_POST[$name]; 
+	} 
+	else 
+	{ 
+		return ""; 
+	} 
+} 
+
+?>
+<br>
+<table width="1000">
+<tr>
+      <td width="1%">&nbsp;</td>
+      <td width="7%"><img src="../img/print2.jpg" width="48" height="48" onClick="window.print()" title="Print"/></td>
+        <td width="7%"><a href="javascript:parent.tb_remove();" ><img src="../img/back3.jpg" width="48" height="48" /></a></td>
+      <td width="85%"> <div class="small-nav"></div></td>
+      
+  </tr>
+
+</table>
+<?php
+	   
+if(isset($_POST["Submit2"])) 
+{ // handle the form.
+
+// create a function for escaping the data.
+function escape_data ($data) {
+global $dbc;   // need the connection.
+if(ini_get('magic_quotes_gpc')) {
+    $data = stripslashes($data);
+	}
+	return mysqli_real_escape_string($dbc, $data);
+	}   // end function.
+$message = NULL; // create an empty new variable.
+ 
+ if(isset($_POST["cancel"])) 
+  {
+
+    $cancel = $_POST["cancel"]; 
+    $how_many = count($cancel); 
+	$remark_approve = $_POST["remark_approve"]; 
+	$string = "";
+       
+	   
+	   foreach($_POST["cancel"] as $j=>$i) {
+	    
+		$amount .= $_POST["remark_approve"][$i];
+	    $string = explode("|",($amount));	
+		
+			}
+			
+       for ($i=0; $i<$how_many; $i++) { 
+		   			
+	
+	    // echo h($cancel[$i]); echo h($string[$i]);
+		
+//------------update remarks reject detail disposal-------------------
+      
+ $query_upd3 = "UPDATE reject_detail_disposal SET remark_approve2 = ?, approve_by2 = ?, date_approve2 = NOW(), status_disposal = ? WHERE id_disposal = ?"; $query_upd3_args = [$string[$i], $username, $rst_sta17["status_desc"], $cancel[$i]];
+ $result_upd3 = db_query_bind($dbc, $query_upd3, $query_upd3_args); 
+ 
+ 
+       }
+
+			 
+			 echo "<script>";
+		     echo "parent.tb_remove(); parent.location.reload(1)";
+		     echo "</script>"; 
+		     exit(); //quit the script
+
+
+ } //print the message if there is one.
+if (isset($message))
+{ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $message, '</font></div>';
+}
+
+}
+
+
+?>
+<br>
+<div style="page-break-inside:auto">
+<br>
+
+<table width="98%" border="0" cellpadding="2">
+  <tr>
+    <td width="62%"><p><img src="../set_upload/<?php echo h($filename);  ?>"width="267" height="27" hspace="2" vspace="2"/></p>
+      <p>PT 2475-2476, Kawasan Perindustrian Nilai, P.O. Box 45,<br>
+      71807 Nilai, Negeri Sembilan Darul Khusus, Malaysia. <br>
+      Tel :+606-799 5599 Fax :+606-799 5597 / 8</p></td>
+    <td width="38%"><table width="98%" border="0" cellpadding="2">
+      <tr>
+        <td width="35%">Disposal No.</td>
+        <td width="35%"><?php echo h($row_disposal["doc_disposal_no"]);  ?></td>
+        </tr>
+      <tr>
+        <td>Document Date</td>
+        <td><?php echo h($row_disposal["W"]);  ?></td>
+        </tr>
+      <tr>
+        <td>Status</td>
+        <td><?php echo h($row_disposal["status_disposal"]);  ?></td>
+      </tr>
+      </table></td>
+  </tr>
+</table>
+<p align="center" class="style4">&nbsp;</p>
+<p align="center" class="style4">&nbsp;</p>
+      <p align="center" class="style4">&nbsp;</p>
+      <!-- Content -->
+   
+          
+              <!-- End Box Head -->
+          <form name="myform" action="approval_disposal_approve_tran_NG.php?doc_disposal=<?php echo h($doc_disposal); ?>" method="post" >
+            <!-- Form -->
+            <div class="form">
+             <table width="1100" class="table table-bordered">
+             <thead>
+               <tr>
+                 <th width="100" height="28" bgcolor="#E9F58D"><span class="style3">No.</span></th>
+                 <th width="122" height="28" bgcolor="#E9F58D"><span class="style3">Model</span></th>
+                 <th width="100" bgcolor="#E9F58D"><span class="style3">Part No.</span></th>
+                 <th width="45" bgcolor="#E9F58D"><span class="style3">Type of Reject/Wastage</span></th>
+                 <th width="146" bgcolor="#E9F58D"><span class="style3">Date</span></th>
+                 <th width="42" bgcolor="#E9F58D"><span class="style3">Quantity</span></th>
+                 <th width="90" bgcolor="#E9F58D"><span class="style3">UOM</span></th>
+                 <th width="90" height="28" bgcolor="#E9F58D"><span class="style3">Location</span></th>
+                 <th width="90" height="28" bgcolor="#E9F58D"><span class="style3">Cost Center</span></th>
+                 <th width="65" height="28" bgcolor="#E9F58D"><span class="style3">Reason</span></th>
+                 <th height="28" bgcolor="#E9F58D"><span class="style3">Reason Remarks</span></th>
+                 <th bgcolor="#E9F58D"><span class="style3">Production Remarks</span></th>
+                 <th bgcolor="#E9F58D"><span class="style3">Approver Remarks </span></th>
+               
+               </tr>
+             </thead>  
+             <?php
+      $counter = 1;
+      $no = 1;
+      $qty_asal = 0.000;
+	  $loc_asal = "";
+	  $k= 1;
+	   
+   while ($row = mysqli_fetch_array($rs))
+   {
+		
+		$query_type = "SELECT * FROM type_reject_detail WHERE id_type = ? ORDER BY id_type ASC"; $query_type_args = [$row['type_reject']];
+		$result_type = db_query_bind($dbc, $query_type, $query_type_args);
+		$row_type = mysqli_fetch_array($result_type); 
+		
+		$query_reason = "SELECT * FROM reason_ng_reject WHERE id_reject = ? ORDER BY id_reject ASC"; $query_reason_args = [$row['reason_reject']];
+		$result_reason = db_query_bind($dbc, $query_reason, $query_reason_args);
+		$row_reason = mysqli_fetch_array($result_reason);
+		
+		$query_model = "SELECT * FROM pps_detail WHERE plan_no = ?"; $query_model_args = [$row['plan_no']];
+		$result_model = db_query_bind($dbc, $query_model, $query_model_args);
+		$data_model = mysqli_fetch_array($result_model);	
+		
+		$query_mat = "SELECT * FROM mat_master_header WHERE material_no = ?"; $query_mat_args = [$row['material_no']];
+		$result_mat = db_query_bind($dbc, $query_mat, $query_mat_args);
+		$data_mat = mysqli_fetch_array($result_mat);	
+		
+		$query_disposal2 = "SELECT * FROM user_detail WHERE username = ?"; $query_disposal2_args = [$row["user_disposal"]];
+        $result_disposal2 = db_query_bind($dbc, $query_disposal2, $query_disposal2_args) or die(db_fail($dbc));
+        $res_disposal2 = mysqli_fetch_array($result_disposal2);
+		
+		$query_approve = "SELECT * FROM user_detail WHERE username = ?"; $query_approve_args = [$row["approve_by"]];
+        $result_approve = db_query_bind($dbc, $query_approve, $query_approve_args) or die(db_fail($dbc));
+        $res_approve = mysqli_fetch_array($result_approve);
+		
+
+    //-------get quantity reject ---------
+	if($row["qty_NG"] != "0.000")
+	{
+	 
+	 $qty_asal = $row["qty_NG"];
+	 
+	 }elseif($row["qty_qc_NG"] != "0.000")
+	 {
+		 
+     $qty_asal = $row["qty_qc_NG"]; 
+		 
+	 }else{
+		 
+	  $qty_asal = "";	 
+	 }
+	
+	//-------get location ---------
+	if($row["ploc_prod_reject"] != "")
+	{
+	 
+	 $loc_asal = $row["ploc_prod_reject"];
+	 
+	 }elseif($row["ploc_qc_reject"] != "")
+	 {
+		 
+     $loc_asal = $row["ploc_qc_reject"]; 
+		 
+	 }else{
+		 
+	  $loc_asal = "";	 
+	 }
+	   
+		 ?>
+<tbody>
+
+<tr>
+                <td width="40" height="28"><input type="hidden" name="cancel[]" value="<?php echo h($row["id_disposal"]); ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+onClick="Check(document.myform.cancel)"> <?php  echo h($row["id_disposal"]); ?></td>
+                <td width="80"><?php  echo h($data_model["model_code"]); ?></td>
+                <td width="100"><?php echo h($row["material_no"]); ?>&nbsp;</td>
+                <td width="100"><?php echo h($row_type["type_desc"]); ?></td>
+                <td width="100"><?php echo h($row["R2"]); ?></td>
+                <td width="100"><div align="center"><input name="dis_quantity" type="text" readonly value="<?php echo h($qty_asal); ?>"  class="span2"/></div></td>
+                <td width="80"><?php echo h($data_mat["BUn"]); ?></td>
+                <td width="80"><?php echo h($loc_asal); ?></td>    
+                <td width="80"><?php echo h($row["cost_center"]); ?></td>          
+                <td width="150"><?php echo h($row_reason["reject_desc"]); ?></td>
+                <td width="200"><?php echo h($row["remarks"]); ?></td>
+                <td width="200"><?php echo h($row["remark_approve"]); ?></td>
+                <td width="200"><textarea name="remark_approve[<?php echo h($row["id_disposal"]); ?>]2" id="remark_approve[<?php echo h($row["id_disposal"]); ?>]" rows="2" cols="10"></textarea> <input name="id_disposal[<?php echo h($row["id_disposal"]); ?>]" type="hidden" value="<?php echo h($row["id_disposal"]); ?>"></td>
+                
+      </tr>
+    </tbody>        
+     
+         <?php 
+		   
+		
+		  
+		  $counter++; // menambah counter 
+		  $no ++;  
+		  $k ++; 
+			   
+			   
+		}
+			   
+			   ?>   </table> 
+              <p>&nbsp;</p>
+              <table width="100%" border="0" cellpadding="2">
+                 <tr>
+                   <td width="24%">&nbsp;</td>
+                   <td width="16%">&nbsp;</td>
+                   <td width="56%"><table width="100%" class="table table-bordered">
+                     <tr>
+                       <td width="25%">Prepared by</td>
+                       <td width="25%">Checked by</td>
+                       <td width="25%">Approved by</td>
+                       <td width="25%">Approved by</td>
+                     </tr>
+                     <tr>
+                       <td height="50"><p><?php echo h($res_disposal2["user_fullname"]);   ?></p></td>
+                       <td>&nbsp;</td>
+                       <td><p><?php echo h($res_approve["user_fullname"]);   ?></p></td>
+                       <td>&nbsp;</td>
+                     </tr>
+                     <tr>
+                       <td>Unit Leader/Supervisor</td>
+                       <td>QC Engineer/ Executive</td>
+                       <td>Manager/Head of Department</td>
+                       <td>QA Manager</td>
+                     </tr>
+                   </table></td>
+                   <td width="2%">&nbsp;</td>
+                </tr>
+              </table>
+<p>&nbsp;</p> 
+<table width="1000" border="0" cellpadding="1" cellspacing="2">
+               <tr>
+                 <th height="28" class="ac style3">&nbsp;</th>
+                 <th width="101" height="28" class="ac style3">
+                 
+         <input type="submit" onClick="return confirm('Are you sure you want to approve this disposal? : <?php echo h($doc_disposal); ?>?');" name="Submit2" id="button" value="Approve" class="btn btn-success"/>
+           
+    </th>
+                 <th width="61" class="ac style3"><input  name="btnback" type="button" id="btnCancel" class="btn btn-warning" value="BACK" onclick="javascript:parent.tb_remove();" /></th>
+                 <th height="28" class="ac style3">&nbsp;</th>
+               </tr>
+               <tr>
+                 <th width="14" height="28" class="ac style3">&nbsp;</th>
+                 <th height="28" colspan="2">&nbsp;</th>
+                 <th width="806" height="28">&nbsp;</th>
+               </tr>
+             </table>
+           </div>
+           <!-- End Form -->
+        
+</form>
+
+ <div class="footer_bawah"><?php include "footer.php";   ?></div>
+<!--Footer-part-->        
+    <!--<div class="bottom-left2">
+  <input  name="btnback" type="button" id="btnCancel" class="btn btn-warning" value="BACK" onclick="javascript:parent.tb_remove();" />
+</div>
+-->
+   </div></div> 
+<!--end-Footer-part--> 
+</body>
+</html>

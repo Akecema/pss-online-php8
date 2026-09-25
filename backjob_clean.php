@@ -1,0 +1,114 @@
+<?php
+
+
+/**
+ * backjob_clean.php
+ * Part of: Core / entry-point script
+ * Filename suggests: backjob clean
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: material_request, scan_detail, consumable_request, wip_request, scan_detail_wip, pps_detail.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ *
+ * IMPORTANT: this runs on every successful login for several roles
+ * (production, production-super, planning, planning-super - see the
+ * "include '''backjob_clean.php'''" calls in ckies-aut_frst.php/ckies-aut_scd.php)
+ * and DELETES that user'''s own pending/incomplete material, consumable, and
+ * WIP scan requests (status_request = '''N''' and not yet Closed/Cancelled). It is
+ * effectively "discard whatever this user left half-finished last time" -
+ * not obvious from the filename or from the login flow that includes it.
+ */
+$sql = "SELECT * FROM material_request AS MR, scan_detail AS SD, user_detail AS UD WHERE MR.id_scan = SD.id_scan AND MR.user_create = UD.user_no AND MR.status_request = 'N' AND (MR.status != 'Close' AND MR.status != 'Cancel') AND UD.username = ?"; $sql_args = [$username];
+$result = db_query_bind($dbc, $sql, $sql_args) or trigger_error("SQL", E_USER_ERROR);
+$r = mysqli_num_rows($result);
+
+$numrows = $r;
+//echo $numrows;
+//echo "<br>";
+while ($r2 = mysqli_fetch_array($result))
+{
+
+  $sql_delete_request = "DELETE FROM material_request WHERE id_req = ?"; $sql_delete_request_args = [$r2["id_req"]];
+  $result_delete_request =db_query_bind($dbc, $sql_delete_request, $sql_delete_request_args);
+ 
+  $sql_delete_scanning = "DELETE FROM scan_detail WHERE id_scan = ?"; $sql_delete_scanning_args = [$r2["id_scan"]];
+   $result_delete_scanning =db_query_bind($dbc, $sql_delete_scanning, $sql_delete_scanning_args);
+
+
+}
+
+//-------------------------------------------------------------------------------------------------------
+// delete consumable after logout
+//-------------------------------------------------------------------------------------------------------
+
+$sql_c = "SELECT * FROM consumable_request AS CR, user_detail AS UD WHERE CR.user_create = UD.user_no AND CR.status_request = 'N' AND (CR.status != 'Close' AND CR.status != 'Cancel') AND UD.username = ?"; $sql_c_args = [$username];
+$result_c = db_query_bind($dbc, $sql_c, $sql_c_args) or trigger_error("SQL", E_USER_ERROR);
+$r_c = mysqli_num_rows($result_c);
+
+//$numrows_c = $r_c;
+//echo $numrows_c;
+//echo "<br>";
+while ($r2_c = mysqli_fetch_array($result_c))
+{
+
+  $sql_delete_consumable = "DELETE FROM consumable_request WHERE id_req_con = ?"; $sql_delete_consumable_args = [$r2_c["id_req_con"]];
+  $result_delete_consumable =db_query_bind($dbc, $sql_delete_consumable, $sql_delete_consumable_args);
+ 
+ 
+}
+
+//------------------------------------------------------------------------------------------------
+//  delete wip after logout
+//------------------------------------------------------------------------------------------------
+
+$sql_wip = "SELECT * FROM wip_request AS WR, scan_detail_wip AS WD, user_detail AS UD WHERE WR.id_scan_wip = WD.id_scan AND WR.user_create = UD.user_no AND WR.status_request = 'N' AND (WR.status != 'Close' AND WR.status != 'Cancel') AND UD.username = ?"; $sql_wip_args = [$username];
+$result_wip = db_query_bind($dbc, $sql_wip, $sql_wip_args) or trigger_error("SQL", E_USER_ERROR);
+$r_wip = mysqli_num_rows($result_wip);
+
+$numrows = $r_wip;
+//echo $numrows;
+//echo "<br>";
+while ($r2_wip = mysqli_fetch_array($result_wip))
+{
+
+  $sql_delete_request_wip = "DELETE FROM wip_request WHERE id_req_wip = ?"; $sql_delete_request_wip_args = [$r2_wip["id_req_wip"]];
+  $result_delete_request_wip =db_query_bind($dbc, $sql_delete_request_wip, $sql_delete_request_wip_args);
+ 
+  $sql_delete_scanning_wip = "DELETE FROM scan_detail_wip WHERE id_scan = '".db_esc($dbc, $r2_wip["id_scan_wip"])."'";
+  $result_delete_scanning_wip =db_query_bind($dbc, $sql_delete_scanning, $sql_delete_scanning_args);
+
+
+}
+
+
+
+//------------------------------------------------------------------------------------------------
+//  delete pps after logout
+//------------------------------------------------------------------------------------------------
+
+$sql_pps = "SELECT * FROM pps_detail AS PD, user_detail AS UD2 WHERE PD.user_create = UD2.username AND PD.status_pps = 'New' AND PD.plan_no = '' AND UD2.username = ?"; $sql_pps_args = [$username];
+$result_pps = db_query_bind($dbc, $sql_pps, $sql_pps_args) or trigger_error("SQL", E_USER_ERROR);
+$r_pps = mysqli_num_rows($result_pps);
+
+$numrows2 = $r_pps;
+//echo $numrows;
+//echo "<br>";
+while ($r2_pps = mysqli_fetch_array($result_pps))
+{
+	
+ /* $sql_delete_request_pps = "UPDATE pps_detail SET status_pps = 'Delete' WHERE id = '".$r2_pps["id"]."'";
+  $result_delete_request_pps =mysqli_query($dbc, $sql_delete_request_pps);*/
+
+  $sql_delete_request_pps = "DELETE FROM pps_detail WHERE id = ?"; $sql_delete_request_pps_args = [$r2_pps["id"]];
+  $result_delete_request_pps =db_query_bind($dbc, $sql_delete_request_pps, $sql_delete_request_pps_args);
+
+
+}
+
+
+	      
+?>

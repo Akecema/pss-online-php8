@@ -1,0 +1,32 @@
+<?php 
+
+
+/**
+ * con-dbcIPSB.php
+ * Part of: Core / entry-point script
+ * Filename suggests: con dbcIPSB
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ * Database tables referenced: sys_setup_maintain.
+ * Includes: config.php, config_mail.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+// This is the shared site-bootstrap include: DB connection (config.php),
+// mail settings (config_mail.php), then the single active row from
+// sys_setup_maintain (site title, logo filename, urls_system base URL, etc.)
+// used by nearly every top-level page/module entry point in this app.
+include 'include/config.php';
+include 'include/config_mail.php';
+
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
+
+
+?>

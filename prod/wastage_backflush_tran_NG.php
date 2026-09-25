@@ -1,0 +1,1043 @@
+<?php
+
+/**
+ * prod/wastage_backflush_tran_NG.php
+ * Part of: Production module
+ * Filename suggests: wastage backflush tran NG
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); processes submitted form data ($_POST).
+ * Database tables referenced: user_detail, sys_setup_maintain, request_status, run_count_no, factory_detail, mat_type_tbl, storage_tbl, model_detail, type_wastage_detail, reason_wastage.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_production_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED);
+session_start();
+$username = $_SESSION['username'] ?? '';
+include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 2);
+include_once ("../classes/paginator.class2.php");
+require_once("../calendar/classes/tc_calendar.php");
+
+$Cdate = date ("l, j F Y ");
+set_time_limit(0);
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+$url = "wastage_backflush_tran_NG.php";
+
+$query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+$result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
+$res = mysqli_fetch_array($result2);
+
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
+//----------------------------------------------------			
+
+$today = getdate();
+$hours = $today['hours']; 
+$minutes = $today['minutes'];
+$seconds = $today['seconds'];
+$month = $today['mon']; 
+$mday = $today['mday']; 
+$year = $today['year']; 	
+
+//CR status (New)
+
+$sta = "SELECT * from request_status WHERE status_id = '1' ";
+$sta_res = mysqli_query($dbc, $sta);
+$rst_sta = mysqli_fetch_array($sta_res);
+
+//CR status (Released)
+$sta2 = "SELECT * from request_status WHERE status_id = '2' ";
+$sta_res2 = mysqli_query($dbc, $sta2);
+$rst_sta2 = mysqli_fetch_array($sta_res2);	
+
+//CR status (InProgress)
+$sta7 = "SELECT * from request_status WHERE status_id = '7' ";
+$sta_res7 = mysqli_query($dbc, $sta7);
+$rst_sta7 = mysqli_fetch_array($sta_res7);	
+
+//CR status (Pending Approve)
+$sta15 = "SELECT * from request_status WHERE status_id = '15' ";
+$sta_res15 = mysqli_query($dbc, $sta15);
+$rst_sta15 = mysqli_fetch_array($sta_res15);	
+	
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+<!----------------->
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>	
+
+<script language="javascript" type="text/javascript">
+
+function getXMLHTTP() { //fuction to return the xml http object
+		var xmlhttp=false;	
+		try{
+			xmlhttp=new XMLHttpRequest();
+		}
+		catch(e)	{		
+			try{			
+				xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch(e){
+				try{
+				xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+				}
+				catch(e1){
+					xmlhttp=false;
+				}
+			}
+		}
+		 	
+		return xmlhttp;
+    }
+	
+	function getFactory(factory) {		
+		
+		var strURL="findWorkcenter4.php?factory="+factory;
+		var req = getXMLHTTP();
+		
+		if (req) {
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					// only if "OK"
+					if (req.status == 200) {						
+						document.getElementById('work_centerdiv').innerHTML=req.responseText;						
+					} else {
+						alert("There was a problem while using  in Factory XMLHTTP:\n" + req.statusText);
+					}
+				}				
+			}			
+			req.open("GET", strURL, true);
+			req.send(null);
+		}		
+	}
+	
+	//-----------------------------------------
+		function getWorkCenter(factory,work_center) {		
+		
+		var strURL="findMaterialType2.php?factory="+factory+"&work_center="+work_center;
+		var req = getXMLHTTP();
+		
+		if (req) {
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					// only if "OK"
+					if (req.status == 200) {						
+						document.getElementById('cost_centerdiv').innerHTML=req.responseText;						
+					} else {
+						alert("There was a problem while using XMLHTTP in Work Center \n" + req.statusText);
+					}
+				}				
+			}			
+			req.open("GET", strURL, true);
+			req.send(null);
+		}		
+	}
+	
+	//-----------------------------------------
+	// 2nd Task	
+	//-----------------------------------------
+	
+	function getMatType(material_type) {		
+		
+		var strURL="findMaterialType1.php?material_type="+material_type;
+		var req = getXMLHTTP();
+		
+		if (req) {
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					// only if "OK"
+					if (req.status == 200) {						
+						document.getElementById('material_nodiv').innerHTML=req.responseText;						
+					} else {
+						alert("There was a problem while using XMLHTTP in Material Type:\n" + req.statusText);
+					}	//-----------------------------------------
+	
+
+				}				
+			}			
+			req.open("GET", strURL, true);
+			req.send(null);
+		}		
+	}
+	
+</script>
+<SCRIPT LANGUAGE="JavaScript">
+<!-- 
+
+<!-- Begin
+function Check(chk)
+{
+if(document.myform.Check_ctr.checked==true){
+for (i = 0; i < chk.length; i++)
+chk[i].checked = true ;
+}else{
+
+for (i = 0; i < chk.length; i++)
+chk[i].checked = false ;
+}
+}
+
+// End -->
+</script>
+<?php
+//echo "the following values have been checked: ";
+$checked="";
+$amount ="";
+
+$a = array();
+if(isset($_POST["cancel"])) {
+	foreach($_POST["cancel"] as $j=>$i) {
+	    $amount .= $_POST["remark_reject"][$i]."|";
+		$checked .= ($checked==""?"":",") . "checkbox" . $i;
+		
+		array_push($a, $i);
+	//	 array_push($amount, $i);
+	}
+}
+//echo $checked;
+//echo $amount;
+
+function was_checked($i,$a) {
+if(in_array($i, $a)===true) {
+return "checked='checked'";
+return "";
+}
+}
+
+?>
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h1>&nbsp;</h1>
+</div>
+<?php  include "top_modal_menu.php";   ?>
+<!--close-Header-part--> 
+
+<!--sidebar-menu-->
+<?php include "left_production_menu.php";  ?>
+<!--sidebar-menu-->
+
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="index_production.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a><a href="#" class="#">Production</a> <a href="#" class="current">Wastage</a></div>
+  <h1>Wastage</h1>
+</div>
+
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+     <!-- <div class="span12">-->  
+   <?php  
+     //-------------------generate disposal doc no. [Wastage Prod]---------------
+	 
+	/* $query_id = "SELECT count_max FROM run_count_no WHERE uid = '25'";
+	$result_id = mysqli_query($dbc, $query_id);
+	
+	if ($result_id) 
+{
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_row($result_id);
+	
+	$dht = 0000000; 
+	$dht_OK = "22321";
+	$dg2 = 0;
+
+  	if($row_id[0] <= 0)
+  	{ 
+   
+    	$lastID = ($row_id[0] + 1);
+    	$dg = ($dht + ($lastID));
+   }
+   else
+   {
+      $lastID = ($row_id[0] + 1);
+      $dg =  $lastID;
+	
+    }
+	$number = $dg; // Length of running no
+    $number = sprintf('%07d', $number);  
+	
+	 
+	  $ref = ($dht_OK.($number));
+	
+	
+	} // end if $result_id
+	 
+	 
+	 
+	*/
+  
+  ?> 
+          
+      <form action="<?php echo h($_SERVER['PHP_SELF']); ?>" method="post" name="frmSearch" id="frmSearch">
+            <table class="table table-bordered table-striped"> 
+            <tr>
+              <th>Factory : </th>
+              <td colspan="2"><select name="factory" id="factory" onChange="getFactory(this.value)" >
+                <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
+                <?php
+	               $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
+                   $result3 = mysqli_query($dbc, $query3);
+  
+                   while($row3=mysqli_fetch_array($result3)) 
+			      {
+					 ?>    
+                       <option value="<?php echo h($row3["factory_desc2"]); ?>" > <?php echo h($row3["factory_desc"]); ?> </option>                    
+               <?php
+				   
+                  }
+				?>
+              </select></td>
+              
+            </tr>
+            <tr>
+              <th>Work Center :</th>
+              <td colspan="2">
+                <div id="work_centerdiv"> 
+                <select name="work_center" class="span5" onChange="getWorkCenter(this.value)">
+                <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
+                </select></div>
+             </td>
+             
+            </tr>
+              <tr>
+              <th width="23%">Material Type :</th>
+              <td colspan="2">
+          <select name="material_type" class="span5" onChange="getMatType(this.value)">
+          <option value="NULL" placeholder="Select Material Type"> -- Select Material Type --</option>
+	<?php		
+ 	       
+		  //Retrieve and display the available types
+		  $query8 = "SELECT * from mat_type_tbl";
+		  $result8 = mysqli_query($dbc, $query8);
+		  
+			
+			 while($row8 = mysqli_fetch_array($result8)) {
+			
+			 if($_POST['Submit2'] == true){ ?>
+					   <!--RETAIN VALUE-->
+	    <option value="<?php echo h($row8["mat_type_id"])?>" <?php if($row8["mat_type_id"] == $_POST["material_type"]) echo "selected"; ?>> <?php echo h($row8["mat_type_id"])?> -  <?php echo h($row8["mtype_name"]); ?> </option>
+					   <?php }else{ ?>
+					   <option value="<?php echo h($row8["mat_type_id"])?>" ><?php echo stripslashes($row8["mat_type_id"])?> -  <?php echo h($row8["mtype_name"]); ?> </option>
+					   <?php } 
+						}
+			 
+				//complete the form
+
+	     ?>
+         </select></td>
+            </tr>  
+            <tr>
+              <th>Part No. :</th>
+              <td colspan="2">
+              <div id="material_nodiv"> 
+              <select name="material_no" class="span5">
+              <option value="NULL" placeholder="Select Part No."> -- Select Part No. --</option>
+              </select>
+              </div></td>
+              </tr>
+               <tr>
+              <th>Storage Location :</th>
+              <td colspan="2">
+                 <select name="ploc" id="ploc" class="span5" >
+                 <option value="NULL" placeholder="Select Storage Location" > -- Select Storage Location --</option> 
+                  
+                   <?php
+	               $query10 = "SELECT * FROM storage_tbl ORDER BY sloc_code ASC";
+                   $result10 = mysqli_query($dbc, $query10);
+  
+                   while($row10=mysqli_fetch_array($result10)) 
+			      {
+					    if($_POST['Submit2'] == true){ ?>
+                 <option value="<?php echo h($row10["sloc_code"]); ?>" <?php if($row10["sloc_code"] == $_POST["ploc"]) echo "selected"; ?>> <?php echo h($row10["sloc_code"]); ?></option>   
+                        
+				  <?php }else{ ?> 
+                  <option value="<?php echo h($row10["sloc_code"]); ?>"> <?php echo h($row10["sloc_code"]); ?></option>
+                  <?php
+                    }
+				  }
+				?>
+              </select>
+                </td>
+              </tr>
+            <tr>
+              <th width="23%">Model :</th>
+              <td colspan="2"><select name="model_code" id="model_code" class="span5">
+                  <option value="NULL" placeholder="Select Model"> -- Select Model --</option>
+                  <?php
+				  
+	               $query7 = "SELECT * FROM model_detail ORDER BY code_model ASC";
+                   $result7 = mysqli_query($dbc, $query7);
+  
+                   while($row7=mysqli_fetch_array($result7)) 
+			      {
+					  if($_POST['Submit2'] == true){ ?>
+                      <option value="<?php echo h($row7["model_name"])?>" <?php if($row7["model_name"] == $_POST["model_code"]) echo "selected"; ?>> <?php echo h($row7["model_name"])?></option>
+                   
+					   <?php }else{ ?>
+					 
+                      <option value="<?php echo h($row7["model_name"]); ?>"> <?php echo h($row7["model_name"]); ?></option>
+					   <?php }
+                  }
+				?>
+              </select></td>
+            </tr>
+          
+           
+              <tr>
+              <th>Type of Wastage :</th>
+              <td colspan="2">
+              <select name="type_wastage" id="type_wastage" class="span5">
+                   <option value="NULL" placeholder="Select Type of Wastage "> -- Select Type of Wastage --</option>
+                  <?php
+	               $query_type = "SELECT * FROM type_wastage_detail WHERE status_wastage = 'Y' ORDER BY id_wastage ASC";;
+                   $result_type = mysqli_query($dbc, $query_type);
+  
+                   while($row_type = mysqli_fetch_array($result_type)) 
+			      {
+					  
+				   ?>
+                     <?php if($_POST["Submit2"] == true)  
+		         {   ?>
+                    <option value="<?php echo h($row_type["id_wastage"]); ?>"<?php if($row_type["id_wastage"] == $_POST["type_wastage"]) echo "selected"; ?>> <?php echo h($row_type["wastage_desc"]); ?></option>
+                     
+                  <?php
+				 }else{
+				  
+				  ?> 
+                  <option value="<?php echo h($row_type["id_wastage"]); ?>"> <?php echo h($row_type["wastage_desc"]); ?></option>
+                  <?php
+				    }  // else
+				  
+                  }
+				?>
+              </select>
+              </td>
+              </tr>
+            <tr>
+              <th>Reason :</th>
+              <td colspan="2"><select name="reason_wastage" id="reason_wastage" class="span5">
+                  <option value="NULL" placeholder="Select Reason of Wastage"> -- Select Reason of Wastage --</option>
+                  <?php
+	               $query_reason = "SELECT * FROM reason_wastage WHERE status_reason_wastage = 'Y' ORDER BY id_reason_wastage ASC";
+                   $result_reason = mysqli_query($dbc, $query_reason);
+  
+                   while($row_reason = mysqli_fetch_array($result_reason)) 
+			      {
+					   if($_POST["Submit2"] == true)  
+		         {   ?>
+                    <option value="<?php echo h($row_reason["id_reason_wastage"]); ?>"<?php if($row_reason["id_reason_wastage"] == $_POST["reason_wastage"]) echo "selected"; ?>> <?php echo h($row_reason["reason_wastage_desc"]); ?></option>
+                     
+                  <?php
+				 }else{
+				  
+				  ?> 
+		    <option value="<?php echo h($row_reason["id_reason_wastage"]); ?>"> <?php echo h($row_reason["reason_wastage_desc"]); ?></option>
+                  <?php
+				    }//else
+                  }
+				?>
+              </select></td>
+              </tr>
+            <tr>
+              <th>Quantity :</th>
+              <td colspan="2"><?php  if($_POST["Submit2"] == true) { ?><input name="qty_wastage" id="qty_wastage" type="number" step=".01" min="1" class="span5" value="<?php echo h($_POST["qty_wastage"]); ?>" /> <?php }else{ ?><input name="qty_wastage" id="qty_wastage" type="number" step=".01" min="1" class="span5" /><?php } ?></td>
+              </tr>
+            <tr>
+              <th>UOM :</th>
+              <td colspan="2">
+              
+              <select name="UOM_unit" id="UOM_unit" class="span5">
+                   <option value="NULL" placeholder="Select UOM"> -- Select UOM --</option>
+                  <?php
+	               $query_uom = "SELECT * FROM uom_con ORDER BY UOM ASC";;
+                   $result_uom = mysqli_query($dbc, $query_uom);
+  
+                   while($row_uom = mysqli_fetch_array($result_uom)) 
+			      {
+					  
+				   ?>
+                     <?php if($_POST["Submit2"] == true)  
+		         {   ?>
+                    <option value="<?php echo h($row_uom["UOM"]); ?>"<?php if($row_uom["UOM"] == $_POST["UOM_unit"]) echo "selected"; ?>> <?php echo h($row_uom["UOM"]); ?></option>
+                     
+                  <?php
+				 }else{
+				  
+				  ?> 
+                  <option value="<?php echo h($row_uom["UOM"]); ?>"> <?php echo h($row_uom["UOM"]); ?></option>
+                  <?php
+				    }  // else
+				  
+                  }
+				?>
+              </select>
+              </td>
+              </tr>
+              <tr>
+              <th>Cost Center :</th>
+              <td colspan="2"> 
+               <div id="cost_centerdiv"> 
+              <select name="cost_center" id="cost_center" class="span5">
+              <option value="NULL" placeholder="Select Cost Center"> -- Select Cost Center --</option>
+              </select>
+              </div>
+              
+        </td>            
+              </tr>
+            <tr>
+              <th>Date Wastage :</th>
+              <td colspan="2"><?php
+    
+				 if(isset($_POST['date1']))
+								{ 
+									
+									//GET value
+									$dd1 = substr($_POST['date1'],8,2);
+									$mm1 = substr($_POST['date1'],5,2);
+									$yy1 = substr($_POST['date1'],0,4);
+									
+									$myCalendar = new tc_calendar("date1", true, false);
+									$myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+									$myCalendar->setDate($dd1, $mm1, $yy1);
+									$myCalendar->setPath("/calendar/");
+									$myCalendar->setYearInterval(date('Y') - 1, date('Y') + 10);
+									// $myCalendar->setOnChange("myChanged('test')");
+									$myCalendar->writeScript();
+									
+								}
+								else	 
+								{
+                                      
+										$dt = $today['mday'];
+										$mt = $today['mon'];
+										$yr = $today['year'];
+									 
+										$myCalendar = new tc_calendar("date1", true, false);
+										$myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+										$myCalendar->setDate($dt,$mt,$yr);
+										$myCalendar->setPath("/calendar/");
+										$myCalendar->setYearInterval(date('Y') - 1, date('Y') + 10);
+										// $myCalendar->setOnChange("myChanged('test')");
+										$myCalendar->writeScript();
+				
+									}
+			 ?></td>
+              </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <td><th width="32%"><input name="Submit2" type="submit"  class="btn btn-success" id="button" value="Add Item" onclick="return confirm('Confirm to add request?');" /></th>
+            </tr>
+            
+            </table>
+        </form>
+<?php
+       //--------------------------------------------------------------------------
+	   if(isset($_POST["Submit2"])) 
+  
+   { // handle the form.
+
+// create a function for escaping the data.
+function escape_data ($data) {
+global $dbc;   // need the connection.
+if(ini_get('magic_quotes_gpc')) {
+    $data = stripslashes($data);
+	}
+	return mysqli_real_escape_string($dbc, $data);
+	}   // end function.
+$message = NULL; // create an empty new variable.
+   
+       $material_type = $_POST["material_type"]; 
+	   $model_code = $_POST["model_code"]; 
+       $material_no = $_POST["material_no"]; 
+	   $factory = $_POST["factory"]; 
+	   $work_center = $_POST["work_center"]; 
+       $ploc = $_POST["ploc"];
+	   $type_wastage = $_POST["type_wastage"];
+	   $reason_wastage = $_POST["reason_wastage"]; 
+	   $qty_wastage = $_POST["qty_wastage"];
+	   $UOM_unit = $_POST["UOM_unit"];
+	   $cost_center = $_POST["cost_center"];
+	   $date1 = $_POST["date1"];
+	 			
+				if(($_POST["material_type"]) == "NULL")
+				{
+				  $material_type = FALSE;
+				  $message.= '<p align="center">You are required to select Material Type!</p>';
+				  }else{
+				  $material_type = TRUE;
+				  }
+				  
+				  if(($_POST["model_code"]) == "NULL")
+				{
+				  $model_code = FALSE;
+				  $message.= '<p align="center">You are required to select Model!</p>';
+				  }else{
+				  $model_code = TRUE;
+				  }
+				  
+				   if(($_POST["material_no"]) == "NULL")
+				{
+				  $material_no = FALSE;
+				  $message.= '<p align="center">You are required to select Part No.!</p>';
+				  }else{
+				  $material_no = TRUE;
+				  }
+				  
+				   if(($_POST["factory"]) == "NULL")
+				{
+				  $factory = FALSE;
+				  $message.= '<p align="center">You are required to select Factory!</p>';
+				  }else{
+				  $factory = TRUE;
+				  }
+				  
+				   if(($_POST["work_center"]) == "NULL")
+				{
+				  $work_center = FALSE;
+				  $message.= '<p align="center">You are required to select Work Center.!</p>';
+				  }else{
+				  $work_center = TRUE;
+				  }
+				  
+				   if(($_POST["ploc"]) == "NULL")
+				{
+				  $ploc = FALSE;
+				  $message.= '<p align="center">You are required to select Storage Location!</p>';
+				  }else{
+				  $ploc = TRUE;
+				  }
+				  
+				   if(($_POST["type_wastage"]) == "NULL")
+				{
+				  $type_wastage = FALSE;
+				  $message.= '<p align="center">You are required to select Type of Wastage!</p>';
+				  }else{
+				  $type_wastage = TRUE;
+				  }
+				  
+				   if(($_POST["reason_wastage"]) == "NULL")
+				{
+				  $reason_wastage = FALSE;
+				  $message.= '<p align="center">You are required to select Reason!</p>';
+				  }else{
+				  $reason_wastage = TRUE;
+				  }
+				  
+				   if((($_POST["qty_wastage"]) == "") || (($_POST["qty_wastage"]) == "0"))
+				{
+				  $qty_wastage = FALSE;
+				  $message.= '<p align="center">You are required to enter Quantity!</p>';
+				  }else{
+				  $qty_wastage = TRUE;
+				  }
+				  
+				   if(($_POST["UOM_unit"]) == "NULL")
+				{
+				  $UOM_unit = FALSE;
+				  $message.= '<p align="center">You are required to select UOM!</p>';
+				  }else{
+				  $UOM_unit = TRUE;
+				  }
+				  
+				  if(($_POST["cost_center"]) == "NULL")
+				{
+				  $cost_center = FALSE;
+				  $message.= '<p align="center">You are required to select Cost Center!</p>';
+				  }else{
+				  $cost_center = TRUE;
+				  }
+				  
+				  if(($_POST["date1"]) == "0000-00-00")
+				{
+				  $date1 = FALSE;
+				  $message.= '<p align="center">You are required to select Posting Date!</p>';
+				  }else{
+				  $date1 = TRUE;
+				  }
+	  
+	   if($material_type && $model_code && $material_no && $factory && $work_center && $ploc && $type_wastage && $reason_wastage && $qty_wastage && $UOM_unit && $cost_center && $date1)
+	   
+	   {
+		   
+		   //get data table mat_master_header
+	  $query_info2 = "SELECT * FROM table_material WHERE material_no = ?"; $query_info2_args = [$_POST["material_no"]];
+	  $result_info2 = db_query_bind($dbc, $query_info2, $query_info2_args);
+	  $data_info2 = mysqli_fetch_array($result_info2);  
+	  
+	  $query_info3 = "SELECT * FROM mat_master_detail WHERE material = ? OR bill_component = ?"; $query_info3_args = [$_POST["material_no"], $_POST["material_no"]];
+	  $result_info3 = db_query_bind($dbc, $query_info3, $query_info3_args);
+	  $data_info3 = mysqli_fetch_array($result_info3);
+		 
+	
+		   
+		//insert table wastage_transaction
+		
+		$query_wastage = "INSERT INTO wastage_transaction (id_wastage_tran, material_no, material_desc, material_type, model_code, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, remark_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center) VALUES('',?,?,?,?,?,'2200',?,'','',?,?,'',?,?,?,'',?,?,?,?,NOW(),NOW(),'','','','','','','','WS','','','','','',?)"; $query_wastage_args = [$_POST["material_no"], $data_info2["material_desc"], $_POST["material_type"], $_POST["model_code"], $_POST["UOM_unit"], $_POST["work_center"], $username, $_POST["date1"], $rst_sta["status_desc"], $data_info3["sloc"], $_POST["ploc"], $_POST["qty_wastage"], $_POST["type_wastage"], $_POST["reason_wastage"], $username, $_POST["cost_center"]];
+		$result_wastage = db_query_bind($dbc, $query_wastage, $query_wastage_args) or die(db_fail($dbc));   
+		   
+		   
+		//insert table reject_detail_disposal
+		
+		$query_insert2 = "INSERT INTO reject_detail_disposal (id_disposal, doc_dis, doc_disposal_no, bflush_qqc_no, plan_no, uid, material_no, material_desc, material_type, model_code, qty_plan, qty_actual, qty_balance, qty_NG, qty_qc, qty_qc_ok, qty_qc_NG, UOM_unit, comp_code, work_center, shift_day, date_plan, user_posting, date_posting, time_posting, status_disposal, ploc, ploc_prod_reject, ploc_qc_reject, type_reject, reason_reject, user_reject, date_reject, time_reject, qty_wastage, type_wastage, reason_wastage, user_wastage, date_wastage, time_wastage, user_disposal, date_disposal, remarks, approve_by, date_approve, remark_approve, status_part, user_update, date_update, approve_by2, date_approve2, remark_approve2, cost_center, id_factory) VALUES('','','','','','".mysqli_insert_id($dbc)."',?, ?,?,?,'','','','','','','',?,'2200',?,'','',?,?,'',?,?,?,'','','','','','',?,?,?, ?,NOW(),NOW(),'','','','','','','WS','','','','','',?,?)"; $query_insert2_args = [$_POST["material_no"], $data_info2["material_desc"], $_POST["material_type"], $_POST["model_code"], $_POST["UOM_unit"], $_POST["work_center"], $username, $_POST["date1"], $rst_sta["status_desc"], $data_info3["sloc"], $_POST["ploc"], $_POST["qty_wastage"], $_POST["type_wastage"], $_POST["reason_wastage"], $username, $_POST["cost_center"], $_POST["factory"]];
+$result_insert2 = db_query_bind($dbc, $query_insert2, $query_insert2_args) or die(db_fail($dbc));
+		   
+	   }
+	   
+	    //print the message if there is one.
+if (isset($message))
+{ echo '<div class="msg msg-error"><font color="red" class ="error_entry">', $message, '</font></div>';
+}
+	  
+   }
+//----------------------------------------------------------------------------------- 
+ 
+ ?>       
+<?php
+   //--------------------------------------------------------------------------------
+		
+		if(isset($_POST["Submit3"])) 
+{ // handle the form generate disposal document no.
+
+// create a function for escaping the data.
+function escape_data ($data) {
+global $dbc;   // need the connection.
+if(ini_get('magic_quotes_gpc')) {
+    $data = stripslashes($data);
+	}
+	return mysqli_real_escape_string($dbc, $data);
+	}   // end function.
+$message = NULL; // create an empty new variable.
+ 
+
+   //-------------------generate disposal doc no. [Wastage Prod]---------------
+	 
+	$query_id = "SELECT count_max FROM run_count_no WHERE uid = '25'";
+	$result_id = mysqli_query($dbc, $query_id);
+	
+	if ($result_id) 
+{
+	$nrows = mysqli_num_rows($result_id);
+	$row_id = mysqli_fetch_row($result_id);
+	
+	$dht = 0000000; 
+	$dht_OK = "22321";
+	$dg2 = 0;
+
+  	if($row_id[0] <= 0)
+  	{ 
+   
+    	$lastID = ($row_id[0] + 1);
+    	$dg = ($dht + ($lastID));
+   }
+   else
+   {
+      $lastID = ($row_id[0] + 1);
+      $dg =  $lastID;
+	
+    }
+	$number = $dg; // Length of running no
+    $number = sprintf('%07d', $number);  
+	
+	 
+	  $ref = ($dht_OK.($number));
+	
+	
+	} // end if $result_id
+	 
+   
+
+  if(isset($_POST["cancel"])) 
+  {
+ 
+    $cancel = $_POST["cancel"]; 
+    $how_many = count($cancel); 
+	$remark_reject = $_POST["remark_reject"]; 
+	$string = "";
+       
+	   
+	   foreach($_POST["cancel"] as $j=>$i) {
+	    
+		$amount .= $_POST["remark_reject"][$i];
+	    $string = explode("|",($amount));	
+			}
+						
+		   for ($i=0; $i<$how_many; $i++) { 
+		   			
+		//echo ($i+1).'-'.$cancel[$i]; echo h($string[$i]);
+		//echo "</br>";
+		 
+	  //----------------------update table reject_detail_disposal
+	  $query_disposal = "UPDATE reject_detail_disposal SET doc_dis = ?, doc_disposal_no = ?, user_disposal = ?, date_disposal = NOW(), remarks = ? WHERE id_disposal = ?"; $query_disposal_args = [$ref, $ref, $username, $string[$i], $cancel[$i]];
+	  $result_disposal = db_query_bind($dbc, $query_disposal, $query_disposal_args);
+	  
+	  
+	  
+	  //---------------------get data table reject_detail_disposal-------
+	  $query_all = "SELECT * FROM reject_detail_disposal WHERE id_disposal = ?"; $query_all_args = [$cancel[$i]];
+	  $result_all = db_query_bind($dbc, $query_all, $query_all_args);
+	  
+	  while($row_all = mysqli_fetch_array($result_all))
+	  {
+	
+	  // //----------------------update table wastage_disposal
+	  $query_wastage_update = "UPDATE wastage_transaction SET user_disposal = ?, date_disposal = NOW(), remarks = ? WHERE id_wastage_tran = ?"; $query_wastage_update_args = [$username, $row_all["remarks"], $row_all["uid"]];
+	  $result_wastage_update = db_query_bind($dbc, $query_wastage_update, $query_wastage_update_args);		  
+		  	
+				
+	  }// end while loop
+			  
+			}// end for loop
+			
+			
+			
+		  //--------ftp to SAP after generate disposal doc no.---------------	
+		  
+	  $query_generate = "SELECT *, DATE_FORMAT(date_posting,'%Y-%m-%d') AS P, DATE_FORMAT(date_disposal,'%Y-%m-%d') AS P2, DATE_FORMAT(date_disposal,'%H:%i:%s') AS P3 FROM reject_detail_disposal WHERE doc_disposal_no = ?"; $query_generate_args = [$ref];
+	  $result_generate = db_query_bind($dbc, $query_generate, $query_generate_args);
+	  
+	  while($data_generate = mysqli_fetch_array($result_generate))
+   {  
+	$query_type_w = "SELECT * FROM type_wastage_detail WHERE id_wastage = ? ORDER BY id_wastage ASC"; $query_type_w_args = [$data_generate['type_wastage']];
+    $result_type_w = db_query_bind($dbc, $query_type_w, $query_type_w_args);
+    $row_type_w = mysqli_fetch_array($result_type_w); 
+	
+	$query_reason_w = "SELECT * FROM reason_wastage WHERE id_reason_wastage = ? ORDER BY id_reason_wastage ASC"; $query_reason_w_args = [$data_generate['reason_wastage']];
+    $result_reason_w = db_query_bind($dbc, $query_reason_w, $query_reason_w_args);
+    $row_reason_w = mysqli_fetch_array($result_reason_w);
+	
+			  
+ $data .= $data_generate['doc_disposal_no'].";".$data_generate['comp_code'].";".$data_generate['work_center'].";".$data_generate['material_no'].";551;".$data_generate['shift_day'].";".$data_generate['qty_wastage'].";".$data_generate['UOM_unit'].";".$row_type['wastage_desc'].";".$row_reason['reason_wastage_desc'].";".$data_generate['ploc'].";Scrap;".$data_generate['P'].";".$data_generate['time_wastage'].";".$data_generate['P2'].";".$data_generate['P3'].";".$data_generate['user_disposal'].";".$data_generate['cost_center']."\r\n";
+ 
+ $filen="GI3".$ref;
+ 
+  //----------update table ftp_wastage------------
+   
+    $query_ftp_info = "INSERT INTO ftp_wastage(id, file_name, doc_disposal_no, id_disposal, material_no, material_desc, qty_ftp, uom, status_ftp, posting_date, posting_time, user_create, date_create, status_part) VALUES('',?,?,?,?,?,?,?,'Y',?,?,?,NOW(),'WS')"; $query_ftp_info_args = [$filen, $data_generate['doc_disposal_no'], $data_generate["id_disposal"], $data_generate["material_no"], $data_generate["material_desc"], $data_generate["qty_wastage"], $data_generate["UOM_unit"], $data_generate["P"], $data_generate["time_wastage"], $username]; 
+     $rst_ftp_info = db_query_bind($dbc, $query_ftp_info, $query_ftp_info_args);
+
+	  }
+
+
+
+$file = "../FromPortal2/MTD9/".$filen.".csv";
+//chmod($file, 0777);
+file_put_contents($file,$data);
+   
+ 
+    //update count_max----------------------------------------
+		
+	
+       $query_max_a = "UPDATE run_count_no SET count_max = '".$number."', date_updated = NOW() WHERE uid = '25'";
+	   $result_max_a = mysqli_query($dbc, $query_max_a);
+	 
+   //end update count_max ---------------------------------	
+ 
+ 
+	  
+	
+	       echo "<script>";
+		   echo "alert('Disposal Document No : $ref');";
+		   echo "window.location='wastage_backflush_tran_NG.php'";
+	       echo "</script>"; 
+		   exit(); //quit the script
+	  
+					
+   
+
+  }// end if
+   else{
+	   
+	       echo "<script>";
+		   echo "alert('Please tick the check box for proceed the transaction.');";
+		   echo "window.location='wastage_backflush_tran_NG.php'";
+		   echo "</script>"; 
+		   exit(); //quit the script
+	   
+   }
+   
+  
+
+
+}	
+   //-----------------------------------------------------------------
+
+ 
+								 
+   $query8 = "SELECT COUNT(*) FROM reject_detail_disposal WHERE status_disposal = ? AND status_part = 'WS' AND doc_disposal_no = '' ORDER BY date_posting ASC"; $query8_args = [$rst_sta["status_desc"]];
+   $result8 = db_query_bind($dbc, $query8, $query8_args) or die(db_fail($dbc));
+   $num_rows = mysqli_fetch_row($result8);
+
+   $pages = new Paginator;
+   $pages->items_total = $num_rows[0];
+   $pages->mid_range = 5; // Number of pages to display. Must be odd and > 3
+   $pages->paginate();
+ 
+ 
+  
+$query = "SELECT *, DATE_FORMAT(date_plan,'%d-%m-%Y') as R, DATE_FORMAT(date_posting,'%d-%m-%Y') as R2 FROM reject_detail_disposal WHERE status_disposal = ? AND status_part = 'WS' AND doc_disposal_no = '' ORDER BY date_posting ASC"; $query_args = [$rst_sta["status_desc"]];
+$rs = db_query_bind($dbc, $query, $query_args) or die(db_fail($dbc));  //run the query.
+$num = mysqli_num_rows($rs);   //how many material are there?
+
+
+	
+	 if ($num > 0) {
+	 
+	 echo '<div align="center">There are currently  '. h($num_rows[0]).' record(s).</div>';
+	 }
+	
+
+?>
+<!--  <table class="table">
+<tr>
+    <td width="1%">&nbsp;</td> 
+    <td width="85%"> <div class="small-nav"></div></td> 
+      <td width="14%"><!--<a href="upload_pps_month.php"><img src="../img/upload_file2.png" width="48" height="48" title="Upload File" />Upload File</a></td> 
+  </tr>
+</table> -->      
+     <form name="myform" method="post" action="wastage_backflush_tran_NG.php">
+      <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Display Request</h5>
+          </div>
+             
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                <th>No.</th> 
+                <th>Model</th>
+                <th width="77">Part No.</th>
+                <th>Work Center</th>
+               <!-- <th>Cost Center</th>-->
+             <!--   <th>Storage Location</th>-->
+                <th>Type of Reject</th>
+                <th>Date</th> 
+                <th>Quantity</th> 
+                <th>UOM</th>  
+               <!-- <th>Location</th>-->
+                <th>Reason</th>
+                <th>Remarks</th>
+                <th>Remove Item</th>
+                </tr>
+              </thead>   
+              <tbody>
+           <?php
+   
+   $counter = 1;
+   $no = 1;
+   $sta_out = "";
+   $k= 1;
+   
+   while ($row = mysqli_fetch_array($rs))
+   {	
+	
+	$query_type = "SELECT * FROM type_wastage_detail WHERE id_wastage = ? ORDER BY id_wastage ASC"; $query_type_args = [$row['type_wastage']];
+    $result_type = db_query_bind($dbc, $query_type, $query_type_args);
+    $row_type = mysqli_fetch_array($result_type); 
+	
+	$query_reason = "SELECT * FROM reason_wastage WHERE id_reason_wastage = ? ORDER BY id_reason_wastage ASC"; $query_reason_args = [$row['reason_wastage']];
+    $result_reason = db_query_bind($dbc, $query_reason, $query_reason_args);
+    $row_reason = mysqli_fetch_array($result_reason);
+	
+	 
+      ?>
+           
+                <tr class="gradeX">
+                <td width="30"><div align="center"><input type="checkbox" name="cancel[]" value="<?php echo h($row["id_disposal"]); ?>" <?=was_checked($row["id_disposal"],$a) ?> /><input type="hidden" name="Check_ctr" value="yes" 
+onClick="Check(document.myform.cancel)">  </div><?php echo $no; ?></td>
+                <td width="80"><?php echo h($row["model_code"]); ?></td>
+                <td><?php echo h($row["material_no"]); ?></td>
+                <td width="60"><?php echo h($row["work_center"]); ?></td> 
+               <!-- <td width="60"><?php //echo h($row["cost_center"]); ?></td>-->
+                <!--<td width="60"><?php //echo h($row["ploc"]); ?></td>-->
+                <td width="80"><?php echo h($row_type['wastage_desc']); ?></td>
+                <td width="80"><?php echo h($row["R2"]); ?></td>  
+                <td width="60"><?php echo h($row["qty_wastage"]); ?></td>
+                <td width="60"><?php echo h($row["UOM_unit"]); ?></td> 
+               <!-- <td width="60"><?php //echo h($row["ploc_prod_reject"]); ?></td>-->
+                <td width="80"><?php echo h($row_reason['reason_wastage_desc']); ?></td>
+                <td width="140"><textarea name="remark_reject[<?php echo h($row["id_disposal"]); ?>]" id="textarea" rows="2" cols="10" maxlength="250" ><?php if (isset($_POST['remark_reject'][($row["id_disposal"])])) { echo h($_POST['remark_reject'][($row["id_disposal"])] ?? ''); } ?></textarea>
+               <input name="id_disposal[<?php echo $k; ?>]" type="hidden" value="<?php echo h($row["id_disposal"]); ?>">
+          </td>
+              <td><a value="Remove Item" href="cancel_wastage_tran_proc.php?uid=<?php echo h($row["id_disposal"]); ?>&&TB_iframe=true&height=400&width=1000" class="thickbox" target="_self"><img src="../img/delete.png" width="16" height="16" alt="Remove Item">Remove Item</a>
+               </td>
+               </tr>
+                
+          <?php 
+		  
+		  
+		  $counter++; // menambah counter
+		  $k ++;
+		  $no ++;
+		  } 
+		  ?>
+                
+              
+              </tbody>
+            </table>
+              <table class="table">
+  <tr>
+    <td>&nbsp;  <input name="Submit3" type="submit"  class="btn btn-success" id="button" value="Generate Disposal Document" onClick="return confirm('Confirm to generate disposal request?');"/></td>
+  </tr>
+</table>
+           
+          </div>
+        
+      </div></form>
+    </div>
+  </div>
+</div>
+
+<!--Footer-part-->
+<?php include "footer.php";   ?>
+<!--end-Footer-part--> 
+
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/jquery.ui.custom.js"></script> 
+<script src="../js/bootstrap.min.js"></script> 
+<script src="../js/jquery.uniform.js"></script> 
+<script src="../js/select2.min.js"></script> 
+<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/matrix.js"></script> 
+<script src="../js/matrix.tables.js"></script>
+</body>
+</html>

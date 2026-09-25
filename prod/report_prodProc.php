@@ -1,0 +1,465 @@
+<?php
+
+/**
+ * prod/report_prodProc.php
+ * Part of: Production module
+ * Filename suggests: report prodProc
+ *
+ * Behavior: requires an active login session ($_SESSION['username']); reads parameters from the query string ($_GET).
+ * Database tables referenced: user_detail, sys_setup_maintain, factory_detail, work_center_detail, mat_master_header, material_request, scan_detail.
+ * Includes: config.php, paginator.class2.php, tc_calendar.php, top_modal_menu.php, left_production_menu.php, footer.php.
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+session_start();
+$username = $_SESSION['username'] ?? '';
+include '../include/config.php';
+require_once '../include/auth.php';
+require_role($dbc, 2);
+include_once ("../classes/paginator.class2.php");
+require_once("../calendar/classes/tc_calendar.php");
+$Cdate = date ("l, j F Y ");
+
+// Check, if username session is NOT set then this page will jump to login page
+if (!isset($_SESSION['username'])) {
+header('Location: ../index.php');
+exit();
+}
+
+$url = "report_prod.php";
+
+    $query2 = "SELECT * FROM user_detail WHERE username = ?"; $query2_args = [$username];
+    $result2 = db_query_bind($dbc, $query2, $query2_args) or die(db_fail($dbc));
+    $res = mysqli_fetch_array($result2);
+	
+$today = getdate();
+$hours = $today['hours']; 
+$minutes = $today['minutes'];
+$seconds = $today['seconds'];
+$month = $today['mon']; 
+$mday = $today['mday']; 
+$year = $today['year']; 	
+		
+//--------setup website page --------------------------
+$query_setup = "SELECT * FROM sys_setup_maintain WHERE status_system = 'AC'";
+$rs_setup = mysqli_query($dbc, $query_setup);   //run the query.
+$num_setup = mysqli_num_rows($rs_setup);   //how many material are there?
+$data_setup = mysqli_fetch_array($rs_setup);
+//----------------------------------------------------		
+	?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo h($data_setup["title_desc"]); ?></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="../img/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/uniform.css" />
+<link rel="stylesheet" href="../css/select2.css" />
+<link rel="stylesheet" href="../css/matrix-style.css" />
+<link rel="stylesheet" href="../css/matrix-media.css" />
+<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../css/jquery.gritter.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+<!----------------->
+<link rel="stylesheet" href="../scripts/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../javascript/jquery-latest.js"></script> 
+<script type="text/javascript" src="../javascript/thickbox.js"></script>	
+<link href="../calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../calendar/calendar.js"></script>
+
+<script type="text/javascript">
+function printPage(iFid){
+iFid.focus();
+iFid.print();
+}
+</script>
+<style>
+#iframe1{
+visibility:hidden;
+}
+</style>
+<script language="javascript" type="text/javascript">
+
+function getXMLHTTP() { //fuction to return the xml http object
+		var xmlhttp=false;	
+		try{
+			xmlhttp=new XMLHttpRequest();
+		}
+		catch(e)	{		
+			try{			
+				xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch(e){
+				try{
+				xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+				}
+				catch(e1){
+					xmlhttp=false;
+				}
+			}
+		}
+		 	
+		return xmlhttp;
+    }
+	
+	function getFactory(factory) {		
+		
+		var strURL="findWorkcenter3.php?factory="+factory;
+		var req = getXMLHTTP();
+		
+		if (req) {
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					// only if "OK"
+					if (req.status == 200) {						
+						document.getElementById('work_centerdiv').innerHTML=req.responseText;						
+					} else {
+						alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+					}
+				}				
+			}			
+			req.open("GET", strURL, true);
+			req.send(null);
+		}		
+	}
+	
+</script>	
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h1>&nbsp;</h1>
+</div>
+<?php  include "top_modal_menu.php";   ?>
+<!--close-Header-part--> 
+
+<!--sidebar-menu-->
+<?php include "left_production_menu.php";  ?>
+<!--sidebar-menu-->
+
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="index_production.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Material Request</a> <a href="#" class="current">Material Request Report</a> </div>
+  <h1>Material Request</h1>
+</div>
+
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+  
+            <form name="frmSearch" method="get" action="<?php echo h($_SERVER['PHP_SELF']); ?>">
+            <table class="table table-bordered table-striped">
+            <tr>
+              <th>Posting Date From :</th>
+              <td><?php
+    
+				      $dd1 = substr($_GET["date1"],8,2);
+				      $mm1 = substr($_GET["date1"],5,2);
+				      $yy1 = substr($_GET["date1"],0,4);
+	
+	
+                      $myCalendar = new tc_calendar("date1", true, false);
+					  $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					  $myCalendar->setDate($dd1, $mm1, $yy1);
+					  $myCalendar->setPath("/calendar/");
+					  $myCalendar->setYearInterval(2010, 2030);
+					  // $myCalendar->setOnChange("myChanged('test')");
+					  $myCalendar->writeScript();
+					  
+			 ?></td>
+              <th>Posting Date To :</th>
+              <td><?php
+                
+              		  $dd2 = substr($_GET['date2'],8,2);
+				      $mm2 = substr($_GET['date2'],5,2);
+				      $yy2 = substr($_GET['date2'],0,4);
+				
+                      $myCalendar = new tc_calendar("date2", true, false);
+					  $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+					  $myCalendar->setDate($dd2, $mm2, $yy2);
+					  $myCalendar->setPath("/calendar/");
+					  $myCalendar->setYearInterval(2010, 2030);
+					  // $myCalendar->setOnChange("myChanged('test')");
+					  $myCalendar->writeScript();
+					  
+                ?></td>
+            </tr>
+            <tr>
+              <th>Material No :</th>
+              <td><input name="material_no" type="text" id="material_no" size="25" class="span11" value="<?php echo h($_GET["material_no"]); ?>" /></td>
+              <th>Production Order :</th>
+              <td><input name="prod_order" type="text" id="prod_order" size="25" class="span11" value="<?php echo h($_GET["prod_order"]); ?>" /></td>
+            </tr>
+            <tr>
+              <th>Factory : </th>
+              <td><select name="factory" id="factory" onChange="getFactory(this.value)">
+                    <option value="NULL" placeholder="Select Factory"> -- Select Factory --</option>
+                    <?php
+	       $query3 = "SELECT * FROM factory_detail GROUP BY factory_desc2 ORDER BY id_fac ASC";
+                   $result3 = mysqli_query($dbc, $query3);
+  
+                   while($row3=mysqli_fetch_array($result3)) 
+			      {
+			  
+				  ?>
+                    <option value="<?php echo h($row3["factory_desc2"]); ?>" <?php if($row3["factory_desc2"] == $_GET["factory"]) echo "selected"; ?>> <?php echo h($row3["factory_desc"]); ?></option>
+                    <?php
+                  }
+				?>
+                  </select></td>
+              <th>Work Center :</th>
+              <td><div id="work_centerdiv"> 
+               <select name="work_center" id="work_center" class="span11">
+                <option value="NULL" placeholder="Select Work Center"> -- Select Work Center --</option>
+                 <?php
+	               $query5 = "SELECT * FROM work_center_detail WHERE id_factory = ? ORDER BY id_work ASC"; $query5_args = [$_GET["factory"]];
+                   $result5 = db_query_bind($dbc, $query5, $query5_args);
+  
+                   while($row5=mysqli_fetch_array($result5)) 
+				    { 
+				   
+				   ?>
+                <option value="<?php echo h($row5["id_work"]); ?>" <?php if($row5["id_work"] == $_GET["work_center"]) echo "selected"; ?>> <?php echo h($row5["id_work"]),' - ',stripslashes($row5["wc_desc"]); ?></option>
+                <?php
+                  }
+				?>
+                </select></div></td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th><input name="Submit" type="submit"  class="btn btn-info" id="button" value="SEARCH" /></th>
+            </tr>
+            </table>
+        </form>
+      <?php
+
+	        $material_no = $_GET["material_no"];
+			$prod_order = $_GET["prod_order"];
+            $dateF = $_GET["date1"];
+            $dateT = $_GET["date2"];
+			$work_center = $_GET["work_center"];
+			$factory = $_GET["factory"];
+			
+			
+			//convert material no kpd id_hdr
+			
+			$query_convert = "SELECT * FROM `mat_master_header` as MH WHERE MH.material_no = ?"; $query_convert_args = [$_GET["material_no"]];
+			$result_convert = db_query_bind($dbc, $query_convert, $query_convert_args); 
+			$row_convert = mysqli_fetch_array($result_convert);
+			
+			//convert material no kpd id_hdr
+			
+			$query_convert2 = "SELECT * FROM `factory_detail` as MH2 WHERE MH2.factory_desc = ?"; $query_convert2_args = [$_GET["factory"]];
+			$result_convert2 = db_query_bind($dbc, $query_convert2, $query_convert2_args); 
+			
+			while ($row_convert2 = mysqli_fetch_array($result_convert2))
+			{
+			
+			echo h($row_convert2["id_fac"]);
+			
+			}
+				
+			
+			//-------Count all results------------------------//
+			
+				 $where_sql = ""; $where_args = [];
+		 
+		 // 1. DateT
+                if($dateT == "0000-00-00") {
+                     $wheresql_01 = ""; $wheresql_01_args = []; }
+                else {
+                      $wheresql_01 = " AND (MR.date_posting <= ?)"; $wheresql_01_args = [$dateT]; }
+		  //2. DateF 
+                if ($dateF  == "0000-00-00" ){
+                     $wheresql_02 = ""; $wheresql_02_args = [];}
+                else {
+                     $wheresql_02 = " AND (MR.date_posting >= ?)"; $wheresql_02_args = [$dateF];}
+                                                
+		 // 3. material no
+                if ($material_no== "" ){
+                    $wheresql_03 = ""; $wheresql_03_args = []; }
+                else {
+                    $wheresql_03 = " AND MR.id_hdr = ?"; $wheresql_03_args = [$row_convert['id_hdr']]; }          
+                                
+          //4. Work Center
+                if ($work_center == "NULL" ){
+                    $wheresql_04 = ""; $wheresql_04_args = []; }
+                else {
+					$wheresql_04 = " AND SD.work_center = ?"; $wheresql_04_args = [$work_center]; }
+   
+	       //5. Production Order
+                if ($prod_order == ""){ 
+                    $wheresql_05 = ""; $wheresql_05_args = []; }
+                else {
+                    $wheresql_05 = " AND SD.prod_order = ?"; $wheresql_05_args = [$prod_order]; }  	
+					
+		   //6. Factory 
+                if ($factory == "NULL"){ 
+                    $wheresql_06 = ""; $wheresql_06_args = []; }
+                else {
+                    $wheresql_06 = " AND SD.factory = ?"; $wheresql_06_args = [$factory]; }  			
+	       	
+     
+	 $where_sql =  $wheresql_01 .$wheresql_02 .$wheresql_03 .$wheresql_04 .$wheresql_05 .$wheresql_06; $where_args = array_merge($wheresql_01_args, $wheresql_02_args, $wheresql_03_args, $wheresql_04_args, $wheresql_05_args, $wheresql_06_args);	
+				
+	//********** END CONDITION **************
+	
+  $query8 = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'Cancel'" .$where_sql." GROUP BY MR.id_scan ORDER BY MR.id_req ASC"; $query8_args = [...$where_args];
+   $result8 = db_query_bind($dbc, $query8, $query8_args) or die(db_fail($dbc));
+   $num_rows = mysqli_num_rows($result8);
+   
+   $pages = new Paginator;
+   $pages->items_total = $num_rows;
+   $pages->mid_range = 5; // Number of pages to display. Must be odd and > 3
+   $pages->paginate();
+ 
+ 
+  
+$query = "SELECT * FROM material_request AS MR, scan_detail AS SD WHERE MR.id_scan = SD.id_scan AND MR.status_request = 'Y' AND MR.status != 'Cancel'".$where_sql." GROUP BY MR.id_scan ORDER BY MR.id_req ASC"; $query_args = [...$where_args];
+$rs = db_query_bind($dbc, $query, $query_args);   //run the query.
+
+
+	 if($num_rows > 0) {
+	 
+	 echo '<div align="center">There are currently  '. h($num_rows).' record(s).</div>';
+	
+?>
+      <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Display Material Request Report</h5>
+          </div>
+             
+          <div class="widget-content nopadding">
+            <table class="table table-bordered">
+             <thead>
+             <tr>
+             <th>Item </th>
+             <th>Material No. </th>
+             <th>Production Order Number</th>
+             <th>Required Quantity</th>
+             <th>UoM</th>
+             <th>Work Center</th>
+             </tr>
+            
+          
+         <?php
+		  
+   $counter = 1;
+   $no = 1;
+    $i = 1;
+   
+   while ($row2 = mysqli_fetch_array($rs))
+   {		
+
+  $no = sprintf('%03d', $no);
+   
+   $query_scan = "SELECT * FROM scan_detail WHERE id_scan = ? GROUP BY id_scan"; $query_scan_args = [$row2["id_scan"]];
+   $result_scan = db_query_bind($dbc, $query_scan, $query_scan_args);
+   $row_scan = mysqli_fetch_array($result_scan);
+	
+		  ?>        
+    
+    <tr>
+    <td width="55"><?php echo $no; ?></td>
+    <td width="154">&nbsp;<?php echo h($row_scan["material_no"]); ?></td>
+    <td>&nbsp;<font color="#0000CC"><b><?php echo h($row_scan["prod_order"]); ?></b></font></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    </tr> 
+    </thead> 
+    <tbody>
+  
+
+         <?php
+	$query_again = "SELECT * FROM material_request WHERE status_request = 'Y' and id_scan = ? ORDER BY id_req ASC"; $query_again_args = [$row2["id_scan"]];
+    $rs_again = db_query_bind($dbc, $query_again, $query_again_args);   //run the query.
+	 while ($row = mysqli_fetch_array($rs_again))
+   {
+		 
+   $query1_p = "SELECT * FROM scan_detail WHERE id_scan = ? GROUP BY id_scan"; $query1_p_args = [$row2["id_scan"]];
+   $result1_p = db_query_bind($dbc, $query1_p, $query1_p_args);
+   $row1_p = mysqli_fetch_array($result1_p);
+	
+  $query4_p = "SELECT * from mat_master_header as LD, mat_master_detail as SD WHERE SD.id_hdr = LD.id_hdr and SD.id_dtl = ?"; $query4_p_args = [$row["id_dtl"]];
+  $result4_p = db_query_bind($dbc, $query4_p, $query4_p_args);
+  $row4_p = mysqli_fetch_array($result4_p); 
+  
+
+		  	 
+		 ?>
+
+         <tr>
+               <td width="55">&nbsp;&nbsp;</td>
+                <td width="154">&nbsp;<?php  echo h($row4_p["bill_component"]); ?></td>
+                <td><?php  echo h($row4_p["material_desc_c"]); ?></td>
+                <td width="144"><div align="right"><?php echo h($row["bom_qty"]);  ?>&nbsp;</div></td>
+                <td width="80"><div align="center"><?php echo h($row["bom_oum"]); ?></div></td>
+                <td width="100"><div align="center"><font color="#FF0000"><?php echo h($row1_p["work_center"]); ?></font></div></td>
+                
+          </tr>
+
+         <?php 
+		 
+		
+		 $i++;
+		  
+		  $counter++; // menambah counter 
+		 }
+		 
+           $no ++;
+		  
+		    
+		  } ?></tbody>
+              </table>            
+            
+  <?php
+   mysqli_free_result($rs); 
+	}   // free up the resources 
+else
+{
+?>
+<table width="800" cellspacing="0" class="textboxred">
+  <tr> 
+    <td><div align="center"><font color="#FF0000"><strong>There are currently 
+          no material request.</strong></font></div></td>
+  </tr>
+</table></center>
+        <?php
+		   } 
+//mysqli_close($dbc)
+?>
+       
+       
+          </div>
+
+
+
+</div></div></div></div>
+</div>
+<!--Footer-part-->
+<?php include "footer.php";   ?>
+<!--end-Footer-part--> 
+
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/jquery.ui.custom.js"></script> 
+<script src="../js/bootstrap.min.js"></script> 
+<script src="../js/jquery.uniform.js"></script> 
+<script src="../js/select2.min.js"></script> 
+<script src="../js/jquery.dataTables.min.js"></script> 
+<script src="../js/matrix.js"></script> 
+<script src="../js/matrix.tables.js"></script>
+</body>
+</html>

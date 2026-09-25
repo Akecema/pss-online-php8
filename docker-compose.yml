@@ -1,0 +1,72 @@
+name: pss_online
+services:
+  app:
+    container_name: PSS_ONLINE
+    build: .
+    # 8090, not 8080: the sibling i-CHARM project's container also runs on
+    # 8080 (host.docker.internal against the same local MariaDB, different
+    # DB name) - this lets both run at the same time without a port clash.
+    ports:
+      - "${APP_PORT:-8090}:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      # Default is host.docker.internal - Docker Desktop's DNS name for "the
+      # machine this container is running on". Use this (not "localhost") to
+      # reach a MySQL server running directly on your Windows host - inside a
+      # container, "localhost" means the container itself, not your PC.
+      DB_HOST: ${DB_HOST:-host.docker.internal}
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}
+      DB_NAME: ${DB_NAME:-mrin_project_ipsb}
+    extra_hosts:
+      # Needed for host.docker.internal to resolve on Linux Docker Engine;
+      # harmless no-op on Docker Desktop (Windows/Mac), where it already works.
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  # Bundled MySQL - only starts if you explicitly ask for it:
+  #   docker compose --profile bundled-db up -d
+  # Not needed (and not started by plain "docker compose up") when DB_HOST
+  # points at a MySQL server you already have running, which is the default.
+  db:
+    image: mysql:8.0
+    profiles: ["bundled-db"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}
+      MYSQL_DATABASE: ${DB_NAME:-mrin_project_ipsb}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  # phpMyAdmin points at whatever DB_HOST the app is using, so it Just Works
+  # against your local MySQL by default too - no separate config needed.
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: ${DB_HOST:-host.docker.internal}
+      PMA_USER: root
+      PMA_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env - see .env.example}
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  db_data:
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.78.78.0/24

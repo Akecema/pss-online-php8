@@ -1,0 +1,17 @@
+{
+    "name": "ingress/pss-online",
+    "description": "PSS Online (Production Support System)",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.3",
+        "phpoffice/phpspreadsheet": "^5.10",
+        "setasign/fpdf": "^1.9",
+        "tecnickcom/tcpdf": "^6"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform": { "php": "8.3.0" }
+    }
+}

@@ -1,0 +1,131 @@
+body {
+    background: #DCDCDC;
+	color: #006699;
+	margin-top: 20px;
+	margin-bottom:0;
+	border-width: px px px px;
+	font-family: verdana;
+	font-size: 11px;
+	color: #333333;
+
+}
+td {
+	font-family: verdana;
+	font-size: 11px;
+	color: #333333;
+	font-weight: bold;
+}
+
+.page_title {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+    font-weight:bold;
+	height:23;
+	padding-left:10px;
+	padding-top:7px;
+	color: #FFFFFF;
+	letter-spacing: normal;
+	word-spacing: normal;
+	background-image: url("images/forms_caption.gif");
+
+}
+
+.main {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+    text-align: left;
+	color: #006699;
+	background-color: #FFFFFF;
+	letter-spacing: normal;
+	word-spacing: normal;
+	border: 1px solid #003366;
+}
+
+.tdblock {
+	border: 1px solid #A998A9;
+	display: block;
+
+}
+.resultbutton{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	text-align: center;
+	color: #FFFFFF;
+	letter-spacing: normal;
+	word-spacing: normal;
+	border: 1px solid #003366;
+	background-color: #003366;
+
+
+}
+.textbox{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	text-align: left;
+	color: #4A4A4A;
+	letter-spacing: normal;
+	word-spacing: normal;
+	border: 1px solid #959595;
+
+}
+.error_entry{
+	background-color:#DFE6EC;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+A:link
+{
+    FONT-SIZE: 11px;
+ 	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND: none transparent scroll repeat 0% 0%;
+    COLOR: #003366;
+    FONT-VARIANT: normal;
+    TEXT-DECORATION: blink
+}
+A:active
+{
+    FONT-SIZE: 11px;
+ 	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND: none transparent scroll repeat 0% 0%;
+    COLOR: #FFFFFF;
+    FONT-VARIANT: normal;
+    TEXT-DECORATION: blink
+}
+A:visited
+{
+    FONT-SIZE: 11px;
+ 	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND: none transparent scroll repeat 0% 0%;
+    COLOR: #1086CD;
+	FONT-VARIANT: normal;
+    TEXT-DECORATION: blink
+}
+A:hover
+{
+    FONT-SIZE: 11px;
+ 	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND: none transparent scroll repeat 0% 0%;
+    COLOR: #FF0000;
+    FONT-VARIANT: normal;
+    TEXT-DECORATION: none
+}
+.textboxred {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	text-align: left;
+	color: #4A4A4A;
+	letter-spacing: normal;
+	word-spacing: normal;
+	border: 1px dashed #CC0000;
+}
+@media print{
+  body{ background-color:#FFFFFF; background-image:none; color:#000000 }
+  #ad{ display:none;}
+  #leftbar{ display:none;}
+  #contentarea{ width:100%;}
+}

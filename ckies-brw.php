@@ -1,0 +1,143 @@
+<?php
+    
+/**
+ * ckies-brw.php
+ * Part of: Core / entry-point script
+ * Filename suggests: ckies brw
+ *
+ * Behavior: no form submission, file upload, or export detected (likely a display/listing page, utility, or bootstrap/include file).
+ *
+ * NOTE: this summary was generated automatically by static analysis during
+ * the PHP8 migration (looking at queries/includes/superglobals actually used
+ * in this file). It describes *what the code touches*, not necessarily *why* -
+ * treat it as a starting point and refine as you work in this file.
+ */
+function getBrowser()
+    {
+        $u_agent = $_SERVER['HTTP_USER_AGENT'];
+        $bname = 'Unknown';
+        $platform = 'Unknown';
+        $version= "";
+        $ub = 'other'; // fallback so the version regex below is valid for unknown browsers
+
+        //First get the platform?
+        if (preg_match('/linux/i', $u_agent)) {
+            $platform = 'linux';
+        }
+        elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+            $platform = 'mac';
+        }
+        elseif (preg_match('/windows|win32/i', $u_agent)) {
+            $platform = 'windows';
+        }
+
+        // Next get the name of the useragent yes separately and for good reason.
+        if (preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+        {
+            $bname = 'Internet Explorer';
+            $ub = "MSIE";
+        }
+        elseif (preg_match('/Firefox/i',$u_agent))
+        {
+            $bname = 'Mozilla Firefox';
+            $ub = "Firefox";
+        }
+        elseif (preg_match('/Chrome/i',$u_agent))
+        {
+            $bname = 'Google Chrome';
+            $ub = "Chrome";
+        }
+        elseif (preg_match('/Safari/i',$u_agent))
+        {
+            $bname = 'Apple Safari';
+            $ub = "Safari";
+        }
+        elseif (preg_match('/Opera/i',$u_agent))
+        {
+            $bname = 'Opera';
+            $ub = "Opera";
+        }
+        elseif (preg_match('/Netscape/i',$u_agent))
+        {
+            $bname = 'Netscape';
+            $ub = "Netscape";
+        }
+
+        // Finally get the correct version number.
+        $known = array('Version', $ub, 'other');
+        $pattern = '#(?<browser>' . join('|', $known) .
+        ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+        if (!preg_match_all($pattern, $u_agent, $matches)) {
+            // we have no matching number just continue
+        }
+
+        // See how many we have.
+        $i = count($matches['browser']);
+        if ($i != 1) {
+            //we will have two since we are not using 'other' argument yet
+            //see if version is before or after the name
+            if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+                $version= $matches['version'][0];
+            }
+            else {
+                $version= $matches['version'][1];
+            }
+        }
+        else {
+            $version= $matches['version'][0];
+        }
+
+        // Check if we have a number.
+        if ($version==null || $version=="") {$version="?";}
+
+        return array(
+            'userAgent' => $u_agent,
+            'name'      => $bname,
+            'version'   => $version,
+            'platform'  => $platform,
+            'pattern'    => $pattern
+        );
+    }
+
+    // Now try it.
+    $ua=getBrowser();
+    $yourbrowser= "Your browser: " . $ua['name'] . " " . $ua['version'];
+	//. " on " .
+                 // $ua['platform'] . " reports: <br >" . $ua['userAgent'];
+  //  print_r($yourbrowser);
+	
+	
+	if($ua['name'] == "Google Chrome")
+	{
+	//echo "url biasa"; 
+	
+	}elseif($ua['name'] == "Mozilla Firefox")
+	{
+	//echo "url mozilla";
+	}
+	elseif($ua['name'] == "Apple Safari")
+	{
+	//echo "url Safari";
+	}
+
+//---------------------------------------------------------------------
+
+function encode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_encode($ss);
+    }
+return $ss;
+}
+
+
+function decode($ss,$ntime){
+    for($i=0;$i<$ntime;$i++){
+        $ss=base64_decode($ss);
+    }
+return $ss;
+}
+
+ $extension = explode ('.', $data_setup["logo_name"]);
+ $filename = $data_setup["logo_comp"].'.'.$extension[1];
+
+?>
